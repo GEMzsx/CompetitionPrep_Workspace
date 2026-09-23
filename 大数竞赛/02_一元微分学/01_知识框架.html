@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题2 · 一元微分学 — 知识框架</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker {
+  font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px;
+  font-weight: 600;
+}
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;
+}
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  padding: 3px 14px;
+  font-size: 12.5px;
+}
+
+/* ===== 目录 ===== */
+.toc {
+  margin: 24px 0 40px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 26px;
+}
+.toc h2 { font-size: 14px; letter-spacing: 2px; color: var(--ink-faint); margin: 0 0 10px; }
+.toc ol {
+  margin: 0; padding-left: 0; list-style: none;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 28px;
+}
+.toc a { color: var(--ink-soft); text-decoration: none; font-size: 14.5px; }
+.toc a:hover { color: var(--accent); }
+.toc li::before { content: "§ "; color: var(--accent); font-weight: 700; }
+
+/* ===== 章节块 ===== */
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 30px 34px 26px;
+  margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px;
+  margin: 0 0 18px;
+  font-size: 21px;
+  border-bottom: 2px solid var(--accent-soft);
+  padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700;
+  flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+h3 .tag { margin-left: 8px; }
+p { margin: 8px 0; }
+
+/* ===== 标签 ===== */
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef4f7; color: #4e7d93; border: 1px solid #c9dde7; }
+.tag.finals { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); }
+
+/* ===== 卡片 ===== */
+.memory {
+  background: var(--accent-soft);
+  border: 1.5px solid var(--accent-border);
+  border-left: 5px solid var(--accent);
+  border-radius: 10px;
+  padding: 16px 22px;
+  margin: 16px 0;
+}
+.memory .label {
+  font-size: 12.5px; font-weight: 800; letter-spacing: 2px;
+  color: var(--accent); margin-bottom: 8px;
+}
+.memory ul, .memory ol { margin: 6px 0; }
+.warnbox {
+  background: var(--warn-soft);
+  border-left: 5px solid var(--warn);
+  border-radius: 10px;
+  padding: 14px 22px;
+  margin: 16px 0;
+  font-size: 15px;
+}
+.warnbox b { color: var(--warn); }
+
+/* ===== 公式 ===== */
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+.formula-line {
+  display: flex; flex-wrap: wrap; gap: 6px 34px;
+  padding: 6px 0;
+}
+
+/* ===== 表格 ===== */
+table {
+  width: 100%; border-collapse: collapse; margin: 14px 0;
+  font-size: 14.5px;
+}
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px;
+  color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+td.center, th.center { text-align: center; }
+
+/* ===== 步骤流程 ===== */
+.steps { counter-reset: step; margin: 12px 0; padding: 0; list-style: none; }
+.steps li {
+  counter-increment: step;
+  position: relative; padding: 8px 0 8px 46px;
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 9px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-weight: 700; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.next {
+  margin-top: 36px; padding: 22px 28px;
+  background: #f4f6ff; border: 1.5px dashed var(--accent-border); border-radius: 12px;
+}
+.next h2 { margin: 0 0 8px; font-size: 18px; color: var(--accent); }
+.next ul { margin: 6px 0; }
+.next-link { text-decoration: none; display: block; }
+.next-link h2 { margin-bottom: 4px; }
+.next-link p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.next-link:hover h2 { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .toc ol { grid-template-columns: 1fr; }
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 全站导航 ===== -->
+<nav id="site-nav" data-base="../" data-current="02"></nav>
+<script src="../assets/site-nav.js"></script>
+
+<div class="wrap">
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 02</p>
+  <h1>一元微分学</h1>
+  <p>知识框架（记忆唤醒版）—— 求导规则快速捞回，火力集中在竞赛大题主战场：中值定理与构造辅助函数。</p>
+  <div class="meta">
+    <span class="chip">初赛 2026-11-14</span>
+    <span class="chip">证明大题必考 10~15 分</span>
+    <span class="chip">竞赛含金量最高的一章</span>
+  </div>
+</div>
+
+<!-- ================= 目录 ================= -->
+<nav class="toc">
+  <h2>本页导航</h2>
+  <ol>
+    <li><a href="#s1">考情速览</a></li>
+    <li><a href="#s2">导数定义与可导性</a></li>
+    <li><a href="#s3">求导工具箱（唤醒）</a></li>
+    <li><a href="#s4">高阶导数三大方法</a></li>
+    <li><a href="#s5">微分中值定理家族</a></li>
+    <li><a href="#s6">构造辅助函数套路（核心）</a></li>
+    <li><a href="#s7">泰勒公式在证明中的应用</a></li>
+    <li><a href="#s8">导数应用：极值·凹凸·渐近线·根个数</a></li>
+    <li><a href="#s9">不等式证明四大方法</a></li>
+    <li><a href="#s10">易错点清单</a></li>
+  </ol>
+</nav>
+
+<!-- ================= §1 考情 ================= -->
+<section class="block" id="s1">
+  <h2><span class="sec-no">1</span>考情速览：竞赛怎么考这一章</h2>
+  <table>
+    <tr>
+      <th style="width:30%">考点</th><th style="width:14%">频率</th><th>竞赛考法</th>
+    </tr>
+    <tr>
+      <td>中值定理证明题</td>
+      <td><span class="tag hot">必考大题</span></td>
+      <td>"存在 ξ 使某等式/不等式成立"——构造辅助函数 + 罗尔/拉格朗日/柯西选型，或泰勒展开。每年一道 10~15 分</td>
+    </tr>
+    <tr>
+      <td>不等式证明</td>
+      <td><span class="tag hot">必考</span></td>
+      <td>单调性法为主，凹凸性/泰勒/常数K法为辅，常与积分结合</td>
+    </tr>
+    <tr>
+      <td>高阶导数计算</td>
+      <td><span class="tag mid">常考填空</span></td>
+      <td>\( f^{(n)}(x_0) \)——泰勒系数法是竞赛最爱（优雅且快）</td>
+    </tr>
+    <tr>
+      <td>方程根个数讨论</td>
+      <td><span class="tag mid">常考</span></td>
+      <td>单调性 + 零点定理定位，或罗尔逆用（反证两根之间必有驻点）</td>
+    </tr>
+    <tr>
+      <td>极值/凹凸/渐近线</td>
+      <td><span class="tag mid">中频</span></td>
+      <td>填空或大题一问；斜渐近线 \( k=\lim\frac{f(x)}{x} \) 是固定采分点</td>
+    </tr>
+    <tr>
+      <td>导数定义考察</td>
+      <td><span class="tag low">低频但险</span></td>
+      <td>定义变形、极限反求 \( f'(x_0) \)、分段点可导性讨论</td>
+    </tr>
+  </table>
+  <p><b>与期末考的差别</b>：期末考"求导计算"，竞赛考"<b>用导数结构还原函数</b>"——看到 \( f'(\xi) \) 与 \( f \)、\( \xi \)、\( e^x \) 的组合，要能反推出它是哪个函数的导数。§6 就是专门训练这个反射弧的。</p>
+</section>
+
+<!-- ================= §2 导数定义 ================= -->
+<section class="block" id="s2">
+  <h2><span class="sec-no">2</span>导数定义与可导性</h2>
+
+  <h3>2.1 定义与等价变形 <span class="tag low">极限反求必用</span></h3>
+  <p>\[ f'(x_0) = \lim_{h\to 0}\frac{f(x_0+h)-f(x_0)}{h} = \lim_{x\to x_0}\frac{f(x)-f(x_0)}{x-x_0} \]</p>
+  <div class="memory">
+    <div class="label">必背 · 增量比反求导数模板（α, β 为常数）</div>
+    <p>\[ \lim_{h\to 0}\frac{f(x_0+\alpha h)-f(x_0+\beta h)}{h} = (\alpha-\beta)\,f'(x_0) \]</p>
+    <p>推导只需把两项各自凑成导数定义再相减（分母加减 \( f(x_0) \)）。竞赛填空常给具体数字让你套。</p>
+  </div>
+
+  <h3>2.2 可导、连续、极限的关系</h3>
+  <ul>
+    <li>可导 ⟹ 连续；连续 ⇏ 可导（反例 \( |x| \) 在 0）；不连续 ⟹ 必不可导。</li>
+    <li>可导 ⇔ 左右导数都存在且相等。<b>分段点必须用定义分侧验证</b>，法则在此失效。</li>
+    <li>导函数可以不连续（如 \( f(x)=x^2\sin\frac{1}{x} \)，\( f'(0)=0 \)，但 \( f' \) 在 0 不连续）。</li>
+  </ul>
+
+  <h3>2.3 达布定理（导函数介值性）<span class="tag mid">判断题陷阱</span></h3>
+  <p>导函数即使不连续也<b>不可能有跳跃间断和可去间断</b>（只能有第二类振荡间断）。因此"导函数取值必取中间值"：若 \( f'(a)=1, f'(b)=3 \)，则 [a,b] 内 \( f' \) 取遍 [1,3]。</p>
+  <div class="warnbox">
+    <b>经典考法</b>：判断"导函数在 x₀ 处间断，则间断点必为第二类"——<b>对</b>，这正是达布定理的逆否表述。
+  </div>
+</section>
+
+<!-- ================= §3 求导工具箱 ================= -->
+<section class="block" id="s3">
+  <h2><span class="sec-no">3</span>求导工具箱（快速唤醒）</h2>
+
+  <h3>3.1 基本装备</h3>
+  <ul>
+    <li>四则运算法则、链式法则（复合逐层剥）。</li>
+    <li><b>反函数求导</b>：\( \frac{dx}{dy} = \frac{1}{dy/dx} \)；二阶：\( \frac{d^2x}{dy^2} = -\frac{y''}{(y')^3} \)（注意负号与立方）。</li>
+    <li><b>隐函数求导</b>：方程两边对 x 求导（y 视作 y(x)），解出 y'。</li>
+    <li><b>对数求导法</b>：幂指函数 \( u(x)^{v(x)} \) 与多因子乘除开方——先取对数再求导，或写 \( e^{v\ln u} \)。</li>
+    <li><b>微分形式不变性</b>：\( dy=f'(u)\,du \) 对任何中间变量 u 都成立——凑微分链的合法性来源。</li>
+  </ul>
+
+  <h3>3.2 参数方程求导 <span class="tag mid">二阶导易错</span></h3>
+  <p>\[ \frac{dy}{dx} = \frac{y'(t)}{x'(t)}, \qquad \frac{d^2y}{dx^2} = \frac{dt}{dx}\cdot\frac{d}{dt}\Big(\frac{y'(t)}{x'(t)}\Big) = \frac{y''(t)x'(t)-y'(t)x''(t)}{[x'(t)]^3} \]</p>
+  <div class="warnbox">
+    <b>二阶导最常见错误</b>：对 \( \frac{y'}{x'} \) 再"除以 \( y'(t) \)"或直接对 t 求导就停。正确操作是<b>除以 \( x'(t) \)</b>（因为复合了一层 \( t=t(x) \)）。
+  </div>
+</section>
+
+<!-- ================= §4 高阶导数 ================= -->
+<section class="block" id="s4">
+  <h2><span class="sec-no">4</span>高阶导数三大方法 <span class="tag mid">填空常客</span></h2>
+
+  <h3>4.1 方法一：逐阶求导找规律</h3>
+  <p>适合结构简单、规律明显的：\( (\sin x)^{(n)} = \sin(x+\frac{n\pi}{2}) \) 类。</p>
+
+  <h3>4.2 方法二：莱布尼茨公式</h3>
+  <p>\[ (uv)^{(n)} = \sum_{k=0}^{n}\binom{n}{k}u^{(k)}v^{(n-k)} \]</p>
+  <p><b>何时用</b>：一个因子是低次多项式（如 \( x^2 e^x \)）——多项式三阶以上导数归零，和式自动截断成有限项。</p>
+
+  <h3>4.3 方法三：泰勒系数法 <span class="tag hot">竞赛最爱</span></h3>
+  <div class="memory">
+    <div class="label">必背 · 泰勒系数法（求 \( f^{(n)}(x_0) \) 的优雅解法）</div>
+    <p>把 f 展开成 \( f(x)=\sum a_k(x-x_0)^k \)，则 \( f^{(n)}(x_0) = n!\,a_n \)。</p>
+    <p>经典例：\( f(x)=\arctan x \) 在 0 处。\( \arctan x = x-\frac{x^3}{3}+\frac{x^5}{5}-\cdots = \sum_{k=0}^{\infty}\frac{(-1)^k}{2k+1}x^{2k+1} \)，故</p>
+    <p>\[ f^{(2k)}(0)=0, \qquad f^{(2k+1)}(0) = (-1)^k\,(2k)! \]</p>
+    <p>几何级数/等比级数展开是常见素材：\( \frac{1}{1-x^2}=\sum x^{2n} \) 系数直接读出。</p>
+  </div>
+
+  <h3>4.4 常用 n 阶导数速查</h3>
+  <table>
+    <tr><th>函数</th><th>n 阶导数</th><th>备注</th></tr>
+    <tr><td>\( e^{ax} \)</td><td>\( a^n e^{ax} \)</td><td>—</td></tr>
+    <tr><td>\( \sin ax \)</td><td>\( a^n\sin(ax+\frac{n\pi}{2}) \)</td><td>相位平移</td></tr>
+    <tr><td>\( \ln(1+x) \)</td><td>\( \frac{(-1)^{n-1}(n-1)!}{(1+x)^n} \)</td><td>符号交错</td></tr>
+    <tr><td>\( \frac{1}{x-a} \)</td><td>\( \frac{(-1)^n n!}{(x-a)^{n+1}} \)</td><td>部分分式拆分的前置</td></tr>
+    <tr><td>\( \frac{1}{(x-a)(x-b)} \)</td><td>先拆 \( \frac{1}{a-b}\big(\frac{1}{x-a}-\frac{1}{x-b}\big) \)</td><td><b>有理函数必先拆部分分式</b></td></tr>
+  </table>
+</section>
+
+<!-- ================= §5 中值定理家族 ================= -->
+<section class="block" id="s5">
+  <h2><span class="sec-no">5</span>微分中值定理家族 <span class="tag hot">大题核心</span></h2>
+
+  <h3>5.1 四大定理一览（条件与结论要逐字背）</h3>
+  <table>
+    <tr><th style="width:13%">定理</th><th>条件</th><th>结论</th><th>选用信号</th></tr>
+    <tr>
+      <td><b>费马</b></td>
+      <td>f 在 x₀ 取极值且可导</td>
+      <td>\( f'(x_0)=0 \)</td>
+      <td>题目给"最值/极值点"→ 在此点导数为零</td>
+    </tr>
+    <tr>
+      <td><b>罗尔</b></td>
+      <td>[a,b] 连续，(a,b) 可导，\( f(a)=f(b) \)</td>
+      <td>∃ξ∈(a,b): \( f'(\xi)=0 \)</td>
+      <td>结论是 \( F'(\xi)=0 \) → 构造 F 端点值相等</td>
+    </tr>
+    <tr>
+      <td><b>拉格朗日</b></td>
+      <td>[a,b] 连续，(a,b) 可导</td>
+      <td>\( f(b)-f(a)=f'(\xi)(b-a) \)</td>
+      <td>出现"函数增量 \( f(b)-f(a) \)"与导数的关系</td>
+    </tr>
+    <tr>
+      <td><b>柯西</b></td>
+      <td>同上 + \( g'(x)\ne 0 \)</td>
+      <td>\( \frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(\xi)}{g'(\xi)} \)</td>
+      <td>出现<b>两个函数</b>的增量比、或 \( \frac{f'(\xi)}{g'(\xi)} \) 结构</td>
+    </tr>
+  </table>
+  <p><b>从属关系</b>：罗尔是拉格朗日的特例（g(x)=x 时柯西退化为拉格朗日）。<b>共同灵魂</b>：闭区间连续 + 开区间可导 → 端点信息传递到内部某点的导数。</p>
+
+  <h3>5.2 高阶导数怎么出 ξ：两招</h3>
+  <ul>
+    <li><b>多次罗尔（区间套法）</b>：结论含 \( f''(\xi)=0 \) → 先找两点 \( f'(c_1)=f'(c_2) \)，再对 f' 用罗尔；\( f''' \) 则需要三个 f' 相等点。素材常来自：罗尔一次的结果、极值点、介值。</li>
+    <li><b>泰勒展开（§7）</b>：结论含 \( f'' \) 与端点值/极值的关系——直接展开，比多次罗尔书写更快。</li>
+  </ul>
+
+  <div class="memory">
+    <div class="label">中值定理选型速查（30 秒决策）</div>
+    <ol>
+      <li>结论只含 <b>一个函数</b> + \( f'(\xi) \) 与 ξ 的等式 → 罗尔（构造辅助函数后端点相等）。</li>
+      <li>含函数增量 \( f(b)-f(a) \) → 拉格朗日。</li>
+      <li>含 <b>两个函数</b>（或 f 与 \( x^2 \)、\( e^x \) 等）成对出现 → 柯西。</li>
+      <li>含 \( f'' \) 及以上、或导数在"三个点"的信息 → 多次罗尔 / 泰勒。</li>
+      <li>题目给了 <b>最值</b> → 费马引理（最值点导数为零）+ 泰勒在最值点展开。</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= §6 构造辅助函数 ================= -->
+<section class="block" id="s6">
+  <h2><span class="sec-no">6</span>构造辅助函数套路 <span class="tag hot">竞赛大题的灵魂</span></h2>
+
+  <h3>6.1 万能起手式（对所有"存在 ξ"等式题）</h3>
+  <ol class="steps">
+    <li>把结论<b>移项</b>，使等式一边为 0；</li>
+    <li>把 \( \xi \) 换成 x，观察式子是否是"某函数的导数"：目标是凑 \( F'(x)\big|_{x=\xi}=0 \)；</li>
+    <li>凑不出纯导数时，<b>乘积分因子</b> \( e^{g(x)} \) 再凑；</li>
+    <li>验证 \( F \) 在区间两端相等（用题目给的端点条件）→ 罗尔收工。</li>
+  </ol>
+
+  <h3>6.2 模式匹配表（背熟，考场直接抄）</h3>
+  <table>
+    <tr><th>结论中出现</th><th>构造 F(x)</th><th>依据</th></tr>
+    <tr><td>\( \xi f'(\xi)+f(\xi)=0 \)</td><td>\( F=xf(x) \)</td><td>\( (xf)'=f+xf' \)</td></tr>
+    <tr><td>\( \xi f'(\xi)-f(\xi)=0 \)</td><td>\( F=\dfrac{f(x)}{x} \)</td><td>\( (\frac{f}{x})'=\dfrac{xf'-f}{x^2} \)</td></tr>
+    <tr><td>\( f'(\xi)+f(\xi)=0 \)</td><td>\( F=e^{x}f(x) \)</td><td>\( (e^x f)'=e^x(f+f') \)</td></tr>
+    <tr><td>\( f'(\xi)-f(\xi)=0 \)</td><td>\( F=e^{-x}f(x) \)</td><td>\( (e^{-x}f)'=e^{-x}(f'-f) \)</td></tr>
+    <tr><td>\( f'(\xi)+\lambda f(\xi)=0 \)</td><td>\( F=e^{\lambda x}f(x) \)</td><td>一般化的积分因子</td></tr>
+    <tr><td>\( f'(\xi)g(\xi)+f(\xi)g'(\xi)=0 \)</td><td>\( F=f(x)g(x) \)</td><td>乘积法则</td></tr>
+    <tr><td>\( f'(\xi)g(\xi)-f(\xi)g'(\xi)=0 \)</td><td>\( F=\dfrac{f(x)}{g(x)} \)</td><td>商法则</td></tr>
+    <tr><td>\( \xi f'(\xi)+\lambda f(\xi)=0 \)（λ≠1）</td><td>\( F=x^{\lambda}f(x) \)</td><td>\( (x^\lambda f)'=x^{\lambda-1}(\lambda f+xf') \)</td></tr>
+  </table>
+
+  <div class="memory">
+    <div class="label">为什么 \( e^{g(x)} \) 总是救场：积分因子原理</div>
+    <p>目标形如 \( f'+\varphi f=0 \)。这是一阶线性方程，其积分因子恰为 \( e^{\int\varphi\,dx} \)：因为 \( (e^{\int\varphi}f)'=e^{\int\varphi}(f'+\varphi f) \)。所以 <b>"看见 \( f'+\varphi(x)f \)" → 乘 \( e^{\int\varphi} \)"</b>，§6.2 表里所有 \( e^x \)、\( x^\lambda \) 条目都是这条原理的特例（\( \varphi=1\Rightarrow e^x \)；\( \varphi=\frac{\lambda}{x}\Rightarrow x^\lambda \)）。构造函数从此不用背表也能现场推。</p>
+  </div>
+
+  <h3>6.3 常数 K 法 <span class="tag mid">端点值不对称时</span></h3>
+  <p>结论形如"∃ξ: \( f'(\xi)=\dfrac{f(b)-f(a)}{b-a}\cdot h(\xi) \)"这类含两端点常数的式子时：设 \( K=\frac{f(b)-f(a)}{b-a} \)（先当常数），构造 \( F(x)=f(x)-K\cdot(\text{对应原函数}) \)，使 \( F(a)=F(b) \)，再罗尔。典型：证 \( \frac{f(b)-f(a)}{b-a}=\frac{\varphi'(\xi)}{\psi'(\xi)} \) 型柯西结论。</p>
+
+  <h3>6.4 三个点怎么办：插值构造</h3>
+  <p>题目给 \( f \) 在 <b>三个点</b> 的值（如 \( f(a)=f(b)=f(c) \)）：两次罗尔得 \( f'(\eta_1)=f'(\eta_2)=0 \)，再对 f' 用罗尔得 \( f''(\xi)=0 \)。更快的等价视角：<b>多项式插值</b>——构造过这三点的二次多项式 \( P(x) \)，则 \( f-P \) 有三个零点，\( (f-P)'' \) 有零点，而 \( P'' \) 是常数。</p>
+</section>
+
+<!-- ================= §7 泰勒证题 ================= -->
+<section class="block" id="s7">
+  <h2><span class="sec-no">7</span>泰勒公式在证明中的应用 <span class="tag hot">高阶导数题正解</span></h2>
+
+  <h3>7.1 展开点怎么选（决策表）</h3>
+  <table>
+    <tr><th>题目特征</th><th>展开点</th><th>原因</th></tr>
+    <tr><td>已知极值/最值点 \( x_0 \)</td><td>极值点</td><td>\( f'(x_0)=0 \)，展开式少一项，干净</td></tr>
+    <tr><td>只给端点 \( a, b \) 的信息</td><td>中点 \( \frac{a+b}{2} \)</td><td>两端点到中点距离相等，两式相减对称</td></tr>
+    <tr><td>结论含 \( f(a), f(b) \)</td><td>分别在 a、b 展开再联立</td><td>端点值要出现在展开式里</td></tr>
+    <tr><td>结论含 f(c)（c 为中间某点）</td><td>在 c 展开，令 x = a 和 x = b 代入</td><td>把 c 处的导数信息传给端点</td></tr>
+  </table>
+
+  <h3>7.2 拉格朗日余项的标准操作</h3>
+  <p>\[ f(x) = f(x_0)+f'(x_0)(x-x_0)+\frac{f''(\xi)}{2}(x-x_0)^2 \]</p>
+  <p>两点代入、两式<b>相减</b>（消掉 \( f(x_0), f'(x_0) \)），ξ 各不相同（记 \( \xi_1,\xi_2 \)），再用<b>放缩</b>（取绝对值、用 |f''| 的界）把两个 ξ 统一控制——"相减 + 绝对值三角不等式"是固定连招。</p>
+
+  <div class="memory">
+    <div class="label">经典模式：最值点展开法（必会）</div>
+    <p>设 \( f \) 在 [a,b] 二阶可导，\( |f|\le M_0 \)，\( |f''|\le M_2 \) 型，或"证 ∃ξ: \( f''(\xi)\ge C \)"型：</p>
+    <p>在<b>最大值点</b> \( x_0 \)（\( f'(x_0)=0 \)）展开：\( f(x)=f(x_0)+\frac{f''(\xi)}{2}(x-x_0)^2 \)。</p>
+    <p>代入端点，得 \( f''(\xi_i)=\frac{2[f(x_i)-f(x_0)]}{(x_i-x_0)^2} \)——\( f(x_0) \) 大、分母是"点到端点距离平方"，常数就这样被压榨出来（著名的 \( f''\le -8 \) 题即此套路：[0,1] 上 max f=1，两端为 0，\( (x_0-x_i)^2\le\frac14 \) ⇒ \( f''(\xi)\le\frac{2(0-1)}{1/4}=-8 \)）。</p>
+  </div>
+</section>
+
+<!-- ================= §8 导数应用 ================= -->
+<section class="block" id="s8">
+  <h2><span class="sec-no">8</span>导数应用：极值 · 凹凸 · 渐近线 · 根个数</h2>
+
+  <h3>8.1 单调性与极值</h3>
+  <ul>
+    <li>\( f'>0 \) ⟹ 单调增；<b>反之不真</b>（\( x^3 \) 严格增但 0 处导数为零——"严格增 ⟹ f'≥0"）。</li>
+    <li><b>极值判别</b>：一阶导变号（穿过）为准；二阶导 \( f''(x_0)>0 \) 取极小（驻点处）。</li>
+    <li>极值点 ≠ 驻点：极值点可以是不可导点（|x| 在 0）；驻点也可以不是极值点（\( x^3 \)）。</li>
+    <li><b>最值只可能在</b>：驻点、不可导点、端点——三处比较，别漏。</li>
+  </ul>
+
+  <h3>8.2 凹凸性与拐点</h3>
+  <p>凹凸性定义（竞赛爱考定义本身）：\( f\big(\lambda a+(1-\lambda)b\big) \le \lambda f(a)+(1-\lambda)f(b) \)（凸/下凸）。</p>
+  <ul>
+    <li>判别：\( f''>0 \) 凸；拐点 = 凹凸性改变的点，要求 f 在该点连续（f'' 可为零或不存在）。</li>
+    <li><b>詹森不等式</b>（凸函数）：\( f\big(\frac{\sum x_i}{n}\big)\le\frac{\sum f(x_i)}{n} \)——均值不等式家族的总后台。</li>
+  </ul>
+
+  <h3>8.3 渐近线（填空固定采分点）</h3>
+  <ul>
+    <li>垂直：\( \lim_{x\to x_0}f(x)=\infty \)；水平：\( \lim_{x\to\pm\infty}f(x)=b \)（两个方向分别查！）。</li>
+    <li>斜渐近线：<b>两步走</b> \( k=\lim\limits_{x\to\pm\infty}\frac{f(x)}{x} \)，\( b=\lim\limits_{x\to\pm\infty}(f(x)-kx) \)。</li>
+  </ul>
+
+  <h3>8.4 方程根个数 <span class="tag mid">大题常见一问</span></h3>
+  <ol class="steps">
+    <li>把方程写成 \( f(x)=0 \)，求出全部驻点与不可导点，划分单调区间；</li>
+    <li>每个单调区间上用<b>零点定理</b>判断是否有根（看两端函数值是否异号，注意端点极限）；</li>
+    <li>单调区间内至多一根 → 根的个数 = "有根区间数"；</li>
+    <li>反向题（"证至多 k 个根"）用<b>罗尔逆用</b>：反设有 k+1 个根 → \( f' \) 至少 k 个零点 → 逐层上推与已知矛盾。</li>
+  </ol>
+</section>
+
+<!-- ================= §9 不等式 ================= -->
+<section class="block" id="s9">
+  <h2><span class="sec-no">9</span>不等式证明四大方法 <span class="tag hot">必考</span></h2>
+  <table>
+    <tr><th style="width:15%">方法</th><th style="width:38%">适用特征</th><th>操作要点</th></tr>
+    <tr>
+      <td><b>单调性法</b></td>
+      <td>单变量，区间端点比较（如证 \( x>\ln(1+x) \), x&gt;0）</td>
+      <td>移项设 \( F(x) \)，求 \( F' \) 定号，端点值收尾。<b>注意</b>：\( F' \) 变号时改用最值法</td>
+    </tr>
+    <tr>
+      <td><b>最值法</b></td>
+      <td>\( F' \) 在区间内变号</td>
+      <td>求 F 的最小值（或下确界），证 min ≥ 0</td>
+    </tr>
+    <tr>
+      <td><b>拉格朗日/柯西法</b></td>
+      <td>出现 \( f(b)-f(a) \) 结构、或双变量 \( \frac{f(x)-f(y)}{x-y} \)</td>
+      <td>\( f(b)-f(a)=f'(\xi)(b-a) \)，再用 \( f' \) 的界放缩</td>
+    </tr>
+    <tr>
+      <td><b>泰勒/凹凸法</b></td>
+      <td>含二阶及以上导数、或多个变量平均</td>
+      <td>端点/中点展开（§7）；多变量对称式用詹森</td>
+    </tr>
+  </table>
+  <div class="warnbox">
+    <b>双变量不等式标准起手</b>：固定 y（或令 \( t=\frac{x}{y} \)）化为单变量；对称式可不妨设 \( x\ge y \)（或 \( 0&lt;t\le1 \)）后用拉格朗日：\( f(x)-f(y)=f'(\xi)(x-y) \)，\( \xi\in(y,x) \) 再对 \( f' \) 用单调性放缩。
+  </div>
+  <div class="memory">
+    <div class="label">经典例 · 对数平均不等式（竞赛名题，双变量起手示范）</div>
+    <p>设 \( a>b>0 \)，证 \( \dfrac{a-b}{\ln a-\ln b}<\dfrac{a+b}{2} \)（左边称"对数平均"，恒夹在几何平均与算术平均之间）。</p>
+    <p><b>第一步</b>（双变量→单变量）：令 \( t=\frac{a}{b}>1 \)，两边约去 b，等价于 \( \dfrac{t-1}{\ln t}<\dfrac{t+1}{2} \)，即证 \( h(t)=\dfrac{\ln t}{2}-\dfrac{t-1}{t+1}>0 \)。</p>
+    <p><b>第二步</b>（一阶导终结）：<br>\[ h'(t)=\frac{1}{2t}-\frac{2}{(t+1)^2}=\frac{(t+1)^2-4t}{2t(t+1)^2}=\frac{(t-1)^2}{2t(t+1)^2}>0 \quad (t>1) \]</p>
+    <p>配合 \( h(1)=0 \) 收工。<b>完全平方惊喜</b>：分子自动配成 \( (t-1)^2 \)——遇到"导数疑似定不了号"，先通分化简再下结论，别急着挖二阶导。</p>
+    <p><b>反面教训</b>：试图比较 \( f'' \) 与 \( g'' \) 的路线会踩坑——\( \frac{16t^2}{(t+1)^3}>1 \) 在 \( t\approx13 \) 后翻转（验证：\( t=20 \) 时约 0.69）。含参不等式先代极端值检验；证不等式找的是"导数最易定号的那一层"，不是最深的一层。</p>
+  </div>
+</section>
+
+<!-- ================= §10 易错点 ================= -->
+<section class="block" id="s10">
+  <h2><span class="sec-no">10</span>易错点清单（考前再过一遍）</h2>
+  <ol>
+    <li><b>分段点用求导法则</b>：分界点必须回到定义分侧求，法则失效。</li>
+    <li><b>参数方程二阶导</b>忘了再除 \( x'(t) \)，或丢负号（反函数二阶导）。</li>
+    <li><b>罗尔三条件</b>（闭连续、开可导、端点等值）没验证就引用；题目端点不等时不会造 F 使端点相等。</li>
+    <li><b>柯西忘了条件 \( g'\ne 0 \)</b>。</li>
+    <li><b>构造 F 后不验证端点值</b>：F(a)=F(b) 是罗尔的前提，必须写出来。</li>
+    <li><b>多次罗尔时中间点不相交</b>：\( \eta_1, \eta_2 \) 必须落在两个<b>不重叠</b>的子区间内，才能保证 \( \eta_1<\eta_2 \)。</li>
+    <li><b>泰勒展开点乱选</b>：给最值却不用费马（浪费 \( f'=0 \) 条件）；两式相减时把不同 ξ 混写成一个。</li>
+    <li><b>"严格增 ⟹ f'&gt;0"</b>：错，只能推 \( f'\ge 0 \)。</li>
+    <li><b>极值/拐点判据用反</b>：\( f''(x_0)=0 \) 既非极值也非拐点的充分条件（\( x^4, x^3 \) 各自说明）。</li>
+    <li><b>水平渐近线只查一个方向</b>：\( x\to+\infty \) 与 \( x\to-\infty \) 可以有两条不同水平渐近线（如 \( \arctan x \)）。</li>
+    <li><b>达布定理缺席</b>：以为"导函数不连续就什么都不是"——它仍保留介值性，判断题高发。</li>
+    <li><b>单调性证不等式时用洛必达代替单调分析</b>：证明题要求整个区间上导数符号一致，逐点极限不构成证明。</li>
+  </ol>
+
+  <div class="next">
+    <a class="next-link" href="02_例题精讲.html"><h2>进入例题精讲 →</h2><p>七大题型 × 八道例题（中值构造、泰勒、不等式、根个数、渐近线）</p></a>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

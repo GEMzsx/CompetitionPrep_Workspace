@@ -1,0 +1,7 @@
+# TRAE 本地分享缓存（自动生成）
+.trae-html-share-packages/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini

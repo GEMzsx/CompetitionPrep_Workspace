@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题1 · 函数、极限与连续 — 知识框架</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker {
+  font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px;
+  font-weight: 600;
+}
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;
+}
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  padding: 3px 14px;
+  font-size: 12.5px;
+}
+
+/* ===== 目录 ===== */
+.toc {
+  margin: 24px 0 40px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 26px;
+}
+.toc h2 { font-size: 14px; letter-spacing: 2px; color: var(--ink-faint); margin: 0 0 10px; }
+.toc ol {
+  margin: 0; padding-left: 0; list-style: none;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 28px;
+}
+.toc a { color: var(--ink-soft); text-decoration: none; font-size: 14.5px; }
+.toc a:hover { color: var(--accent); }
+.toc li::before { content: "§ "; color: var(--accent); font-weight: 700; }
+
+/* ===== 章节块 ===== */
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 30px 34px 26px;
+  margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px;
+  margin: 0 0 18px;
+  font-size: 21px;
+  border-bottom: 2px solid var(--accent-soft);
+  padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700;
+  flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+h3 .tag { margin-left: 8px; }
+p { margin: 8px 0; }
+
+/* ===== 标签 ===== */
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef4f7; color: #4e7d93; border: 1px solid #c9dde7; }
+.tag.finals { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); }
+
+/* ===== 卡片 ===== */
+.memory {
+  background: var(--accent-soft);
+  border: 1.5px solid var(--accent-border);
+  border-left: 5px solid var(--accent);
+  border-radius: 10px;
+  padding: 16px 22px;
+  margin: 16px 0;
+}
+.memory .label {
+  font-size: 12.5px; font-weight: 800; letter-spacing: 2px;
+  color: var(--accent); margin-bottom: 8px;
+}
+.memory ul, .memory ol { margin: 6px 0; }
+.warnbox {
+  background: var(--warn-soft);
+  border-left: 5px solid var(--warn);
+  border-radius: 10px;
+  padding: 14px 22px;
+  margin: 16px 0;
+  font-size: 15px;
+}
+.warnbox b { color: var(--warn); }
+
+/* ===== 公式 ===== */
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+.formula-line {
+  display: flex; flex-wrap: wrap; gap: 6px 34px;
+  padding: 6px 0;
+}
+
+/* ===== 表格 ===== */
+table {
+  width: 100%; border-collapse: collapse; margin: 14px 0;
+  font-size: 14.5px;
+}
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px;
+  color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+td.center, th.center { text-align: center; }
+
+/* ===== 步骤流程 ===== */
+.steps { counter-reset: step; margin: 12px 0; padding: 0; list-style: none; }
+.steps li {
+  counter-increment: step;
+  position: relative; padding: 8px 0 8px 46px;
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 9px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-weight: 700; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.next {
+  margin-top: 36px; padding: 22px 28px;
+  background: #f4f6ff; border: 1.5px dashed var(--accent-border); border-radius: 12px;
+}
+.next h2 { margin: 0 0 8px; font-size: 18px; color: var(--accent); }
+.next ul { margin: 6px 0; }
+.next-link { text-decoration: none; display: block; }
+.next-link h2 { margin-bottom: 4px; }
+.next-link p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.next-link:hover h2 { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .toc ol { grid-template-columns: 1fr; }
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 全站导航 ===== -->
+<nav id="site-nav" data-base="../" data-current="01"></nav>
+<script src="../assets/site-nav.js"></script>
+
+<div class="wrap">
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 01</p>
+  <h1>函数、极限与连续</h1>
+  <p>知识框架（记忆唤醒版）—— 学过但忘了？这一页把大一上学期第一册的核心全部捞回来。</p>
+  <div class="meta">
+    <span class="chip">初赛 2026-11-14</span>
+    <span class="chip">初赛必考 10~20 分</span>
+    <span class="chip">工具属性：服务于后续所有专题</span>
+  </div>
+</div>
+
+<!-- ================= 目录 ================= -->
+<nav class="toc">
+  <h2>本页导航</h2>
+  <ol>
+    <li><a href="#s1">考情速览</a></li>
+    <li><a href="#s2">函数基本属性（快速回忆）</a></li>
+    <li><a href="#s3">数列极限与两大准则</a></li>
+    <li><a href="#s4">函数极限、重要极限与无穷小</a></li>
+    <li><a href="#s5">泰勒展开 —— 竞赛第一神器</a></li>
+    <li><a href="#s6">洛必达法则的正确姿势</a></li>
+    <li><a href="#s7">求极限七种武器总表</a></li>
+    <li><a href="#s8">连续与间断点分类</a></li>
+    <li><a href="#s9">闭区间连续函数四大定理</a></li>
+    <li><a href="#s10">易错点清单</a></li>
+  </ol>
+</nav>
+
+<!-- ================= §1 考情 ================= -->
+<section class="block" id="s1">
+  <h2><span class="sec-no">1</span>考情速览：竞赛怎么考这一章</h2>
+  <table>
+    <tr>
+      <th style="width:30%">考点</th><th style="width:14%">频率</th><th>竞赛考法</th>
+    </tr>
+    <tr>
+      <td>极限计算（含数列极限）</td>
+      <td><span class="tag hot">必考</span></td>
+      <td>填空大题第一二题；难度高于期末，重点考<b>泰勒展开</b>、<b>夹逼</b>、<b>定积分定义</b>、<b>Stolz</b></td>
+    </tr>
+    <tr>
+      <td>间断点判断</td>
+      <td><span class="tag mid">常考</span></td>
+      <td>给一个含 e<sup>1/x</sup>、arctan(1/x)、绝对值的函数，判断间断点类型</td>
+    </tr>
+    <tr>
+      <td>递推数列极限存在性</td>
+      <td><span class="tag mid">常考</span></td>
+      <td>给 x<sub>n+1</sub>=f(x<sub>n</sub>)，<b>先证存在再求值</b>（单调有界）</td>
+    </tr>
+    <tr>
+      <td>连续函数介值/零点定理证明题</td>
+      <td><span class="tag mid">中频</span></td>
+      <td>构造辅助函数 F(x)，证存在 ξ 使 F(ξ)=0；常与积分结合</td>
+    </tr>
+    <tr>
+      <td>一致连续</td>
+      <td><span class="tag low">低频</span></td>
+      <td>定义判定 + 康托尔定理，初赛偶考、决赛较多</td>
+    </tr>
+  </table>
+  <p><b>与期末考的差别</b>：期末考等价无穷小 + 洛必达就能通吃；竞赛默认这些是"基础操作"，真正出分点在<b>泰勒展开的精度控制</b>与<b>七种方法的选型</b>。</p>
+</section>
+
+<!-- ================= §2 函数 ================= -->
+<section class="block" id="s2">
+  <h2><span class="sec-no">2</span>函数基本属性（快速回忆）</h2>
+
+  <h3>2.1 四大属性 <span class="tag low">直接考少，常作条件</span></h3>
+  <ul>
+    <li><b>奇偶性</b>：定义域关于原点对称；f(−x)=f(x) 偶，f(−x)=−f(x) 奇。常用结论：奇函数 × 偶函数 = 奇；任意函数 = 奇部分 + 偶部分：<span>\( f(x)=\underbrace{\tfrac{f(x)-f(-x)}{2}}_{\text{奇}} + \underbrace{\tfrac{f(x)+f(-x)}{2}}_{\text{偶}} \)</span></li>
+    <li><b>周期性</b>：f(x+T)=f(x)。竞赛爱考周期函数的定积分平移性质（专题 03）。</li>
+    <li><b>有界性</b>：|f(x)|≤M。注意"有界"依赖区间。</li>
+    <li><b>单调性</b>：复合函数单调性"同增异减"。</li>
+  </ul>
+
+  <h3>2.2 复合与反函数</h3>
+  <ul>
+    <li>复合 f(g(x)) 有意义要求 g 的值域 ⊆ f 的定义域。</li>
+    <li>反函数存在充分条件：严格单调。图像关于 y=x 对称。<b>经典结论</b>：\( f^{-1}(x) \) 的图像与 \( f(x) \) 图像交点不一定在 y=x 上（除非 f 单增）。</li>
+  </ul>
+
+  <h3>2.3 基本初等函数速览 <span class="tag low">画图题/定义域陷阱</span></h3>
+  <p>幂、指数、对数、三角、反三角。竞赛常用图像直觉：</p>
+  <ul>
+    <li>\( y=\arctan x \)：值域 \( (-\tfrac{\pi}{2},\tfrac{\pi}{2}) \)，水平渐近线 \( y=\pm\tfrac{\pi}{2} \) —— 判间断点必备。</li>
+    <li>\( y=e^{1/x} \)：x→0⁺ 时 →+∞，x→0⁻ 时 →0 —— "左右不对称"的间断点专业户。</li>
+    <li>取整函数 [x]、符号函数 sgn x：跳跃间断与分段函数的常客。</li>
+  </ul>
+</section>
+
+<!-- ================= §3 数列极限 ================= -->
+<section class="block" id="s3">
+  <h2><span class="sec-no">3</span>数列极限与两大准则</h2>
+
+  <h3>3.1 ε–N 定义（会写一句话即可）</h3>
+  <p>\( \lim\limits_{n\to\infty} a_n = A \)：对任意 ε&gt;0，存在 N，当 n&gt;N 时恒有 \( |a_n - A| < \epsilon \)。</p>
+  <div class="memory">
+    <div class="label">收敛 ⇒ 三条性质（证明题工具）</div>
+    <ul>
+      <li><b>唯一性</b>：极限若存在必唯一。</li>
+      <li><b>有界性</b>：收敛 ⇒ 有界（逆命题假，如 \( (-1)^n \)）。</li>
+      <li><b>保号性</b>：若 \( \lim a_n = A > 0 \)，则 n 充分大时 \( a_n > 0 \)；若 \( a_n \ge 0 \) 且收敛，则极限 \( A \ge 0 \)。竞赛证明题高频（保号性的严格形式）。</li>
+      <li><b>子列</b>：收敛数列的任意子列均收敛于同一极限 ⟹ 找两个子列极限不同即可证发散。</li>
+    </ul>
+  </div>
+
+  <h3>3.2 夹逼准则 <span class="tag hot">必考</span></h3>
+  <p>若 \( y_n \le a_n \le z_n \) 且 \( \lim y_n = \lim z_n = A \)，则 \( \lim a_n = A \)。</p>
+  <p><b>使用场景</b>：n 项和 \( \sum f(i,n) \)，各项"阶不完全相同"（放缩后两头极限相等）。经典：\( \lim\limits_{n\to\infty}\sum_{i=1}^{n}\frac{i}{n^2+i} \)（分母介于 \( n^2+1 \) 与 \( n^2+n \) 之间）。</p>
+
+  <h3>3.3 单调有界准则 <span class="tag hot">递推数列必备</span></h3>
+  <p>单调有界数列必收敛。递推数列 \( x_{n+1}=f(x_n) \) 标准三步：</p>
+  <ol class="steps">
+    <li>证有界（数学归纳法）；</li>
+    <li>证单调（作差 \( x_{n+1}-x_n \) 或作商，常用"不动点"分界讨论）；</li>
+    <li>设极限为 A，对递推式两边取极限，解 \( A=f(A) \)。</li>
+  </ol>
+
+  <h3>3.4 Stolz 定理 <span class="tag hot">竞赛专属工具</span></h3>
+  <p>处理"\( \frac{\infty}{\infty} \) 型数列比"的离散版洛必达：</p>
+  <p>设 \( b_n \) 严格递增且 \( b_n\to+\infty \)，若<br>
+  \[ \lim_{n\to\infty}\frac{a_{n+1}-a_n}{b_{n+1}-b_n}=L \quad (\text{有限或} \pm\infty), \]<br>
+  则 \( \lim\limits_{n\to\infty}\dfrac{a_n}{b_n}=L \)。</p>
+  <div class="memory">
+    <div class="label">Stolz 经典应用（记结论）</div>
+    <p>当 \( \lim a_n = A \) 时：\[ \lim_{n\to\infty}\frac{a_1+a_2+\cdots+a_n}{n} = A \] （"平均值的稳定性"，取 \( b_n=n \) 即证）。同理可处理 \( \frac{\sum i^p}{n^{p+1}} \to \frac{1}{p+1} \) 型。</p>
+  </div>
+
+  <h3>3.5 Stirling 公式与阶的排序 <span class="tag mid">阶乘类极限利器</span></h3>
+  <p>含阶乘 \( n! \)、幂 \( n^n \) 的极限，Stirling 公式给出精确的渐近估计：</p>
+  <div class="memory">
+    <div class="label">必背 · Stirling 公式（渐近等价式）</div>
+    <p>\[ n! \sim \sqrt{2\pi n}\,\Big(\frac{n}{e}\Big)^{\,n} \qquad (n\to\infty) \]</p>
+    <p>实用对数形式（连乘取对数变连加）：\[ \ln(n!) = n\ln n - n + \tfrac{1}{2}\ln(2\pi n) + o(1) \]</p>
+    <p>竞赛书写注意：写成 <b>渐近等价 "\(\sim\)"</b>（比值 → 1，可直接参与极限运算），比 "≈" 严格得多，阅卷按 \(\sim\) 给分。</p>
+  </div>
+  <p><b>由此立得增长速度链</b>（\(\alpha>0,\ c>1\)，越靠右增长越快）：</p>
+  <p>\[ \ln n \;\ll\; n^{\alpha} \;\ll\; c^{n} \;\ll\; n! \;\ll\; n^{n} \]</p>
+  <p>解释：由 Stirling，\( \frac{(n!)^{1/n}}{n}\to\frac{1}{e}\) —— n! 的"几何平均"像 \( n/e \) 一样增大，故指数 \( c^n \) 追不上它；又 \( \frac{n!}{n^n}\sim\sqrt{2\pi n}\,e^{-n}\to 0 \)，故它又远慢于 \( n^n \)。</p>
+  <div class="memory">
+    <div class="label">经典例 · 两种方法对照（必会）</div>
+    <p>求 \( \lim\limits_{n\to\infty}\dfrac{(n!)^{1/n}}{n} \)。</p>
+    <p><b>法一（Stirling，10 秒）</b>：\( (n!)^{1/n} \sim (2\pi n)^{\frac{1}{2n}}\cdot\frac{n}{e} \)，其中 \( (2\pi n)^{\frac{1}{2n}}\to 1 \)，故极限 \( =\dfrac{1}{e} \)。</p>
+    <p><b>法二（取对数 + 定积分定义，呼应 §3/§4 分流）</b>：
+      \[ \frac{1}{n}\ln\frac{n!}{n^n} = \frac{1}{n}\sum_{k=1}^{n}\ln\frac{k}{n} \;\longrightarrow\; \int_0^1\ln x\,dx = -1, \quad\text{故原极限}= e^{-1}. \]</p>
+    <p>两种方法答案一致 —— 这是"Stirling ≈ 黎曼和 + 重要极限"的深层联系。</p>
+  </div>
+  <p><b>其他典型用法</b>：估计 \( \sum\limits_{k=1}^{n} k! \) —— 首项占绝对主导：当 \( k\le n-1 \) 时 \( k!\le(n-1)! \)，故 \( n! \le \sum_{k=1}^{n}k! \le n!+(n-1)\cdot(n-1)! < 2n! \)，夹逼立得 \( \sum_{k=1}^{n}k! \sim n! \)；级数判敛中 \( \sqrt[n]{n!}\to\infty \) 的应用（专题 08）；组合数 \( \binom{2n}{n}\sim\frac{4^n}{\sqrt{\pi n}} \)（概率论中心极限定理的源头）。</p>
+</section>
+
+<!-- ================= §4 函数极限 ================= -->
+<section class="block" id="s4">
+  <h2><span class="sec-no">4</span>函数极限、重要极限与无穷小</h2>
+
+  <h3>4.1 定义与归结原则</h3>
+  <ul>
+    <li>ε–δ 定义：\( \lim_{x\to x_0}f(x)=A \) ⟺ ∀ε&gt;0, ∃δ&gt;0, 当 \( 0<|x-x_0|<\delta \) 时 \( |f(x)-A|<\epsilon \)。</li>
+    <li><b>海涅归结原则</b>：\( \lim_{x\to x_0}f(x)=A \) ⟺ 对任何 \( x_n\to x_0,\ x_n\ne x_0 \) 都有 \( f(x_n)\to A \)。用途：取两条不同路径极限不同 ⇒ 极限不存在（多元函数更常用）。</li>
+    <li>左右极限存在且相等 ⟺ 极限存在。<b>分段函数分界点、含 e^{1/x}、arctan(1/x)、|x| 的必须分左右。</b></li>
+  </ul>
+
+  <h3>4.2 两个重要极限</h3>
+  <div class="formula-line">
+    <span>\( \displaystyle\lim_{x\to 0}\frac{\sin x}{x}=1 \)</span>
+    <span>\( \displaystyle\lim_{x\to\infty}\Big(1+\frac{1}{x}\Big)^{x}=e \)</span>
+    <span>\( \displaystyle\lim_{x\to 0}(1+x)^{1/x}=e \)</span>
+  </div>
+
+  <h3>4.3 无穷小的阶与等价替换 <span class="tag hot">基础操作</span></h3>
+  <p>设 \( \alpha,\beta \) 都是无穷小：\( \lim\frac{\beta}{\alpha}=0 \) 则 β 是高阶无穷小 o(α)；=c≠0 同阶；=1 等价。</p>
+  <div class="warnbox">
+    <b>等价替换规则</b>：整个式子的<b>乘除因子</b>可整体替换；<b>加减项</b>不能随意替换，除非替换后不抵消（相消则失效，需用泰勒）。这是竞赛扣分重灾区。
+  </div>
+
+  <div class="memory">
+    <div class="label">必背 · 基础等价无穷小（x→0）</div>
+    <div class="formula-line">
+      <span>\( \sin x \sim x \)</span>
+      <span>\( \tan x \sim x \)</span>
+      <span>\( \arcsin x \sim x \)</span>
+      <span>\( \arctan x \sim x \)</span>
+      <span>\( 1-\cos x \sim \tfrac{x^2}{2} \)</span>
+      <span>\( \ln(1+x) \sim x \)</span>
+      <span>\( e^x-1 \sim x \)</span>
+      <span>\( a^x-1 \sim x\ln a \)</span>
+      <span>\( (1+x)^{\alpha}-1 \sim \alpha x \)</span>
+      <span>\( \log_a(1+x) \sim \tfrac{x}{\ln a} \)</span>
+    </div>
+  </div>
+
+  <div class="memory">
+    <div class="label">必背 · 高阶差型等价（x→0，竞赛出分点）</div>
+    <div class="formula-line">
+      <span>\( x-\sin x \sim \tfrac{x^3}{6} \)</span>
+      <span>\( \tan x - x \sim \tfrac{x^3}{3} \)</span>
+      <span>\( \arcsin x - x \sim \tfrac{x^3}{6} \)</span>
+      <span>\( x-\arctan x \sim \tfrac{x^3}{3} \)</span>
+      <span>\( \tan x-\sin x \sim \tfrac{x^3}{2} \)</span>
+      <span>\( e^x-1-x \sim \tfrac{x^2}{2} \)</span>
+      <span>\( \ln(1+x)-x \sim -\tfrac{x^2}{2} \)</span>
+    </div>
+  </div>
+
+  <h3>4.4 幂指函数极限</h3>
+  <p>\( \lim u^v = \exp(\lim v\ln u) \)（其中底数极限为 1、指数极限为 ∞ 的"1^∞"型最常考）：</p>
+  <p>\[ \lim u^v = \lim\big[(1+\alpha)^{\frac{1}{\alpha}}\big]^{\alpha\beta} = e^{\lim \alpha\beta}, \qquad \text{其中 } \alpha = u-1,\ \beta = v. \]</p>
+
+  <h3>4.5 求和/求积型数列极限的三大套路</h3>
+  <ul>
+    <li><b>夹逼</b>：各项非同阶（放缩两头收敛到同一数）。</li>
+    <li><b>定积分定义</b> <span class="tag hot">必考</span>：当和式能整理成 \( \frac{1}{n}\sum_{i=1}^{n} f\!\big(\tfrac{i}{n}\big) \)（各项同阶、系数恰为 \( \frac1n \)，函数结构统一）：
+      \[ \lim_{n\to\infty}\frac{1}{n}\sum_{i=1}^{n}f\Big(\frac{i}{n}\Big)=\int_0^1 f(x)\,dx. \]
+      变体：区间端点变 \( \frac{i}{n^2} \) 的题，先恒等变形再套（竞赛填空高频）。</li>
+    <li><b>尾部型（分段估计）</b> <span class="tag mid">竞赛特色</span>：只有 \( i \) 贴近 \( n \) 的项不趋于 0（识别信号：底数与指数<b>同时含 n</b>，如 \( (i/n)^n \)）。换元 \( i=n-j \) 后逐项极限为 \( e^{-j} \)，用"头部有限项取极限 + 尾部用 \( 1-x\le e^{-x} \) 一致放缩"完成夹逼。切忌把逐项极限直接相加——必须先找控制函数。</li>
+  </ul>
+  <div class="memory">
+    <div class="label">经典例 · 尾部型：\( \lim\limits_{n\to\infty}\sum\limits_{i=1}^{n}\big(\tfrac{i}{n}\big)^{n} = \tfrac{e}{e-1} \)</div>
+    <p>换元 \( i=n-j \)：\( S_n=\sum\limits_{j=0}^{n-1}\big(1-\tfrac{j}{n}\big)^{n} \)，固定 \( j \) 时每项 \( \to e^{-j} \)。</p>
+    <p><b>上界</b>（一行，控制函数 \( e^{-j} \)）：由 \( 1-x\le e^{-x} \)，\( S_n\le\sum\limits_{j=0}^{n-1}e^{-j}<\dfrac{1}{1-e^{-1}}=\dfrac{e}{e-1} \)。</p>
+    <p><b>下界</b>（头部有限项）：任取固定 \( N \)，\( S_n\ge\sum\limits_{j=0}^{N}\big(1-\tfrac{j}{n}\big)^{n}\to\sum\limits_{j=0}^{N}e^{-j} \)，令 \( N\to\infty \) 得 \( \liminf S_n\ge \dfrac{e}{e-1} \)。夹逼完成。</p>
+    <p><b>5 秒校验</b>：\( i=n \) 一项恒为 1，故答案必须 ≥ 1——小于 1 的结果直接出局。同款题：\( \sum (i/n)^{i} \) 同样收敛到 \( \tfrac{e}{e-1} \)（尾部 \( (1-\tfrac{k}{n})^{n-k}\to e^{-k} \)）。</p>
+  </div>
+</section>
+
+<!-- ================= §5 泰勒 ================= -->
+<section class="block" id="s5">
+  <h2><span class="sec-no">5</span>泰勒展开 —— 竞赛第一神器 <span class="tag hot">核心</span></h2>
+
+  <h3>5.1 两种余项，两种用途</h3>
+  <table>
+    <tr><th>形式</th><th>公式</th><th>用途</th></tr>
+    <tr>
+      <td>佩亚诺余项</td>
+      <td>\( f(x)=\sum_{k=0}^{n}\frac{f^{(k)}(x_0)}{k!}(x-x_0)^k + o\big((x-x_0)^n\big) \)</td>
+      <td><b>求极限</b>（局部，只需展开到不抵消的阶）</td>
+    </tr>
+    <tr>
+      <td>拉格朗日余项</td>
+      <td>\( f(x)=\sum_{k=0}^{n}\frac{f^{(k)}(x_0)}{k!}(x-x_0)^k + \frac{f^{(n+1)}(\xi)}{(n+1)!}(x-x_0)^{n+1} \)</td>
+      <td><b>证明题</b>（与中值 ξ 有关的不等式/等式，专题 02）</td>
+    </tr>
+  </table>
+
+  <div class="memory">
+    <div class="label">必背 · 常用麦克劳林展开（展开到 4~5 阶）</div>
+    <ul style="list-style:none; padding-left:4px; margin:6px 0;">
+      <li>\( e^x = 1+x+\tfrac{x^2}{2!}+\tfrac{x^3}{3!}+\tfrac{x^4}{4!}+o(x^4) \)</li>
+      <li>\( \sin x = x-\tfrac{x^3}{3!}+\tfrac{x^5}{5!}+o(x^5) \)</li>
+      <li>\( \cos x = 1-\tfrac{x^2}{2!}+\tfrac{x^4}{4!}+o(x^4) \)</li>
+      <li>\( \ln(1+x) = x-\tfrac{x^2}{2}+\tfrac{x^3}{3}-\tfrac{x^4}{4}+o(x^4) \)</li>
+      <li>\( (1+x)^{\alpha} = 1+\alpha x+\tfrac{\alpha(\alpha-1)}{2!}x^2+\tfrac{\alpha(\alpha-1)(\alpha-2)}{3!}x^3+o(x^3) \)</li>
+      <li>\( \tan x = x+\tfrac{x^3}{3}+\tfrac{2x^5}{15}+o(x^5) \)</li>
+      <li>\( \arctan x = x-\tfrac{x^3}{3}+\tfrac{x^5}{5}+o(x^5) \)</li>
+      <li>\( \arcsin x = x+\tfrac{x^3}{6}+\tfrac{3x^5}{40}+o(x^5) \)</li>
+    </ul>
+  </div>
+
+  <h3>5.2 泰勒求极限的"展开到几阶"？</h3>
+  <p><b>口诀：分母是几阶，分子就展到几阶。</b></p>
+  <p>例：\( \lim\limits_{x\to0}\dfrac{\cos x - e^{-x^2/2}}{x^4} \) —— 分母 \( x^4 \)，分子两个函数都展到 \( x^4 \) 项即可精确相消出结果。</p>
+  <div class="warnbox">
+    <b>竞赛核心意识</b>：看到 "\( x-\sin x \)、\( \tan x - x \)、\( e^x-1-x \)、\( \ln(1+x)-x \)" 这类<b>两个同阶无穷小相减</b>，条件反射就是泰勒展开或背差型等价，<b>不要</b>对整体直接洛必达（往往越求越复杂）。
+  </div>
+</section>
+
+<!-- ================= §6 洛必达 ================= -->
+<section class="block" id="s6">
+  <h2><span class="sec-no">6</span>洛必达法则的正确姿势 <span class="tag mid">基础操作</span></h2>
+
+  <h3>6.1 三个前提条件（缺一不可）</h3>
+  <ol class="steps">
+    <li>是 \( \tfrac{0}{0} \) 或 \( \tfrac{\infty}{\infty} \) 型（其余型先化成这两种：\( 0\cdot\infty \)、\( \infty-\infty \)、\( 0^0 \)、\( 1^\infty \)、\( \infty^0 \)）；</li>
+    <li>分子分母可导且分母导数不为 0（去心邻域内）；</li>
+    <li>\( \lim \frac{f'(x)}{g'(x)} \) 存在或为 ∞。<b>若导数比极限不存在也不是 ∞，原极限仍可能存在 —— 洛必达"失效"而非"极限不存在"。</b></li>
+  </ol>
+
+  <div class="warnbox">
+    <b>经典失效例</b>：\( \lim\limits_{x\to+\infty}\dfrac{x+\sin x}{x} \)。导数比 \( \dfrac{1+\cos x}{1} \) 极限不存在，但原式 = 1（用夹逼/拆项）。<br>
+    <b>数列极限不能直接洛必达</b>（离散变量不可导）：先转成连续变量函数极限求出，再用归结原则；或用 Stolz。
+  </div>
+
+  <h3>6.2 组合技：先等价替换/泰勒化简，再洛必达</h3>
+  <p>洛必达是"最后一步"而不是"第一步"：非零因子先取极限剥离（乘积极限存在可拆）、复杂因子先等价替换，实在无法判断时才动手求导。</p>
+</section>
+
+<!-- ================= §7 七种武器 ================= -->
+<section class="block" id="s7">
+  <h2><span class="sec-no">7</span>求极限七种武器总表 <span class="tag hot">方法选型</span></h2>
+  <table>
+    <tr><th style="width:20%">武器</th><th style="width:34%">适用题型特征</th><th>识别信号</th></tr>
+    <tr>
+      <td><b>① 等价无穷小</b></td>
+      <td>乘除因子中的 sin、ln、e</td>
+      <td>\( \frac{\sin(\text{小东西})}{\text{小东西}} \) 结构</td>
+    </tr>
+    <tr>
+      <td><b>② 洛必达</b></td>
+      <td>0/0、∞/∞，求导后变简单</td>
+      <td>分式、根式差，导数好算</td>
+    </tr>
+    <tr>
+      <td><b>③ 泰勒展开</b></td>
+      <td>同阶无穷小相减、分母高阶</td>
+      <td>\( x-\sin x \) 型、\( \frac{f-g}{x^k} \) 且 f,g 首几项相消</td>
+    </tr>
+    <tr>
+      <td><b>④ 夹逼</b></td>
+      <td>n 项和各项不同阶、含取整/整数部分</td>
+      <td>\( \sum \) 出现放缩余地，两端同极限</td>
+    </tr>
+    <tr>
+      <td><b>⑤ 定积分定义</b></td>
+      <td>n 项和各项同阶、系数 1/n</td>
+      <td>\( \frac{1}{n}\sum f(\frac{i}{n}) \) 可整理出统一函数</td>
+    </tr>
+    <tr>
+      <td><b>⑥ 单调有界</b></td>
+      <td>递推数列 \( x_{n+1}=f(x_n) \)</td>
+      <td>"先证存在、再取极限解方程"</td>
+    </tr>
+    <tr>
+      <td><b>⑦ Stolz / 拆项相消</b></td>
+      <td>\( \frac{a_n}{b_n} \) 且差分好算；含阶乘、连乘、根式嵌套</td>
+      <td>\( \frac{\sum}{n^p} \)、\( \frac{n!}{n^n} \)、\( a_n = \sqrt{2+a_{n-1}} \)</td>
+    </tr>
+  </table>
+  <p><b>流程直觉</b>：先判断类型 → 加减相消怀疑泰勒 → n 项和判"同阶与否"分流④⑤ → 递推找⑥ → 分式数列想到⑦ → 最后才轮到②。</p>
+</section>
+
+<!-- ================= §8 连续间断 ================= -->
+<section class="block" id="s8">
+  <h2><span class="sec-no">8</span>连续与间断点分类 <span class="tag mid">常考</span></h2>
+
+  <h3>8.1 连续的定义</h3>
+  <p>\( \lim_{x\to x_0}f(x)=f(x_0) \)（三要素：有定义、极限存在、极限值=函数值）。左连续+右连续 ⟺ 连续。</p>
+  <p>初等函数在其定义区间内处处连续。<b>唯一要讨论连续性的地方：分段函数分界点 + 无定义点。</b></p>
+
+  <h3>8.2 间断点分类表（背熟，填空可直接出）</h3>
+  <table>
+    <tr><th>分类</th><th>子类</th><th>特征（看左右极限）</th><th>典型例子</th></tr>
+    <tr>
+      <td rowspan="2"><b>第一类</b><br>（左右极限都存在）</td>
+      <td>可去间断</td>
+      <td>左极限 = 右极限 ≠ f(x₀)（或 f 在 x₀ 无定义）</td>
+      <td>\( \frac{\sin x}{x} \) 在 x=0</td>
+    </tr>
+    <tr>
+      <td>跳跃间断</td>
+      <td>左极限 ≠ 右极限</td>
+      <td>\( \frac{e^{1/x}-1}{e^{1/x}+1} \)、sgn x 在 x=0</td>
+    </tr>
+    <tr>
+      <td rowspan="2"><b>第二类</b><br>（左右极限至少一个不存在）</td>
+      <td>无穷间断</td>
+      <td>至少一侧极限为 ∞</td>
+      <td>\( \frac{1}{x} \) 在 x=0</td>
+    </tr>
+    <tr>
+      <td>振荡间断</td>
+      <td>极限不存在且非无穷（来回振荡）</td>
+      <td>\( \sin\frac{1}{x} \) 在 x=0</td>
+    </tr>
+  </table>
+
+  <div class="memory">
+    <div class="label">判断流程（30 秒完成）</div>
+    <ol>
+      <li>找"可疑点"：无定义点、分段点、e^{1/x} 与 arctan(1/x) 的 x=0；</li>
+      <li>逐点求<b>左、右极限</b>（含 1/x 的必须分侧！）；</li>
+      <li>两极限都存在 → 第一类（相等可去、不等跳跃）；至少一个不存在 → 第二类（∞ 或振荡）。</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= §9 闭区间定理 ================= -->
+<section class="block" id="s9">
+  <h2><span class="sec-no">9</span>闭区间上连续函数四大定理 <span class="tag mid">证明题</span></h2>
+  <p>设 f 在 [a,b] 上连续：</p>
+  <table>
+    <tr><th>定理</th><th>结论</th><th>竞赛用法</th></tr>
+    <tr>
+      <td><b>有界性</b></td>
+      <td>f 在 [a,b] 上有界</td>
+      <td>开区间 (a,b) 连续 + 单侧极限存在 ⇒ 局部有界</td>
+    </tr>
+    <tr>
+      <td><b>最值定理</b></td>
+      <td>f 在 [a,b] 上取得最大值 M 与最小值 m</td>
+      <td>与介值定理配合："f 取遍 [m,M] 中一切值"</td>
+    </tr>
+    <tr>
+      <td><b>介值定理</b></td>
+      <td>对任意 \( \eta\in[m,M] \)，存在 \( \xi\in[a,b] \)，\( f(\xi)=\eta \)</td>
+      <td>证"存在 ξ 使 f(ξ)=C"；与零点定理配合证 \( \frac{f(\xi)}{b-\xi} \) 类等式</td>
+    </tr>
+    <tr>
+      <td><b>零点定理</b></td>
+      <td>f(a)·f(b)&lt;0 ⟹ ∃ξ∈(a,b)，f(ξ)=0</td>
+      <td><b>构造辅助函数 F</b>，证 F 两端异号。构造套路：把要证等式移项，把 ξ 换成 x，凑成"某函数在端点异号"（积分上限函数在专题 03 反复出现）</td>
+    </tr>
+  </table>
+  <p><b>一致连续</b> <span class="tag low">低频/决赛向</span>：∀ε&gt;0，∃δ&gt;0，对区间内任意 x₁,x₂，|x₁−x₂|&lt;δ ⇒ |f(x₁)−f(x₂)|&lt;ε。康托尔定理：闭区间连续 ⟹ 一致连续。反例：\( y=\frac{1}{x} \) 在 (0,1) 连续但不一致连续。</p>
+</section>
+
+<!-- ================= §10 易错点 ================= -->
+<section class="block" id="s10">
+  <h2><span class="sec-no">10</span>易错点清单（考前再过一遍）</h2>
+  <ol>
+    <li><b>加减乱用等价替换</b>：\( \lim\frac{\tan x-\sin x}{x^3} \ne \frac{x-x}{x^3} \)（正确：泰勒，得 1/2）。</li>
+    <li><b>洛必达三条件</b>没验证就套；导数比不存在时误判原极限不存在。</li>
+    <li><b>数列极限直接求导</b>：必须先转连续变量或用 Stolz。</li>
+    <li><b>e^{1/x}、arctan(1/x) 不分左右</b>：x→0⁺ 与 x→0⁻ 结果完全不同。</li>
+    <li><b>1^∞ 型</b>忘记写 e 的整体结构：\( \lim u^v = e^{\lim v(u-1)} \) 要求 u→1。</li>
+    <li><b>泰勒展开阶数不够</b>：分子展到与分母同阶；带 o(·) 时 o 的阶要写对（\( o(x^2)/x^2 \to 0 \)，但 \( o(x) \) 除以 \( x^2 \) 未必有界）。</li>
+    <li><b>定积分定义套夹逼题</b>（或反之）：判断标准 = 各项是否同阶、能否统一为 f(i/n)。</li>
+    <li><b>递推数列直接令 A=f(A)</b>：不先证收敛就解方程，跳步扣全分。</li>
+    <li><b>间断点分类</b>：只看该点处 f 无定义就下"无穷间断"结论，没有算左右极限。</li>
+    <li><b>开区间乱用最值定理</b>：四大定理都要求<b>闭区间</b>+连续，缺一不可。</li>
+  </ol>
+
+  <div class="next">
+    <a class="next-link" href="02_例题精讲.html"><h2>进入例题精讲 →</h2><p>七大题型实录 + 错题档案（含实战战绩与考前重做清单）</p></a>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

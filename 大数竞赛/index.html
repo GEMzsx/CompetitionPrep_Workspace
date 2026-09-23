@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大数竞赛复习中心 — 全国大学生数学竞赛（非数学类）</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 60px; }
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 40px 36px 34px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker {
+  font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px;
+  font-weight: 600;
+}
+.hero h1 { margin: 0 0 10px; font-size: 32px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  padding: 3px 14px;
+  font-size: 12.5px;
+}
+
+/* ===== 专题卡片 ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 26px 0 8px;
+}
+.tcard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px 22px 18px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+a.tcard:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-border);
+  box-shadow: 0 10px 24px rgba(67, 56, 214, .12);
+}
+.tcard .head { display: flex; align-items: center; gap: 10px; }
+.tcard .no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+.tcard h3 { margin: 0; font-size: 16.5px; flex: 1; }
+.tcard p { margin: 2px 0 6px; font-size: 13.5px; color: var(--ink-soft); flex: 1; }
+.tcard .status {
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  align-self: flex-start;
+  border-radius: 5px; padding: 2px 10px;
+}
+.tcard .status.done {
+  background: #e8f6ec; color: #1f7a3d; border: 1px solid #bfe3cc;
+}
+.tcard .status.todo {
+  background: #f0f1f4; color: var(--ink-faint); border: 1px dashed #d5d8e2;
+}
+div.tcard { opacity: .62; border-style: dashed; }
+
+/* ===== 使用说明 ===== */
+.guide {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-top: 30px;
+}
+.guide h2 {
+  font-size: 18px; margin: 0 0 14px; color: var(--accent);
+}
+.guide .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.guide .col h3 { font-size: 15px; margin: 0 0 6px; }
+.guide .col p { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
+.guide .col .k {
+  display: inline-flex; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent);
+  align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; margin-bottom: 6px;
+}
+
+footer {
+  margin-top: 34px; text-align: center;
+  font-size: 13px; color: var(--ink-faint);
+}
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 800px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+  .guide .cols { grid-template-columns: 1fr; gap: 14px; }
+  .hero { padding: 28px 22px; }
+}
+@media print { body { background: #fff; } }
+</style>
+</head>
+<body>
+
+<!-- ===== 全站导航 ===== -->
+<nav id="site-nav" data-base="" data-current="home"></nav>
+<script src="assets/site-nav.js"></script>
+
+<div class="wrap">
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 系统复习</p>
+  <h1>大数竞赛复习中心</h1>
+  <p>九大专题知识框架 —— 每个专题按「知识框架 → 例题精讲 → 练习与真题」三步推进；考点标注竞赛出题频率，必背卡片直接可抄。</p>
+  <div class="meta">
+    <span class="chip">初赛 2026-11-14（周六）</span>
+    <span class="chip">9 大专题 · 高等数学全覆盖</span>
+    <span class="chip">纯静态 · 离线可用</span>
+  </div>
+</div>
+
+<!-- ================= 专题导航 ================= -->
+<div class="grid">
+
+  <a class="tcard" href="01_函数极限与连续/01_知识框架.html">
+    <div class="head"><span class="no">01</span><h3>函数、极限与连续</h3></div>
+    <p>求极限七种武器 · 泰勒展开 · 间断点分类 —— 后续所有专题的工具库。</p>
+    <span class="status done">✓ 已完成</span>
+  </a>
+
+  <a class="tcard" href="02_一元微分学/01_知识框架.html">
+    <div class="head"><span class="no">02</span><h3>一元微分学</h3></div>
+    <p>中值定理家族 · 构造辅助函数 · 不等式证明 —— 竞赛证明大题主战场。</p>
+    <span class="status done">✓ 已完成</span>
+  </a>
+
+  <div class="tcard">
+    <div class="head"><span class="no">03</span><h3>一元积分学</h3></div>
+    <p>换元 / 分部 / 有理拆分 · 积分上限函数 · 反常积分判敛。</p>
+    <span class="status todo">复习推进中</span>
+  </div>
+
+  <div class="tcard">
+    <div class="head"><span class="no">04</span><h3>向量与空间解析几何</h3></div>
+    <p>向量运算 · 平面与直线 · 常见曲面方程与投影。</p>
+    <span class="status todo">复习推进中</span>
+  </div>
+
+  <div class="tcard">
+    <div class="head"><span class="no">05</span><h3>多元微分学</h3></div>
+    <p>偏导与全微分 · 极值与条件极值（拉格朗日乘数法）。</p>
+    <span class="status todo">复习推进中</span>
+  </div>
+
+  <div class="tcard">
+    <div class="head"><span class="no">06</span><h3>重积分</h3></div>
+    <p>二重 / 三重积分计算 · 交换次序 · 对称性与奇偶简化。</p>
+    <span class="status todo">复习推进中</span>
+  </div>
+
+  <div class="tcard">
+    <div class="head"><span class="no">07</span><h3>曲线曲面积分</h3></div>
+    <p>两类线面积分 · 格林 / 高斯 / 斯托克斯三大公式。</p>
+    <span class="status todo">复习推进中</span>
+  </div>
+
+  <div class="tcard">
+    <div class="head"><span class="no">08</span><h3>无穷级数</h3></div>
+    <p>敛散判别 · 幂级数收敛域与求和 · 傅里叶级数。</p>
+    <span class="status todo">复习推进中</span>
+  </div>
+
+  <div class="tcard">
+    <div class="head"><span class="no">09</span><h3>常微分方程</h3></div>
+    <p>一阶方程可解类型 · 二阶常系数线性方程 · 欧拉方程。</p>
+    <span class="status todo">复习推进中</span>
+  </div>
+
+</div>
+
+<!-- ================= 使用说明 ================= -->
+<div class="guide">
+  <h2>怎么用</h2>
+  <div class="cols">
+    <div class="col">
+      <span class="k">1</span>
+      <h3>本地复习</h3>
+      <p>克隆或下载本仓库后，双击 <code>index.html</code> 即可离线使用 —— 公式渲染内置 MathJax 本地文件，不依赖网络。</p>
+    </div>
+    <div class="col">
+      <span class="k">2</span>
+      <h3>在线访问</h3>
+      <p>仓库推送至 GitHub 后，在 <b>Settings → Pages</b> 选择 main 分支开启 GitHub Pages，即可获得在线地址，手机也能看。</p>
+    </div>
+    <div class="col">
+      <span class="k">3</span>
+      <h3>打印成册</h3>
+      <p>任意知识框架页支持 <b>Ctrl+P</b> 打印 / 导出 PDF，导航栏自动隐藏，排版已做打印优化，考前突击直接打一沓。</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  个人复习项目 · 开源部署于 GitHub · 专题推进计划见 <a href="README.md">README.md</a>
+</footer>
+
+</div>
+</body>
+</html>

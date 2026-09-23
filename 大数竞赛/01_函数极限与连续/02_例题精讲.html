@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题1 · 函数、极限与连续 — 例题精讲（含挑战实录）</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef4f7; color: #4e7d93; border: 1px solid #c9dde7; }
+
+.prob {
+  background: var(--gold-soft); border: 1.5px solid #eadfa8; border-left: 5px solid var(--gold);
+  border-radius: 10px; padding: 14px 20px; margin: 14px 0 10px;
+}
+.prob .plabel { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--gold); margin-bottom: 6px; }
+.sol {
+  background: #f6f9f6; border: 1px solid #cfe3cf; border-radius: 10px;
+  padding: 14px 20px; margin: 10px 0;
+}
+.sol .slabel { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: #2e7d43; margin-bottom: 6px; }
+.comment {
+  background: var(--warn-soft); border-left: 5px solid var(--warn);
+  border-radius: 10px; padding: 12px 20px; margin: 10px 0; font-size: 14.5px;
+}
+.comment b { color: var(--warn); }
+.comment.done { background: #eef7ee; border-left-color: #2e7d43; }
+.comment.done b { color: #2e7d43; }
+
+.memory {
+  background: var(--accent-soft); border: 1.5px solid var(--accent-border);
+  border-left: 5px solid var(--accent); border-radius: 10px;
+  padding: 16px 22px; margin: 16px 0;
+}
+.memory .label { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+.next {
+  margin-top: 36px; padding: 22px 28px;
+  background: #f4f6ff; border: 1.5px dashed var(--accent-border); border-radius: 12px;
+}
+.next h2 { margin: 0 0 8px; font-size: 18px; color: var(--accent); }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 01</p>
+  <h1>函数、极限与连续 · 例题精讲</h1>
+  <p>七大题型实录 —— 全部来自对话中实际做过的题（热身、练习、挑战、讨论），每题带战绩点评。类型求全，不求题量。</p>
+  <div class="meta">
+    <span class="chip">10 道实录题</span>
+    <span class="chip">方法卡在 01_知识框架.html</span>
+  </div>
+</div>
+
+<section class="block">
+  <h2><span class="sec-no">览</span>题型总览与战绩</h2>
+  <table>
+    <tr><th style="width:26%">类型</th><th>实录题</th><th style="width:22%">战绩</th></tr>
+    <tr><td>差型等价（泰勒）</td><td>例 1</td><td>✓ 一次通过</td></tr>
+    <tr><td>黎曼和（定积分定义）</td><td>例 2、3、4</td><td>✗→✓ 已修复</td></tr>
+    <tr><td>夹逼（混合分母）</td><td>例 5</td><td>✓ 方法已校准</td></tr>
+    <tr><td>间断点分类</td><td>例 6、7</td><td>✓ 全对</td></tr>
+    <tr><td>尾部型（竞赛特色）</td><td>例 8（挑战）</td><td>✗ 待考前提醒</td></tr>
+    <tr><td>Stirling 与阶乘</td><td>例 9（自学补充）</td><td>已归档 §3.5</td></tr>
+    <tr><td>概念判断：反函数</td><td>例 10（讨论）</td><td>讨论实录</td></tr>
+  </table>
+</section>
+
+<section class="block" id="t1">
+  <h2><span class="sec-no">一</span>差型等价无穷小 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 1（热身）</div>
+    <p>\[ \lim_{x\to 0}\frac{e^x-1-x}{x^2} \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>泰勒 \( e^x=1+x+\frac{x^2}{2}+o(x^2) \) 代入，分子 \( =\frac{x^2}{2}+o(x^2) \)，极限 \( =\dfrac12 \)。（等价写法：差型等价 \( e^x-1-x\sim\frac{x^2}{2} \)。）</p>
+  </div>
+  <div class="comment done"><b>战绩 ✓</b>：差型等价 \( \tan x-\sin x\sim\frac{x^3}{2} \) 同款，专题 01 第一弹药已激活。注意：这类题不能用"分子两项各自等价再相减"——\( x-x=0 \) 会错。</div>
+</section>
+
+<section class="block" id="t2">
+  <h2><span class="sec-no">二</span>黎曼和（定积分定义）<span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 2（热身 · 初次失分点）</div>
+    <p>\[ \lim_{n\to\infty}\frac{\sqrt{1}+\sqrt{2}+\cdots+\sqrt{n}}{n\sqrt{n}} \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>\[ \frac{1}{n}\sum_{i=1}^{n}\sqrt{\frac{i}{n}}\;\longrightarrow\;\int_0^1\sqrt{x}\,dx=\frac{2}{3}. \]</p>
+  </div>
+
+  <div class="prob">
+    <div class="plabel">例 3（练习 · 调和型）</div>
+    <p>\[ \lim_{n\to\infty}\Big(\frac{1}{n+1}+\frac{1}{n+2}+\cdots+\frac{1}{n+n}\Big) \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>\[ \frac1n\sum_{i=1}^{n}\frac{1}{1+\frac{i}{n}}\;\longrightarrow\;\int_0^1\frac{dx}{1+x}=\ln 2. \]</p>
+  </div>
+  <div class="comment done"><b>战绩 ✓</b>（微瑕：指标写成了 \( i=0 \) 起头，多一项 \( \frac1n \) 不影响结果但阅卷是硬伤——养成从 \( i=1 \) 写起的习惯）。</div>
+
+  <div class="prob">
+    <div class="plabel">例 4（练习 · 反三角型）</div>
+    <p>\[ \lim_{n\to\infty}\sum_{i=1}^{n}\frac{n}{n^2+i^2} \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>\[ \frac1n\sum_{i=1}^{n}\frac{1}{1+(i/n)^2}\;\longrightarrow\;\int_0^1\frac{dx}{1+x^2}=\frac{\pi}{4}. \]</p>
+  </div>
+  <div class="comment done"><b>战绩 ✓✓</b> 教科书级：提取因子、识别结构、反三角积分全对。例 2 暴露的缺口经此题验证正式关闭。</div>
+</section>
+
+<section class="block" id="t3">
+  <h2><span class="sec-no">三</span>夹逼（混合分母）<span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 5（练习）</div>
+    <p>\[ \lim_{n\to\infty}\sum_{i=1}^{n}\frac{i}{n^2+i} \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（标准夹逼，两行）</div>
+    <p>\[ \frac{n(n+1)/2}{n^2+n}\;\le\;\sum_{i=1}^{n}\frac{i}{n^2+i}\;\le\;\frac{n(n+1)/2}{n^2},\qquad \text{两端}\to\frac12. \]</p>
+    <p>（当时用的"扰动黎曼和"也正确，但需补一行误差估计：\( 0\le\frac{i/n}{1+i/n^2} \) 与 \( \frac{i}{n} \) 之差总和 \( \le\frac1n\to0 \)。初赛答卷默认夹逼，零风险。）</p>
+  </div>
+  <div class="comment done"><b>战绩 ✓（方法校准）</b>：分流规则——分母是纯 n 幂次（\( n\sqrt n, n^2 \)）→ 黎曼和；分母混合含 i（\( n^2+i \)）→ 默认夹逼。</div>
+</section>
+
+<section class="block" id="t4">
+  <h2><span class="sec-no">四</span>间断点分类 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 6（热身 · e^{1/x} 家族）</div>
+    <p>\( f(x)=\dfrac{e^{1/x}-1}{e^{1/x}+1} \)：\( x=0 \) 是第几类、什么间断点？</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>化简 \( f(x)=1-\dfrac{2}{e^{1/x}+1} \)。\( x\to0^+:\ e^{1/x}\to+\infty\Rightarrow f\to1 \)；\( x\to0^-:\ e^{1/x}\to0\Rightarrow f\to-1 \)。左右极限存在且不等 ⟹ <b>跳跃间断点（第一类）</b>。</p>
+  </div>
+  <div class="comment done"><b>战绩 ✓</b>：化简技巧漂亮。\( e^{1/x} \) 家族三兄弟（\( e^{1/x} \)、\( \frac{1}{1+e^{1/x}} \)、\( \arctan\frac1x \)）全是"右走 +∞、左走 0"的左右不对称结构，<b>必分侧</b>。</div>
+
+  <div class="prob">
+    <div class="plabel">例 7（练习 · |x| 分域型）</div>
+    <p>讨论 \( f(x)=\dfrac{x(x-1)}{|x|(x^2-1)} \) 的所有间断点及其类型。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（分域化简，一步到位）</div>
+    <p>\[ x>0:\ f(x)=\frac{1}{x+1};\qquad x<0:\ f(x)=\frac{-1}{x+1}. \]</p>
+    <p>\( x=-1 \)（左支）：分母 \( \to0 \)、分子 \( -1\ne0 \) ⟹ <b>无穷间断（第二类）</b>；\( x=0 \)：左 \( -1 \)、右 \( +1 \) ⟹ <b>跳跃（第一类）</b>；\( x=1 \)：极限 \( \frac12 \) 但无定义 ⟹ <b>可去（第一类）</b>。</p>
+  </div>
+  <div class="comment done"><b>战绩 ✓ 三处全对</b>。|x| 处理黄金法则：<b>先分域化简再读可疑点</b>。通用规则：约分到底后分子非零、分母为零 ⟹ 无穷；分母零因子被完全约掉 ⟹ 可去。</div>
+</section>
+
+<section class="block" id="t5">
+  <h2><span class="sec-no">五</span>尾部型（竞赛特色）<span class="tag mid">挑战实录</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 8（挑战题 · 初次失分点）</div>
+    <p>\[ \lim_{n\to\infty}\sum_{i=1}^{n}\Big(\frac{i}{n}\Big)^{n} \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（拆头尾 + 控制函数，四行夹逼）</div>
+    <p>换元 \( i=n-j \)：\( S_n=\sum\limits_{j=0}^{n-1}\big(1-\frac{j}{n}\big)^{n} \)，固定 \( j \) 时每项 \( \to e^{-j} \)。</p>
+    <p><b>上界</b>：由 \( 1-x\le e^{-x} \)，\( S_n\le\sum\limits_{j=0}^{n-1}e^{-j}<\dfrac{1}{1-e^{-1}}=\dfrac{e}{e-1} \)。</p>
+    <p><b>下界</b>：任取固定 \( N \)，\( S_n\ge\sum\limits_{j=0}^{N}\big(1-\frac{j}{n}\big)^{n}\to\sum\limits_{j=0}^{N}e^{-j} \)，令 \( N\to\infty \) 得 \( \liminf S_n\ge\frac{e}{e-1} \)。</p>
+    <p>夹逼完成：\( \lim S_n=\dfrac{e}{e-1}\approx1.582 \)。（数值：\( S_{10}\approx1.49,\ S_{20}\approx1.54 \)。）</p>
+  </div>
+</section>
+
+<section class="block" id="t6">
+  <h2><span class="sec-no">六</span>Stirling 与阶乘 <span class="tag mid">自学补充</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 9（用户自学带入，两法对照）</div>
+    <p>\[ \lim_{n\to\infty}\frac{(n!)^{1/n}}{n} \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>法一（Stirling）</b>：\( (n!)^{1/n}\sim(2\pi n)^{\frac{1}{2n}}\cdot\frac{n}{e} \)，其中 \( (2\pi n)^{\frac{1}{2n}}\to1 \)，故极限 \( =\frac1e \)。</p>
+    <p><b>法二（取对数 + 黎曼和）</b>：\( \frac1n\ln\frac{n!}{n^n}=\frac1n\sum_{k=1}^n\ln\frac{k}{n}\to\int_0^1\ln x\,dx=-1 \)，故极限 \( =e^{-1} \)。</p>
+  </div>
+  <div class="comment done"><b>归档说明</b>：Stirling 公式与增长速度链已录入知识框架 §3.5。\( \int_0^1\ln x\,dx=-1 \)（端点奇点积分）在专题 03 会再遇。书写注意：用渐近等价 \( \sim \)（比值→1），不写 \( \approx \)。</div>
+</section>
+
+<section class="block" id="t7">
+  <h2><span class="sec-no">七</span>概念判断：反函数图像交点 <span class="tag low">判断题陷阱</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 10（讨论实录）</div>
+    <p>"\( f^{-1}(x) \) 与 \( f(x) \) 的图像交点一定在 \( y=x \) 上"，对吗？</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">结论</div>
+    <p><b>f 递增时对</b>（纯单调性，不用连续性）：设公共点 \( (a,b) \)，则 \( f(a)=b,\ f(b)=a \)；若 \( a&lt;b \)，严格增 ⟹ \( f(a)&lt;f(b) \) 即 \( b&lt;a \)，矛盾。</p>
+    <p><b>一般情形错</b>：反例 \( f(x)=-x^3 \)，\( f^{-1}(x)=-\sqrt[3]{x} \)，交点 \( (0,0),(1,-1),(-1,1) \)——后两个不在 \( y=x \) 上。</p>
+    <p><b>成对原理</b>：\( (a,b) \) 是公共点 ⟺ \( f(a)=b,\ f(b)=a \) ⟹ \( (b,a) \) 也是——对角线外交点两两互为镜像。</p>
+  </div>
+  <div class="comment done"><b>延伸（串联专题 02）</b>：①递减函数与反函数若只有一个交点，该点必在 \( y=x \) 上；②\( y=x \) 外的交点 ⟺ f 有 2-周期点（\( a\to b\to a \)）——这正是递推数列 \( x_{n+1}=f(x_n) \) 中 f 递减要分奇偶子列讨论的根源。自反函数（\( f=f^{-1} \)，如 \( -x,\ \frac1x \)）两图像完全重合。</div>
+</section>
+
+</div>
+</body>
+</html>

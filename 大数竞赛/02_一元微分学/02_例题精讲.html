@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题2 · 一元微分学 — 例题精讲</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.toc {
+  margin: 24px 0 40px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 20px 26px;
+}
+.toc h2 { font-size: 14px; letter-spacing: 2px; color: var(--ink-faint); margin: 0 0 10px; }
+.toc ol { margin: 0; padding-left: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 28px; }
+.toc a { color: var(--ink-soft); text-decoration: none; font-size: 14.5px; }
+.toc a:hover { color: var(--accent); }
+.toc li::before { content: "§ "; color: var(--accent); font-weight: 700; }
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+h3 .tag { margin-left: 8px; }
+p { margin: 8px 0; }
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef4f7; color: #4e7d93; border: 1px solid #c9dde7; }
+
+/* 例题专用 */
+.prob {
+  background: var(--gold-soft);
+  border: 1.5px solid #eadfa8;
+  border-left: 5px solid var(--gold);
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin: 14px 0 10px;
+}
+.prob .plabel { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--gold); margin-bottom: 6px; }
+.sol {
+  background: #f6f9f6;
+  border: 1px solid #cfe3cf;
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin: 10px 0;
+}
+.sol .slabel { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: #2e7d43; margin-bottom: 6px; }
+.anal {
+  background: var(--accent-soft); border: 1.5px solid var(--accent-border);
+  border-left: 5px solid var(--accent); border-radius: 10px;
+  padding: 12px 20px; margin: 10px 0; font-size: 15px;
+}
+.anal .alabel { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--accent); margin-bottom: 4px; }
+.comment {
+  background: var(--warn-soft); border-left: 5px solid var(--warn);
+  border-radius: 10px; padding: 12px 20px; margin: 10px 0; font-size: 14.5px;
+}
+.comment b { color: var(--warn); }
+
+.memory {
+  background: var(--accent-soft); border: 1.5px solid var(--accent-border);
+  border-left: 5px solid var(--accent); border-radius: 10px;
+  padding: 16px 22px; margin: 16px 0;
+}
+.memory .label { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+.steps { counter-reset: step; margin: 12px 0; padding: 0; list-style: none; }
+.steps li { counter-increment: step; position: relative; padding: 8px 0 8px 46px; }
+.steps li::before {
+  content: counter(step); position: absolute; left: 0; top: 9px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: #fff; font-weight: 700; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.next {
+  margin-top: 36px; padding: 22px 28px;
+  background: #f4f6ff; border: 1.5px dashed var(--accent-border); border-radius: 12px;
+}
+.next h2 { margin: 0 0 8px; font-size: 18px; color: var(--accent); }
+
+@media (max-width: 640px) {
+  .toc ol { grid-template-columns: 1fr; }
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 02</p>
+  <h1>一元微分学 · 例题精讲</h1>
+  <p>七大题型 × 八道例题 —— 中值定理构造、泰勒展开、不等式、根个数、高阶导数、渐近线的完整解题谱系。</p>
+  <div class="meta">
+    <span class="chip">使用方法：每题先动手 10~15 分钟</span>
+    <span class="chip">重点读"分析"栏：那是选型训练</span>
+    <span class="chip">例 1 / 4 / 5 为对话中已做原题的定稿版</span>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>题型总览（先看这张表，再进例题）</h2>
+  <ol>
+    <li><a href="#t1">罗尔构造：积分因子家族</a></li>
+    <li><a href="#t2">双中值问题：分段拉格朗日</a></li>
+    <li><a href="#t3">泰勒：最值点展开</a></li>
+    <li><a href="#t4">拉格朗日放缩证不等式</a></li>
+    <li><a href="#t5">方程根个数讨论</a></li>
+    <li><a href="#t6">高阶导数：泰勒系数法</a></li>
+    <li><a href="#t7">渐近线（泰勒算 b）</a></li>
+  </ol>
+</nav>
+
+<section class="block" id="t1">
+  <h2><span class="sec-no">一</span>罗尔构造：积分因子家族 <span class="tag hot">大题第一高频</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 1</div>
+    <p>\( f \) 在 \( [0,1] \) 上连续，\( (0,1) \) 内可导，\( f(0)=1,\ f(1)=e^{-1} \)。证明：存在 \( \xi\in(0,1) \)，使 \( f'(\xi)+f(\xi)=0 \)。</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>结论是 \( f'+f=0 \)，即 \( f'+\varphi f \) 型（\( \varphi\equiv 1 \)）→ 积分因子 \( e^{\int 1\,dx}=e^x \)。端点值 \( 1 \) 与 \( e^{-1} \) 正是专为 \( e^x \) 因子配的——<b>端点出现 e 的幂就是信号</b>。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">证明</div>
+    <p>令 \( F(x)=e^xf(x) \)。则 \( F \) 在 \( [0,1] \) 连续、\( (0,1) \) 可导，且</p>
+    <p>\[ F(0)=1,\qquad F(1)=e\cdot e^{-1}=1. \]</p>
+    <p>由罗尔定理，∃\( \xi\in(0,1) \)：\( F'(\xi)=e^{\xi}\big(f'(\xi)+f(\xi)\big)=0 \)。因 \( e^{\xi}>0 \)，故 \( f'(\xi)+f(\xi)=0 \)。∎</p>
+  </div>
+  <div class="comment"><b>点评</b>：采分链三环——构造 \( F \)／验端点相等／引用罗尔。缺"验端点"这一环是本题型最常见扣分点。</div>
+
+  <div class="prob">
+    <div class="plabel">例 2</div>
+    <p>\( f \) 在 \( [0,1] \) 上连续，\( (0,1) \) 内可导，\( f(0)=f(1)=0 \)。证明：存在 \( \xi\in(0,1) \)，使 \( f'(\xi)=-2\xi f(\xi) \)。</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>移项 \( f'+2x\,f=0 \)，\( \varphi(x)=2x \) → 因子 \( e^{\int 2x\,dx}=e^{x^2} \)。因子不限于 \( e^{\pm x} \)：\( \varphi=\frac{\lambda}{x} \) 给 \( x^{\lambda} \)（配 \( \xi f'-\lambda f=0 \) 型），\( \varphi=2x \) 给 \( e^{x^2} \)。积分因子原理（框架 §6.2）一张表全覆盖。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">证明</div>
+    <p>令 \( F(x)=e^{x^2}f(x) \)，则 \( F(0)=F(1)=0 \)。罗尔定理给出 \( \xi\in(0,1) \)：</p>
+    <p>\[ F'(\xi)=e^{\xi^2}\big(f'(\xi)+2\xi f(\xi)\big)=0 \;\Longrightarrow\; f'(\xi)=-2\xi f(\xi). \] ∎</p>
+  </div>
+  <div class="comment"><b>点评</b>：考场识别信号——结论里 \( f' \) 与 \( f \) 的系数是<b>x 的函数</b>而非常数时，先移项成 \( f'+\varphi(x)f=0 \)，再现场积分出因子，不必死记扩展表。</div>
+</section>
+
+<section class="block" id="t2">
+  <h2><span class="sec-no">二</span>双中值问题：分段拉格朗日 <span class="tag hot">竞赛特色题型</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 3</div>
+    <p>\( f \) 在 \( [0,1] \) 上连续，\( (0,1) \) 内可导，\( f(0)=0,\ f(1)=1 \)。证明：存在<b>互异</b>的 \( \xi,\eta\in(0,1) \)，使 \( f'(\xi)+f'(\eta)=2 \)。</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>结论要<b>两个</b>中值点 → 单次中值定理不够 → 分割区间 \( [0,c]\cup[c,1] \) 各用一次拉格朗日。分割点 \( c \) 由待证常数<b>反推</b>：目标让 \( f(c) \) 的系数对消，\( c=\frac12 \) 时 \( f'(\xi)=2f(\frac12) \)、\( f'(\eta)=2(1-f(\frac12)) \)，相加恰好消掉 \( f(\frac12) \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">证明</div>
+    <p>在 \( [0,\frac12] \) 上用拉格朗日：∃\( \xi\in(0,\frac12) \)，</p>
+    <p>\[ f'\big(\tfrac12\big)-f(0)=\tfrac12 f'(\xi) \;\Longrightarrow\; f'(\xi)=2f\big(\tfrac12\big). \]</p>
+    <p>在 \( [\frac12,1] \) 上用拉格朗日：∃\( \eta\in(\frac12,1) \)，</p>
+    <p>\[ f(1)-f\big(\tfrac12\big)=\tfrac12 f'(\eta) \;\Longrightarrow\; f'(\eta)=2\Big(1-f\big(\tfrac12\big)\Big). \]</p>
+    <p>两式相加：\( f'(\xi)+f'(\eta)=2 \)。且 \( \xi<\frac12<\eta \)，二者互异。∎</p>
+  </div>
+  <div class="comment"><b>点评</b>：① "互异"必须显式交代——两个中值点落在<b>不相交</b>的子区间，这是写"互异"的唯一依据。② 若结论是 \( f'(\xi)+2f'(\eta)=3 \)，同法取 \( c=\frac13 \)（对话练习 1）。③ 千万不要对整个 \( [0,1] \) 用一次拉格朗日再"取两次"——同一个 \( \xi \) 用两遍不构成两个点。</div>
+</section>
+
+<section class="block" id="t3">
+  <h2><span class="sec-no">三</span>泰勒：最值点展开 <span class="tag hot">二阶导数题正解</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 4（对话原题定稿）</div>
+    <p>\( f \) 在 \( [0,1] \) 上二阶可导，\( f(0)=f(1)=0 \)，且 \( f \) 在 \( (0,1) \) 内部取得最大值 \( 2 \)。证明：存在 \( \xi\in(0,1) \)，使 \( f''(\xi)\le -16 \)。</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>结论含 \( f'' \) + 题目给最值 → 费马引理白送 \( f'(x_0)=0 \) → 在最值点展开，一阶项消失。常数机制：\( \dfrac{2\times\text{落差}}{\text{距离}^2}=\dfrac{2\times 2}{(1/2)^2}=16 \)（max 为 \( M \) 时常数为 \( 8M \)：\( M=1 \) 得 \(-8\)，\( M=2 \) 得 \(-16\)）。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">证明（近端点版）</div>
+    <p>设 \( f(x_0)=2 \)，\( x_0\in(0,1) \)。由费马引理 \( f'(x_0)=0 \)。</p>
+    <p>对任意 \( x\in[0,1] \)，在 \( x_0 \) 处泰勒展开（拉格朗日余项，一阶项显式写出后代入为零）：</p>
+    <p>\[ f(x)=f(x_0)+f'(x_0)(x-x_0)+\frac{f''(\xi_x)}{2}(x-x_0)^2 =2+\frac{f''(\xi_x)}{2}(x-x_0)^2, \]</p>
+    <p>其中 \( \xi_x \) 介于 \( x \) 与 \( x_0 \) 之间。</p>
+    <p>因 \( |x_0-0|+|1-x_0|=x_0+(1-x_0)=1 \)，必有一端点距 \( x_0 \) 不超过 \( \frac12 \)：取该端点为 \( x_i\in\{0,1\} \)，则 \( (x_i-x_0)^2\le\frac14 \)。代入该端点（\( f(x_i)=0 \)，\( \xi \) 介于 \( x_i \) 与 \( x_0 \) 之间）：</p>
+    <p>\[ 0=2+\frac{f''(\xi)}{2}(x_i-x_0)^2 \;\Longrightarrow\; f''(\xi)=\frac{-4}{(x_i-x_0)^2}\le\frac{-4}{1/4}=-16. \] ∎</p>
+  </div>
+  <div class="comment"><b>点评</b>：① 采分链四环——费马／展开式（一阶项显式）／近端点选取（依据"两侧距离和为 1"）／不等号方向（分母越小、负值越大）。② 另一满分模板：对 \( x=0 \) 与 \( x=1 \) 各写一条展开（\( \xi_1,\xi_2 \) 分记），末尾按 \( x_0\le\frac12 \) 与 \( x_0\ge\frac12 \) 显式分两支。③ 不等号方向自查：分母 \( \le\frac14 \) ⟹ 倒数 \( \ge 4 \) ⟹ \( -4\times(\ge4)\le-16 \)，乘负数要翻向。</div>
+</section>
+
+<section class="block" id="t4">
+  <h2><span class="sec-no">四</span>拉格朗日放缩证不等式 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 5</div>
+    <p>设 \( a>b>0 \)，证明：\[ \frac{a-b}{a}<\ln\frac{a}{b}<\frac{a-b}{b}. \]</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>\( \ln\frac{a}{b}=\ln a-\ln b \) 是<b>落差结构</b> \( g(b)\to g(a) \) → 拉格朗日一步到位，再用 \( \xi \) 的位置夹逼。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">证明</div>
+    <p>对 \( g(x)=\ln x \) 在 \( [b,a] \) 上用拉格朗日：∃\( \xi\in(b,a) \)，</p>
+    <p>\[ \ln a-\ln b=\frac{a-b}{\xi}. \]</p>
+    <p>由 \( b&lt;\xi&lt;a \) 得 \( \dfrac{a-b}{a}&lt;\dfrac{a-b}{\xi}&lt;\dfrac{a-b}{b} \)。∎</p>
+  </div>
+  <div class="comment"><b>点评</b>：① 取 \( a=1+x,\ b=1 \) 立得专题 01 的老朋友 \( \frac{x}{1+x}&lt;\ln(1+x)&lt;x \)——同一道题的两个皮肤。② 对比：对数平均不等式（框架 §9）用单调性法更顺；本题用拉格朗日更顺。<b>落差+导数有界 → 拉格朗日；单变量端点比较 → 单调性</b>，两件武器按结构选。</div>
+</section>
+
+<section class="block" id="t5">
+  <h2><span class="sec-no">五</span>方程根个数讨论 <span class="tag mid">大题常见一问</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 6</div>
+    <p>讨论 \( a>0 \) 取何值时，方程 \( \ln x=ax \) 分别有 0、1、2 个实根。</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>标准四步（框架 §8.4）：设 \( F(x)=\ln x-ax \)（\( x>0 \)）→ 驻点 → 最大值符号 → 端点极限 → 计数。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>\( F'(x)=\frac1x-a \)，唯一驻点 \( x=\frac1a \)，且 \( F' \) 由正变负，\( x=\frac1a \) 为最大值点：</p>
+    <p>\[ F\Big(\frac1a\Big)=\ln\frac1a-1=-\ln a-1. \]</p>
+    <p>端点行为：\( x\to0^+ \) 时 \( F\to-\infty \)；\( x\to+\infty \) 时 \( F\to-\infty \)（\( -ax \) 压倒 \( \ln x \)）。</p>
+    <p>\[ F\Big(\frac1a\Big)=-\ln a-1=\begin{cases}&gt;0, &amp; 0&lt;a&lt;\frac1e,\\ =0, &amp; a=\frac1e,\\ &lt;0, &amp; a&gt;\frac1e.\end{cases} \]</p>
+    <p>故：\( 0&lt;a&lt;\frac1e \) 时两端各有一根，共 <b>2 根</b>；\( a=\frac1e \) 时最大值恰为零，唯一根 \( x=e \)（切点），<b>1 根</b>；\( a&gt;\frac1e \) 时<b>0 根</b>。</p>
+  </div>
+  <div class="comment"><b>点评</b>：① 端点要写 \( x\to0^+ \) 的<b>极限</b>而非 \( F(0) \)（无定义）。② "每个单调区间至多一根"这句必须写，它是"恰有两根"的依据。③ 反向题（证至多 k 根）用罗尔逆用：反设 k+1 根 → \( F' \) 至少 k 个零点，逐层上推矛盾。</div>
+</section>
+
+<section class="block" id="t6">
+  <h2><span class="sec-no">六</span>高阶导数：泰勒系数法 <span class="tag hot">填空高频</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 7</div>
+    <p>设 \( f(x)=\dfrac{1}{1-x-x^2} \)，求 \( f^{(n)}(0) \)。</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>分母是多项式 → 不硬求导，用<b>待定系数</b>：设 \( f(x)=\sum a_kx^k \)，用恒等式反解系数递推。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>\( f \) 在 0 附近解析（最近奇点 \( x=\frac{\sqrt5-1}{2}\approx0.618 \)）。设 \( f(x)=\sum\limits_{k\ge0}a_kx^k \)，代入 \( (1-x-x^2)f(x)=1 \)：</p>
+    <p>\[ (1-x-x^2)\sum_{k\ge0}a_kx^k=1. \]</p>
+    <p>比较系数：\( a_0=1 \)；\( a_1-a_0=0\Rightarrow a_1=1 \)；\( k\ge2 \) 时 \( a_k-a_{k-1}-a_{k-2}=0 \)，即</p>
+    <p>\[ a_k=a_{k-1}+a_{k-2}. \]</p>
+    <p>于是 \( a_k=1,1,2,3,5,8,\dots \) 正是斐波那契数 \( F_{k+1} \)（\( F_1=F_2=1 \)）。由泰勒系数唯一性 \( f^{(n)}(0)=n!\,a_n \)：</p>
+    <p>\[ f^{(n)}(0)=n!\,F_{n+1}. \]</p>
+  </div>
+  <div class="comment"><b>点评</b>：① 有理函数求 \( f^{(n)}(0) \) 两板斧——<b>待定系数递推</b>（本题）与<b>部分分式拆成几何级数</b>（对话练习：\( \frac{1}{(1-x)(1-2x)} \)）。② 这就是数学史上斐波那契数列的母函数——竞赛出过多次。</div>
+</section>
+
+<section class="block" id="t7">
+  <h2><span class="sec-no">七</span>渐近线：泰勒算 b <span class="tag mid">填空固定采分点</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 8</div>
+    <p>求曲线 \( y=xe^{1/x} \) 的全部渐近线。</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>两个方向分别查。斜渐近线两步 \( k=\lim\frac{y}{x} \)、\( b=\lim(y-kx) \)——\( b \) 的极限是泰勒 \( e^u=1+u+\frac{u^2}{2}+\cdots \) 的直接应用。<b>渐近线题一半的分在"会用泰勒算 b"</b>。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>垂直</b>：\( x\to0^+ \) 时 \( e^{1/x}\to+\infty \)，\( y=x e^{1/x}\to+\infty \)，故 \( x=0 \) 是垂直渐近线（仅右侧；\( x\to0^- \) 时 \( e^{1/x}\to0 \)，\( y\to0 \)，曲线贴着原点过去）。</p>
+    <p><b>斜</b>（\( x\to\pm\infty \)，两方向同结论）：</p>
+    <p>\[ k=\lim_{x\to\pm\infty}\frac{y}{x}=\lim_{x\to\pm\infty}e^{1/x}=1; \]</p>
+    <p>\[ b=\lim_{x\to\pm\infty}\big(xe^{1/x}-x\big)=\lim_{x\to\pm\infty}x\big(e^{1/x}-1\big)=\lim_{x\to\pm\infty}x\cdot\Big(\frac1x+\frac{1}{2x^2}+\cdots\Big)=1. \]</p>
+    <p>故斜渐近线为 \( y=x+1 \)。</p>
+    <p>综上：垂直渐近线 \( x=0 \)（单侧），斜渐近线 \( y=x+1 \)。</p>
+  </div>
+  <div class="comment"><b>点评</b>：① \( e^{1/x}-1\sim\frac1x \) 是差型等价（专题 01 弹药），乘 \( x \) 后正好留下 \( b=1 \)。② <b>单侧垂直渐近线</b>是高频陷阱——\( e^{1/x} \) 家族（专题 01 老朋友）左右行为完全不同，必须分侧下结论。</div>
+</section>
+
+</div>
+</body>
+</html>
