@@ -57,8 +57,9 @@ git remote add origin https://github.com/<你的用户名>/math-competition-note
 git push -u origin main
 ```
 
-3. 仓库 **Settings → Pages**，Source 选 `main` 分支 / root，保存后 1~2 分钟即可通过
-   `https://<你的用户名>.github.io/math-competition-notes/` 在线访问
-4. 全站为纯静态 HTML + 相对路径，本地双击 `index.html` 与线上访问效果完全一致，无需任何构建
+3. 仓库 **Settings → Pages**，Build and deployment 的 Source 选 **GitHub Actions**
+4. 之后每次 `git push` 到 main，会自动触发 `.github/workflows/deploy.yml`：把整个目录作为静态站点发布（纯 HTML 无需构建，1~2 分钟生效）。到仓库 **Actions** 标签页可查看运行记录，绿勾即部署成功
+5. 访问地址：`https://<你的用户名>.github.io/math-competition-notes/`
+6. 全站为纯静态 HTML + 相对路径，本地双击 `index.html` 与线上访问效果完全一致，无需任何构建
 
 > `.gitignore` 已排除 TRAE 本地缓存目录；`assets/mathjax/tex-svg.js` 约 2MB，仍在 GitHub 单文件 100MB 限制内，保留它可保证公式离线渲染。
