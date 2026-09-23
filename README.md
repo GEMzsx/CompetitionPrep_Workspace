@@ -57,6 +57,19 @@ push 之后 GitHub Actions 自动部署（1~2 分钟生效），去仓库 **Acti
    - **A. 单站点扩展**：做一个仓库根总入口 `index.html`（一场比赛一个卡片），并把 `deploy.yml` 里的 `path: ./大数竞赛` 改为 `path: .`——一个地址看所有比赛
    - **B. 替换发布**：只把 `path` 改成新文件夹——旧比赛下线，新比赛顶上（一个仓库同一时间只有一个 Pages 站点）
 3. `git add . → commit → push`，自动上线
+4.
+假设以后加了`E:\比赛\蓝桥杯\` ，在`E:\比赛\.github\workflows\` 下 新建`lanqiao.yml` （名字随便起，别和 deploy.yml 重复），内容整份照抄 deploy.yml，只改三处：
+    name: Deploy Lanqiao Pages        # ① 改名字，Actions 页里好区分
+
+    concurrency:
+  group: lanqiao-pages            # ② 改组名，必须和 github-pages 不同！
+  cancel-in-progress: true
+
+    jobs:
+    deploy:
+        ...
+            with:
+            path: ./蓝桥杯           # ③ path 指向新文件夹
 
 > 一个仓库只能绑定一个 Pages 站点地址，所以"多比赛同站"走方案 A（子路径组织），不要试图给每场比赛单独开 workflow 抢同一个地址。
 
