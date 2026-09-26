@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题3 · 一元积分学 — 知识框架</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.toc {
+  margin: 24px 0 40px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 12px; padding: 20px 26px;
+}
+.toc h2 { font-size: 14px; letter-spacing: 2px; color: var(--ink-faint); margin: 0 0 10px; }
+.toc ol {
+  margin: 0; padding-left: 0; list-style: none;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 28px;
+}
+.toc a { color: var(--ink-soft); text-decoration: none; font-size: 14.5px; }
+.toc a:hover { color: var(--accent); }
+.toc li::before { content: "§ "; color: var(--accent); font-weight: 700; }
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+h3 .tag { margin-left: 8px; }
+p { margin: 8px 0; }
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef4f7; color: #4e7d93; border: 1px solid #c9dde7; }
+.tag.finals { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); }
+
+.memory {
+  background: var(--accent-soft); border: 1.5px solid var(--accent-border);
+  border-left: 5px solid var(--accent); border-radius: 10px;
+  padding: 16px 22px; margin: 16px 0;
+}
+.memory .label { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; }
+
+.warnbox {
+  background: var(--warn-soft); border-left: 5px solid var(--warn);
+  border-radius: 10px; padding: 14px 22px; margin: 16px 0; font-size: 15px;
+}
+.warnbox b { color: var(--warn); }
+
+.formula-line { display: flex; flex-wrap: wrap; gap: 6px 34px; padding: 6px 0; }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+.next {
+  margin-top: 36px; padding: 22px 28px;
+  background: #f4f6ff; border: 1.5px dashed var(--accent-border); border-radius: 12px;
+}
+.next h2 { margin: 0 0 8px; font-size: 18px; color: var(--accent); }
+.next ul { margin: 6px 0; }
+.next-link { text-decoration: none; display: block; }
+.next-link h2 { margin-bottom: 4px; }
+.next-link p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.next-link:hover h2 { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+  .toc ol { grid-template-columns: 1fr; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="03"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 03</p>
+  <h1>一元积分学 · 知识框架</h1>
+  <p>积分是竞赛计算题的主产区。三件套打天下：<b>区间再现、分部积分、变限积分</b>；两翼：有理/三角有理式的代数处理 + 积分不等式证明。</p>
+  <div class="meta">
+    <span class="chip">初赛权重：计算 1~2 题 + 大题常客</span>
+    <span class="chip">先修：专题 01 泰勒 / 专题 02 中值定理</span>
+    <span class="chip">联动：专题 08 级数（幂级数逐项积分求和）</span>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#s1">本章地图与竞赛权重</a></li>
+    <li><a href="#s2">原函数：概念辨析（判断题陷阱）</a></li>
+    <li><a href="#s3">不定积分三大核心技术</a></li>
+    <li><a href="#s4">三类特殊函数的积分</a></li>
+    <li><a href="#s5">定积分核心技巧（竞赛主战场）</a></li>
+    <li><a href="#s6">变限积分（必考）</a></li>
+    <li><a href="#s7">积分中值定理与积分不等式</a></li>
+    <li><a href="#s8">反常积分与 Γ 函数</a></li>
+    <li><a href="#s9">易错点清单</a></li>
+  </ol>
+</div>
+
+<!-- ================= §1 地图 ================= -->
+<section class="block" id="s1">
+  <h2><span class="sec-no">1</span>本章地图与竞赛权重</h2>
+  <table>
+    <tr><th style="width:22%">板块</th><th style="width:14%">竞赛频率</th><th>要点</th></tr>
+    <tr><td><b>不定积分计算</b></td><td><span class="tag hot">必考</span></td><td>凑微分、第二类换元（三角/根式/倒代换）、分部；有理函数部分分式</td></tr>
+    <tr><td><b>定积分技巧</b></td><td><span class="tag hot">必考</span></td><td>对称性、<b>区间再现</b>、点火公式 —— 把"不可积"变"可积"的魔法</td></tr>
+    <tr><td><b>变限积分</b></td><td><span class="tag hot">必考</span></td><td>求导公式、与洛必达/中值定理/微分方程综合</td></tr>
+    <tr><td><b>积分等式与不等式</b></td><td><span class="tag mid">常考</span></td><td>变限构造辅助函数、分部放缩、Cauchy–Schwarz</td></tr>
+    <tr><td><b>反常积分 + Γ 函数</b></td><td><span class="tag mid">常考</span></td><td>p 积分敛散、Γ 递推、概率积分</td></tr>
+    <tr><td><b>定积分应用</b></td><td><span class="tag low">低频</span></td><td>面积/体积/弧长（决赛向，初赛偶考面积）</td></tr>
+  </table>
+</section>
+
+<!-- ================= §2 原函数 ================= -->
+<section class="block" id="s2">
+  <h2><span class="sec-no">2</span>原函数：概念辨析（判断题陷阱）</h2>
+
+  <h3>2.1 存在性判定 <span class="tag hot">概念题必考</span></h3>
+  <table>
+    <tr><th style="width:42%">f 的情形</th><th>在含该点的区间上有原函数？</th></tr>
+    <tr><td>f 连续</td><td><b>必有</b>（变限积分 \( F(x)=\int_a^x f(t)\,dt \) 就是）</td></tr>
+    <tr><td>f 有<b>跳跃或可去</b>间断（第一类）</td><td><b>必无</b> —— Darboux 定理：导函数无第一类间断点</td></tr>
+    <tr><td>f 有<b>振荡型</b>第二类间断</td><td><b>可能有</b>：经典反例 \( F(x)=x^2\sin\frac1x,\ F(0)=0 \)，则 \( F' \) 在 0 处振荡间断，但原函数就是 F</td></tr>
+    <tr><td>f 有<b>无穷型</b>第二类间断</td><td>无界函数在任何含该点的闭区间上不可积，且此类 \( f \) 若可微函数的导数…结论：<b>一般无</b>，判断题按"振荡才有例外"记</td></tr>
+  </table>
+
+  <div class="memory">
+    <div class="label">必背 · 三个互不蕴含（年年考判断）</div>
+    <p>① f 连续 ⟹ 有原函数 且 可积；</p>
+    <p>② f 可积 <b>⇏</b> 有原函数：\( \operatorname{sgn}x \) 可积但无原函数（跳跃间断）；</p>
+    <p>③ f 有原函数 <b>⇏</b> 可积：\( f(x)=\frac1x \) 在 \( (0,1) \) 有原函数 \( \ln x \)，但反常积分 \( \int_0^1 \frac{dx}{x} \) 发散。</p>
+  </div>
+
+  <h3>2.2 基本积分表（默写级）</h3>
+  <div class="formula-line">
+    <span>\( \int x^a dx=\frac{x^{a+1}}{a+1}+C\ (a\ne-1) \)</span>
+    <span>\( \int \frac{dx}{x}=\ln|x|+C \)</span>
+    <span>\( \int e^x=e^x \)</span>
+  </div>
+  <div class="formula-line">
+    <span>\( \int \sin=-\cos \)</span>
+    <span>\( \int \cos=\sin \)</span>
+    <span>\( \int \sec^2 x=\tan x \)</span>
+    <span>\( \int \csc^2 x=-\cot x \)</span>
+  </div>
+  <div class="formula-line">
+    <span>\( \int \frac{dx}{1+x^2}=\arctan x \)</span>
+    <span>\( \int \frac{dx}{\sqrt{1-x^2}}=\arcsin x \)</span>
+  </div>
+  <div class="formula-line">
+    <span>\( \int \tan x\,dx=-\ln|\cos x| \)</span>
+    <span>\( \int \cot x\,dx=\ln|\sin x| \)</span>
+    <span>\( \int \sec x\,dx=\ln|\sec x+\tan x| \)</span>
+    <span>\( \int \csc x\,dx=\ln|\csc x-\cot x| \)</span>
+  </div>
+  <div class="formula-line">
+    <span>\( \int \frac{dx}{x^2+a^2}=\frac1a\arctan\frac{x}{a} \)</span>
+    <span>\( \int \frac{dx}{x^2-a^2}=\frac{1}{2a}\ln\left|\frac{x-a}{x+a}\right| \)</span>
+    <span>\( \int \frac{dx}{\sqrt{a^2-x^2}}=\arcsin\frac{x}{a} \)</span>
+  </div>
+  <p>高阶弹药（专题 01 已背，这里换积分视角）：\( \int\frac{dx}{\sqrt{x^2+a^2}}=\ln\!\big(x+\sqrt{x^2+a^2}\big) \)，\( \int\frac{dx}{\sqrt{x^2-a^2}}=\ln\!\big|x+\sqrt{x^2-a^2}\big| \)。</p>
+</section>
+
+<!-- ================= §3 三大技术 ================= -->
+<section class="block" id="s3">
+  <h2><span class="sec-no">3</span>不定积分三大核心技术</h2>
+
+  <h3>3.1 凑微分（第一类换元）<span class="tag hot">基础必考</span></h3>
+  <p>识别信号：被积函数是<b>复合外层 × 内层导数</b>的结构。高频凑法清单：</p>
+  <div class="formula-line">
+    <span>\( x\,dx=\tfrac12 d(x^2) \)</span>
+    <span>\( \frac{dx}{\sqrt x}=2d(\sqrt x) \)</span>
+    <span>\( \frac{dx}{x}=d(\ln|x|) \)</span>
+    <span>\( e^x dx=d(e^x) \)</span>
+  </div>
+  <div class="formula-line">
+    <span>\( \frac{dx}{x^2}=-d(\frac1x) \)</span>
+    <span>\( \cos x\,dx=d(\sin x) \)</span>
+    <span>\( \sin x\,dx=-d(\cos x) \)</span>
+    <span>\( \sec^2 x\,dx=d(\tan x) \)</span>
+  </div>
+  <div class="formula-line">
+    <span>\( \frac{dx}{1+x^2}=d(\arctan x) \)</span>
+    <span>\( \frac{dx}{\sqrt{1-x^2}}=d(\arcsin x) \)</span>
+    <span>\( (1+\ln x)dx=d(x\ln x) \)</span>
+    <span>\( \frac{e^x dx}{1+e^x}...\to d\ln(1+e^x) \)</span>
+  </div>
+
+  <h3>3.2 第二类换元 <span class="tag mid">常考</span></h3>
+  <table>
+    <tr><th style="width:34%">被积函数特征</th><th>代换</th></tr>
+    <tr><td>\( \sqrt{a^2-x^2} \)</td><td>\( x=a\sin t \)（还原用辅助直角三角形）</td></tr>
+    <tr><td>\( \sqrt{a^2+x^2} \)</td><td>\( x=a\tan t \)</td></tr>
+    <tr><td>\( \sqrt{x^2-a^2} \)</td><td>\( x=a\sec t \)</td></tr>
+    <tr><td>分母幂次明显高于分子</td><td><b>倒代换</b> \( x=\frac1t \)（竞赛爱考：化 \( \int\frac{dx}{x^2\sqrt{1+x^2}} \) 类）</td></tr>
+    <tr><td>\( \sqrt[n]{\frac{ax+b}{cx+d}} \) 型根式</td><td>整体换元 \( t=\sqrt[n]{\frac{ax+b}{cx+d}} \)（一次解出 x，根式全消）</td></tr>
+    <tr><td>三角有理式兜底</td><td>万能代换 \( t=\tan\frac{x}{2} \)（见 §4.2）</td></tr>
+  </table>
+
+  <h3>3.3 分部积分 <span class="tag hot">必考</span></h3>
+  <p>\[ \int u\,dv = uv-\int v\,du \]</p>
+  <div class="memory">
+    <div class="label">必背 · u 的选取口诀"反对幂三指"</div>
+    <p>按 <b>反三角 → 对数 → 幂 → 三角 → 指数</b> 顺序，<b>排前面的当 u</b>（留在原地求导），排后面的凑进 dv（先积分）。例：\( \int x e^x dx \) 取 u=x；\( \int x\ln x\,dx \) 取 u=ln x；\( \int x\arctan x\,dx \) 取 u=arctan x。</p>
+  </div>
+  <p><b>两大变体</b>：</p>
+  <ul>
+    <li><b>循环型</b>：\( I=\int e^x\sin x\,dx \) 连续两次分部后移项解方程，\( I=\frac{e^x(\sin x-\cos x)}{2} \)；</li>
+    <li><b>递推型</b>：\( I_n=\int_0^{\pi/2}\sin^n x\,dx \xrightarrow{\text{分部}} \frac{n-1}{n}I_{n-2} \) —— 就是点火公式的来源（§5.3）。</li>
+  </ul>
+</section>
+
+<!-- ================= §4 特殊函数 ================= -->
+<section class="block" id="s4">
+  <h2><span class="sec-no">4</span>三类特殊函数的积分</h2>
+
+  <h3>4.1 有理函数（部分分式）<span class="tag hot">必考</span></h3>
+  <p>假分式先多项式除法，真分式拆成四类基本分式之和：</p>
+  <table>
+    <tr><th>分母因子</th><th>对应部分分式</th><th>积分结果</th></tr>
+    <tr><td>\( (x-a) \)</td><td>\( \frac{A}{x-a} \)</td><td>对数</td></tr>
+    <tr><td>\( (x-a)^k \)</td><td>\( \frac{A_1}{x-a}+\cdots+\frac{A_k}{(x-a)^k} \)</td><td>对数 + 幂</td></tr>
+    <tr><td>\( x^2+px+q \)（不可约）</td><td>\( \frac{Ax+B}{x^2+px+q} \)</td><td>配方 → arctan + 对数</td></tr>
+    <tr><td>\( (x^2+px+q)^k \)</td><td>分子降幂一族</td><td>递推（竞赛极少出 k≥2）</td></tr>
+  </table>
+  <div class="warnbox"><b>竞赛提速</b>：待定系数可改用<b>代根法</b>（乘上公分母后代特殊根）+ <b>比较最高次/最低次系数</b>，往往两行解完。联动专题 02 挑战题：\( \frac{1}{(1-x)(1-2x)} \) 拆成两个几何级数之和求 \( f^{(n)}(0) \) —— 部分分式与泰勒系数法是同一件事的两个皮肤。</div>
+
+  <h3>4.2 三角有理式 <span class="tag mid">常考</span></h3>
+  <p>万能代换 \( t=\tan\frac{x}{2} \)（\( \sin x=\frac{2t}{1+t^2},\ \cos x=\frac{1-t^2}{1+t^2},\ dx=\frac{2dt}{1+t^2} \)）<b>永远可行但常很慢</b>——先看结构挑捷径：</p>
+  <table>
+    <tr><th style="width:44%">结构特征</th><th>首选代换</th></tr>
+    <tr><td>\( R(-\sin x,\cos x)=-R(\sin x,\cos x) \)（sin 单奇）</td><td>\( t=\cos x \)</td></tr>
+    <tr><td>\( R(\sin x,-\cos x)=-R(\sin x,\cos x) \)（cos 单奇）</td><td>\( t=\sin x \)</td></tr>
+    <tr><td>只含 \( \sin^2,\cos^2 \)（或 tan 有理式）</td><td>\( t=\tan x \)</td></tr>
+    <tr><td>对称分母 \( a+b\sin x\cos x \) 类 / [0,π/2] 上</td><td><b>区间再现</b>（§5.2，往往秒杀）</td></tr>
+  </table>
+
+  <h3>4.3 简单无理式</h3>
+  <p>口诀：<b>见根式，整体换元令根号 = t</b>。\( \sqrt{\frac{a-x}{a+x}} \) 令整体为 t，或用 \( a\pm x \) 对称化（乘共轭）；\( \sqrt{1+e^x} \) 令 \( t=\sqrt{1+e^x} \)。换元必换限（定积分）。</p>
+</section>
+
+<!-- ================= §5 定积分技巧 ================= -->
+<section class="block" id="s5">
+  <h2><span class="sec-no">5</span>定积分核心技巧（竞赛主战场）</h2>
+
+  <h3>5.1 对称性与周期性</h3>
+  <p>\[ \int_{-a}^{a}f(x)dx=\int_0^{a}\big[f(x)+f(-x)\big]dx=\begin{cases}0, &amp; f\text{ 奇}\\ 2\int_0^a f, &amp; f\text{ 偶}\end{cases} \]</p>
+  <p>推论（"打洞"）：\( \int_{-a}^{a}\frac{f(x)}{1+e^x}dx=\int_0^a f(x)dx \)（f 偶时）——分母指数项被对称消掉。周期：\( \int_a^{a+T}f=\int_0^T f \)；\( \int_0^{nT}f=n\int_0^T f \)。</p>
+
+  <h3>5.2 区间再现公式 <span class="tag hot">竞赛第一神器</span></h3>
+  <div class="memory">
+    <div class="label">必背 · 区间再现</div>
+    <p>\[ \int_a^b f(x)\,dx \;=\; \int_a^b f(a+b-x)\,dx \]</p>
+    <p>原理：代换 \( x\mapsto a+b-x \)，区间反折。用途：原积分与再现积分<b>相加除 2</b>，常常直接读出答案。</p>
+  </div>
+  <p>三大高频应用（都会在例题精讲出现）：</p>
+  <ul>
+    <li><b>sin↔cos 互换</b>：\( \int_0^{\pi/2}f(\sin x)dx=\int_0^{\pi/2}f(\cos x)dx \)。经典：\( \int_0^{\pi/2}\frac{\sin x}{\sin x+\cos x}dx=\frac{\pi}{4} \)（再现后与原式相加，分母变常数）；</li>
+    <li><b>x 提出来</b>：\( \int_0^{\pi}x\,f(\sin x)\,dx=\frac{\pi}{2}\int_0^{\pi}f(\sin x)dx \)。经典：\( \int_0^\pi\frac{x\sin x}{1+\cos^2 x}dx=\frac{\pi^2}{4} \)；</li>
+    <li><b>对数对称</b>：\( I=\int_0^{\pi/2}\ln\sin x\,dx \xrightarrow{\text{再现}} I=\int_0^{\pi/2}\ln\cos x\,dx \)，相加得 \( 2I=\int_0^{\pi/2}\ln\frac{\sin2x}{2}dx=\frac12\int_0^{\pi}\ln\sin t\,dt-\frac{\pi}{2}\ln2=I-\frac{\pi}{2}\ln2 \)，故 \( I=-\frac{\pi}{2}\ln2 \)。<b>必背结果</b>。</li>
+  </ul>
+
+  <h3>5.3 点火公式（Wallis）<span class="tag hot">必背</span></h3>
+  <p>\[ \int_0^{\pi/2}\sin^n x\,dx=\int_0^{\pi/2}\cos^n x\,dx=\begin{cases}\dfrac{(n-1)!!}{n!!}\cdot\dfrac{\pi}{2}, &amp; n\text{ 偶}\\[6pt] \dfrac{(n-1)!!}{n!!}, &amp; n\text{ 奇}\end{cases} \]</p>
+  <p>扩展区间（靠对称折）：\( \int_0^{\pi}\sin^n x\,dx=2\int_0^{\pi/2}\sin^n x\,dx \)；\( \int_0^{\pi}\cos^n x\,dx=\begin{cases}2\int_0^{\pi/2}, &amp; n\text{ 偶}\\ 0, &amp; n\text{ 奇}\end{cases} \)；\( \int_0^{2\pi}\sin^n = \begin{cases}4\int_0^{\pi/2}, &amp; n\text{ 偶}\\ 0, &amp; n\text{ 奇}\end{cases} \)。分部积分可当场重推，忘了不慌。</p>
+
+  <h3>5.4 端点函数值消去（分部积分变招）<span class="tag mid">竞赛特色</span></h3>
+  <p>形如 \( \int_0^1 x\left[f'(x)-f(x)\right]dx \)（f 已知端点值 f(0)=f(1)=0 之类）：凑 \( x e^{-x} \) 结构分部，端点项全消，只剩显式积分。识别信号：<b>题目给了 f 的端点值 + f' 出现在被积函数里</b>。</p>
+</section>
+
+<!-- ================= §6 变限积分 ================= -->
+<section class="block" id="s6">
+  <h2><span class="sec-no">6</span>变限积分（必考）</h2>
+
+  <h3>6.1 求导公式 <span class="tag hot">默写级</span></h3>
+  <div class="memory">
+    <div class="label">必背 · 莱布尼茨求导</div>
+    <p>\[ \frac{d}{dx}\int_{\varphi(x)}^{\psi(x)} f(t)\,dt = f\big(\psi(x)\big)\psi'(x)-f\big(\varphi(x)\big)\varphi'(x) \]</p>
+    <p>特例：\( \frac{d}{dx}\int_0^x f(t)dt=f(x) \)；\( \frac{d}{dx}\int_0^{x^2}f(t)dt=2x f(x^2) \)（外层链式别漏乘）。</p>
+  </div>
+  <div class="warnbox"><b>被积函数含 x 时不能直接求导</b>，先处理：\( \int_0^x(x-t)f(t)\,dt = x\!\int_0^x\!f(t)dt-\int_0^x\!t f(t)dt \)（把 x 拆出去），或换元把 x 化进限。这是变限积分第一大坑。</div>
+
+  <h3>6.2 常见综合题型</h3>
+  <ul>
+    <li><b>变限 + 洛必达</b>：\( \lim\limits_{x\to0}\frac{\big(\int_0^x e^{t^2}dt\big)^2}{\int_0^x t e^{2t^2}dt} \) 型（热身题就考这个）；</li>
+    <li><b>积分方程</b>：\( f(x)=\sin x+\int_0^x f(t)dt \) 两边求导转微分方程（专题 09 联动），或变上限积分方程直接代端点定常数；</li>
+    <li><b>变限构造辅助函数</b>：证"存在 ξ 使 \( \int_a^\xi f=g(\xi) \)"型，标准构造 \( F(x)=\int_a^x f(t)dt-g(x) \)（罗尔/零点，呼应专题 02 §6 模式匹配表——那儿的 5 号模式在这里复活）；</li>
+    <li><b>单调性/极值</b>：\( F(x)=\int_0^x f \) 的性质由 f 的符号决定。</li>
+  </ul>
+
+  <h3>6.3 性质速查</h3>
+  <p>f 可积 ⟹ F 连续；f 连续 ⟹ F 可导且 \( F'=f \)；f 有第一类间断 ⟹ F 在该点<b>不可导</b>但连续（判断题常客）。</p>
+</section>
+
+<!-- ================= §7 积分不等式 ================= -->
+<section class="block" id="s7">
+  <h2><span class="sec-no">7</span>积分中值定理与积分不等式</h2>
+
+  <h3>7.1 积分中值定理</h3>
+  <p><b>第一中值定理</b>：f 连续、g 可积不变号，则 \( \int_a^b f(x)g(x)dx=f(\xi)\int_a^b g(x)dx \)。推论：f 连续 ⟹ \( \int_a^b f=f(\xi)(b-a) \)（ξ 必在<b>开区间</b>内取得——连续函数+积分中值，这个细节竞赛考过）。</p>
+
+  <h3>7.2 三大不等式武器 <span class="tag mid">大题常客</span></h3>
+  <table>
+    <tr><th style="width:30%">武器</th><th>形式与适用场景</th></tr>
+    <tr><td><b>Cauchy–Schwarz</b></td><td>\( \big(\int_a^b fg\big)^2\le\int_a^b f^2\cdot\int_a^b g^2 \)。经典推论：\( \big(\int f\big)^2\le(b-a)\int f^2 \)；证"≤"型乘积/平方不等式首选</td></tr>
+    <tr><td><b>变限构造 + 单调</b></td><td>证 \( \int_a^b f\le G(b) \)：令 \( F(x)=\int_a^x f-G(x) \)，求导定号 + \( F(a)=0 \)。识别信号：不等式两端<b>结构相同、一个 b 是变量</b></td></tr>
+    <tr><td><b>分部放缩</b></td><td>出现 f' 时：\( \big|f(x)\big|=\big|f(a)+\int_a^x f'\big|\le|f(a)|+\int_a^x|f'| \)；给 \( |f'|\le M \) 就能放大。识别信号：条件只给导数信息，结论要控制函数值/积分</td></tr>
+  </table>
+  <p>次级工具：f≤g ⟹ ∫f≤∫g（比较）；\( |\int f|\le\int|f| \)；估值定理 \( m(b-a)\le\int f\le M(b-a) \)。</p>
+</section>
+
+<!-- ================= §8 反常积分 ================= -->
+<section class="block" id="s8">
+  <h2><span class="sec-no">8</span>反常积分与 Γ 函数</h2>
+
+  <h3>8.1 p 积分敛散表 <span class="tag hot">默写级</span></h3>
+  <table>
+    <tr><th>积分</th><th>收敛条件</th></tr>
+    <tr><td>\( \int_1^{+\infty}\frac{dx}{x^p} \)（无穷限）</td><td>p &gt; 1 收敛（p ≤ 1 发散）</td></tr>
+    <tr><td>\( \int_0^{1}\frac{dx}{x^p} \)（瑕积分）</td><td>p &lt; 1 收敛（p ≥ 1 发散）——<b>与上表相反</b></td></tr>
+  </table>
+  <p>双端混合（如 \( \int_0^{+\infty}\frac{dx}{x^p} \)）要<b>拆成两段分别判</b>，两段都收敛才收敛。</p>
+
+  <h3>8.2 Γ 函数 <span class="tag mid">竞赛速算利器</span></h3>
+  <div class="memory">
+    <div class="label">必背 · Γ 函数三件套</div>
+    <p>\[ \Gamma(\alpha)=\int_0^{+\infty}x^{\alpha-1}e^{-x}dx,\qquad \Gamma(\alpha+1)=\alpha\,\Gamma(\alpha),\qquad \Gamma\big(\tfrac12\big)=\sqrt\pi \]</p>
+    <p>推论：\( \Gamma(n+1)=n! \)；\( \int_0^{+\infty}x^{\alpha-1}e^{-\lambda x}dx=\frac{\Gamma(\alpha)}{\lambda^\alpha} \)（换元 x=t/λ）。含参幂×指数的积分直接套，比每次分部快十倍。</p>
+  </div>
+  <p><b>概率积分</b>：\( \int_0^{+\infty}e^{-x^2}dx=\frac{\sqrt\pi}{2} \)（联动 Γ(1/2)：换元 \( t=x^2 \) 即得）。乘积型拆平方的极坐标法决赛再学。</p>
+  <p><b>端点对数</b>（呼应专题 01 §3.5）：\( \int_0^1\ln x\,dx=-1 \)，\( \int_0^1 x^a\ln x\,dx=-\frac{1}{(a+1)^2}\ (a&gt;-1) \)（分部积分一招通吃）。</p>
+</section>
+
+<!-- ================= §9 易错点 ================= -->
+<section class="block" id="s9">
+  <h2><span class="sec-no">9</span>易错点清单（考前再过一遍）</h2>
+  <ol>
+    <li><b>定积分换元不换限</b>：第二类换元后上下限必须跟着变，最后不回代。</li>
+    <li><b>变限求导</b>：链式因子漏乘（\( \int_0^{x^2} \) 的 2x）；被积函数含 x 不拆就硬求。</li>
+    <li><b>区间再现记错</b>：是 \( a+b-x \)，不是 \( b-x \)（除非 a=0）。</li>
+    <li><b>点火公式区间张冠李戴</b>：公式只在 [0, π/2]；[0, π] 的 cosⁿ 奇数次是 0 不是 2 倍。</li>
+    <li><b>奇偶性先验区间对称</b>：\( \int_0^1 \) 上用"偶函数 = 2 倍"是 0 分操作。</li>
+    <li><b>反常积分不判敛直接套牛莱</b>：\( \int_{-1}^{1}\frac{dx}{x^2} \) 这类题就是送的陷阱（=∞，不是 2）。</li>
+    <li><b>分部 u 选反</b>：越积越复杂多半是 u 选错了，回"反对幂三指"重排。</li>
+    <li><b>第一类间断点配原函数</b>：判断题陷阱，sgn x 无原函数（Darboux）。</li>
+    <li><b>积分中值定理 ξ 写成闭区间</b>：标准结论是开区间 (a,b)。</li>
+    <li><b>瑕点藏在区间内部</b>（如 \( \int_{-1}^1\frac{dx}{x^2} \) 的 0 点）：必须拆开逐段判敛。</li>
+  </ol>
+
+  <div class="next">
+    <a class="next-link" href="02_例题精讲.html"><h2>进入例题精讲 →</h2><p>题型实录 + 每日进阶题归档（随做随录）</p></a>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

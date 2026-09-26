@@ -17,7 +17,7 @@
   var TOPICS = [
     { no: "01", label: "极限与连续", full: "函数、极限与连续",   dir: "01_函数极限与连续",     ready: true  },
     { no: "02", label: "一元微分",   full: "一元微分学",         dir: "02_一元微分学",         ready: true  },
-    { no: "03", label: "一元积分",   full: "一元积分学",         dir: "03_一元积分学",         ready: false },
+    { no: "03", label: "一元积分",   full: "一元积分学",         dir: "03_一元积分学",         ready: true  },
     { no: "04", label: "向量几何",   full: "向量与空间解析几何", dir: "04_向量与空间解析几何", ready: false },
     { no: "05", label: "多元微分",   full: "多元微分学",         dir: "05_多元微分学",         ready: false },
     { no: "06", label: "重积分",     full: "重积分",             dir: "06_重积分",             ready: false },
