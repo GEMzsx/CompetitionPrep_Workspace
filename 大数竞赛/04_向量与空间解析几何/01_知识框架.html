@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题4 · 向量代数与空间解析几何 — 知识框架</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.toc {
+  margin: 24px 0 40px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 12px; padding: 20px 26px;
+}
+.toc h2 { font-size: 14px; letter-spacing: 2px; color: var(--ink-faint); margin: 0 0 10px; }
+.toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 40px; }
+.toc a { color: var(--ink-soft); text-decoration: none; font-size: 14.5px; }
+.toc a:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+p { margin: 8px 0; }
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef4f7; color: #4e7d93; border: 1px solid #c9dde7; }
+.tag.finals { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); }
+
+.memory {
+  background: var(--accent-soft); border: 1.5px solid var(--accent-border);
+  border-left: 5px solid var(--accent); border-radius: 10px;
+  padding: 16px 22px; margin: 16px 0;
+}
+.memory .label { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; }
+
+.warnbox {
+  background: var(--warn-soft); border-left: 5px solid var(--warn);
+  border-radius: 10px; padding: 14px 22px; margin: 16px 0; font-size: 15px;
+}
+.warnbox b { color: var(--warn); }
+
+.formula-line { display: flex; flex-wrap: wrap; gap: 6px 34px; padding: 6px 0; }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+.next {
+  margin-top: 36px; padding: 22px 28px;
+  background: #f4f6ff; border: 1.5px dashed var(--accent-border); border-radius: 12px;
+}
+.next h2 { margin: 0 0 8px; font-size: 18px; color: var(--accent); }
+.next ul { margin: 6px 0; }
+.next-link { text-decoration: none; display: block; }
+.next-link h2 { margin-bottom: 4px; }
+.next-link p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.next-link:hover h2 { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+  .toc ol { columns: 1; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="04"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 04</p>
+  <h1>向量代数与空间解析几何 · 知识框架</h1>
+  <p>速通型专题：知识点全、题型套路化、计算量大但思想密度低。核心就两件武器——<b>叉积（求法向量）</b>与<b>混合积（体积/共面）</b>，加上点积定角。</p>
+  <div class="meta">
+    <span class="chip">初赛权重：填空 1 题左右，偶尔进大题第一问</span>
+    <span class="chip">先修：无（独立专题）</span>
+    <span class="chip">联动：专题 05（方向导数/梯度/切平面）· 06（积分区域画图）· 07（曲面的法向）</span>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#s1">本章地图与竞赛权重</a></li>
+    <li><a href="#s2">向量运算三件套</a></li>
+    <li><a href="#s3">平面与直线（必考）</a></li>
+    <li><a href="#s4">位置关系全套判定</a></li>
+    <li><a href="#s5">距离公式四件套</a></li>
+    <li><a href="#s6">曲面与空间曲线</a></li>
+    <li><a href="#s7">竞赛典型题型</a></li>
+    <li><a href="#s8">易错点清单</a></li>
+  </ol>
+</div>
+
+<!-- ================= §1 地图 ================= -->
+<section class="block" id="s1">
+  <h2><span class="sec-no">1</span>本章地图与竞赛权重</h2>
+  <p>竞赛里这一章的出场方式：填空题直接考（求距离/夹角/投影/平面方程），或作为多元微积分大题的"第一问脚手架"（求切平面法向量、曲线切向量）。<b>独立大题罕见，但脚手架失分会连锁</b>——专题 05/07 的计算全部建立在这一章的手速上。</p>
+  <table>
+    <tr><th style="width:34%">模块</th><th style="width:18%">频率</th><th>典型考法</th></tr>
+    <tr><td>平面与直线方程</td><td><b>必考</b></td><td>求满足几何条件（过线且垂直于平面等）的平面方程</td></tr>
+    <tr><td>距离（点线/点面/异面线）</td><td><b>必考</b></td><td>填空题，公式直套或投影法</td></tr>
+    <tr><td>夹角与投影</td><td>常考</td><td>点积定角；投影向量</td></tr>
+    <tr><td>旋转曲面 / 柱面方程</td><td>常考</td><td>绕轴旋转：×2 法则；判曲面类型</td></tr>
+    <tr><td>混合积、异面直线公垂线</td><td>中低频</td><td>体积、共面判定、公垂线方程（进大题则有一定技巧量）</td></tr>
+    <tr><td>二次曲面识别</td><td>低频</td><td>给方程判类型（主要服务专题 06 画区域）</td></tr>
+  </table>
+</section>
+
+<!-- ================= §2 向量运算 ================= -->
+<section class="block" id="s2">
+  <h2><span class="sec-no">2</span>向量运算三件套 <span class="tag hot">全章地基</span></h2>
+
+  <h3>2.1 点积：定长度、定角度</h3>
+  <div class="formula-line">
+    <span>\( \vec a\cdot\vec b=|a||b|\cos\theta \)</span>
+    <span>\( \cos\theta=\dfrac{\vec a\cdot\vec b}{|a||b|} \)</span>
+  </div>
+  <ul>
+    <li>垂直判定：<b>点积为零</b>（非零向量）；</li>
+    <li>投影：\( \mathrm{proj}_{\vec b}\vec a=\dfrac{\vec a\cdot\vec b}{|\vec b|^2}\,\vec b \)（投影<b>向量</b>，带方向）；投影数量 \( =\dfrac{\vec a\cdot\vec b}{|\vec b|} \)（带符号）。竞赛填空常直接考投影向量。</li>
+  </ul>
+
+  <h3>2.2 叉积：求法向量 <span class="tag hot">第一武器</span></h3>
+  <div class="memory">
+    <div class="label">必背 · 叉积行列式与三性质</div>
+    <p>\[ \vec a\times\vec b=\begin{vmatrix}\vec i&\vec j&\vec k\\ a_1&a_2&a_3\\ b_1&b_2&b_3\end{vmatrix},\qquad |\vec a\times\vec b|=|a||b|\sin\theta \]</p>
+    <p>① \( \vec a\times\vec b\perp\vec a,\ \vec b \)（右手系定向）——<b>求法向量的唯一手段</b>；② 平行判定：\( \vec a\times\vec b=\vec 0 \)；③ <b>面积</b>：以 a、b 为邻边的平行四边形面积 \( =|\vec a\times\vec b| \)，三角形减半。</p>
+  </div>
+  <p><b>拉格朗日恒等式</b>（决赛向）：\( |\vec a\times\vec b|^2+(\vec a\cdot\vec b)^2=|a|^2|b|^2 \)。竞赛用它证不等式（结合 C-S，专题 03 §7.2），初赛冷门但出现过。</p>
+
+  <h3>2.3 混合积：体积与共面</h3>
+  <div class="memory">
+    <div class="label">必背 · 混合积三用</div>
+    <p>\[ [\vec a\,\vec b\,\vec c]=(\vec a\times\vec b)\cdot\vec c=\begin{vmatrix}a_1&a_2&a_3\\ b_1&b_2&b_3\\ c_1&c_2&c_3\end{vmatrix} \]</p>
+    <p>① <b>体积</b>：六面体体积 \( =|[\vec a\,\vec b\,\vec c]| \)；② <b>共面</b> ⟺ 混合积为零（四点共面题的秒杀）；③ 轮换对称：\( [\vec a\,\vec b\,\vec c]=[\vec b\,\vec c\,\vec a]=[\vec c\,\vec a\,\vec b] \)，交换两行变号。</p>
+  </div>
+</section>
+
+<!-- ================= §3 平面与直线 ================= -->
+<section class="block" id="s3">
+  <h2><span class="sec-no">3</span>平面与直线 <span class="tag hot">必考</span></h2>
+
+  <h3>3.1 四种平面方程（都从"点 + 法向量"来）</h3>
+  <table>
+    <tr><th style="width:24%">形式</th><th>方程</th><th>什么时候用</th></tr>
+    <tr><td><b>点法式</b></td><td>\( A(x-x_0)+B(y-y_0)+C(z-z_0)=0 \)</td><td>已知一点 + 法向量 \( \vec n=(A,B,C) \)</td></tr>
+    <tr><td><b>一般式</b></td><td>\( Ax+By+Cz+D=0 \)</td><td>待定系数法设方程（最常用）</td></tr>
+    <tr><td><b>截距式</b></td><td>\( \dfrac xa+\dfrac yb+\dfrac zc=1 \)</td><td>已知三个截距；四面体体积 \( \frac{|abc|}{6} \)</td></tr>
+    <tr><td><b>三点式</b></td><td>\( \begin{vmatrix}x-x_1&y-y_1&z-z_1\\ x_2-x_1&y_2-y_1&z_2-z_1\\ x_3-x_1&y_3-y_1&z_3-z_1\end{vmatrix}=0 \)</td><td>三点定面（等价于混合积为零）</td></tr>
+  </table>
+
+  <h3>3.2 直线三种方程</h3>
+  <table>
+    <tr><th style="width:24%">形式</th><th>方程</th><th>什么时候用</th></tr>
+    <tr><td><b>点向式</b></td><td>\( \dfrac{x-x_0}{m}=\dfrac{y-y_0}{n}=\dfrac{z-z_0}{p} \)</td><td>已知一点 + 方向向量 \( \vec s=(m,n,p) \)</td></tr>
+    <tr><td><b>参数式</b></td><td>\( x=x_0+mt,\ y=y_0+nt,\ z=z_0+pt \)</td><td><b>代入法</b>的入口——直线与曲面/平面求交点、异面距离的参数化，一律先化参数式</td></tr>
+    <tr><td><b>一般式</b></td><td>\( \begin{cases}A_1x+B_1y+C_1z+D_1=0\\ A_2x+B_2y+C_2z+D_2=0\end{cases} \)</td><td>两平面交线；方向向量 \( \vec s=\vec n_1\times\vec n_2 \)（叉积出手）</td></tr>
+  </table>
+
+  <div class="memory">
+    <div class="label">核心心法 · 一切求方程题 = 找一个点 + 找一个向量</div>
+    <p>平面要<b>法向量</b> \( \vec n \)，直线要<b>方向向量</b> \( \vec s \)。两者的来源清单：平面法向 = 已知法向 / 两方向向量叉积 / \( \vec s\times\vec n \)（线面垂直型）；直线方向 = 已知方向 / \( \vec n_1\times\vec n_2 \) / 两点差 / \( \vec s\times\vec n \)（线在面内）。<b>叉积是全章的发动机</b>。</p>
+  </div>
+</section>
+
+<!-- ================= §4 位置关系 ================= -->
+<section class="block" id="s4">
+  <h2><span class="sec-no">4</span>位置关系全套判定</h2>
+
+  <h3>4.1 夹角公式（注意"线面角取 sin，其余取 cos"）</h3>
+  <table>
+    <tr><th style="width:26%">关系</th><th>公式</th><th>易错点</th></tr>
+    <tr><td>面面夹角</td><td>\( \cos\varphi=\dfrac{|\vec n_1\cdot\vec n_2|}{|n_1||n_2|} \)</td><td>二面角取值需结合图形判断 cos 的符号（竞赛一般给两相交平面，直接用绝对值）</td></tr>
+    <tr><td>线线夹角</td><td>\( \cos\theta=\dfrac{|\vec s_1\cdot\vec s_2|}{|s_1||s_2|} \)</td><td>分子取绝对值（夹角 ∈ [0, π/2]）</td></tr>
+    <tr><td>线面夹角</td><td>\( \sin\theta=\dfrac{|\vec s\cdot\vec n|}{|s||n|} \)</td><td><b>是 sin 不是 cos</b>——方向向量与法量的夹角是 θ 的余角</td></tr>
+  </table>
+
+  <h3>4.2 平行与垂直速查</h3>
+  <table>
+    <tr><th style="width:30%">关系</th><th>平行 ⟺</th><th>垂直 ⟺</th></tr>
+    <tr><td>线与线</td><td>\( \vec s_1\times\vec s_2=\vec 0 \)</td><td>\( \vec s_1\cdot\vec s_2=0 \)</td></tr>
+    <tr><td>线与面</td><td>\( \vec s\cdot\vec n=0 \) 且线不在面内</td><td>\( \vec s\times\vec n=\vec 0 \)（\( \vec s\parallel\vec n \)）</td></tr>
+    <tr><td>面与面</td><td>\( \vec n_1\times\vec n_2=\vec 0 \)</td><td>\( \vec n_1\cdot\vec n_2=0 \)</td></tr>
+  </table>
+  <p><b>口诀</b>：点积管垂直（=0），叉积管平行（=0）；"包含型"平行（线在面内）必须补一句排除。</p>
+</section>
+
+<!-- ================= §5 距离 ================= -->
+<section class="block" id="s5">
+  <h2><span class="sec-no">5</span>距离公式四件套 <span class="tag hot">必考填空</span></h2>
+
+  <div class="memory">
+    <div class="label">必背 · 距离四公式</div>
+    <p class="formula-line">
+      <span>① 点到平面：\( d=\dfrac{|Ax_0+By_0+Cz_0+D|}{\sqrt{A^2+B^2+C^2}} \)</span>
+    </p>
+    <p class="formula-line">
+      <span>② 点到直线：\( d=\dfrac{|\overrightarrow{M_0M_1}\times\vec s|}{|\vec s|} \)（叉积面积÷底 = 高）</span>
+    </p>
+    <p class="formula-line">
+      <span>③ 异面直线：\( d=\dfrac{|[\overrightarrow{M_1M_2}\ \vec s_1\ \vec s_2]|}{|\vec s_1\times\vec s_2|} \)（混合积体积÷底面积 = 高）</span>
+    </p>
+    <p class="formula-line">
+      <span>④ 平行平面间：在另一平面任取一点，化归为 ①</span>
+    </p>
+    <p><b>统一思想</b>：② 是"面积除以底"，③ 是"体积除以底面积"——本质都是<b>几何量 ÷ 底</b>，理解了这个就永远不忘。①③ 也都可由"投影到法向量"推出：\( d=|\mathrm{proj}_{\vec n}\overrightarrow{M_1M_2}| \)。</p>
+  </div>
+  <p><b>填空提速技巧</b>：求异面距离先判"两直线是否真的异面"（混合积 ≠ 0 才异面；= 0 则共面，改用②或求交点）。若两直线平行（\( \vec s_1\times\vec s_2=0 \)），直接用②点到直线。近年竞赛喜欢在③上做文章。</p>
+</section>
+
+<!-- ================= §6 曲面与曲线 ================= -->
+<section class="block" id="s6">
+  <h2><span class="sec-no">6</span>曲面与空间曲线</h2>
+
+  <h3>6.1 旋转曲面：×2 法则 <span class="tag hot">绕轴必考</span></h3>
+  <div class="memory">
+    <div class="label">必背 · 绕坐标轴旋转（"留谁×2"）</div>
+    <p>平面曲线 \( f(x,z)=0 \)（在 xOz 面内）：</p>
+    <p class="formula-line">
+      <span><b>绕 z 轴</b>（z 不变）：\( f\big(\pm\sqrt{x^2+y^2},\ z\big)=0 \)</span>
+      <span><b>绕 x 轴</b>（x 不变）：\( f\big(x,\ \pm\sqrt{y^2+z^2}\big)=0 \)</span>
+    </p>
+    <p>口诀：<b>绕谁谁不变，另一个换 ±根号平方和</b>。例：\( \frac{x^2}{a^2}-\frac{z^2}{c^2}=1 \) 绕 z 轴 → 单叶双曲面 \( \frac{x^2+y^2}{a^2}-\frac{z^2}{c^2}=1 \)；绕 x 轴 → 双叶双曲面 \( \frac{x^2}{a^2}-\frac{y^2+z^2}{c^2}=1 \)。判类型题全部由此秒杀。</p>
+  </div>
+
+  <h3>6.2 二次曲面速查表（服务专题 06 画区域）</h3>
+  <table>
+    <tr><th style="width:22%">类型</th><th>标准方程</th><th>截面特征（识别用）</th></tr>
+    <tr><td>椭球面</td><td>\( \frac{x^2}{a^2}+\frac{y^2}{b^2}+\frac{z^2}{c^2}=1 \)</td><td>全正号；截面全为椭圆</td></tr>
+    <tr><td>单叶双曲面</td><td>\( \frac{x^2}{a^2}+\frac{y^2}{b^2}-\frac{z^2}{c^2}=1 \)</td><td><b>负号 1 个</b>；腰上能画直线（直纹面）</td></tr>
+    <tr><td>双叶双曲面</td><td>\( \frac{x^2}{a^2}-\frac{y^2}{b^2}-\frac{z^2}{c^2}=1 \)</td><td><b>负号 2 个</b>；分两片</td></tr>
+    <tr><td>椭圆抛物面</td><td>\( z=\frac{x^2}{a^2}+\frac{y^2}{b^2} \)</td><td>一次项 z + 全正二次项；碗口向上</td></tr>
+    <tr><td>双曲抛物面</td><td>\( z=\frac{x^2}{a^2}-\frac{y^2}{b^2} \)</td><td><b>马鞍面</b>；两方向一凹一凸</td></tr>
+    <tr><td>二次锥面</td><td>\( \frac{x^2}{a^2}+\frac{y^2}{b^2}=\frac{z^2}{c^2} \)</td><td>齐次（无常数项）；过原点</td></tr>
+  </table>
+  <p><b>识别口诀</b>：二次项符号个数定大类（全+椭球 / 一负单叶 / 两负双叶），缺常数且齐次是锥面，带一次项是抛物面族。</p>
+
+  <h3>6.3 柱面与投影</h3>
+  <p><b>柱面</b>：方程缺哪个坐标，母线就平行于哪根轴（如 \( x^2+y^2=R^2 \) 缺 z ⟹ 圆柱面）。<b>空间曲线在坐标面上的投影</b>：一般式消去目标坐标（如消 z 得 \( H(x,y)=0 \)，即 xOy 面投影），专题 06 重积分定限的必修操作。</p>
+
+  <h3>6.4 空间曲线的切向量（专题 05/07 的接口）</h3>
+  <p>参数式 \( \vec r(t) \)：切向量 \( \vec\tau=\big(x'(t),y'(t),z'(t)\big) \)；一般式（两曲面交线）在点 P 处：\( \vec\tau=\vec n_1\times\vec n_2\big|_P \)。曲面 \( F(x,y,z)=0 \) 的法向量 \( \vec n=\nabla F=(F_x,F_y,F_z)\big|_P \)。这两个公式是后面三章的地基。</p>
+</section>
+
+<!-- ================= §7 竞赛题型 ================= -->
+<section class="block" id="s7">
+  <h2><span class="sec-no">7</span>竞赛典型题型</h2>
+
+  <h3>7.1 求平面方程（条件组合题）</h3>
+  <p>标准流程：<b>设 \( Ax+By+Cz+D=0 \) → 把几何条件翻译成代数方程 → 解线性方程组</b>。可用的条件翻译：过点（代入）、平行于平面（法向成比例 \( (A,B,C)=\lambda(A_0,B_0,C_0) \)、含已知直线（法向 ⊥ 方向向量 + 过线上一点）。</p>
+  <p>点法式更快的选择：过直线 L 且垂直于平面 π 的平面，法向量 \( \vec n=\vec s_L\times\vec n_\pi \)，再取 L 上一点——两步出解，不用解方程组。<b>能用叉积就别解方程组</b>，这是本章第一提速意识。</p>
+
+  <h3>7.2 异面直线综合题（本章难度天花板）</h3>
+  <p>常见三连问：① 证异面（混合积 ≠ 0）；② 求距离（公式③）；③ 求公垂线方程——公垂线方向 \( \vec s=\vec s_1\times\vec s_2 \)，再找一点：过 L₁ 作平面 π₁ 含公垂线方向（法向 \( =\vec s_1\times\vec s \)），过 L₂ 作平面 π₂ 同理，π₁∩π₂ 即公垂线。**"辅助平面法"** 是这类题的标准装备。</p>
+
+  <h3>7.3 对称问题</h3>
+  <p>点关于平面对称：过点作垂线（参数式）代入平面求 t，回代 \( M'=M+2t\vec n \)。点关于直线对称：垂足 = 投影点（§2.1 投影公式或参数法）。曲线关于平面对称：逐点法或直接替换变量（结合 ×2 法则逆向用）。低频但套路固定。</p>
+
+  <h3>7.4 与多元分析的接口题（大题第一问）</h3>
+  <p>给曲面 \( z=f(x,y) \) 求切平面：法向 \( (-f_x,-f_y,1) \) 或 \( (f_x,f_y,-1) \)；给隐函数 \( F(x,y,z)=0 \) 用 \( \nabla F \)。曲面的切平面与法线、曲线的切线与法平面——四个名词两套公式，专题 05 §方向导数与专题 07 反复调用。</p>
+</section>
+
+<!-- ================= §8 易错点 ================= -->
+<section class="block" id="s8">
+  <h2><span class="sec-no">8</span>易错点清单（考前再过一遍）</h2>
+  <ol>
+    <li><b>线面角用 cos</b>：应为 \( \sin\theta=\frac{|\vec s\cdot\vec n|}{|s||n|} \)（方向与法量的角是余角）。</li>
+    <li><b>叉积行列式展开漏负号</b>：\( \vec j \) 项是 \( -(a_1b_3-a_3b_1) \)，按行列式严格展开，别口算。</li>
+    <li><b>方向向量抄成法向量</b>（或反之）：题设给的是直线还是平面先看清——直线配 \( \vec s \)、平面配 \( \vec n \)，混用全盘皆错。</li>
+    <li><b>点到平面公式漏绝对值</b>：分子必须取模，填空题符号错直接零分。</li>
+    <li><b>异面距离套公式前不验异面</b>：若混合积 = 0 是共面，公式③分母不为零但答案错（应先判交点或用②）。</li>
+    <li><b>×2 法则"绕谁谁变"记反</b>：绕 z 轴是 <b>z 不变</b>、xy 合并；记"留谁×2"（留下来的变量名不变）。</li>
+    <li><b>单叶/双叶双曲面认反</b>：负号 <b>1 个 = 单叶</b>（连通的一整片），负号 2 个 = 双叶（两片）。</li>
+    <li><b>投影向量忘乘 \( \vec b \)</b>：\( \mathrm{proj}_{\vec b}\vec a \) 是向量（带方向 \( \vec b/|b| \)），投影数量不带方向——看清题目要哪个。</li>
+    <li><b>柱面"缺坐标"理解反</b>：方程缺 z ⟹ 母线<b>平行</b> z 轴（不是"在 z 轴上"）。</li>
+    <li><b>三点共线时三点式行列式失效</b>：行列式 = 0 恒成立（任何平面都"过"退化的三点组），先验证三点不共线。</li>
+  </ol>
+
+  <div class="next">
+    <a class="next-link" href="02_例题精讲.html"><h2>进入例题精讲 →</h2><p>题型实录 + 每日进阶题归档（随做随录）</p></a>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

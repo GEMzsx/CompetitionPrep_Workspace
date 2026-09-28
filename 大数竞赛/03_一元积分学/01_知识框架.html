@@ -383,6 +383,9 @@ tr:last-child td { border-bottom: none; }
     <tr><td><b>分部放缩</b></td><td>出现 f' 时：\( \big|f(x)\big|=\big|f(a)+\int_a^x f'\big|\le|f(a)|+\int_a^x|f'| \)；给 \( |f'|\le M \) 就能放大。识别信号：条件只给导数信息，结论要控制函数值/积分</td></tr>
   </table>
   <p>次级工具：f≤g ⟹ ∫f≤∫g（比较）；\( |\int f|\le\int|f| \)；估值定理 \( m(b-a)\le\int f\le M(b-a) \)。</p>
+
+  <h3>7.3 分段包络 <span class="tag mid">决赛规格</span></h3>
+  <p>被积函数含振荡核（如 \( \big(\frac{\sin nx}{\sin x}\big)^k \)）时，两个天然上界各管一段：<b>近 0 界</b> \( |\sin nx|\le n\sin x \)（归纳可证）、<b>远 0 界</b> \( |\sin nx|\le1 \)，交叉点 \( x_n=\arcsin\frac1n \)。这是专题 01"尾部型"的镜像——那边尾部有效，这边两段分工。两个收口放缩：弦界 \( \arcsin t\le\frac\pi2t \)（arcsin 凸 ⟹ 在弦下方，Jordan 家族）；\( \theta\le\tan\theta \) ⟹ \( x_n\sqrt{n^2-1}\le1 \)（精确相消，渐近零损耗）。实录见例题精讲 · 题型六。</p>
 </section>
 
 <!-- ================= §8 反常积分 ================= -->

@@ -155,9 +155,9 @@ tr:last-child td { border-bottom: none; }
 <div class="hero">
   <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 03</p>
   <h1>一元积分学 · 例题精讲</h1>
-  <p>五大题型 × 六道实录题 —— 全部来自对话中实际做过的题，类型求全，不求题量。</p>
+  <p>六大题型 × 七道实录题 —— 全部来自对话中实际做过的题，类型求全，不求题量。</p>
   <div class="meta">
-    <span class="chip">战绩：三轮热身 9 题全对</span>
+    <span class="chip">战绩：三轮热身 9 题全对 · 决赛级挑战 1 题</span>
     <span class="chip">方法卡在 01_知识框架.html</span>
   </div>
 </div>
@@ -170,6 +170,7 @@ tr:last-child td { border-bottom: none; }
     <li><a href="#t3">变限积分：洛必达</a></li>
     <li><a href="#t4">原函数与可积性概念辨析</a></li>
     <li><a href="#t5">积分不等式：Cauchy–Schwarz</a></li>
+    <li><a href="#t6">分段包络：sin nx / sin x 型不等式</a></li>
   </ol>
 </nav>
 
@@ -296,6 +297,34 @@ tr:last-child td { border-bottom: none; }
     <p>末步放大用了 \( \frac{1-t^2}{2}\le\frac12 \)。∎</p>
   </div>
   <div class="comment"><b>点评</b>：① 初答走的是等价的分部路线（内层变限消化 \( dx \)，再放 \( \frac{x^2}{2}\le\frac12 \)）——两条路线殊途同归，<b>交换积分次序 = 分部积分</b>，这个等价意识值得留着。② 本题即 <b>Wirtinger/Poincaré 不等式</b>的 \( L^2 \) 版入门款（严格版最优常数 \( \frac{4}{\pi^2} \)，需傅里叶或变分法，决赛向了解即可）。③ 常数 \( \frac12 \) 不是最优但够用——竞赛里"证 ≤"型不等式，先求<b>成立</b>再谈最优。</div>
+</section>
+
+<!-- ================= 题型六 分段包络 ================= -->
+<section class="block" id="t6">
+  <h2><span class="sec-no">六</span>分段包络：sin nx / sin x 型积分不等式 <span class="tag finals">决赛规格</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 7（进阶实录 · 积分不等式大题）</div>
+    <p>证明：\[ \int_0^{\pi/2}x\left(\frac{\sin nx}{\sin x}\right)^{\!4}dx\ \le\ \left(\frac{n^2}{4}-\frac18\right)\pi^2,\qquad n\in\mathbb{N}^*. \]</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>先代 \( n=1 \)：\( f_1\equiv1 \)，左端 \( =\frac{\pi^2}{8} \) <b>恰等于右端</b> —— 界是紧的，全程一把抓的粗放缩必翻车。两个天然上界各管一段，交叉点 \( x_n=\arcsin\frac1n \)。专题 01 尾部型 \( (i/n)^n \) 的镜像：那边尾部有效，这边两段分工。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>第 0 步（n = 1 等号）</b>：\( f_1\equiv1 \)，\( I_1=\int_0^{\pi/2}x\,dx=\frac{\pi^2}{8}=(\frac14-\frac18)\pi^2 \)，等号成立。以下设 \( n\ge2 \)。</p>
+    <p><b>第 1 步（两把武器 + 分割）</b>：归纳易证 \( |\sin nx|\le n\sin x \)（\( \sin(k{+}1)x=\sin kx\cos x+\cos kx\sin x \)），又 \( |\sin nx|\le1 \)。取 \( x_n=\arcsin\frac1n \)（\( \sin x_n=\frac1n,\ \cot x_n=\sqrt{n^2-1} \)）：</p>
+    <p>\[ I_n\ \le\ \underbrace{\int_0^{x_n}n^4x\,dx}_{\text{近段}}+\underbrace{\int_{x_n}^{\pi/2}x\csc^4x\,dx}_{\text{远段}}. \]</p>
+    <p><b>第 2 步（近段）</b>：arcsin 凸 ⟹ 在弦下方，\( x_n\le\frac{\pi}{2n} \)（Jordan 家族），故 \( \text{近段}=\frac{n^4x_n^2}{2}\le\frac{\pi^2n^2}{8} \) —— 恰为右端一半，出题人的配额。</p>
+    <p><b>第 3 步（远段，一次分部）</b>：\( \int\csc^4x\,dx=-\cot x-\frac{\cot^3x}{3} \)（导数回代 \( =\csc^2x(1+\cot^2x)=\csc^4x \)）。分部后 \( \frac\pi2 \) 端 \( \cot=0 \) 自动消失，剩 \( \int\cot=\ln\sin x \) 与 \( \int\cot^3=-\frac{\cot^2x}{2}-\ln\sin x \)：</p>
+    <p>\[ \text{远段}=\frac{x_n\sqrt{n^2-1}\,(n^2+2)}{3}+\frac23\ln n+\frac{n^2-1}{6}. \]</p>
+    <p><b>第 4 步（精确相消，全题最妙）</b>：\( \theta\le\tan\theta \) ⟹ \( x_n\le\tan x_n=\frac{1}{\sqrt{n^2-1}} \) ⟹ \( x_n\sqrt{n^2-1}\le1 \)（渐近零损耗：该乘积 \( \to1 \)）。切勿用弦界硬放——会多出 \( \frac\pi2 \) 因子，配额爆掉。故</p>
+    <p>\[ \text{远段}\ \le\ \frac{n^2+2}{3}+\frac23\ln n+\frac{n^2-1}{6}=\frac{n^2+1}{2}+\frac23\ln n. \]</p>
+    <p><b>第 5 步（拼装）</b>：\( \ln n\le\frac n2 \)，\( n\ge2 \) 时 \( \frac n3\le\frac{n^2}{4} \)，故远段 \( \le\frac{3n^2+2}{4} \)；而 \( \frac{3n^2+2}{4}\le\frac{\pi^2(n^2-1)}{8}\iff n^2\ge\frac{\pi^2+4}{\pi^2-6}\approx3.6 \)，对 \( n\ge2 \) 成立。收口：</p>
+    <p>\[ I_n\ \le\ \frac{\pi^2n^2}{8}+\frac{\pi^2(n^2-1)}{8}=\frac{\pi^2n^2}{4}-\frac{\pi^2}{8}.\qquad\blacksquare \]</p>
+  </div>
+  <div class="comment"><b>点评 · 设计原理</b>：\( \frac{\pi^2}{4} \) 是全题的"膨胀因子"——近段真实量级 \( \frac{n^2}{2} \) 被弦界放大 \( (\frac\pi2)^2=\frac{\pi^2}{4} \) 倍（方法必要代价），远段实付 \( \approx\frac{n^2}{2} \) 而配额 \( \frac{\pi^2n^2}{8}=\frac{\pi^2}{4}\cdot\frac{n^2}{2} \) 有 2.5 倍富余，正好养回近段的膨胀；\( -\frac{\pi^2}{8} \) 是 n=1 的校准项（此时远段消失、近段=全段=精确值）。数值体检：n=2 全链给 \( I_2\le7.90 \)，目标 \( \frac{7\pi^2}{8}\approx8.64 \)。老零件清单：归纳、弦界、分部、\( \theta\le\tan\theta \)、分段估计（专题 01 尾部型镜像）、\( \ln n\le\frac n2 \)（§3.5 增长速度链）——六个旧零件，一张新装配图。</div>
 </section>
 
 </div>

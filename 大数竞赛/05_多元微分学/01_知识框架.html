@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题5 · 多元微分学 — 知识框架</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.toc {
+  margin: 24px 0 40px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 12px; padding: 20px 26px;
+}
+.toc h2 { font-size: 14px; letter-spacing: 2px; color: var(--ink-faint); margin: 0 0 10px; }
+.toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 40px; }
+.toc a { color: var(--ink-soft); text-decoration: none; font-size: 14.5px; }
+.toc a:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+p { margin: 8px 0; }
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef4f7; color: #4e7d93; border: 1px solid #c9dde7; }
+.tag.finals { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); }
+
+.memory {
+  background: var(--accent-soft); border: 1.5px solid var(--accent-border);
+  border-left: 5px solid var(--accent); border-radius: 10px;
+  padding: 16px 22px; margin: 16px 0;
+}
+.memory .label { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; }
+
+.warnbox {
+  background: var(--warn-soft); border-left: 5px solid var(--warn);
+  border-radius: 10px; padding: 14px 22px; margin: 16px 0; font-size: 15px;
+}
+.warnbox b { color: var(--warn); }
+
+.formula-line { display: flex; flex-wrap: wrap; gap: 6px 34px; padding: 6px 0; }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+.next {
+  margin-top: 36px; padding: 22px 28px;
+  background: #f4f6ff; border: 1.5px dashed var(--accent-border); border-radius: 12px;
+}
+.next h2 { margin: 0 0 8px; font-size: 18px; color: var(--accent); }
+.next ul { margin: 6px 0; }
+.next-link { text-decoration: none; display: block; }
+.next-link h2 { margin-bottom: 4px; }
+.next-link p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.next-link:hover h2 { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+  .toc ol { columns: 1; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="05"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 05</p>
+  <h1>多元微分学 · 知识框架</h1>
+  <p>大题主战场。四大战区：<b>概念链（可微性判断）</b>、<b>计算（链式法则 + 隐函数）</b>、<b>方向导数与几何应用（衔接 04）</b>、<b>极值与最值（拉格朗日乘数法）</b>。</p>
+  <div class="meta">
+    <span class="chip">初赛权重：大题 1 道（极值/条件极值）+ 填空计算</span>
+    <span class="chip">先修：专题 02（一元微分）· 04（法向量）</span>
+    <span class="chip">联动：专题 06/07（重积分换元、场论）</span>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#s1">本章地图与竞赛权重</a></li>
+    <li><a href="#s2">概念链：连续 · 偏导 · 可微（判断题高发）</a></li>
+    <li><a href="#s3">偏导与全微分：链式法则（计算核心）</a></li>
+    <li><a href="#s4">隐函数求导</a></li>
+    <li><a href="#s5">方向导数与梯度</a></li>
+    <li><a href="#s6">几何应用：切线与切平面</a></li>
+    <li><a href="#s7">极值与最值（必考大题）</a></li>
+    <li><a href="#s8">竞赛典型题型</a></li>
+    <li><a href="#s9">易错点清单</a></li>
+  </ol>
+</div>
+
+<!-- ================= §1 地图 ================= -->
+<section class="block" id="s1">
+  <h2><span class="sec-no">1</span>本章地图与竞赛权重</h2>
+  <table>
+    <tr><th style="width:32%">模块</th><th style="width:16%">频率</th><th>典型考法</th></tr>
+    <tr><td>抽象复合函数偏导（链式法则）</td><td><b>必考</b></td><td>z=f(u,v)，u,v 是 x,y 的函数，求二阶混合偏导（填空或大题第一问）</td></tr>
+    <tr><td>条件极值 / 闭区域最值</td><td><b>必考大题</b></td><td>拉格朗日乘数法 + 边界讨论；距离最值、面积最值</td></tr>
+    <tr><td>可微性、连续性判断</td><td><b>必考</b>（选择/判断）</td><td>给分段函数或具体函数，判断某点连续/偏导存在/可微</td></tr>
+    <tr><td>隐函数（含方程组）求导</td><td>常考</td><td>一个方程：\( -F_x/F_z \)；方程组：雅可比 Cramer</td></tr>
+    <tr><td>方向导数与梯度</td><td>常考</td><td>填空：给点给方向求数值；梯度与等值线垂直</td></tr>
+    <tr><td>切平面 / 法线（几何应用）</td><td>常考</td><td>曲面 \( F=0 \) 过某点的切平面（衔接专题 04）</td></tr>
+    <tr><td>多元 Taylor / 极值充分条件证明</td><td>低频/决赛</td><td>二阶判别法的推导、Hessian 正定性</td></tr>
+  </table>
+  <p><b>复习优先级</b>：§7 极值（大题分仓）→ §3 链式法则（计算基本盘）→ §2 概念链（判断题零成本得分）→ §4/§5/§6（套路化，一遍过）。</p>
+</section>
+
+<!-- ================= §2 概念链 ================= -->
+<section class="block" id="s2">
+  <h2><span class="sec-no">2</span>概念链：连续 · 偏导 · 可微 <span class="tag hot">判断题高发</span></h2>
+
+  <h3>2.1 蕴含关系图（一图定乾坤）</h3>
+  <div class="memory">
+    <div class="label">必背 · 六关系图（箭头 = 蕴含）</div>
+    <p>\[ \text{偏导连续} \implies \text{可微} \implies \begin{cases}\text{连续}\\ \text{偏导存在}\\ \text{全方向导数存在（且} =\nabla f\cdot\vec e\text{）}\end{cases} \]</p>
+    <p>反向<b>全部不成立</b>；"连续"与"偏导存在"<b>互不蕴含</b>。凡判断题，先在这张图上定位再作答。</p>
+  </div>
+
+  <h3>2.2 可微性判别（标准三步）</h3>
+  <p>检验 \( f \) 在 \( (x_0,y_0) \) 可微（设该点取值与偏导已知）：</p>
+  <p>\[ \lim_{(x,y)\to(x_0,y_0)}\frac{f(x,y)-f(x_0,y_0)-f_x(x_0,y_0)\Delta x-f_y(x_0,y_0)\Delta y}{\sqrt{\Delta x^2+\Delta y^2}}\ \overset{?}{=}\ 0 \]</p>
+  <p>等于 0 ⟹ 可微；不为 0 或极限不存在 ⟹ 不可微。<b>沿 \( y=kx \) 检验极限依赖 k ⟹ 不可微</b>——这是分段函数判断题的固定节目。</p>
+
+  <h3>2.3 反例库（三个必背）</h3>
+  <table>
+    <tr><th style="width:38%">反例（均在原点讨论）</th><th>破坏的性质</th></tr>
+    <tr><td>\( f=\dfrac{xy}{x^2+y^2} \)（补充定义 \( f(0,0)=0 \)）</td><td>沿 \( y=x \) 极限 \( \frac12 \)：不连续；但两偏导在原点均存在（=0）⟹ <b>偏导存在 ⇏ 连续</b></td></tr>
+    <tr><td>\( f=\dfrac{xy}{\sqrt{x^2+y^2}} \)（补充 0）</td><td>连续、偏导存在（=0），但沿 \( y=x \)：判别式极限 \( \frac{t}{\sqrt2\cdot\sqrt2}\ne0 \) ⟹ <b>不可微</b> ⟹ <b>连续+偏导 ⇏ 可微</b></td></tr>
+    <tr><td>\( f=\dfrac{x^2y}{x^4+y^2} \)（补充 0）</td><td>沿每条直线 \( y=kx \) 极限都是 0，但沿抛物线 \( y=x^2 \) 极限 \( \frac12 \)：不连续——<b>直线全过 ≠ 极限存在</b>，验证必须全路径</td></tr>
+  </table>
+  <p>第三个反例揭示检验原则：<b>证明存在（=0）用定义 + 夹逼（\( |xy|\le\frac{x^2+y^2}{2} \) 型放缩）；证明不存在找两条路径</b>——直线不够时升级到抛物线。</p>
+</section>
+
+<!-- ================= §3 链式法则 ================= -->
+<section class="block" id="s3">
+  <h2><span class="sec-no">3</span>偏导与全微分：链式法则 <span class="tag hot">计算核心</span></h2>
+
+  <h3>3.1 记号系统（竞赛书写标准）</h3>
+  <p>设 \( z=f(u,v) \)，\( u=u(x,y),\ v=v(x,y) \)。记 \( f_1'=\dfrac{\partial f}{\partial u},\ f_2'=\dfrac{\partial f}{\partial v} \)，\( f_{11}'',\ f_{12}'',\ f_{22}'' \) 同理。竞赛答卷直接用这套记号，比写 \( \frac{\partial f}{\partial u} \) 快一倍。</p>
+
+  <h3>3.2 一阶链式法则</h3>
+  <div class="memory">
+    <div class="label">必背 · 复合求导树（画树干不再错）</div>
+    <p>\[ \frac{\partial z}{\partial x}=f_1'\frac{\partial u}{\partial x}+f_2'\frac{\partial v}{\partial x},\qquad \frac{\partial z}{\partial y}=f_1'\frac{\partial u}{\partial y}+f_2'\frac{\partial v}{\partial y} \]</p>
+    <p>全微分形式不变性：\( dz=f_1'\,du+f_2'\,dv \)，其中 du、dv 再按 x,y 展开。<b>求一阶偏导时"全微分展开后读系数"往往比逐个链式快</b>。</p>
+  </div>
+
+  <h3>3.3 二阶偏导：唯一高频陷阱 <span class="tag hot">必考</span></h3>
+  <div class="warnbox">
+    <p><b>核心陷阱</b>：\( f_1',f_2' \) 仍然是 \( (u,v) \) 的复合函数！再对 x 求导时必须<b>再走一遍链</b>：</p>
+    <p>\[ \frac{\partial}{\partial x}\big(f_1'\big)=f_{11}''\frac{\partial u}{\partial x}+f_{12}''\frac{\partial v}{\partial x}\qquad(\text{不是 } f_{11}''\text{ 单独一项！}) \]</p>
+    <p>标准结果（u、v 与 x,y 的关系具体化后）：\( z=f(u,x) \) 型（v 直接是 x）会多出 \( f_2' \) 单独项——见例题精讲。</p>
+  </div>
+  <p><b>手数技巧</b>：求 \( z_{xx} \) 前先固定 \( z_x=f_1'u_x+f_2'v_x \) 的"加法结构"，对每一项分别用乘积法则，展开后按 \( f_{11},f_{12},f_{22},f_1,f_2 \) 归类——结构意识比蛮算快且不易漏项。</p>
+
+  <h3>3.4 变量代换化简方程（竞赛特色）</h3>
+  <p>给 PDE（如 \( x^2 z_{xx}+2xy z_{xy}+y^2z_{yy}=0 \)），令 \( u=x,\ v=\frac{y}{x} \)（或 \( u=\varphi,\ v=\psi \)）化简——把 z 视为 \( F(u,v) \) 的复合，链式法则全套走两遍，代入原方程整理。近年竞赛两次考到，套路固定：<b>列关系 → 一阶 → 二阶 → 代入 → 化简</b>。</p>
+</section>
+
+<!-- ================= §4 隐函数 ================= -->
+<section class="block" id="s4">
+  <h2><span class="sec-no">4</span>隐函数求导</h2>
+
+  <h3>4.1 一个方程的情形</h3>
+  <div class="memory">
+    <div class="label">必背 · 三步法</div>
+    <p>设 \( F(x,y,z)=0 \) 确定 \( z=z(x,y) \)，\( F_z\ne0 \)：</p>
+    <p class="formula-line">
+      <span>\( z_x=-\dfrac{F_x}{F_z} \)</span>
+      <span>\( z_y=-\dfrac{F_y}{F_z} \)</span>
+    </p>
+    <p>二阶：<b>对一阶结果再求导</b>，此时 \( z_x \) 里的 x、y、z 都要看，z 还是 x,y 的函数（复合链再次出现）；或对原方程连续两次全微分。两条路都要会——方程简单用微分，方程复杂用公式。</p>
+  </div>
+
+  <h3>4.2 方程组情形：雅可比行列式</h3>
+  <p>设 \( \begin{cases}F(x,y,u,v)=0\\ G(x,y,u,v)=0\end{cases} \) 确定 \( u(x,y),v(x,y) \)。对方程组两边对 x 求偏导（u、v 视为 x 的函数），得线性方程组，用 <b>Cramer 法则</b>解：</p>
+  <p>\[ \begin{cases}F_x+F_u u_x+F_v v_x=0\\ G_x+G_u u_x+G_v v_x=0\end{cases} \implies u_x=-\frac{\begin{vmatrix}F_x&F_v\\ G_x&G_v\end{vmatrix}}{\begin{vmatrix}F_u&F_v\\ G_u&G_v\end{vmatrix}} \]</p>
+  <p>雅可比 \( J=\dfrac{\partial(F,G)}{\partial(u,v)}\ne0 \) 是隐函数组存在的关键条件。<b>流程心法：求导时不许提前代值</b>——先解出符号解，最后才代具体点。</p>
+</section>
+
+<!-- ================= §5 方向导数与梯度 ================= -->
+<section class="block" id="s5">
+  <h2><span class="sec-no">5</span>方向导数与梯度</h2>
+
+  <h3>5.1 定义与计算</h3>
+  <p>沿单位方向 \( \vec l=(\cos\alpha,\cos\beta) \)：</p>
+  <p>\[ \frac{\partial f}{\partial l}\Big|_{P_0}=\lim_{t\to0^+}\frac{f(x_0+t\cos\alpha,\ y_0+t\cos\beta)-f(x_0,y_0)}{t} \]</p>
+  <div class="memory">
+    <div class="label">必背 · 可微时的方向导数公式</div>
+    <p>\[ \frac{\partial f}{\partial l}=f_x\cos\alpha+f_y\cos\beta=\nabla f\cdot\vec l^{\,\circ} \]</p>
+    <p>前提是<b>可微</b>（只偏导存在时该公式可能失效——方向导数定义可以存在而公式不成立，判断题埋伏点）。梯度的模 \( |\nabla f| \) 是最大方向导数，方向即 \( \nabla f \) 方向；沿梯度负方向下降最快。</p>
+  </div>
+
+  <h3>5.2 梯度的几何意义（衔接 04）</h3>
+  <p>\( \nabla f \perp \) 等值线 \( f=C \)（三维：\( \perp \) 等值面）。这就是专题 04 §6.4 说"曲面 \( F=0 \) 的法向量 \( =\nabla F \)"的来源。常考反向题：给曲面切平面法向量，问某函数最快上升方向——都是 \( \nabla \)。</p>
+</section>
+
+<!-- ================= §6 几何应用 ================= -->
+<section class="block" id="s6">
+  <h2><span class="sec-no">6</span>几何应用：切线与切平面 <span class="tag mid">与 04 联动</span></h2>
+
+  <table>
+    <tr><th style="width:26%">对象</th><th>关键向量</th><th>产出</th></tr>
+    <tr><td>曲线参数式 \( \vec r(t) \)</td><td>切向量 \( \vec\tau=(x'(t_0),y'(t_0),z'(t_0)) \)</td><td>切线 \( \frac{x-x_0}{x'}=\frac{y-y_0}{y'}=\frac{z-z_0}{z'} \)；法平面 \( x'(x-x_0)+y'(y-y_0)+z'(z-z_0)=0 \)</td></tr>
+    <tr><td>曲线一般式（两曲面交线）</td><td>\( \vec\tau=\vec n_1\times\vec n_2 \) 在 \( P_0 \) 处取值</td><td>同上（先叉积再写方程）</td></tr>
+    <tr><td>曲面 \( F(x,y,z)=0 \)</td><td>法向量 \( \nabla F\big|_{P_0} \)</td><td>切平面 \( F_x(P_0)(x-x_0)+F_y(P_0)(y-y_0)+F_z(P_0)(z-z_0)=0 \)；法线对称式</td></tr>
+    <tr><td>曲面 \( z=f(x,y) \)</td><td>法向量 \( (-f_x,-f_y,1) \)（或取反）</td><td>切平面 \( z-z_0=f_x(x-x_0)+f_y(y-y_0) \)</td></tr>
+  </table>
+  <p><b>记忆锚点</b>：切平面方程长得就像全微分 \( dz=f_xdx+f_ydy \)——几何应用本质是"线性近似"，与可微性定义（§2.2）同源。三个"1"（z 系数为 1）提醒法向量竖直分量。</p>
+</section>
+
+<!-- ================= §7 极值 ================= -->
+<section class="block" id="s7">
+  <h2><span class="sec-no">7</span>极值与最值 <span class="tag hot">必考大题</span></h2>
+
+  <h3>7.1 无条件极值：驻点 + 二阶判别</h3>
+  <div class="memory">
+    <div class="label">必背 · 二元极值判别法</div>
+    <p>驻点：\( f_x=f_y=0 \)。记 \( A=f_{xx},\ B=f_{xy},\ C=f_{yy} \)（驻点处取值）：</p>
+    <p>\[ \Delta=AC-B^2&gt;0\ \text{且}\ A&gt;0 \implies \text{极小};\qquad \Delta&gt;0,\ A&lt;0 \implies \text{极大} \]</p>
+    <p>\[ \Delta&lt;0 \implies \text{鞍点（不是极值）};\qquad \Delta=0 \implies \text{方法失效，用定义/特殊路径} \]</p>
+  </div>
+  <p><b>失效时的备用手段</b>（竞赛区分点）：按定义取路径比较（如沿 \( y=kx \) 展开），或 Hessian 配方。判别法只是充分条件，\( \Delta=0 \) 时极值可能存在也可能不存在（一元的 \( x^3 \) vs \( x^4 \) 在二维的推广）。</p>
+
+  <h3>7.2 条件极值：拉格朗日乘数法 <span class="tag hot">大题标配</span></h3>
+  <div class="memory">
+    <div class="label">必背 · 拉格朗日乘数法（单约束）</div>
+    <p>目标 \( f(x,y,z) \)，约束 \( \varphi(x,y,z)=0 \)：</p>
+    <p>\[ L=f+\lambda\varphi,\qquad L_x=L_y=L_z=L_\lambda=0 \]</p>
+    <p>解出的点满足<b>必要条件</b>。多约束再加 \( \mu\psi \)。最优性与充分性另证（常用：最值存在性 + 候选点比较）。</p>
+  </div>
+  <p><b>解方程组的四个武器</b>（拉格朗日系统的实际难度全在这）：</p>
+  <ol>
+    <li><b>线性组合消元</b>：三个方程适当相减，常能凑出 \( (x-a) \) 因子；</li>
+    <li><b>对称性</b>：目标与约束均轮换对称 ⟹ 候选点先试 \( x=y=z \)；</li>
+    <li><b>利用约束</b>：解不出 \( (x,y,z) \) 时，往往只需 \( f \) 在驻点的值——把约束代入目标化简（如证距离最值只需算 \( x^2+y^2+z^2 \)）；</li>
+    <li><b>齐次结构</b>：约束是二次型时，乘 \( \lambda \) 的方程乘 x 求和（欧拉定理式技巧）。</li>
+  </ol>
+
+  <h3>7.3 闭区域最值：三路包抄 <span class="tag hot">完整采分链</span></h3>
+  <div class="memory">
+    <div class="label">必背 · 闭区域 D 上 f 的最值流程（漏一步扣一步分）</div>
+    <p>① <b>内部</b>：解 \( f_x=f_y=0 \)，得驻点（偏导不存在的点也要列，若有）；</p>
+    <p>② <b>边界</b>：参数化代入（化一元）<b>或</b>对边界曲线拉格朗日（边界是隐式曲线时）；</p>
+    <p>③ <b>比较</b>：所有候选点的函数值排序，写最大/最小及位置。<b>结论必须带"最值在何点取得"</b>，只给数值不给点扣分。</p>
+  </div>
+  <p><b>竞赛书写要求</b>（盯你的书写链习惯）：拉格朗日法解出的候选点只是"必要条件点"，必须补一句"<b>f 在有界闭区域连续 ⟹ 最值存在，比较所有候选点即得</b>"——这一句是最值存在性的采分点，跳过它整题按不完整处理。</p>
+
+  <h3>7.4 距离最值（竞赛最经典应用）</h3>
+  <p>点到曲面/曲线的最短距离：平方化（去根号）→ 目标 \( d^2=(x-a)^2+\cdots \)，约束为曲面方程 → 拉格朗日。常用观察：若曲面 \( \varphi \) 与目标可构造出"几何平均值 ≥ 算术平均值"或 C-S，可以秒杀（专题 03 §7.2 的积分版同源）。<b>先看能不能秒杀，再上拉格朗日</b>。</p>
+</section>
+
+<!-- ================= §8 竞赛题型 ================= -->
+<section class="block" id="s8">
+  <h2><span class="sec-no">8</span>竞赛典型题型</h2>
+  <table>
+    <tr><th style="width:30%">题型</th><th>触发信号</th><th>装备</th></tr>
+    <tr><td>抽象复合二阶偏导</td><td>z=f(u,v)，u,v 含 x,y，求 \( z_{xy} \)</td><td>§3 记号系统 + 乘积法则 + <b>再走链</b></td></tr>
+    <tr><td>可微性判断（分段函数）</td><td>给 \( f(0,0)=0 \) 的分段定义</td><td>§2.2 三步判别 + 沿线检验</td></tr>
+    <tr><td>PDE 变量代换化简</td><td>"引入新变量 u、v，证明方程化为…"</td><td>§3.4 四步流程</td></tr>
+    <tr><td>隐函数（方程组）求导</td><td>"由方程组确定 u、v，求 \( \frac{\partial u}{\partial x} \)"</td><td>§4.2 Cramer，先符号后代值</td></tr>
+    <tr><td>条件极值 / 距离最值</td><td>"在曲面/曲线上求最近点"</td><td>§7.2 四武器 + §7.4 秒杀观察</td></tr>
+    <tr><td>闭区域最值</td><td>区域 D 给出（含边界曲线）</td><td>§7.3 三路包抄 + 存在性一句话</td></tr>
+    <tr><td>切平面/法平面</td><td>给曲面与点</td><td>§6 表格 + 04 §6.4</td></tr>
+  </table>
+</section>
+
+<!-- ================= §9 易错点 ================= -->
+<section class="block" id="s9">
+  <h2><span class="sec-no">9</span>易错点清单（考前再过一遍）</h2>
+  <ol>
+    <li><b>二阶偏导漏链</b>：\( (f_1'u_x)_x \) 展开时 \( f_1' \) 还要再复合——竞赛最高频计算失分点，没有之一。</li>
+    <li><b>连续 + 偏导存在 ≠ 可微</b>：判断题埋伏，反例 \( \frac{xy}{\sqrt{x^2+y^2}} \)。</li>
+    <li><b>验证极限只查直线</b>：\( y=kx \) 全过也说明不了存在（抛物线路径反例）。</li>
+    <li><b>方向导数忘了 cos</b>：方向必须单位化；\( \vec l=(1,1) \) 时应乘 \( \frac{1}{\sqrt2} \)。沿 \( -x \) 方向的方向导数 \( =-f_x \)（带符号）。</li>
+    <li><b>方向导数公式的前提是可微</b>：只偏导存在时公式可能不成立（定义可以存在）。</li>
+    <li><b>隐函数二阶求导时把 z 当常数</b>：\( z_x \) 对 x 求导时，其中的 z 仍是 x,y 的函数，复合链再次生效。</li>
+    <li><b>判别法 Δ=0 直接下结论</b>：失效！必须换定义/路径/配方。</li>
+    <li><b>闭区域最值漏边界或漏"偏导不存在点"</b>：三路包抄一步不能省。</li>
+    <li><b>拉格朗日解完不写存在性那句话</b>："连续 + 有界闭区域 ⟹ 最值存在，比较候选点"是采分句。</li>
+    <li><b>切平面法向量记错方向</b>：\( z=f(x,y) \) 的法向量是 \( (-f_x,-f_y,1) \)，别丢负号或把 1 写到别处。</li>
+  </ol>
+
+  <div class="next">
+    <a class="next-link" href="02_例题精讲.html"><h2>进入例题精讲 →</h2><p>题型实录 + 每日进阶题归档（随做随录）</p></a>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题5 · 多元微分学 — 例题精讲</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+nav.toc {
+  margin: 24px 0 40px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 12px; padding: 20px 26px;
+}
+nav.toc h2 { font-size: 14px; letter-spacing: 2px; color: var(--ink-faint); margin: 0 0 10px; }
+nav.toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 40px; }
+nav.toc a { color: var(--ink-soft); text-decoration: none; font-size: 14.5px; }
+nav.toc a:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+p { margin: 8px 0; }
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef4f7; color: #4e7d93; border: 1px solid #c9dde7; }
+
+.prob {
+  background: #fafbff; border: 1.5px solid var(--accent-border); border-radius: 10px;
+  padding: 14px 20px; margin: 14px 0;
+}
+.prob .plabel { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--accent); margin-bottom: 6px; }
+
+.anal {
+  background: var(--gold-soft); border: 1px solid #ecd9a0; border-radius: 10px;
+  padding: 12px 20px; margin: 14px 0;
+}
+.anal .alabel { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--gold); margin-bottom: 4px; }
+
+.sol { margin: 14px 0; }
+.sol .slabel { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--ink-soft); margin-bottom: 4px; }
+
+.comment {
+  background: var(--accent-soft); border-radius: 10px;
+  padding: 12px 20px; margin: 14px 0; font-size: 15px;
+}
+.comment.done { background: #eef9f0; border: 1px solid #bfe5c8; }
+
+.formula-line { display: flex; flex-wrap: wrap; gap: 6px 34px; padding: 6px 0; }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+  nav.toc ol { columns: 1; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="05"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 05</p>
+  <h1>多元微分学 · 例题精讲</h1>
+  <p>题型实录 —— 全部来自对话中实际做过的题，类型求全，不求题量。</p>
+  <div class="meta">
+    <span class="chip">战绩：6 题实录，5 对 + 1 判卷事故改判</span>
+    <span class="chip">方法卡在 01_知识框架.html</span>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>题型总览</h2>
+  <ol>
+    <li><a href="#t1">可微性三连判断（连续 / 偏导 / 可微）</a></li>
+    <li><a href="#t2">抽象复合二阶偏导（链式法则）</a></li>
+    <li><a href="#t3">闭区域最值：三路包抄</a></li>
+    <li><a href="#t4">方向导数与梯度</a></li>
+    <li><a href="#t5">隐函数名题：y=f(x,t) 且 F(x,y,t)=0</a></li>
+    <li><a href="#t6">条件极值：拉格朗日 vs 放缩秒杀</a></li>
+  </ol>
+</nav>
+
+<!-- ================= 题型一 可微性判断 ================= -->
+<section class="block" id="t1">
+  <h2><span class="sec-no">一</span>可微性三连判断 <span class="tag hot">判断题高发</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 1（热身）</div>
+    <p>设 \( f(x,y)=\begin{cases}\dfrac{xy}{\sqrt{x^2+y^2}},&amp; (x,y)\ne(0,0)\\[4pt] 0,&amp; (x,y)=(0,0)\end{cases} \)。<br>
+    判断 \( f \) 在原点：(a) 是否连续；(b) 偏导是否存在；(c) 是否可微。各给依据。</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>§2.2 三步法固定流程：先连续（夹逼放缩）→ 再偏导（定义）→ 最后判别式（路径法）。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>(a) 由 \( |xy|\le\frac{x^2+y^2}{2} \)：\( |f|\le\dfrac{\sqrt{x^2+y^2}}{2}\to0 \) ⟹ <b>连续</b>。</p>
+    <p>(b) 按定义：\( f_x(0,0)=\lim\limits_{h\to0}\dfrac{f(h,0)-0}{h}=0 \)，同理 \( f_y(0,0)=0 \) ⟹ <b>偏导存在</b>。</p>
+    <p>(c) 判别式（线性主项为 0）：</p>
+    <p>\[ \frac{f(x,y)-f(0,0)-0\cdot x-0\cdot y}{\sqrt{x^2+y^2}}=\frac{xy}{x^2+y^2}\ \xrightarrow{\ y=x\ }\ \frac{x^2}{2x^2}=\frac12\ne0 \]</p>
+    <p>⟹ <b>不可微</b>。</p>
+  </div>
+  <div class="comment done"><b>战绩</b>：满分。三个采分点齐全：夹逼放缩 \( |xy|\le\frac{x^2+y^2}{2} \)、偏导按定义、判别式路径法。此函数正是框架 §2.3 反例表第二行——"连续 + 偏导存在 ⇏ 可微"的标准反例，判断题直接调用。</div>
+</section>
+
+<!-- ================= 题型二 抽象复合 ================= -->
+<section class="block" id="t2">
+  <h2><span class="sec-no">二</span>抽象复合二阶偏导 <span class="tag hot">本章最高频失分点</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 2（热身）</div>
+    <p>设 \( z=f(xy,\ x^2+y^2) \)，\( f \) 有二阶连续偏导，求 \( \dfrac{\partial^2 z}{\partial x\,\partial y} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（两行采分链）</div>
+    <p>一阶（\( u=xy,\ v=x^2+y^2 \)，故 \( u_x=y,\ v_x=2x \)）：</p>
+    <p>\[ z_x=yf_1'+2xf_2' \]</p>
+    <p>二阶（乘积法则 + <b>再走链</b>：\( f_1',f_2' \) 仍是 \( (u,v) \) 的函数，\( u_y=x,\ v_y=2y \)）：</p>
+    <p>\[ z_{xy}=\underbrace{f_1'+y\big(xf_{11}''+2yf_{12}''\big)}_{(yf_1')_y}+\underbrace{2x\big(xf_{21}''+2yf_{22}''\big)}_{(2xf_2')_y} \]</p>
+    <p>\[ =\;xyf_{11}''+2(x^2+y^2)f_{12}''+4xyf_{22}''+f_1' \]</p>
+  </div>
+  <div class="comment done"><b>战绩</b>：满分，两条铁律都没踩坑——① \( f_1' \) 再求导时必须再走链（系数是 \( u_y=x,\ v_y=2y \)，不是一阶的 \( y,\ 2x \）；一阶对 x、二阶对 y，系数会换，这是另一个易错源）；② 乘积法则的 \( f_1' \) 单独项（来自 \( y\cdot(f_1')_y \) 中的 \( y \)）最易漏。\( f \) 二阶连续 ⟹ \( f_{12}''=f_{21}'' \) 合并。书写要求：中间展开的两行是采分点，不许从 \( z_x \) 直接跳到结果。</div>
+</section>
+
+<!-- ================= 题型三 闭区域最值 ================= -->
+<section class="block" id="t3">
+  <h2><span class="sec-no">三</span>闭区域最值：三路包抄 <span class="tag hot">必考大题</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 3（热身 · 大题书写链）</div>
+    <p>求 \( f(x,y)=xy(x+y-3) \) 在 \( D=\{(x,y)\mid x\ge0,\ y\ge0,\ x+y\le3\} \) 上的最大值与最小值。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>存在性</b>（采分句）：\( f \) 为多项式连续，\( D \) 有界闭 ⟹ 最值存在，比较全部候选点即得。</p>
+    <p><b>① 内部</b>：\( f_x=y(2x+y-3)=0,\ f_y=x(x+2y-3)=0 \)。内部 \( x&gt;0,y&gt;0 \) ⟹ \( 2x+y=3,\ x+2y=3 \) ⟹ 驻点 \( (1,1) \)，\( f(1,1)=1\cdot1\cdot(-1)=-1 \)。</p>
+    <p><b>② 边界</b>（整体代入，勿拆因子）：</p>
+    <p class="formula-line">
+      <span>\( x=0:\ f\equiv 0\cdot y\,(y-3)=0 \)</span>
+      <span>\( y=0:\ f\equiv 0 \)</span>
+      <span>\( x+y=3:\ f=xy\cdot 0\equiv0 \)</span>
+    </p>
+    <p>顶点 \( (0,0),(3,0),(0,3) \)：均为 \( 0 \)。</p>
+    <p><b>③ 比较</b>：候选值 \( \{-1\}\cup\{0\} \) ⟹ <b>最小值 \( -1 \) 在 \( (1,1) \)；最大值 \( 0 \) 于整条边界</b>。</p>
+    <p>（验证：\( (1,1) \) 处 \( A=2y=2,\ B=2x+2y-3=1,\ C=2x=2 \)，\( \Delta=3&gt;0,\ A&gt;0 \) ⟹ 极小，与全局结论一致。）</p>
+  </div>
+  <div class="comment done"><b>战绩</b>：满分（初答即对；阅卷方曾误判，复核后确认）。本题三条边都使 \( f\equiv0 \)，全部"活动空间"在内部，结构干净。<b>一次真实事故入库</b>：核对时把 \( x=0 \) 代成 \( y(x+y-3) \)（丢了因子 \( x \)），算出 \( y^2-3y \) 与错误答案 \( -\frac94 \)。铁律：<b>代边界必须把原式完整写出再化简（\( 0\cdot y\cdot(y-3)=0 \)），不许心算拆因子</b>。</div>
+
+  <div class="anal">
+    <div class="alabel">变式速览（圆边界 · 答案直接给，不用做）</div>
+    <p>\( f=xy \) 于 \( x^2+y^2\le1 \)：内部驻点 \( (0,0) \) 值 0；边界参数化 \( xy=\cos t\sin t=\frac{\sin 2t}{2}\in[-\frac12,\frac12] \) ⟹ 最大 \( \frac12 \) 于 \( (\pm\frac{1}{\sqrt2},\pm\frac{1}{\sqrt2}) \)（同号），最小 \( -\frac12 \)（异号）。</p>
+    <p><b>两套边界操作</b>：直线边界 = 查端点 + 段内一元驻点；曲线边界 = 参数化成三角最值。闭区域最值题的边界形状决定第二路怎么走。</p>
+  </div>
+</section>
+
+<!-- ================= 题型四 方向导数 ================= -->
+<section class="block" id="t4">
+  <h2><span class="sec-no">四</span>方向导数与梯度 <span class="tag hot">常考填空</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 4</div>
+    <p>求 \( u=xy^2z \) 在 \( P(1,-1,2) \) 处沿 \( \overrightarrow{PQ} \)（\( Q=(3,-2,1) \)）方向的方向导数，以及 \( |\operatorname{grad} u| \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>\( \overrightarrow{PQ}=(2,-1,-1) \)，单位化 \( \vec l^{\,\circ}=\frac{1}{\sqrt6}(2,-1,-1) \)。</p>
+    <p>\[ \nabla u=(y^2z,\ 2xyz,\ xy^2)\Big|_P=(2,\ -4,\ 1) \]</p>
+    <p>\[ \frac{\partial u}{\partial l}=\nabla u\cdot\vec l^{\,\circ}=\frac{4+4-1}{\sqrt6}=\frac{7}{\sqrt6}=\frac{7\sqrt6}{6},\qquad |\nabla u|=\sqrt{4+16+1}=\sqrt{21} \]</p>
+  </div>
+  <div class="comment done"><b>战绩</b>：满分，唯一陷阱（方向未单位化）直接跳过。记忆锚点：\( |\nabla u|=\sqrt{21}\approx4.58 \) 是该点<b>所有方向中最大</b>的方向导数（方向即 \( \nabla u \)），注意 \( \frac{7}{\sqrt6}\approx2.86\lt\sqrt{21} \)——填空爱把两问打包考，顺手校验大小关系。</div>
+</section>
+
+<!-- ================= 题型五 隐函数名题 ================= -->
+<section class="block" id="t5">
+  <h2><span class="sec-no">五</span>隐函数名题：y=f(x,t) 且 F(x,y,t)=0 <span class="tag hot">经典</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 5</div>
+    <p>设 \( y=f(x,t) \)，而 \( t \) 由方程 \( F(x,y,t)=0 \) 确定为 \( x,y \) 的函数（\( f,F \) 均一阶连续可导）。求 \( \dfrac{dy}{dx} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（结构句先行）</div>
+    <p>结构：\( t=t(x,y) \)（由 \( F=0 \)），\( y=y(x) \)，复合链为 \( y=f\big(x,\ t(x,y(x))\big) \)。对 x 全导（两项都要走链）：</p>
+    <p>\[ \frac{dy}{dx}=f_1'+f_2'\Big(t_x\big|_y+t_y\big|_x\cdot\frac{dy}{dx}\Big) \]</p>
+    <p>由 \( F=0 \)：\( F_1'+F_3'\,t_x\big|_y=0\Rightarrow t_x\big|_y=-\frac{F_1'}{F_3'} \)；\( F_2'+F_3'\,t_y\big|_x=0\Rightarrow t_y\big|_x=-\frac{F_2'}{F_3'} \)。代入解出：</p>
+    <p>\[ \boxed{\ \frac{dy}{dx}=\frac{f_1'F_3'-f_2'F_1'}{F_3'+f_2'F_2'}\ } \]</p>
+  </div>
+  <div class="comment done"><b>战绩</b>：满分。此为隐函数章节名题（考研 1999/竞赛均考过）。关键结构："\( t \) 对 \( x \) 的依赖有两条路"——直接依赖（\( t_x \)）与经 \( y \) 的间接依赖（\( t_y\cdot y' \)）。书写采分句：先写"结构：\( t=t(x,y),\ y=y(x) \)"再落笔链式，跳过这句直接展开容易被扣步骤分。</div>
+</section>
+
+<!-- ================= 题型六 条件极值 ================= -->
+<section class="block" id="t6">
+  <h2><span class="sec-no">六</span>条件极值：拉格朗日 vs 放缩秒杀 <span class="tag hot">大题标配</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 6（竞赛名题 · 双解对照）</div>
+    <p>求原点到曲面 \( (x-y)^2-z^2=1 \) 的最短距离。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">路线一：拉格朗日（重武器，5 分钟）</div>
+    <p>目标 \( d^2=x^2+y^2+z^2 \)，约束 \( \varphi=(x-y)^2-z^2-1=0 \)：</p>
+    <p>\[ L=(1+\lambda)x^2+(1+\lambda)y^2-(1+\lambda\text{ 镜像})z^2-2\lambda xy-\lambda \]</p>
+    <p>\[ L_x=2(1+\lambda)x-2\lambda y=0,\quad L_y=2(1+\lambda)y-2\lambda x=0,\quad L_z=-2(1-\lambda)z=0 \]</p>
+    <p>\( z=0 \) 分支（\( \lambda=1 \) 时前两方程给 \( x=-y \) 且约束 \( 4x^2=1 \)，同解）：\( x=\mp\frac12,\ y=\pm\frac12 \)，\( d^2=\frac12 \)。<b>分支检验</b>：\( \lambda=1 \) 代入 \( L_x \) 得 \( x+y=0 \)，与约束联立同样给出 \( (\pm\frac12,\mp\frac12,0) \)，无新点。</p>
+    <p>\[ d_{\min}=\sqrt{\tfrac12}=\frac{\sqrt2}{2}\quad\text{于}\ \big(\tfrac12,-\tfrac12,0\big)\ \text{及对称点} \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">路线二：C-S 放缩（轻武器，30 秒）</div>
+    <p>\[ x^2+y^2\ \overset{\text{C-S}}{\ge}\ \frac{(x-y)^2}{2}\ \overset{\text{约束}}{=}\ \frac{1+z^2}{2}\ \ge\ \frac12 \]</p>
+    <p>等号验证：\( x=-y=\pm\frac12 \)（C-S 等号）、\( z=0 \) —— 下界取得，\( d_{\min}=\frac{\sqrt2}{2} \)，完毕。</p>
+  </div>
+  <div class="comment done"><b>战绩</b>：满分（初答走拉格朗日路线，全对含分支检验）。核心复盘：<b>先看能不能秒杀，再上拉格朗日</b>——C-S 两行出下界，考场价值 30 秒 vs 5 分钟。识别信号：目标与约束呈"平方和 vs 平方差"结构时，先试 \( x^2+y^2\ge\frac{(x-y)^2}{2} \) 型放缩。两路对照也是自查手段：重武器答案若与轻武器下界一致，基本稳了。</div>
+</section>
+
+</div>
+</body>
+</html>
