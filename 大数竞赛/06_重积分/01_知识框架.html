@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题6 · 重积分 — 知识框架</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.toc {
+  margin: 24px 0 40px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 12px; padding: 20px 26px;
+}
+.toc h2 { font-size: 14px; letter-spacing: 2px; color: var(--ink-faint); margin: 0 0 10px; }
+.toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 40px; }
+.toc a { color: var(--ink-soft); text-decoration: none; font-size: 14.5px; }
+.toc a:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+p { margin: 8px 0; }
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef4f7; color: #4e7d93; border: 1px solid #c9dde7; }
+
+.memory {
+  background: var(--accent-soft); border: 1.5px solid var(--accent-border);
+  border-left: 5px solid var(--accent); border-radius: 10px;
+  padding: 16px 22px; margin: 16px 0;
+}
+.memory .label { font-size: 12.5px; font-weight: 800; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; }
+
+.warnbox {
+  background: var(--warn-soft); border-left: 5px solid var(--warn);
+  border-radius: 10px; padding: 14px 22px; margin: 16px 0; font-size: 15px;
+}
+.warnbox b { color: var(--warn); }
+
+.formula-line { display: flex; flex-wrap: wrap; gap: 6px 34px; padding: 6px 0; }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+.next {
+  margin-top: 36px; padding: 22px 28px;
+  background: #f4f6ff; border: 1.5px dashed var(--accent-border); border-radius: 12px;
+}
+.next h2 { margin: 0 0 8px; font-size: 18px; color: var(--accent); }
+.next ul { margin: 6px 0; }
+.next-link { text-decoration: none; display: block; }
+.next-link h2 { margin-bottom: 4px; }
+.next-link p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.next-link:hover h2 { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+  .toc ol { columns: 1; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="06"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 06</p>
+  <h1>重积分 · 知识框架</h1>
+  <p>计算量之王。核心战法三件套：<b>对称性/奇偶性先扫一遍（偷分）</b>、<b>坐标系选型（直角/极坐标/柱面/球面）</b>、<b>交换次序（破不能积分的锁）</b>。</p>
+  <div class="meta">
+    <span class="chip">初赛权重：大题 1 道计算 + 填空</span>
+    <span class="chip">先修：专题 03（一元积分）· 04（画区域）· 05（换元雅可比）</span>
+    <span class="chip">联动：专题 07（格林/高斯全靠它）</span>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#s1">本章地图与竞赛权重</a></li>
+    <li><a href="#s2">概念与比较性质（证明题弹药）</a></li>
+    <li><a href="#s3">二重积分：画域与次序（基本盘）</a></li>
+    <li><a href="#s4">对称性与奇偶性（第一偷分器）</a></li>
+    <li><a href="#s5">极坐标与一般换元</a></li>
+    <li><a href="#s6">三重积分：投影法与选坐标</a></li>
+    <li><a href="#s7">重积分应用：面积/体积/质心</a></li>
+    <li><a href="#s8">竞赛典型题型</a></li>
+    <li><a href="#s9">易错点清单</a></li>
+  </ol>
+</div>
+
+<!-- ================= §1 地图 ================= -->
+<section class="block" id="s1">
+  <h2><span class="sec-no">1</span>本章地图与竞赛权重</h2>
+  <table>
+    <tr><th style="width:32%">模块</th><th style="width:16%">频率</th><th>典型考法</th></tr>
+    <tr><td>二重积分交换次序</td><td><b>必考</b></td><td>给累次积分（内层积不出）→ 画域 → 换序秒解</td></tr>
+    <tr><td>极坐标 / 换元计算</td><td><b>必考</b></td><td>圆域、\( x^2+y^2 \) 结构；雅可比换元（对称域去根号）</td></tr>
+    <tr><td>对称性奇偶性</td><td><b>必考</b></td><td>填空秒杀：奇函数对 0、偶函数折半</td></tr>
+    <tr><td>三重积分（柱面/球面）</td><td>常考</td><td>旋转体域、球锥域；先二后一（截面法）</td></tr>
+    <tr><td>积分不等式与估值</td><td>常考</td><td>比较性质、C-S（专题 03 §7.2 的重积分版）</td></tr>
+    <tr><td>几何/物理应用</td><td>常考</td><td>面积（极坐标版）、体积、质心（轮换对称偷分）</td></tr>
+    <tr><td>含参/抽象重积分证明</td><td>低频/决赛</td><td>积分中值、交换次序证恒等式</td></tr>
+  </table>
+  <p><b>复习优先级</b>：§4 对称性（零成本）→ §3 换序（必考）→ §5 极坐标/换元 → §6 三重 → §2 概念（证明题）→ §7 应用。</p>
+</section>
+
+<!-- ================= §2 概念 ================= -->
+<section class="block" id="s2">
+  <h2><span class="sec-no">2</span>概念与比较性质（证明题弹药）</h2>
+
+  <h3>2.1 定义与几何意义</h3>
+  <p>\[ \iint_D f\,d\sigma=\lim_{\lambda\to0}\sum_{i=1}^{n}f(\xi_i,\eta_i)\Delta\sigma_i \]</p>
+  <p>几何意义：\( f\ge0 \) 时为曲顶柱体体积；\( f\equiv1 \) 时 \( \iint_D d\sigma=D \) 的面积。</p>
+
+  <h3>2.2 六条常用性质（证明题从这挑）</h3>
+  <table>
+    <tr><th style="width:24%">性质</th><th>内容与竞赛用法</th></tr>
+    <tr><td><b>线性 / 区域可加</b></td><td>拆区域（对称性操作的前置动作）</td></tr>
+    <tr><td><b>保号性</b></td><td>\( f\le g \Rightarrow \iint f\le\iint g \)；推论 \( |\iint f|\le\iint|f| \)</td></tr>
+    <tr><td><b>估值定理</b></td><td>\( m\,|D|\le\iint_D f\le M\,|D| \)（m、M 为最值）——估范围、证不等式</td></tr>
+    <tr><td><b>积分中值定理</b></td><td>\( f \) 连续 ⟹ \( \iint_D f=f(\xi,\eta)|D| \)——去积分号的唯一正规手段，"积不出但有界"的题先想它</td></tr>
+    <tr><td><b>连续函数平均值</b></td><td>\( \bar f=\frac{1}{|D|}\iint_D f \)（中值定理的 \(\xi\) 处取值即平均值）</td></tr>
+  </table>
+</section>
+
+<!-- ================= §3 二重积分 ================= -->
+<section class="block" id="s3">
+  <h2><span class="sec-no">3</span>二重积分：画域与次序 <span class="tag hot">基本盘</span></h2>
+
+  <h3>3.1 化累次积分的标准流程（五步，一步不能跳）</h3>
+  <ol>
+    <li><b>画域</b>：边界曲线全画出来，求交点（专题 04 的画图功在此结账）；</li>
+    <li><b>选次序</b>：看"哪个方向穿区域，进出的边界曲线是否各自唯一"——X 型（竖穿：下曲线 \( y_1(x) \) 进、\( y_2(x) \) 出）、Y 型（横穿）；</li>
+    <li><b>定外层</b>：投影区间（X 型即 x 范围）；</li>
+    <li><b>定内层</b>：穿入曲线（下限）到穿出曲线（上限）；</li>
+    <li><b>逐层积</b>：内层积分时外层变量当常数。</li>
+  </ol>
+  <p>两方向都可穿时，选<b>内层好积</b>的；若一个次序要拆多块、另一个不拆，选不拆的。</p>
+
+  <h3>3.2 交换次序 <span class="tag hot">必考</span></h3>
+  <div class="memory">
+    <div class="label">必背 · 换序三步（口诀：先还原，再换穿）</div>
+    <p>① 由原累次限<b>还原区域 D</b>（不等式组 → 画图）；② 重新选型（X↔Y）；③ 按新次序重新定限。<b>核心：换的是"穿区域的方向"，不是简单对调上下限</b>。</p>
+    <p>经典触发信号：内层出现 \( e^{1/y},\ \frac{\sin y}{y},\ \frac{\cos y}{y},\ e^{-y^2} \) 这类<b>积不出原函数</b>的函数——它们必须当外层（只代入不出原函数）。竞赛多次直接考：\( \int_0^1dy\int_y^1\frac{\sin x}{x}dx \) 型。</p>
+  </div>
+
+  <h3>3.3 分块与拼域</h3>
+  <p>边界曲线中途换表情（如 \( y=x \) 与 \( y=x^2 \) 围成域，上下曲线在 \( x=\frac12 \) 交接）⟹ 要么拆块，要么换次序避开。拆块原则：拆在<b>边界表达式切换处</b>，不拆在被积函数处（函数问题用对称性解决）。</p>
+</section>
+
+<!-- ================= §4 对称性 ================= -->
+<section class="block" id="s4">
+  <h2><span class="sec-no">4</span>对称性与奇偶性 <span class="tag hot">第一偷分器</span></h2>
+
+  <div class="memory">
+    <div class="label">必背 · 对称性三条（动笔前必扫）</div>
+    <p>① <b>奇函数归零</b>：D 关于 x 轴对称，\( f(x,-y)=-f(x,y) \) ⟹ \( \iint_D f=0 \)；</p>
+    <p>② <b>偶函数折半</b>：\( f(x,-y)=f(x,y) \) ⟹ \( \iint_D f=2\iint_{D_{上半}}f \)；</p>
+    <p>③ <b>轮换对称</b>：D 关于 \( y=x \) 对称 ⟹ \( \iint_D f(x,y)\,d\sigma=\iint_D f(y,x)\,d\sigma \)——"换名不改值"，把难积的 \( x^2 \) 换成好积的搭配，或证明题里造对称。</p>
+  </div>
+  <p><b>标准套路</b>：\( \iint_D(x^2+y^2)\,d\sigma \xlongequal{\text{轮换}} \iint_D 2y^2\,d\sigma \)（域对称时 \( x^2,y^2 \) 地位相同）。三重积分同理：D 关于 \( z=0 \) 对称看 \( f \) 对 z 的奇偶；球体/正方体上还有三变量轮换。</p>
+  <div class="warnbox">
+    <p><b>两步前置检查（顺序不能反）</b>：先看<b>区域对称</b>（不对称一切免谈），再看<b>函数奇偶</b>。常见错误：区域只关于一轴对称，却对另一轴用奇偶；或整体不对称就放弃——有时可拆 \( f=\underbrace{(x+y)}_{奇}+\underbrace{xy}_{偶} \) 分项处理。</p>
+  </div>
+</section>
+
+<!-- ================= §5 极坐标 ================= -->
+<section class="block" id="s5">
+  <h2><span class="sec-no">5</span>极坐标与一般换元 <span class="tag hot">必考</span></h2>
+
+  <h3>5.1 极坐标公式</h3>
+  <div class="memory">
+    <div class="label">必背 · 极坐标三件（别忘 r！）</div>
+    <p>\[ \iint_D f(x,y)\,d\sigma=\iint_{D'} f(r\cos\theta,\ r\sin\theta)\,\underbrace{r}_{\text{别忘}}\,dr\,d\theta \]</p>
+    <p>定限：射线穿域（θ 为外层）。圆心在原点：\( 0\le\theta\le2\pi,\ 0\le r\le R \)；圆心在 x 轴上 \( (a,0) \)：\( -\frac\pi2\le\theta\le\frac\pi2,\ 0\le r\le 2a\cos\theta \)（过原点的圆，<b>r 从 0 起</b>，不是从某正数起——这最易错）。</p>
+  </div>
+  <p><b>选极坐标的信号</b>：区域是圆/环/扇（或边界含 \( x^2+y^2 \)）；被积函数含 \( x^2+y^2,\ \frac{y}{x},\ \arctan\frac yx \) 结构。两个信号占一个就值得试。</p>
+
+  <h3>5.2 一般换元（雅可比行列式）<span class="tag mid">竞赛特色</span></h3>
+  <div class="memory">
+    <div class="label">必背 · 二重换元公式</div>
+    <p>\[ \begin{cases}x=x(u,v)\\ y=y(u,v)\end{cases}\ \Rightarrow\ \iint_D f\,dxdy=\iint_{D'}f\big(x(u,v),y(u,v)\big)\,|J|\,dudv,\qquad J=\frac{\partial(x,y)}{\partial(u,v)} \]</p>
+    <p>极坐标是特例：\( J=r \)。<b>三大经典换元</b>：① \( u=x+y,\ v=x-y \)（\( J=-\frac12 \)，对角线正方形域）；② \( x=ar\cos\theta,\ y=br\sin\theta \)（椭圆域，广义极坐标，\( J=abr \)）；③ \( x=u^2-v^2,\ y=2uv \) 型（复平方映射，决赛向）。</p>
+  </div>
+  <p><b>信号</b>：域是斜放正方形 / 椭圆 / 由 \( x\pm y \) 界定的菱形，或被积函数含 \( (x+y)^2+(x-y)^2 \) 结构。<b>换元方向</b>：让新变量的常数曲线恰好是区域的边界。</p>
+</section>
+
+<!-- ================= §6 三重积分 ================= -->
+<section class="block" id="s6">
+  <h2><span class="sec-no">6</span>三重积分：投影法与选坐标</h2>
+
+  <h3>6.1 三条路线</h3>
+  <table>
+    <tr><th style="width:22%">路线</th><th>公式结构</th><th>何时用</th></tr>
+    <tr><td><b>投影法</b>（先一后二）</td><td>\( \iiint_\Omega f\,dV=\iint_{D_{xy}}\Big[\int_{z_1(x,y)}^{z_2(x,y)}f\,dz\Big]d\sigma \)</td><td>一般区域默认起手；上下曲面 \( z_1,z_2 \) 分工明确</td></tr>
+    <tr><td><b>截面法</b>（先二后一）</td><td>\( \iiint_\Omega f\,dV=\int_{c}^{d}\Big[\iint_{D(z)}f\,d\sigma\Big]dz \)</td><td><b>f 只含 z</b> 且截面 \( D(z) \) 面积好算（旋转体、平行截面已知的锥/台）——"先二后一"是它的别名，竞赛特色考点</td></tr>
+    <tr><td><b>柱坐标</b></td><td>\( x=r\cos\theta,\ y=r\sin\theta,\ z=z \)，\( dV=r\,dr\,d\theta\,dz \)</td><td>旋转体域（绕 z 轴）+ 被积含 \( x^2+y^2 \)</td></tr>
+    <tr><td><b>球坐标</b></td><td>\( x=\rho\sin\varphi\cos\theta,\ y=\rho\sin\varphi\sin\theta,\ z=\rho\cos\varphi \)，\( dV=\rho^2\sin\varphi\,d\rho\,d\varphi\,d\theta \)</td><td>球/锥域 + 被积含 \( x^2+y^2+z^2 \)</td></tr>
+  </table>
+  <div class="memory">
+    <div class="label">必背 · 球坐标定限心法</div>
+    <p>从原点<b>向外发射线</b>：先穿哪个面，r（ρ）就从 0 到该面；θ 绕 z 轴转一圈的范围；φ 从 z 轴正向<b>向下摆</b>（球 \( x^2+y^2+z^2=R^2 \)：\( 0\le\rho\le R \)；上半锥面 \( z=\sqrt{x^2+y^2} \) 是 \( \varphi=\frac\pi4 \) 平面锥角 \( 2\times\frac\pi4 \)）。<b>sin φ 是 dV 的一部分</b>，与 r 一起最容易丢。</p>
+  </div>
+
+  <h3>6.2 选型决策树</h3>
+  <p>f 只含 z + 截面好算 → <b>先二后一</b>；域是旋转体 → <b>柱</b>；域是球/锥块 → <b>球</b>；其余 → <b>投影法</b> + 直角。三重积分的对称性检查同 §4（三对坐标面、三变量轮换）。</p>
+</section>
+
+<!-- ================= §7 应用 ================= -->
+<section class="block" id="s7">
+  <h2><span class="sec-no">7</span>重积分应用 <span class="tag mid">常考</span></h2>
+
+  <table>
+    <tr><th style="width:26%">量</th><th>公式</th><th>备注</th></tr>
+    <tr><td>平面区域面积</td><td>\( S=\iint_D d\sigma \)；极坐标 \( S=\frac12\int_{\alpha}^{\beta}r^2(\theta)\,d\theta \)</td><td>极坐标面积公式（扇形微元）填空常考</td></tr>
+    <tr><td>曲面面积</td><td>\( z=f(x,y) \) 上方：\( S=\iint_{D}\sqrt{1+f_x^2+f_y^2}\,d\sigma \)</td><td>即专题 04 例 3 伏笔的兑现</td></tr>
+    <tr><td>体积</td><td>\( V=\iint_D\big[z_2-z_1\big]d\sigma \)</td><td>上曲面减下曲面</td></tr>
+    <tr><td>质心</td><td>\( \bar x=\frac{\iint_D x\mu\,d\sigma}{\iint_D\mu\,d\sigma} \)（y 同理）</td><td><b>对称域 + 常密度 ⟹ 质心在对称轴上</b>（零计算）；轮换对称可偷分</td></tr>
+    <tr><td>转动惯量</td><td>\( I_x=\iint_D y^2\mu\,d\sigma \)；\( I_O=\iint_D(x^2+y^2)\mu\,d\sigma \)</td><td>低频，记名字与量纲即可</td></tr>
+  </table>
+</section>
+
+<!-- ================= §8 竞赛题型 ================= -->
+<section class="block" id="s8">
+  <h2><span class="sec-no">8</span>竞赛典型题型</h2>
+  <table>
+    <tr><th style="width:30%">题型</th><th>触发信号</th><th>装备</th></tr>
+    <tr><td>换序秒解"积不出"</td><td>内层 \( \frac{\sin x}{x}, e^{1/y} \) 等</td><td>§3.2 三步换序</td></tr>
+    <tr><td>对称性填空秒杀</td><td>圆/正方形域 + 混合奇偶项</td><td>§4 三条 + 分项拆解</td></tr>
+    <tr><td>极坐标/椭圆换元</td><td>圆域、\( x^2+y^2 \)、椭圆 \( \frac{x^2}{a^2}+\frac{y^2}{b^2} \)</td><td>§5 两公式（雅可比别丢）</td></tr>
+    <tr><td>先二后一</td><td>f 只含 z，域是旋转体</td><td>§6.1 截面法</td></tr>
+    <tr><td>球坐标综合</td><td>球锥围域</td><td>§6.1 定限心法</td></tr>
+    <tr><td>积分中值/估值证明</td><td>"证明 … ≤ \( \iint \) ≤ …"</td><td>§2.2 估值定理 + 中值定理（专题 02 放缩风）</td></tr>
+    <tr><td>质心/形心应用</td><td>"求 … 的形心"</td><td>§7 + 对称性偷分</td></tr>
+  </table>
+</section>
+
+<!-- ================= §9 易错点 ================= -->
+<section class="block" id="s9">
+  <h2><span class="sec-no">9</span>易错点清单（考前再过一遍）</h2>
+  <ol>
+    <li><b>极坐标忘乘 r</b>（雅可比），球坐标忘乘 \( \rho^2\sin\varphi \)——本章第一大失分点。</li>
+    <li><b>换序 = 直接对调上下限</b>：错！必须还原区域重定限，边界表达式可能整体改变（还会引起拆块/合并）。</li>
+    <li><b>过原点的圆 r 下限写错</b>：\( r=2a\cos\theta \) 型圆的 r 从 <b>0</b> 到 \( 2a\cos\theta \)，不是从某常数起。</li>
+    <li><b>对称性只查函数不查区域</b>（或反之）：两步检查缺一不可，顺序别反。</li>
+    <li><b>先二后一忘了它是"二"</b>：截面 \( D(z) \) 的面积要按 z 分段表达（旋转体 \( \pi r(z)^2 \)），z 范围取整体的 z 投影。</li>
+    <li><b>内层积分把外层变量当变量</b>：内层对 y 积分时 x 是常数——抄写时圈出来防手滑。</li>
+    <li><b>椭圆域直角坐标硬算</b>：广义极坐标 \( J=abr \)，三分钟题变三十秒题。</li>
+    <li><b>曲面面积公式用 \( f_x^2+f_y^2 \) 忘 +1</b>：\( \sqrt{1+f_x^2+f_y^2} \)，"1" 是 z 对自己的导数。</li>
+    <li><b>质心公式分母忘写</b>：\( \bar x \) 是比值，密度不均时分母就是质量，不是面积。</li>
+    <li><b>绝对值函数直接积</b>：\( \iint |x-y| \) 类先按 \( y=x \) 分块去绝对值（常与对称性配合）。</li>
+  </ol>
+
+  <div class="next">
+    <a class="next-link" href="02_例题精讲.html"><h2>进入例题精讲 →</h2><p>题型实录 + 每日进阶题归档（随做随录）</p></a>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
