@@ -237,7 +237,7 @@ tr:last-child td { border-bottom: none; }
     <p>② <b>偶函数折半</b>：\( f(x,-y)=f(x,y) \) ⟹ \( \iint_D f=2\iint_{D_{上半}}f \)；</p>
     <p>③ <b>轮换对称</b>：D 关于 \( y=x \) 对称 ⟹ \( \iint_D f(x,y)\,d\sigma=\iint_D f(y,x)\,d\sigma \)——"换名不改值"，把难积的 \( x^2 \) 换成好积的搭配，或证明题里造对称。</p>
   </div>
-  <p><b>标准套路</b>：\( \iint_D(x^2+y^2)\,d\sigma \xlongequal{\text{轮换}} \iint_D 2y^2\,d\sigma \)（域对称时 \( x^2,y^2 \) 地位相同）。三重积分同理：D 关于 \( z=0 \) 对称看 \( f \) 对 z 的奇偶；球体/正方体上还有三变量轮换。</p>
+  <p><b>标准套路</b>：\( \iint_D(x^2+y^2)\,d\sigma \overset{\text{轮换}}{=} \iint_D 2y^2\,d\sigma \)（域对称时 \( x^2,y^2 \) 地位相同）。三重积分同理：D 关于 \( z=0 \) 对称看 \( f \) 对 z 的奇偶；球体/正方体上还有三变量轮换。</p>
   <div class="warnbox">
     <p><b>两步前置检查（顺序不能反）</b>：先看<b>区域对称</b>（不对称一切免谈），再看<b>函数奇偶</b>。常见错误：区域只关于一轴对称，却对另一轴用奇偶；或整体不对称就放弃——有时可拆 \( f=\underbrace{(x+y)}_{奇}+\underbrace{xy}_{偶} \) 分项处理。</p>
   </div>
@@ -278,7 +278,7 @@ tr:last-child td { border-bottom: none; }
   </table>
   <div class="memory">
     <div class="label">必背 · 球坐标定限心法</div>
-    <p>从原点<b>向外发射线</b>：先穿哪个面，r（ρ）就从 0 到该面；θ 绕 z 轴转一圈的范围；φ 从 z 轴正向<b>向下摆</b>（球 \( x^2+y^2+z^2=R^2 \)：\( 0\le\rho\le R \)；上半锥面 \( z=\sqrt{x^2+y^2} \) 是 \( \varphi=\frac\pi4 \) 平面锥角 \( 2\times\frac\pi4 \)）。<b>sin φ 是 dV 的一部分</b>，与 r 一起最容易丢。</p>
+    <p>从原点<b>向外发射线</b>：先穿哪个面，ρ 就从 0 到该面；θ 绕 z 轴转一圈的范围；φ 从 z 轴正向<b>向下摆</b>（球 \( x^2+y^2+z^2=R^2 \)：\( 0\le\rho\le R \)；锥面 \( z=\sqrt{x^2+y^2} \) 对应 \( \varphi=\frac{\pi}{4} \)，锥内即 \( 0\le\varphi\le\frac{\pi}{4} \)）。<b>sin φ 是 dV 的一部分</b>，与 ρ² 一起最容易丢。</p>
   </div>
 
   <h3>6.2 选型决策树</h3>

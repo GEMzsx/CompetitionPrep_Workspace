@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题6 · 重积分 — 例题精讲</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+p { margin: 8px 0; }
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+
+.prob {
+  background: #f6f7fb; border: 1px solid var(--line); border-radius: 10px;
+  padding: 14px 20px; margin: 18px 0 10px;
+}
+.plabel { font-size: 12.5px; font-weight: 800; color: var(--ink-faint); letter-spacing: 1px; margin-bottom: 6px; }
+.sol {
+  background: var(--accent-soft); border: 1px solid var(--accent-border);
+  border-radius: 10px; padding: 14px 20px; margin: 10px 0;
+}
+.slabel { font-size: 12.5px; font-weight: 800; color: var(--accent); letter-spacing: 1px; margin-bottom: 6px; }
+.comment {
+  background: var(--gold-soft); border-left: 4px solid var(--gold);
+  border-radius: 8px; padding: 10px 18px; margin: 10px 0 22px; font-size: 14.5px;
+}
+.comment.done { border-left-color: #3d9a50; background: #eef8f0; }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="06"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 06</p>
+  <h1>重积分 · 例题精讲</h1>
+  <p>题型实录 —— 全部来自对话中实际做过的题，每题带战绩标注。类型求全，不求题量。</p>
+  <div class="meta">
+    <span class="chip">3 道实录题</span>
+    <span class="chip">方法卡在 01_知识框架.html</span>
+  </div>
+</div>
+
+<section class="block">
+  <h2><span class="sec-no">览</span>题型总览与战绩</h2>
+  <table>
+    <tr><th style="width:30%">类型</th><th>实录题</th><th style="width:34%">战绩</th></tr>
+    <tr><td>交换次序破"积不出"</td><td>例 1</td><td>✓ 一次通过</td></tr>
+    <tr><td>极坐标定限（双圆公共域）</td><td>例 2</td><td>✗ 区域误判 + 内层漏 ÷3（巩固中）</td></tr>
+    <tr><td>三重积分 · 先二后一</td><td>例 3</td><td>✗ 方法对，被积函数误抄（巩固中）</td></tr>
+  </table>
+</section>
+
+<!-- ================= 题型一 ================= -->
+<section class="block" id="t1">
+  <h2><span class="sec-no">一</span>交换次序 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 1（热身 · 一次通过）</div>
+    <p>\[ I=\int_0^1 dy\int_y^1 \frac{\sin x}{x}\,dx \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（换序三步）</div>
+    <p>① 还原区域：\( 0\le y\le1,\ y\le x\le1 \)——直线 \( y=x,\ x=1,\ y=0 \) 围成的三角形；② 重选穿向：竖穿（X 型）；③ 重定限：\( 0\le x\le1,\ 0\le y\le x \)。</p>
+    <p>\[ I=\int_0^1 dx\int_0^x\frac{\sin x}{x}\,dy=\int_0^1\frac{\sin x}{x}\cdot x\,dx=\int_0^1\sin x\,dx=1-\cos 1 \]</p>
+  </div>
+  <div class="comment done"><b>点评</b>：触发信号——内层 \( \frac{\sin x}{x} \) 无初等原函数，必须换到外层只代入。换序的本质是"换穿区域的方向"，不是对调上下限。</div>
+</section>
+
+<!-- ================= 题型二 ================= -->
+<section class="block" id="t2">
+  <h2><span class="sec-no">二</span>极坐标定限 · 双圆公共域 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 2（热身 · 区域误判）</div>
+    <p>\[ \iint_D\sqrt{x^2+y^2}\,d\sigma,\qquad D:\ x^2+y^2\le 2x \ \text{与} \ x^2+y^2\le 2y \ \text{的公共部分} \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（min 分段 + 对称性折半）</div>
+    <p>极坐标下两圆边界：\( \Gamma_1:\ r=2\cos\theta \)，\( \Gamma_2:\ r=2\sin\theta \)。<b>公共部分 = 同时满足两个约束</b>：</p>
+    <p>\[ 0\le\theta\le\frac{\pi}{2},\qquad 0\le r\le\min\big(2\sin\theta,\ 2\cos\theta\big) \]</p>
+    <p>交叉方向 \( \theta=\frac{\pi}{4} \)（两圆交点 \( (0,0) \) 与 \( (1,1) \) 连线的方向）分段：\( [0,\frac{\pi}{4}] \) 段取 \( 2\sin\theta \)，\( [\frac{\pi}{4},\frac{\pi}{2}] \) 段取 \( 2\cos\theta \)。区域与被积函数均关于 \( y=x \) 对称，两段相等：</p>
+    <p>\[ I=2\int_0^{\frac{\pi}{4}}d\theta\int_0^{2\sin\theta}r^2\,dr=\frac{16}{3}\int_0^{\frac{\pi}{4}}\sin^3\theta\,d\theta=\frac{16}{3}\Big(\frac{2}{3}-\frac{5\sqrt{2}}{12}\Big)=\frac{32-20\sqrt{2}}{9}\approx 0.413 \]</p>
+    <p>其中 \( \int_0^{\pi/4}\sin^3\theta\,d\theta \) 用 \( \int\sin^3\theta\,d\theta=-\cos\theta+\frac{\cos^3\theta}{3} \) 代端点即得。</p>
+  </div>
+  <div class="comment"><b>点评</b>：初答只写了 \( r\le 2\sin\theta \) 一个约束（相当于把 D 当成了 \( \Gamma_2 \) 本身），丢了 \( \Gamma_1 \) 的 \( r\le 2\cos\theta \)；且从结果反推，内层 \( \int_0^{2\sin\theta}r^2\,dr=\frac{8}{3}\sin^3\theta \) 的 ÷3 也丢了。<b>5 秒校验</b>：\( S_D=\frac{\pi}{2}-1\approx0.57 \)，被积函数 \( \le\sqrt{2} \)，故 \( I\le0.81 \)——初答 \( \frac{16}{3}\approx5.3 \) 直接出局。口诀：<b>公共部分取 min，交叉方向是分段点</b>。</div>
+</section>
+
+<!-- ================= 题型三 ================= -->
+<section class="block" id="t3">
+  <h2><span class="sec-no">三</span>三重积分 · 先二后一 <span class="tag mid">竞赛特色</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 3（热身 · 被积函数误抄）</div>
+    <p>\[ \iiint_\Omega (x^2+y^2)\,dV,\qquad \Omega:\ z=\sqrt{x^2+y^2}\ \text{与} \ z=1\ \text{围成的锥体} \]</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（先二后一为主，柱坐标对照）</div>
+    <p><b>路线 A（先二后一）</b>：截面 \( D(z):\ x^2+y^2\le z^2 \)，截面上的二重积分用极坐标：</p>
+    <p>\[ \iint_{D(z)}(x^2+y^2)\,d\sigma=\int_0^{2\pi}d\theta\int_0^{z}r^2\cdot r\,dr=2\pi\cdot\frac{z^4}{4}=\frac{\pi z^4}{2},\qquad I=\int_0^1\frac{\pi z^4}{2}\,dz=\frac{\pi}{10} \]</p>
+    <p><b>路线 B（柱坐标）</b>：\( z \) 从锥面 \( r \) 积到顶盖 \( 1 \)：</p>
+    <p>\[ I=\int_0^{2\pi}d\theta\int_0^1 r^3(1-r)\,dr=2\pi\Big(\frac{1}{4}-\frac{1}{5}\Big)=\frac{\pi}{10} \]</p>
+  </div>
+  <div class="comment"><b>点评</b>：初答"先二后一"选型正确、计算链自洽，但把被积函数抄成 \( \sqrt{x^2+y^2} \)，得到 \( \frac{\pi}{6} \)——那是另一道题的答案。\( (x^2+y^2)=r^2 \) 乘 \( dV \) 的 \( r \) 得 \( r^3 \)。<b>被积函数抄错是三重积分最冤的失分</b>：动笔前先把被积函数与区域各抄一遍再开工。</div>
+</section>
+
+</div>
+</body>
+</html>
