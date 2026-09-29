@@ -125,7 +125,7 @@ tr:last-child td { border-bottom: none; }
   <h1>重积分 · 例题精讲</h1>
   <p>题型实录 —— 全部来自对话中实际做过的题，每题带战绩标注。类型求全，不求题量。</p>
   <div class="meta">
-    <span class="chip">3 道实录题</span>
+    <span class="chip">5 道实录题</span>
     <span class="chip">方法卡在 01_知识框架.html</span>
   </div>
 </div>
@@ -135,8 +135,8 @@ tr:last-child td { border-bottom: none; }
   <table>
     <tr><th style="width:30%">类型</th><th>实录题</th><th style="width:34%">战绩</th></tr>
     <tr><td>交换次序破"积不出"</td><td>例 1</td><td>✓ 一次通过</td></tr>
-    <tr><td>极坐标定限（双圆公共域）</td><td>例 2</td><td>✗ 区域误判 + 内层漏 ÷3（巩固中）</td></tr>
-    <tr><td>三重积分 · 先二后一</td><td>例 3</td><td>✗ 方法对，被积函数误抄（巩固中）</td></tr>
+    <tr><td>极坐标定限（双圆公共域）</td><td>例 2、例 4</td><td>✗ 初答区域误判；同区域重耕（例 4）通过</td></tr>
+    <tr><td>三重积分 · 先二后一</td><td>例 3、例 5</td><td>✗ 初答误抄被积函数；同区域重耕（例 5）通过</td></tr>
   </table>
 </section>
 
@@ -147,6 +147,7 @@ tr:last-child td { border-bottom: none; }
   <div class="prob">
     <div class="plabel">例 1（热身 · 一次通过）</div>
     <p>\[ I=\int_0^1 dy\int_y^1 \frac{\sin x}{x}\,dx \]</p>
+    <p><b>速览</b>：还原三角域换序，内层 \( \int_0^x dy=x \) 恰好约掉分母 —— \( 1-\cos 1 \)。</p>
   </div>
   <div class="sol">
     <div class="slabel">解（换序三步）</div>
@@ -163,6 +164,7 @@ tr:last-child td { border-bottom: none; }
   <div class="prob">
     <div class="plabel">例 2（热身 · 区域误判）</div>
     <p>\[ \iint_D\sqrt{x^2+y^2}\,d\sigma,\qquad D:\ x^2+y^2\le 2x \ \text{与} \ x^2+y^2\le 2y \ \text{的公共部分} \]</p>
+    <p><b>速览</b>：min 分段 + 折半，\( \int\sin^3 \) 代端点 —— \( \frac{32-20\sqrt2}{9}\approx0.413 \)。</p>
   </div>
   <div class="sol">
     <div class="slabel">解（min 分段 + 对称性折半）</div>
@@ -173,6 +175,19 @@ tr:last-child td { border-bottom: none; }
     <p>其中 \( \int_0^{\pi/4}\sin^3\theta\,d\theta \) 用 \( \int\sin^3\theta\,d\theta=-\cos\theta+\frac{\cos^3\theta}{3} \) 代端点即得。</p>
   </div>
   <div class="comment"><b>点评</b>：初答只写了 \( r\le 2\sin\theta \) 一个约束（相当于把 D 当成了 \( \Gamma_2 \) 本身），丢了 \( \Gamma_1 \) 的 \( r\le 2\cos\theta \)；且从结果反推，内层 \( \int_0^{2\sin\theta}r^2\,dr=\frac{8}{3}\sin^3\theta \) 的 ÷3 也丢了。<b>5 秒校验</b>：\( S_D=\frac{\pi}{2}-1\approx0.57 \)，被积函数 \( \le\sqrt{2} \)，故 \( I\le0.81 \)——初答 \( \frac{16}{3}\approx5.3 \) 直接出局。口诀：<b>公共部分取 min，交叉方向是分段点</b>。</div>
+
+  <div class="prob">
+    <div class="plabel">例 4（巩固重耕 · 同区域换被积函数）</div>
+    <p>\[ \iint_D xy\,d\sigma,\qquad D\ \text{同例 2} \]</p>
+    <p><b>速览</b>：min 分段 + 折半，θ 积分恰为 \( \sin^6 \) 的导数型 —— \( \frac{1}{6} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>定限同例 2；被积函数 \( xy\,d\sigma=r^3\sin\theta\cos\theta\,dr\,d\theta \)。关于 \( y=x \) 对称折半：</p>
+    <p>\[ I=2\int_0^{\frac{\pi}{4}}\sin\theta\cos\theta\,d\theta\int_0^{2\sin\theta}r^3\,dr=2\int_0^{\frac{\pi}{4}}\sin\theta\cos\theta\cdot\frac{16\sin^4\theta}{4}\,d\theta=8\int_0^{\frac{\pi}{4}}\sin^5\theta\cos\theta\,d\theta=\frac{8}{6}\Big(\frac{\sqrt2}{2}\Big)^{\!6}=\frac{1}{6} \]</p>
+    <p>亮点：\( \sin^5\theta\cos\theta=\frac{(\sin^6\theta)'}{6} \)，θ 积分一步出，无需求递推公式。</p>
+  </div>
+  <div class="comment done"><b>点评</b>：结构同例 2（min 分段 + 折半），内层 \( \int r^3dr \) 的 ÷4 体现在 \( \frac{16}{4}=4 \)。<b>勘误记录</b>：对话中曾误将答案确认为 \( \frac14 \)——写出完整过程后勘误为 \( \frac16 \)。量级校验：\( 0.57\times 0.29\approx0.167 \) ✓。教训：任何"确认"都替代不了一行推导。</div>
 </section>
 
 <!-- ================= 题型三 ================= -->
@@ -182,6 +197,7 @@ tr:last-child td { border-bottom: none; }
   <div class="prob">
     <div class="plabel">例 3（热身 · 被积函数误抄）</div>
     <p>\[ \iiint_\Omega (x^2+y^2)\,dV,\qquad \Omega:\ z=\sqrt{x^2+y^2}\ \text{与} \ z=1\ \text{围成的锥体} \]</p>
+    <p><b>速览</b>：先二后一 \( \int_0^1\frac{\pi z^4}{2}dz \)（柱坐标 \( r^3(1-r) \) 对照）—— \( \frac{\pi}{10} \)。</p>
   </div>
   <div class="sol">
     <div class="slabel">解（先二后一为主，柱坐标对照）</div>
@@ -191,6 +207,19 @@ tr:last-child td { border-bottom: none; }
     <p>\[ I=\int_0^{2\pi}d\theta\int_0^1 r^3(1-r)\,dr=2\pi\Big(\frac{1}{4}-\frac{1}{5}\Big)=\frac{\pi}{10} \]</p>
   </div>
   <div class="comment"><b>点评</b>：初答"先二后一"选型正确、计算链自洽，但把被积函数抄成 \( \sqrt{x^2+y^2} \)，得到 \( \frac{\pi}{6} \)——那是另一道题的答案。\( (x^2+y^2)=r^2 \) 乘 \( dV \) 的 \( r \) 得 \( r^3 \)。<b>被积函数抄错是三重积分最冤的失分</b>：动笔前先把被积函数与区域各抄一遍再开工。</div>
+
+  <div class="prob">
+    <div class="plabel">例 5（巩固重耕 · 纯正先二后一）</div>
+    <p>\[ \iiint_\Omega z^2\,dV,\qquad \Omega\ \text{同例 3（锥体）} \]</p>
+    <p><b>速览</b>：f 只含 z + 截面面积 \( \pi z^2 \) —— \( \frac{\pi}{5} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>被积函数只含 \( z \)，截面 \( D(z) \) 为半径 \( z \) 的圆盘：</p>
+    <p>\[ I=\int_0^1 z^2\cdot\pi z^2\,dz=\pi\int_0^1 z^4\,dz=\frac{\pi}{5} \]</p>
+    <p>柱坐标对照：\( I=\int_0^{2\pi}d\theta\int_0^1 r\,dr\int_r^1 z^2\,dz=\frac{2\pi}{3}\int_0^1 r(1-r^3)\,dr=\frac{2\pi}{3}\cdot\frac{3}{10}=\frac{\pi}{5} \)。</p>
+  </div>
+  <div class="comment done"><b>点评</b>："f 只含 z"是先二后一的教科书触发信号——截面上的二重积分退化为 \( z^2\times \)面积，全程一元。两路答案一致，\( \frac{\pi}{5} \) 复核无误。</div>
 </section>
 
 </div>
