@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题7 · 曲线曲面积分 — 知识框架</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --ok: #3d9a50;
+  --ok-soft: #eef8f0;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+p { margin: 8px 0; }
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef1f5; color: var(--ink-faint); border: 1px solid #dde2ea; }
+
+.memory {
+  background: var(--gold-soft); border: 1px solid #ecd9a0; border-radius: 10px;
+  padding: 14px 22px; margin: 16px 0; font-size: 15px;
+}
+.memory .label { font-weight: 800; color: var(--gold); font-size: 13px; letter-spacing: 2px; margin-bottom: 4px; }
+
+.warnbox {
+  background: var(--warn-soft); border: 1px solid #f3c3bd; border-radius: 10px;
+  padding: 14px 22px; margin: 16px 0; font-size: 15px;
+}
+.warnbox b { color: var(--warn); }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+.formula-line {
+  display: flex; flex-wrap: wrap; gap: 6px 34px;
+  padding: 6px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+ul, ol { padding-left: 22px; margin: 8px 0; }
+li { margin: 4px 0; }
+
+.next {
+  margin-top: 28px; background: var(--ok-soft); border: 1px solid #bfe3c8;
+  border-radius: 12px; padding: 18px 26px;
+}
+.next h2 { font-size: 17px; margin: 0 0 6px; color: var(--ok); display: flex; align-items: center; gap: 10px; }
+.next p { margin: 4px 0; font-size: 14.5px; color: var(--ink-soft); }
+.next a {
+  color: var(--accent); text-decoration: none; font-weight: 700; border-bottom: 2px solid var(--accent-border);
+  padding-bottom: 1px;
+}
+.next a:hover { border-bottom-color: var(--accent); }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="07"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 07</p>
+  <h1>曲线曲面积分 · 知识框架</h1>
+  <p>四种积分 + 三大公式 —— 竞赛的"综合应用题分仓"。核心主线：边界上的积分 ↔ 区域内部的积分。</p>
+  <div class="meta">
+    <span class="chip">前置：专题 03 定积分 · 06 重积分 · 04 向量</span>
+    <span class="chip">竞赛大题高产户</span>
+  </div>
+</div>
+
+<!-- ================= §1 本章地图 ================= -->
+<section class="block" id="s1">
+  <h2><span class="sec-no">1</span>本章地图：先立骨架</h2>
+  <p>本章共 <b>4 种积分 + 3 大公式</b>，一张表看全：</p>
+  <table>
+    <tr><th>对象</th><th>积分</th><th>含义</th><th>联系公式</th></tr>
+    <tr><td>曲线（质量）</td><td>第一类 \( \int_L f\,ds \)</td><td>线密度求质量、弧长</td><td rowspan="2">格林（平面）、斯托克斯（空间）</td></tr>
+    <tr><td>曲线（做功）</td><td>第二类 \( \int_L P\,dx+Q\,dy \)</td><td>变力沿曲线做功</td></tr>
+    <tr><td>曲面（质量）</td><td>第一类 \( \iint_\Sigma f\,dS \)</td><td>面密度求质量、面积</td><td rowspan="2">高斯（曲面对应体积）</td></tr>
+    <tr><td>曲面（通量）</td><td>第二类 \( \iint_\Sigma P\,dydz+Q\,dzdx+R\,dxdy \)</td><td>流速场穿过曲面</td></tr>
+  </table>
+  <div class="memory">
+    <div class="label">核心思想一句话</div>
+    <p><b>三大公式都是"边界 ↔ 内部"的桥梁</b>：格林（平面闭曲线 ↔ 二重积分）、高斯（闭曲面 ↔ 三重积分）、斯托克斯（空间闭曲线 ↔ 曲面积分）。牛顿-莱布尼茨公式 \( \int_a^b f'dx=f(b)-f(a) \) 是它们共同的老祖宗——都是"微分的积分 = 边界值"。</p>
+  </div>
+  <p><b>本章学习策略</b>：四种积分的<b>直接计算</b>（参数化/投影法）是基本盘，必须先熟；然后三大公式的<b>条件判断 + 方向（侧/正向）</b>是竞赛考察的真焦点——大题 80% 考"不满足条件时怎么办"（补线、补面、挖洞）。</p>
+</section>
+
+<!-- ================= §2 第一类曲线积分 ================= -->
+<section class="block" id="s2">
+  <h2><span class="sec-no">2</span>第一类曲线积分（对弧长 ds）</h2>
+
+  <h3>2.1 计算：参数化三步 <span class="tag mid">基本盘</span></h3>
+  <p>① 写出参数方程 \( x=x(t),\,y=y(t) \)；② 算弧微元；③ 代入化为定积分。</p>
+  <div class="formula-line">
+    <span>\( ds=\sqrt{x'^2(t)+y'^2(t)}\,dt \)</span>
+    <span>\( y=y(x):\ ds=\sqrt{1+y'^2}\,dx \)</span>
+    <span>\( 极坐标:\ ds=\sqrt{r^2+r'^2}\,d\theta \)</span>
+  </div>
+  <div class="warnbox"><b>方向无关</b>：第一类曲线积分与曲线方向无关，参数 \( t \) 必须<b>从小到大</b>（\( ds \) 是正的弧长）——这与第二类的"从起点到终点"形成鲜明对照，符号错误是本章第一大失分。</div>
+
+  <h3>2.2 对称性与轮换偷分 <span class="tag hot">必考</span></h3>
+  <ul>
+    <li><b>奇偶</b>：L 关于 x 轴对称，f 是 y 的奇函数 ⟹ 积分 = 0（与重积分完全同款）；</li>
+    <li><b>轮换</b>：L 的方程中 x、y 地位相同（如圆 \( x^2+y^2=a^2 \)），则 \( \oint_L x^2ds=\oint_L y^2ds \)。经典连锁：\( \oint_L x^2\,ds=\frac12\oint_L(x^2+y^2)\,ds=\frac12 a^2\cdot 2\pi a=\pi a^3 \)。</li>
+    <li>空间曲线同理：球面与圆的交线（维维安尼线等）上 x、y、z 轮换。</li>
+  </ul>
+
+  <h3>2.3 常用结论（背）</h3>
+  <ul>
+    <li>弧长：\( L=\oint_L ds \)；圆周长 \( 2\pi a \)；</li>
+    <li>质心公式：\( \bar x=\frac{\oint_L x\rho\,ds}{\oint_L\rho\,ds} \)（均匀圆弧的质心、半圆弧 \( \bar y=\frac{2a}{\pi} \) 填空高频）；</li>
+    <li>螺旋线 \( x=a\cos t,\,y=a\sin t,\,z=bt \)：\( ds=\sqrt{a^2+b^2}\,dt \)（一个 \( \sqrt{a^2+b^2} \) 出全题）。</li>
+  </ul>
+</section>
+
+<!-- ================= §3 第二类曲线积分 ================= -->
+<section class="block" id="s3">
+  <h2><span class="sec-no">3</span>第二类曲线积分（对坐标 dx, dy）</h2>
+
+  <h3>3.1 计算：代入法</h3>
+  <p>将参数方程代入 \( P\,dx+Q\,dy \)（注意 \( dx=x'(t)\,dt \)），\( t \) 从<b>起点参数</b>积到<b>终点参数</b>（可小到大、也可大到小——方向决定一切）。</p>
+  <p>物理背景：变力 \( \vec F=(P,Q) \) 沿 L 从 A 到 B 做的功 \( W=\int_L Pdx+Qdy \)。</p>
+
+  <h3>3.2 两类曲线积分的联系</h3>
+  <p>\[ \int_L P\,dx+Q\,dy=\int_L\big(P\cos\alpha+Q\cos\beta\big)\,ds \]</p>
+  <p>其中 \( (\cos\alpha,\cos\beta) \) 是 L 沿行进方向的<b>单位切向量</b>。第二类 = 第一类 × 切向投影——方向信息全部藏在切向量里。</p>
+  <div class="memory">
+    <div class="label">模型题：∮ x dy − y dx（背结论）</div>
+    <p>沿平面闭曲线正向一圈：\( \oint_L x\,dy-y\,dx=2A \)（A 为围成面积）。圆 \( x^2+y^2=a^2 \) 正向：\( 2\pi a^2 \)。这是格林公式取 \( P=-y,\,Q=x \) 的直接推论，也是"逆时针为正"最直观的记忆锚点。</p>
+  </div>
+</section>
+
+<!-- ================= §4 格林公式 ================= -->
+<section class="block" id="s4">
+  <h2><span class="sec-no">4</span>格林公式 —— 竞赛第一高频 <span class="tag hot">核心</span></h2>
+
+  <h3>4.1 公式与条件三件套</h3>
+  <p>\[ \oint_L P\,dx+Q\,dy=\iint_D\Big(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\Big)d\sigma \]</p>
+  <table>
+    <tr><th>条件</th><th>说明</th><th>违反后果</th></tr>
+    <tr><td>① L 是<b>闭曲线</b></td><td>非闭 → 补线（见 4.2）</td><td>公式直接用 = 错</td></tr>
+    <tr><td>② L 取<b>正向</b></td><td>沿 L 走，D 在<b>左侧</b>（外边界逆时针、内边界顺时针）</td><td>差一个负号</td></tr>
+    <tr><td>③ P、Q 在 D 内有<b>一阶连续偏导</b></td><td>有奇点 → 挖洞（见 4.4）</td><td>结论完全错误</td></tr>
+  </table>
+
+  <h3>4.2 应用一：闭曲线直接化二重 <span class="tag hot">必考</span></h3>
+  <p>标准节奏：验三件套 → 算 \( Q_x-P_y \) → 若结果简单（常数或易积函数）→ 直接重积分。典型：\( Q_x-P_y=1 \) ⟹ 积分 = 区域面积（专题 06 的面积计算器）。</p>
+
+  <h3>4.3 应用二：非闭曲线补线法 <span class="tag hot">必考</span></h3>
+  <p>曲线不闭时：补一条使闭路最简单的线（通常选<b>平行坐标轴的折线</b>，使 \( dx \) 或 \( dy \) 有一个为 0，补线积分自动简化）：</p>
+  <p>\[ \int_{L_{AB}}=\oint_{L+\overline{BA}}-\int_{\overline{BA}}=\iint_D(Q_x-P_y)d\sigma-\int_{\overline{BA}} \]</p>
+  <div class="warnbox"><b>头号失误</b>：补线后忘<b>减去</b>补线段的积分。流程写成"补 → 格林 → 减回"三步，每步单独占一行。</div>
+
+  <h3>4.4 应用三：奇点挖洞（分母含 \( x^2+y^2 \)）<span class="tag hot">竞赛招牌</span></h3>
+  <p>当 \( P,Q \) 的分母在 D 内某点为零（典型 \( \frac{-y\,dx+x\,dy}{x^2+y^2} \)，奇点在原点）：</p>
+  <ol>
+    <li>挖去以奇点为心、半径 \( \varepsilon \) 的<b>小圆</b>，在余下的复连通域上用格林；</li>
+    <li>此时 \( Q_x-P_y=0 \) ⟹ 外边界积分 = 小圆边界积分（<b>与外曲线形状无关</b>！）；</li>
+    <li>小圆上直接参数化计算（\( x=\varepsilon\cos t,\,y=\varepsilon\sin t \)，注意方向：挖洞后小圆取<b>顺时针</b>，使区域在左侧）。</li>
+  </ol>
+  <div class="memory">
+    <div class="label">必背结论</div>
+    <p>\[ \oint_{L\,\text{正向绕原点一圈}}\frac{-y\,dx+x\,dy}{x^2+y^2}=2\pi \qquad (\text{不含原点则为 } 0) \]</p>
+    <p>推论：该微分式在<b>挖去原点</b>的区域内是全微分（\( d\arctan\frac{y}{x} \)），积分与路径无关——但区域不是单连通的。</p>
+  </div>
+
+  <h3>4.5 应用四：全微分与路径无关 <span class="tag mid">常考</span></h3>
+  <p>单连通域内，以下四条<b>等价</b>：</p>
+  <ol>
+    <li>\( \int_L Pdx+Qdy \) 与路径无关（只看起终点）；</li>
+    <li>沿任意闭曲线积分为零；</li>
+    <li>\( P\,dx+Q\,dy=du \)（存在原函数）；</li>
+    <li>\( \dfrac{\partial Q}{\partial x}=\dfrac{\partial P}{\partial y} \)（交叉偏导相等——<b>判定首选</b>）。</li>
+  </ol>
+  <p>求原函数两招：<b>偏积分法</b>（对 x 积 + 对 y 校正）或<b>折线法</b>（\( u(B)-u(A)=\int_A^M+\int_M^B \)，走平行轴折线）。</p>
+</section>
+
+<!-- ================= §5 第一类曲面积分 ================= -->
+<section class="block" id="s5">
+  <h2><span class="sec-no">5</span>第一类曲面积分（对面积 dS）</h2>
+
+  <h3>5.1 计算：投影法</h3>
+  <p>曲面 \( z=z(x,y) \) 投影到 xOy 面的 \( D_{xy} \)：</p>
+  <div class="formula-line">
+    <span>\( \iint_\Sigma f\,dS=\iint_{D_{xy}} f\big(x,y,z(x,y)\big)\sqrt{1+z_x^2+z_y^2}\,dxdy \)</span>
+  </div>
+  <p>同理可投 yOz（x=x(y,z)）、zOx 面——<b>往哪个面投，被积函数里的第三个变量就要用曲面方程消掉</b>。</p>
+
+  <h3>5.2 必背的 dS 三兄弟</h3>
+  <table>
+    <tr><th>曲面</th><th>dS</th><th>备注</th></tr>
+    <tr><td>平面 \( z=px+qy+r \)</td><td>\( \sqrt{1+p^2+q^2}\,dxdy \)</td><td>常数因子</td></tr>
+    <tr><td>锥面 \( z=\sqrt{x^2+y^2} \)</td><td>\( \sqrt2\,dxdy \)</td><td>专题 04 老朋友</td></tr>
+    <tr><td>球面 \( x^2+y^2+z^2=a^2 \)</td><td>\( \frac{a}{|z|}dxdy \)，或球坐标 \( a^2\sin\varphi\,d\varphi d\theta \)</td><td>后者配 §5.3</td></tr>
+  </table>
+
+  <h3>5.3 对称性偷分 <span class="tag hot">必考</span></h3>
+  <p>与重积分完全同款：Σ 关于 xOy 面对称 + f 是 z 的奇/偶函数 ⟹ 归零/折半。球面上还有三变量轮换：\( \iint_\Sigma x^2dS=\iint_\Sigma y^2dS=\iint_\Sigma z^2dS=\frac13\iint_\Sigma a^2dS=\frac{4\pi a^4}{3} \)（一行出答案，填空最爱）。</p>
+</section>
+
+<!-- ================= §6 第二类曲面积分 ================= -->
+<section class="block" id="s6">
+  <h2><span class="sec-no">6</span>第二类曲面积分（对坐标 dydz, dzdx, dxdy）</h2>
+
+  <h3>6.1 符号规则：侧决定一切</h3>
+  <p>对坐标的曲面积分必须先定<b>侧</b>（曲面的"朝向"）：有向曲面 Σ 的法向量选定一侧后——</p>
+  <table>
+    <tr><th>投影到</th><th>积分元</th><th>取正条件</th></tr>
+    <tr><td>xOy 面</td><td>\( R\,dxdy \)</td><td>法向朝<b>上</b>（cos γ &gt; 0）</td></tr>
+    <tr><td>yOz 面</td><td>\( P\,dydz \)</td><td>法向朝<b>前</b>（cos α &gt; 0）</td></tr>
+    <tr><td>zOx 面</td><td>\( Q\,dzdx \)</td><td>法向朝<b>右</b>（cos β &gt; 0）</td></tr>
+  </table>
+  <p>闭曲面默认<b>外侧</b>；反侧 = 整体变号。</p>
+
+  <h3>6.2 两类曲面积分的联系</h3>
+  <p>\[ \iint_\Sigma P\,dydz+Q\,dzdx+R\,dxdy=\iint_\Sigma\big(P\cos\alpha+Q\cos\beta+R\cos\gamma\big)dS \]</p>
+  <p>其中 \( (\cos\alpha,\cos\beta,\cos\gamma) \) 是<b>选定侧</b>的单位法向量。第二类 = 第一类 × 法向投影。</p>
+
+  <h3>6.3 合一投影法（转换投影）<span class="tag mid">常考提速</span></h3>
+  <p>曲面 \( z=z(x,y) \) 上侧时，三个积分元可统一写成 xOy 投影：</p>
+  <p>\[ dydz=-z_x\,dxdy,\qquad dzdx=-z_y\,dxdy \]</p>
+  <p>于是三合一：\( \iint_\Sigma Pdydz+Qdzdx+Rdxdy=\iint_{D_{xy}}\big[P\cdot(-z_x)+Q\cdot(-z_y)+R\big]dxdy \)（下侧整体变号）。球面等封闭曲面不适用（需分片），开口曲面一片搞定——竞赛计算大题的主力武器。</p>
+</section>
+
+<!-- ================= §7 高斯公式 ================= -->
+<section class="block" id="s7">
+  <h2><span class="sec-no">7</span>高斯公式 —— 空间第一大题来源 <span class="tag hot">核心</span></h2>
+
+  <h3>7.1 公式与条件三件套</h3>
+  <p>\[ \unicode{x222F}_{\Sigma\,\text{外侧}} P\,dydz+Q\,dzdx+R\,dxdy=\iiint_\Omega\Big(\frac{\partial P}{\partial x}+\frac{\partial Q}{\partial y}+\frac{\partial R}{\partial z}\Big)dV \]</p>
+  <p>条件：① Σ <b>闭</b>曲面；② 取<b>外侧</b>；③ P、Q、R 在 Ω 内一阶偏导连续。三条与格林公式一一对应——<b>记忆只记一份，两处套用</b>。</p>
+
+  <h3>7.2 应用一：闭曲面直接化三重 <span class="tag hot">必考</span></h3>
+  <p>标准节奏：验三件套 → 算散度 \( P_x+Q_y+R_z \)。散度为常数时最爽：闭曲面积分 \( = c\cdot V(\Omega) \)。典型：\( P=x,Q=y,R=z \) ⟹ 散度 3 ⟹ 积分 = 3V。球 \( =4\pi a^3 \)、锥体等体积直接用专题 06 的结果。</p>
+
+  <h3>7.3 应用二：非闭曲面补面法 <span class="tag hot">必考</span></h3>
+  <p>曲面开口（典型：半球面、抛物面截一块）时：补一块<b>平面圆盘</b>封口（平面上的积分因法向与两个坐标轴垂直，常自动为 0 或极易算），然后</p>
+  <p>\[ \iint_{\Sigma}=\unicode{x222F}_{\Sigma+\Sigma_1}-\iint_{\Sigma_1}=\iiint(\text{div})\,dV-\iint_{\Sigma_1} \]</p>
+  <div class="warnbox"><b>方向配套</b>：补面的侧必须与原曲面构成<b>整体外侧</b>（如半球面取上侧，则补的底面圆盘取<b>下侧</b>）。忘减补面、侧配错是两大高频失误。</div>
+
+  <h3>7.4 应用三：奇点挖洞（分母含 \( r^3 \)）<span class="tag hot">竞赛招牌</span></h3>
+  <p>场 \( \vec F=\dfrac{(x,y,z)}{(x^2+y^2+z^2)^{3/2}} \)（点电荷电场）：除原点外散度处处为 0。</p>
+  <ol>
+    <li>Σ 内含原点时不能直接用高斯——挖去小球 \( r=\varepsilon \)；</li>
+    <li>挖洞后散度为 0 ⟹ Σ 外侧积分 = 小球面<b>外侧</b>积分；</li>
+    <li>小球面上 \( \vec F=\frac{\vec r}{\varepsilon^3} \) 与法向平行：\( \iint=\frac{1}{\varepsilon^2}\cdot 4\pi\varepsilon^2=4\pi \)。</li>
+  </ol>
+  <div class="memory">
+    <div class="label">必背结论（与格林 2π 成对记忆）</div>
+    <p>\[ \unicode{x222F}_{\Sigma\,\text{外侧，含原点}}\frac{x\,dydz+y\,dzdx+z\,dxdy}{(x^2+y^2+z^2)^{3/2}}=4\pi \qquad (\text{不含原点则}=0) \]</p>
+    <p>二维 \( 2\pi \)、三维 \( 4\pi \)——同一招"挖洞 + 边界等值"，两个维度各背一个常数。</p>
+  </div>
+</section>
+
+<!-- ================= §8 斯托克斯 ================= -->
+<section class="block" id="s8">
+  <h2><span class="sec-no">8</span>斯托克斯公式 <span class="tag low">初赛低频 / 决赛向</span></h2>
+
+  <h3>8.1 公式（行列式好记）</h3>
+  <p>\[ \oint_{\Gamma}P\,dx+Q\,dy+R\,dz=\iint_{\Sigma}\begin{vmatrix} dydz & dzdx & dxdy\\ \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z}\\ P & Q & R \end{vmatrix} \]</p>
+  <p>条件：Γ 为空间<b>闭</b>曲线，Σ 是以 Γ 为边界的<b>任意</b>曲面，方向按<b>右手定则</b>配套（四指沿 Γ，拇指指 Σ 的法向）。</p>
+
+  <h3>8.2 两个竞赛要点</h3>
+  <ul>
+    <li><b>曲面可任选</b>：Γ 相同、Σ 不同结果一样——所以<b>选平面片最省</b>（dS 法向恒定，积分退化为第一类曲面乘常数）。空间曲线是平面曲线（如圆）时，先把曲线所在平面写出来；</li>
+    <li><b>降维格林</b>：平面 \( ax+by+cz=d \) 上的闭曲线，投影到该平面后用格林公式，常比斯托克斯快——两条路都要会走，考场比性价比。</li>
+  </ul>
+</section>
+
+<!-- ================= §9 场论三件套 ================= -->
+<section class="block" id="s9">
+  <h2><span class="sec-no">9</span>场论三件套（梯度 · 散度 · 旋度）</h2>
+  <table>
+    <tr><th>算子</th><th>记号</th><th>公式</th><th>物理</th></tr>
+    <tr><td>梯度</td><td>\( \operatorname{grad}f=\nabla f \)</td><td>\( (f_x,f_y,f_z) \)</td><td>方向导数最大的方向；\( \operatorname{grad}f\cdot\vec l^0 \) = 方向导数</td></tr>
+    <tr><td>散度</td><td>\( \operatorname{div}\vec F=\nabla\cdot\vec F \)</td><td>\( P_x+Q_y+R_z \)</td><td>通量密度（高斯公式右边）</td></tr>
+    <tr><td>旋度</td><td>\( \operatorname{rot}\vec F=\nabla\times\vec F \)</td><td>\( (R_y-Q_z,\ P_z-R_x,\ Q_x-P_y) \)</td><td>环量密度（斯托克斯右边）</td></tr>
+  </table>
+  <div class="memory">
+    <div class="label">两条恒等式 + 一组对偶（判断题最爱）</div>
+    <p>\( \operatorname{div}(\operatorname{rot}\vec F)\equiv 0 \)（旋度场无源）；\( \operatorname{rot}(\operatorname{grad}f)\equiv\vec 0 \)（梯度场无旋）。对偶记忆：无旋场 ⟺ 存在势（\( \vec F=\nabla f \)，积分与路径无关）；无源场 ⟺ 存在向量势。二维格林是三维的缩影：\( Q_x-P_y \) 就是旋度的 z 分量。</p>
+  </div>
+</section>
+
+<!-- ================= §10 易错点 ================= -->
+<section class="block" id="s10">
+  <h2><span class="sec-no">10</span>易错点清单（考前再过一遍）</h2>
+  <ol>
+    <li><b>两类曲线积分的方向处理</b>：第一类 t 从小到大（方向无关）；第二类 t 从起点到终点——混淆即符号错。</li>
+    <li><b>ds 漏根号 / dS 漏 \( \sqrt{1+z_x^2+z_y^2} \)</b>：参数化完先单独一行写 \( ds \)、\( dS \)，再代入。</li>
+    <li><b>格林正向 = 区域在左</b>：外边界逆时针、挖洞的内边界<b>顺时针</b>（画图定，别背文字）。</li>
+    <li><b>奇点直接套公式</b>：分母 \( x^2+y^2 \) 或 \( r^3 \) 在区域内为零时，格林/高斯结论全错——必须挖洞。</li>
+    <li><b>补线/补面后忘减</b>：流程必须是"补 → 公式 → 减回"，三步三行。</li>
+    <li><b>补面侧与整体外侧不配套</b>：半球上侧 ⟹ 底面圆盘取下侧。</li>
+    <li><b>第二类曲面积分投影符号</b>：上/前/右为正；闭曲面默认外侧，逐块判断法向朝向。</li>
+    <li><b>路径无关判定忘单连通</b>：\( Q_x=P_y \) ⟹ 路径无关要求区域单连通（挖原点的复连通域不行——正是 \( \arctan(y/x) \) 悖论的来源）。</li>
+    <li><b>斯托克斯右手系</b>：Γ 方向与 Σ 法向必须配套，行列式展开时行序别乱。</li>
+    <li><b>面积公式忘除 2</b>：\( A=\frac12\oint x\,dy-y\,dx \)。</li>
+    <li><b>轮换对称的适用面</b>：球面/圆上轮换成立；一般曲面（如抛物面）x、y 地位不同，不能换。</li>
+    <li><b>合一投影法的符号</b>：\( dydz=-z_xdxdy \) 的负号来自法向与坐标面的夹角，上侧公式背准，下侧变号。</li>
+  </ol>
+
+  <div class="next">
+    <h2>下一步</h2>
+    <p>框架过完 → 对话里做热身与进阶实录 → <a href="02_例题精讲.html">进入例题精讲 →</a></p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
