@@ -125,7 +125,7 @@ tr:last-child td { border-bottom: none; }
   <h1>重积分 · 例题精讲</h1>
   <p>题型实录 —— 全部来自对话中实际做过的题，每题带战绩标注。类型求全，不求题量。</p>
   <div class="meta">
-    <span class="chip">5 道实录题</span>
+    <span class="chip">8 道实录题</span>
     <span class="chip">方法卡在 01_知识框架.html</span>
   </div>
 </div>
@@ -137,6 +137,9 @@ tr:last-child td { border-bottom: none; }
     <tr><td>交换次序破"积不出"</td><td>例 1</td><td>✓ 一次通过</td></tr>
     <tr><td>极坐标定限（双圆公共域）</td><td>例 2、例 4</td><td>✗ 初答区域误判；同区域重耕（例 4）通过</td></tr>
     <tr><td>三重积分 · 先二后一</td><td>例 3、例 5</td><td>✗ 初答误抄被积函数；同区域重耕（例 5）通过</td></tr>
+    <tr><td>对称性偷分（逐项判奇偶）</td><td>例 6</td><td>✓ 一次通过</td></tr>
+    <tr><td>椭圆域广义极坐标</td><td>例 7</td><td>✓ 一次通过</td></tr>
+    <tr><td>换序合并 + 齐次化（综合收官）</td><td>例 8</td><td>✓ 一次通过</td></tr>
   </table>
 </section>
 
@@ -220,6 +223,65 @@ tr:last-child td { border-bottom: none; }
     <p>柱坐标对照：\( I=\int_0^{2\pi}d\theta\int_0^1 r\,dr\int_r^1 z^2\,dz=\frac{2\pi}{3}\int_0^1 r(1-r^3)\,dr=\frac{2\pi}{3}\cdot\frac{3}{10}=\frac{\pi}{5} \)。</p>
   </div>
   <div class="comment done"><b>点评</b>："f 只含 z"是先二后一的教科书触发信号——截面上的二重积分退化为 \( z^2\times \)面积，全程一元。两路答案一致，\( \frac{\pi}{5} \) 复核无误。</div>
+</section>
+
+<!-- ================= 题型四 ================= -->
+<section class="block" id="t4">
+  <h2><span class="sec-no">四</span>对称性偷分 · 逐项判奇偶 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 6（收官 · 一次通过）</div>
+    <p>\[ \iint_{x^2+y^2\le R^2}\big(|x|+\sin x\cos y+x^2y\big)\,d\sigma \]</p>
+    <p><b>速览</b>：三项判奇偶，两项归零，只剩 \( |x| \) 极坐标折四 —— \( \frac{4R^3}{3} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（逐项判断）</div>
+    <p>域 \( x^2+y^2\le R^2 \) 关于 x 轴、y 轴<b>都对称</b>：</p>
+    <p>\( \sin x\cos y \)：x 的奇函数（\( \sin(-x)=-\sin x \)），域关于 y 轴对称 —— 归零；\( x^2y \)：y 的奇函数，域关于 x 轴对称 —— 归零；\( |x| \)：x、y 的偶函数 —— 折四。</p>
+    <p>\[ I=\iint_D|x|\,d\sigma=4\int_0^{\frac{\pi}{2}}\cos\theta\,d\theta\int_0^{R}r^2\,dr=4\times1\times\frac{R^3}{3}=\frac{4R^3}{3} \]</p>
+  </div>
+  <div class="comment done"><b>点评</b>：10 秒偷分题的标准节奏。书写注意：<b>每个归零项单独写一行</b>（"某某为 x 的奇函数 + 域关于 y 轴对称 = 0"），这是采分点，不能只在脑中删除。判序口诀：先查域对称，再查函数奇偶。</div>
+</section>
+
+<!-- ================= 题型五 ================= -->
+<section class="block" id="t5">
+  <h2><span class="sec-no">五</span>椭圆域 · 广义极坐标 <span class="tag mid">常考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 7（收官 · 一次通过）</div>
+    <p>\[ \iint_D\big(x^2+y^2-2xy\big)\,d\sigma,\qquad D:\ \frac{x^2}{a^2}+\frac{y^2}{b^2}\le1 \]</p>
+    <p><b>速览</b>：交叉项奇函数归零，平方项广义极坐标 —— \( \frac{\pi ab(a^2+b^2)}{4} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>\( xy \) 是 x（也是 y）的奇函数，椭圆关于两轴对称，交叉项归零：</p>
+    <p>\[ I=\iint_D(x^2+y^2)\,d\sigma\ \overset{x=ar\cos\theta,\,y=br\sin\theta}{=}\ ab\int_0^{2\pi}\!\!d\theta\int_0^1\big(a^2\cos^2\theta+b^2\sin^2\theta\big)r^3\,dr=\frac{ab}{4}\cdot\pi(a^2+b^2) \]</p>
+    <p>其中 \( \int_0^{2\pi}\cos^2\theta\,d\theta=\int_0^{2\pi}\sin^2\theta\,d\theta=\pi \)，\( \int_0^1 r^3dr=\frac14 \)。</p>
+  </div>
+  <div class="comment done"><b>点评</b>：两条路对照——①交叉项用 \( \int_0^{2\pi}\sin\theta\cos\theta\,d\theta=0 \)（换元后归零）；②更快的是积分前就认出 \( xy \) 奇函数直接删（初答即此路，正确）。<b>注意</b>：椭圆上 \( x^2 \) 与 \( y^2 \) 的积分<b>不相等</b>（\( \frac{\pi a^3b}{4}\ne\frac{\pi ab^3}{4} \)），轮换对称只在圆上成立——想用对称先缩放回单位圆：\( \iint_{unit}u^2=\iint_{unit}v^2=\frac12\iint(u^2+v^2)=\frac{\pi}{4} \)。</div>
+</section>
+
+<!-- ================= 题型六 ================= -->
+<section class="block" id="t6">
+  <h2><span class="sec-no">六</span>换序合并 + 齐次化 <span class="tag hot">综合收官</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 8（收官 · 一次通过）</div>
+    <p>\[ I=\int_0^1 dy\int_y^1 \frac{y\,e^{xy}}{x}\,dx+\iint_D xy\,d\sigma,\qquad D:\ y=x,\ y=0,\ x=1\ \text{围成} \]</p>
+    <p><b>速览</b>：两域同为三角域，合并换序后 \( xy \) 部分出 \( \frac18 \)、指数部分齐次化出 \( \frac{e-2}{2} \) —— \( \frac{4e-7}{8} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（合并 → 换序 → 齐次化）</div>
+    <p><b>第一步（合并）</b>：第一个积分的域 \( 0\le y\le1,\ y\le x\le1 \) 与 D 是<b>同一个三角域</b>（顶点 \( (0,0),(1,0),(1,1) \)）：</p>
+    <p>\[ I=\iint_D\Big(\frac{ye^{xy}}{x}+xy\Big)d\sigma \]</p>
+    <p><b>第二步（换序）</b>：\( \frac{ye^{xy}}{x} \) 对 x 无初等原函数，对 y 可积——换成 x 外 y 内：</p>
+    <p>\[ I=\int_0^1 dx\int_0^x\frac{ye^{xy}}{x}\,dy+\int_0^1 dx\int_0^x xy\,dy \]</p>
+    <p><b>第三步（齐次化——本题的灵魂）</b>：内层换元 \( y=xv \)（\( dy=x\,dv \)），三角域变<b>单位正方形</b> \( (x,v)\in[0,1]^2 \)：</p>
+    <p>\[ I_1=\int_0^1\!\!dx\int_0^1 \frac{xv\,e^{x^2v}}{x}\,x\,dv=\int_0^1\!\!dv\int_0^1 x\,v\,e^{x^2v}dx=\int_0^1 v\cdot\frac{e^v-1}{2v}\,dv=\frac{1}{2}\int_0^1(e^v-1)\,dv=\frac{e-2}{2} \]</p>
+    <p>（正方形上随便换序：内层 \( \int_0^1 xe^{x^2v}dx \) 因 \( d(x^2)=2x\,dx \) 一步出。）</p>
+    <p>\[ I_2=\int_0^1 x\cdot\frac{x^2}{2}\,dx=\frac18,\qquad I=I_1+I_2=\frac{4e-7}{8} \]</p>
+  </div>
+  <div class="comment done"><b>点评</b>：齐次化 \( y=xv \) 是处理"积分限与被积函数同结构三角域"的竞赛级技巧：三角域拉成正方形后两次积分<b>各自平凡</b>。对照路线：不齐次化则内层分部积分得 \( \frac{e^{x^2}(x^2-1)+1}{x^3} \)，还需 \( u=x^2 \) 换元认出 \( \frac{1}{2}\big[\frac{e^u-1}{u}\big]_0^1 \) 才能收口——同一答案，两条风景。数值校验：\( \frac{4e-7}{8}\approx0.484 \)。</div>
 </section>
 
 </div>
