@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段 0 筑基 — 课程目录</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 30px 28px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 24px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.back { display: inline-block; margin-bottom: 14px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--blue); }
+
+.lesson {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+a.lesson { display: grid; grid-template-columns: 56px 1fr auto; gap: 18px; align-items: center; padding: 20px 24px; text-decoration: none; color: inherit; }
+a.lesson:hover { border-color: var(--blue-border); box-shadow: 0 8px 20px rgba(11,90,168,.10); }
+.lesson .no {
+  background: var(--blue); color: #fff; border-radius: 10px;
+  width: 56px; height: 56px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-weight: 700; flex: 0 0 auto;
+}
+.lesson .no small { font-size: 10px; font-weight: 600; opacity: .85; }
+.lesson .no b { font-size: 20px; line-height: 1.1; }
+.lesson h2 { margin: 0 0 4px; font-size: 17.5px; }
+.lesson p { margin: 0 0 8px; font-size: 13.5px; color: var(--ink-soft); }
+.lesson .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.lesson .tag { background: var(--blue-soft); color: var(--blue); border-radius: 999px; padding: 1px 11px; font-size: 12px; }
+.lesson .status {
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 3px 11px; white-space: nowrap;
+  align-self: center;
+}
+.lesson .status--done { background: #e8f6ec; color: #1f7a3d; border: 1px solid #bfe3cc; }
+.lesson .status--live { background: var(--gold-soft); color: var(--gold); border: 1px solid var(--gold-border); }
+.lesson .status--plan { background: #f0f1f4; color: var(--ink-faint); border: 1px dashed #d5d8e2; }
+div.lesson { opacity: .68; padding: 20px 24px; }
+
+.guide {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px 28px 20px;
+  margin-top: 26px;
+}
+.guide h2 { font-size: 17px; margin: 0 0 12px; color: var(--blue-deep); }
+.guide p { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 8px; }
+.guide p:last-child { margin-bottom: 0; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  a.lesson { grid-template-columns: 48px 1fr; }
+  .lesson .no { width: 48px; height: 48px; }
+  .lesson .no b { font-size: 17px; }
+  .lesson .status { grid-column: 1 / -1; justify-self: start; }
+  .hero { padding: 24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="../index.html">← 返回电网备考首页</a>
+
+<div class="hero">
+  <p class="kicker">STAGE 0 · 2026.09 – 2027.02</p>
+  <h1>阶段 0 筑基 · 课程目录</h1>
+  <p>目标：补齐数学工具，把「电路」学成优势科目。课程链按「复数工具 → 正弦量 → 阻抗 → 解电路」推进，与校内电路课同步食用效果最佳 —— 每课 1.5–2 小时，含例题与自测。</p>
+  <div class="meta">
+    <span class="chip">2026-09-29 · 更新</span>
+    <span class="chip">已完成 2 课 · 第 3 课学习中</span>
+  </div>
+</div>
+
+<!-- ================= 课程列表 ================= -->
+<a class="lesson" href="01_复数与相量运算.html">
+  <div class="no"><small>第</small><b>01</b><small>课</small></div>
+  <div>
+    <h2>复数与相量运算</h2>
+    <p>交流电路的货币：三种形式互化、象限陷阱（负实部 +180°）、四则运算与共轭 —— 一切交流计算的底层工具。</p>
+    <div class="tags"><span class="tag">已过关 ✓</span><span class="tag">自测全对</span></div>
+  </div>
+  <span class="status status--done">已完成</span>
+</a>
+
+<a class="lesson" href="02_正弦量与相量表示.html">
+  <div class="no"><small>第</small><b>02</b><small>课</small></div>
+  <div>
+    <h2>正弦量与相量表示</h2>
+    <p>给正弦量拍"定妆照"：三要素、有效值（220V 的真身）、相位差与超前滞后、相量图 —— 把交流计算降维成复数四则。</p>
+    <div class="tags"><span class="tag">已过关 ✓</span></div>
+  </div>
+  <span class="status status--done">已完成</span>
+</a>
+
+<a class="lesson" href="03_RLC与阻抗.html">
+  <div class="no"><small>第</small><b>03</b><small>课</small></div>
+  <div>
+    <h2>R、L、C 与阻抗</h2>
+    <p>三大元件的脾气：感抗 ωL、容抗 1/ωC、相位差 90°，阻抗三角形 Z = R + jX —— 第一道完整正弦稳态题。</p>
+    <div class="tags"><span class="tag">当前课程</span><span class="tag">4 例题 · 8 练习</span></div>
+  </div>
+  <span class="status status--live">学习中</span>
+</a>
+
+<div class="lesson">
+  <div class="no" style="background:#8a90a6;"><small>第</small><b>04</b><small>课</small></div>
+  <div>
+    <h2>相量法解正弦稳态电路</h2>
+    <p>基尔霍夫定律的相量形式 + 阻抗串并联 —— 直流电路的全套方法平移到交流，从此正弦稳态就是"带角度的直流题"。</p>
+    <div class="tags"><span class="tag">待更新</span></div>
+  </div>
+  <span class="status status--plan">规划中</span>
+</div>
+
+<!-- ================= 使用说明 ================= -->
+<div class="guide">
+  <h2>怎么用这个目录</h2>
+  <p><b>学习节奏</b>：每周 1 课主线推进 + 每周日 30 分钟重做本周错题。每课自测全勾才算过关，再进下一课。</p>
+  <p><b>与校内课配合</b>：课程内容对应校内「电路」课正弦稳态章节 —— 校内讲快了就跟着校内走，这里用于补零基础视角；校内还没讲到，这里就是你的预习课。</p>
+  <p><b>进度记录</b>：完成状态记录在本页（下次更新课程时一并标注），学习历史一目了然。</p>
+</div>
+
+<footer>
+  阶段 0 筑基 ｜ <a href="../index.html">电网备考首页</a> ｜ <a href="../zhuhai-grid-plan/zhuhai-grid-plan.html">24 个月路线图</a>
+</footer>
+
+</div>
+</body>
+</html>

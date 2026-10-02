@@ -173,9 +173,9 @@ li { margin: 4px 0; }
   <h3>2.1 计算：参数化三步 <span class="tag mid">基本盘</span></h3>
   <p>① 写出参数方程 \( x=x(t),\,y=y(t) \)；② 算弧微元；③ 代入化为定积分。</p>
   <div class="formula-line">
-    <span>\( ds=\sqrt{x'^2(t)+y'^2(t)}\,dt \)</span>
-    <span>\( y=y(x):\ ds=\sqrt{1+y'^2}\,dx \)</span>
-    <span>\( 极坐标:\ ds=\sqrt{r^2+r'^2}\,d\theta \)</span>
+    <span>\( ds=\sqrt{{x'}^2(t)+{y'}^2(t)}\,dt \)</span>
+    <span>\( y=y(x):\ ds=\sqrt{1+{y'}^2}\,dx \)</span>
+    <span>极坐标：\( ds=\sqrt{r^2+{r'}^2}\,d\theta \)</span>
   </div>
   <div class="warnbox"><b>方向无关</b>：第一类曲线积分与曲线方向无关，参数 \( t \) 必须<b>从小到大</b>（\( ds \) 是正的弧长）——这与第二类的"从起点到终点"形成鲜明对照，符号错误是本章第一大失分。</div>
 
@@ -308,7 +308,7 @@ li { margin: 4px 0; }
   <h2><span class="sec-no">7</span>高斯公式 —— 空间第一大题来源 <span class="tag hot">核心</span></h2>
 
   <h3>7.1 公式与条件三件套</h3>
-  <p>\[ \unicode{x222F}_{\Sigma\,\text{外侧}} P\,dydz+Q\,dzdx+R\,dxdy=\iiint_\Omega\Big(\frac{\partial P}{\partial x}+\frac{\partial Q}{\partial y}+\frac{\partial R}{\partial z}\Big)dV \]</p>
+  <p>\[ \iint_{\Sigma\,\text{外侧}} P\,dydz+Q\,dzdx+R\,dxdy=\iiint_\Omega\Big(\frac{\partial P}{\partial x}+\frac{\partial Q}{\partial y}+\frac{\partial R}{\partial z}\Big)dV \]</p>
   <p>条件：① Σ <b>闭</b>曲面；② 取<b>外侧</b>；③ P、Q、R 在 Ω 内一阶偏导连续。三条与格林公式一一对应——<b>记忆只记一份，两处套用</b>。</p>
 
   <h3>7.2 应用一：闭曲面直接化三重 <span class="tag hot">必考</span></h3>
@@ -316,7 +316,7 @@ li { margin: 4px 0; }
 
   <h3>7.3 应用二：非闭曲面补面法 <span class="tag hot">必考</span></h3>
   <p>曲面开口（典型：半球面、抛物面截一块）时：补一块<b>平面圆盘</b>封口（平面上的积分因法向与两个坐标轴垂直，常自动为 0 或极易算），然后</p>
-  <p>\[ \iint_{\Sigma}=\unicode{x222F}_{\Sigma+\Sigma_1}-\iint_{\Sigma_1}=\iiint(\text{div})\,dV-\iint_{\Sigma_1} \]</p>
+  <p>\[ \iint_{\Sigma}=\iint_{\Sigma+\Sigma_1}-\iint_{\Sigma_1}=\iiint(\text{div})\,dV-\iint_{\Sigma_1} \]</p>
   <div class="warnbox"><b>方向配套</b>：补面的侧必须与原曲面构成<b>整体外侧</b>（如半球面取上侧，则补的底面圆盘取<b>下侧</b>）。忘减补面、侧配错是两大高频失误。</div>
 
   <h3>7.4 应用三：奇点挖洞（分母含 \( r^3 \)）<span class="tag hot">竞赛招牌</span></h3>
@@ -328,7 +328,7 @@ li { margin: 4px 0; }
   </ol>
   <div class="memory">
     <div class="label">必背结论（与格林 2π 成对记忆）</div>
-    <p>\[ \unicode{x222F}_{\Sigma\,\text{外侧，含原点}}\frac{x\,dydz+y\,dzdx+z\,dxdy}{(x^2+y^2+z^2)^{3/2}}=4\pi \qquad (\text{不含原点则}=0) \]</p>
+    <p>\[ \iint_{\Sigma\,\text{外侧，含原点}}\frac{x\,dydz+y\,dzdx+z\,dxdy}{(x^2+y^2+z^2)^{3/2}}=4\pi \qquad (\text{不含原点则}=0) \]</p>
     <p>二维 \( 2\pi \)、三维 \( 4\pi \)——同一招"挖洞 + 边界等值"，两个维度各背一个常数。</p>
   </div>
 </section>

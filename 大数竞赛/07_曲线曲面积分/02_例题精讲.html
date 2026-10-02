@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题7 · 曲线曲面积分 — 例题精讲</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --ok: #3d9a50;
+  --ok-soft: #eef8f0;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef1f5; color: var(--ink-faint); border: 1px solid #dde2ea; }
+
+.prob {
+  background: var(--accent-soft); border: 1px solid var(--accent-border);
+  border-radius: 10px; padding: 14px 22px; margin: 18px 0;
+}
+.prob .plabel { font-size: 13px; font-weight: 800; color: var(--accent); letter-spacing: 1px; margin-bottom: 4px; }
+.sol { padding: 4px 6px 0; }
+.sol .slabel { font-size: 13px; font-weight: 800; color: var(--ok); letter-spacing: 2px; margin-bottom: 2px; }
+.sol .brief { background: var(--ok-soft); border-radius: 8px; padding: 6px 14px; margin: 8px 0; font-size: 14.5px; }
+.comment {
+  border-left: 3px solid var(--gold); background: #fffdf4;
+  border-radius: 0 8px 8px 0; padding: 10px 18px; margin: 14px 0 4px; font-size: 14.5px;
+}
+.comment.done { border-left-color: var(--ok); background: var(--ok-soft); }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="07"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 07</p>
+  <h1>曲线曲面积分 · 例题精讲</h1>
+  <p>题型实录 —— 全部来自对话中实际做过的题，每题带战绩点评。类型求全，不求题量。</p>
+  <div class="meta">
+    <span class="chip">7 道实录题 · 已收官</span>
+    <span class="chip">方法卡在 01_知识框架.html</span>
+  </div>
+</div>
+
+<section class="block">
+  <h2><span class="sec-no">览</span>题型总览与战绩</h2>
+  <table>
+    <tr><th style="width:30%">类型</th><th style="width:22%">实录题</th><th>战绩</th></tr>
+    <tr><td>第一类曲线 · 轮换偷分</td><td>例 1</td><td>✓ 一次通过（书写过简）</td></tr>
+    <tr><td>格林公式 · 闭曲线直化二重</td><td>例 2</td><td>✓ 满分</td></tr>
+    <tr><td>高斯公式 · 补面法</td><td>例 3</td><td>✓ 答案对（符号循环书写瑕疵）</td></tr>
+    <tr><td>格林公式 · 挖洞（含/不含奇点）</td><td>例 4</td><td>✓ 答案全对（奇点标注笔误 + 方向记账未显式）</td></tr>
+    <tr><td>高斯公式 · 挖洞（\( r^3 \) 场）</td><td>例 5</td><td>✓ 答案对（采分链两行未显式）</td></tr>
+    <tr><td>路径无关 · 折线法/原函数</td><td>例 6</td><td>✓ 满分</td></tr>
+    <tr><td>合一投影 vs 补面高斯（双路）</td><td>例 7</td><td>✓ 满分（双路验证一致）</td></tr>
+  </table>
+  <p style="font-size:14px;color:var(--ink-faint);margin:6px 0 0;">收官说明：格林补线（框架 §4.3）与第一类曲面 \( dS \)（§5）未安排实录——前者与例 3 补面法同构，后者是基本盘投影计算，考前对照框架对应小节速览即可。</p>
+</section>
+
+<!-- ================= 题型一 ================= -->
+<section class="block" id="t1">
+  <h2><span class="sec-no">一</span>第一类曲线积分 · 轮换偷分 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 1（热身 · 一次通过）</div>
+    <p>\[ \oint_L x^2\,ds,\qquad L:\ x^2+y^2=a^2 \]</p>
+    <p><b>速览</b>：轮换连锁一行出 —— \( \pi a^3 \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（5 秒偷分路线）</div>
+    <p>圆上 x、y 地位相同：\( \oint_L x^2ds=\oint_L y^2ds \)，故</p>
+    <p>\[ \oint_L x^2\,ds=\frac12\oint_L(x^2+y^2)\,ds=\frac12\oint_L a^2\,ds=\frac{a^2}{2}\cdot 2\pi a=\pi a^3 \]</p>
+  </div>
+  <div class="comment"><b>点评</b>：偷分三连——<b>轮换（x²↔y²）→ 代入方程（x²+y²=a²）→ 常数提出（a²·周长）</b>。对照硬算路线：参数化 \( ds=a\,dt \)，\( \oint x^2ds=a^3\int_0^{2\pi}\cos^2t\,dt=a^3\pi \) 同样可算，但偷分路线是填空的节奏。<b>书写提醒</b>：初答跳过了"由轮换对称 \( \oint x^2=\oint y^2 \)"这句依据，直接写结果——大题里这一行是采分点，不能省。</div>
+</section>
+
+<!-- ================= 题型二 ================= -->
+<section class="block" id="t2">
+  <h2><span class="sec-no">二</span>格林公式 · 闭曲线直化二重 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 2（热身 · 满分）</div>
+    <p>\[ \oint_L \big(e^x\sin y-y\big)dx+\big(e^x\cos y-1\big)dy,\qquad L:\ x^2+y^2=1\ \text{取正向} \]</p>
+    <p><b>速览</b>：三件套齐 → \( Q_x-P_y=1 \) → 圆面积 —— \( \pi \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>三件套验证：L 闭、正向（逆时针）、\( P,Q \) 在 D 内一阶偏导连续（处处光滑）✓。取 \( P=e^x\sin y-y,\ Q=e^x\cos y-1 \)：</p>
+    <p>\[ \frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}=e^x\cos y-\big(e^x\cos y-1\big)=1 \]</p>
+    <p>\[ \oint_L=\iint_D 1\,d\sigma=S_D=\pi \]</p>
+  </div>
+  <div class="comment done"><b>点评</b>：本题的<b>设计感</b>：\( e^x\sin y \) 与 \( e^x\cos y \) 正是"交叉偏导相消"的障眼法——\( Q_x-P_y \) 只剩 1，格林把一个吓人的被积式化成数圆面积。识别信号：P、Q 里成对出现的 \( f_x \) 与 \( f_y \) 型结构，多半相消。<b>5 秒校验</b>：结果 = 单位圆面积 π，量级显然合理。</div>
+</section>
+
+<!-- ================= 题型三 ================= -->
+<section class="block" id="t3">
+  <h2><span class="sec-no">三</span>高斯公式 · 补面法 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 3（热身 · 答案对，书写有瑕疵）</div>
+    <p>\[ \iint_\Sigma x\,dydz+y\,dzdx+z\,dxdy,\qquad \Sigma:\ \text{上半球面 } z=\sqrt{a^2-x^2-y^2}\ \text{取上侧} \]</p>
+    <p><b>速览</b>：补底面圆盘（下侧）→ 散度 3 × 半球体积 —— \( 2\pi a^3 \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（补 → 高斯 → 减回，三步三行）</div>
+    <p><b>第一步（补面）</b>：Σ 不闭。补 \( \Sigma_1:\ z=0,\ x^2+y^2\le a^2 \)，取<b>下侧</b>（与半球上侧构成整体外侧）。</p>
+    <p><b>第二步（高斯）</b>：\( P=x,\,Q=y,\,R=z \)，散度 \( =3 \)：</p>
+    <p>\[ \iint_{\Sigma}+\iint_{\Sigma_1}=\iiint_\Omega 3\,dV=3\cdot\frac{2\pi a^3}{3}=2\pi a^3 \]</p>
+    <p><b>第三步（减回）</b>：\( \Sigma_1 \) 上 \( z=0 \) 且法向 \( (0,0,-1) \)：\( z\,dxdy \) 项因 \( z=0 \) 为零；\( x\,dydz,\ y\,dzdx \) 项因法向无 x、y 分量为零。故 \( \iint_{\Sigma_1}=0 \)：</p>
+    <p>\[ \iint_{\Sigma}=2\pi a^3-0=2\pi a^3 \]</p>
+  </div>
+  <div class="comment"><b>点评</b>：初答答案正确、补面方向（下侧）与"z=0, dz=0"的判断都对，但有两处书写硬伤：① <b>符号循环定义</b>——先写 \( I=I_1+I_2 \) 又写 \( I_1=I-I_2 \)，等于用自己定义自己，阅卷视作论证缺失。规范记法：原积分记 \( I \)，补面积分记 \( I_1 \)，恒等式只写一遍 \( I=3V-I_1 \)；② <b>补面积分为 0 必须展开论证</b>（如解中第三步：法向与 z 轴负向重合 ⟹ 前两项无投影；z=0 ⟹ 第三项为零），只旁注"dz=0"不够——严格说 \( dydz=0 \) 是因为法向在 yz 面投影为零，不是"dz=0"的缘故（z 恒为 0 ⟹ dz=0 只对参数化而言，表述要落在<b>法向投影</b>上）。</div>
+</section>
+
+<!-- ================= 题型四 ================= -->
+<section class="block" id="t4">
+  <h2><span class="sec-no">四</span>格林公式 · 挖洞（奇点在原点） <span class="tag hot">竞赛招牌</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 4（收官 · 答案全对，两处书写待补）</div>
+    <p>\[ \oint_L\frac{x\,dy-y\,dx}{x^2+y^2},\qquad ①\ L_1:\ (x-1)^2+y^2=4\ \text{正向}；\quad ②\ L_2:\ (x-3)^2+y^2=1\ \text{正向} \]</p>
+    <p><b>速览</b>：看圈是否套住原点 —— ① 含原点，挖洞 \( 2\pi \)；② 不含，直接格林 \( 0 \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>奇点 = 分母为零处 = <b>原点 (0,0)</b>。原点外 \( Q_x-P_y=0 \)（两式都等于 \( \frac{y^2-x^2}{(x^2+y^2)^2} \)）。</p>
+    <p><b>①</b> 原点到圆心 \( (1,0) \) 距离 \( 1&lt;2 \) ⟹ 原点在 \( L_1 \) 内，不能直接格林。挖小圆 \( l:\ x^2+y^2=r^2 \)。<b>方向记账</b>：外圈逆时针 + 小圆<b>顺时针</b>（区域保持在左侧）围成复连通域，其上用格林：</p>
+    <p>\[ \oint_{L_1}+\oint_{l\,\text{顺}}=\iint 0\,d\sigma=0\ \Longrightarrow\ \oint_{L_1}=-\oint_{l\,\text{顺}}=\oint_{l\,\text{逆}} \]</p>
+    <p>小圆参数化 \( x=r\cos t,\,y=r\sin t \)：\( x\,dy-y\,dx=r^2dt \)，与分母 \( r^2 \) 恰好相消：</p>
+    <p>\[ \oint_{L_1}=\int_0^{2\pi}\frac{r^2\,dt}{r^2}=2\pi \]</p>
+    <p><b>②</b> 原点到圆心 \( (3,0) \) 距离 \( 3&gt;1 \) ⟹ 原点在 \( L_2 \) 外，\( P,Q \) 在内部光滑，直接格林：\( \oint_{L_2}=0 \)。</p>
+  </div>
+  <div class="comment"><b>点评</b>：初答 \( 2\pi/0 \) 全对，两处书写要补：① <b>奇点标注</b>——卷面把挖洞点写成了 (1,0)，奇点应是原点 (0,0)（分母为零处），(1,0) 只是 \( L_1 \) 的圆心；小圆 \( x^2+y^2=r^2 \) 设在原点是对的，说明操作正确、标注错位；② "\( \oint_{L_1}=\oint_l \)" 直接相等省掉了方向记账行（顺时针前的负号与"逆 = −顺"相消）——这一行是挖洞题的采分链。答题模板四步：判奇点位置 → 距离比较定内外 → 方向记账一行 → 小圆参数化相消。</div>
+</section>
+
+<!-- ================= 题型五 ================= -->
+<section class="block" id="t5">
+  <h2><span class="sec-no">五</span>高斯公式 · 挖洞（\( r^3 \) 场） <span class="tag hot">竞赛招牌</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 5（收官 · 答案对，采分链两行未显式）</div>
+    <p>\[ \iint_{\Sigma\,\text{外侧}}\frac{x\,dydz+y\,dzdx+z\,dxdy}{(x^2+y^2+z^2)^{3/2}},\qquad \Sigma:\ x^2+y^2+(z-2)^2=9 \]</p>
+    <p><b>速览</b>：原点在球内（距球心 2 &lt; 3）→ 挖小球让分母变常数 → \( 4\pi \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>奇点在原点，且原点到球心 \( (0,0,2) \) 距离 \( 2&lt;3 \) ⟹ 在 Σ 内，不能直接高斯。挖小球面 \( \Sigma_\varepsilon:\ x^2+y^2+z^2=\varepsilon^2 \)。</p>
+    <p>挖洞后的区域上散度恒为零（\( \nabla\cdot\dfrac{\vec r}{r^3}=\dfrac{3}{r^3}-\dfrac{3r^2}{r^5}=0,\ \vec r\ne\vec 0 \)）：</p>
+    <p>\[ \iint_{\Sigma\,\text{外}}+\iint_{\Sigma_\varepsilon\,\text{指向洞内}}=0\ \Longrightarrow\ \iint_{\Sigma\,\text{外}}=\iint_{\Sigma_\varepsilon\,\text{外侧}} \]</p>
+    <p>小球面上场 \( \vec F=\dfrac{\vec r}{\varepsilon^3} \) 与法向平行、模 \( \dfrac{1}{\varepsilon^2} \)：</p>
+    <p>\[ \iint_{\Sigma_\varepsilon\,\text{外侧}}=\frac{1}{\varepsilon^2}\cdot 4\pi\varepsilon^2=4\pi \]</p>
+  </div>
+  <div class="comment"><b>点评</b>：与框架 §7.4 结论卡的差别：<b>球心不在原点</b> ⟹ 分母 \( r^3 \) 在 Σ 上<b>不是常数</b>，不能在 Σ 上直接代入——必须把积分转移到分母变常数的小球面上，这正是出题人选偏心球的原因。初答 \( 4\pi \) 正确，但两行采分链要显式：① 挖洞方向换算（指向洞内取负 ⟹ 等于小球外侧）；② \( \frac{1}{\varepsilon^2}\times4\pi\varepsilon^2 \) 的相消。与格林挖洞成对记忆：二维套住奇点 \( 2\pi \)、三维套住奇点 \( 4\pi \)。</div>
+</section>
+
+<!-- ================= 题型六 ================= -->
+<section class="block" id="t6">
+  <h2><span class="sec-no">六</span>路径无关 · 折线法与原函数 <span class="tag mid">常考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 6（收官 · 满分）</div>
+    <p>\[ \int_{(0,0)}^{(\pi/2,\,1)}\big(2xy^3-y^2\cos x\big)dx+\big(1-2y\sin x+3x^2y^2\big)dy \]</p>
+    <p><b>速览</b>：验 \( Q_x=P_y \) → 折线两段 → \( \dfrac{\pi^2}{4} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（折线法）</div>
+    <p>全平面单连通，\( Q_x=-2y\cos x+6xy^2=P_y \) ⟹ 与路径无关。取折线 \( (0,0)\to(\frac{\pi}{2},0)\to(\frac{\pi}{2},1) \)：</p>
+    <p>第一段 \( y=0,\ dy=0 \)：被积式恒为零，\( I_1=0 \)；</p>
+    <p>第二段 \( x=\frac{\pi}{2},\ dx=0 \)（\( \sin\frac{\pi}{2}=1 \)）：</p>
+    <p>\[ I_2=\int_0^1\Big(1-2y+\frac{3\pi^2}{4}y^2\Big)dy=1-1+\frac{\pi^2}{4}=\frac{\pi^2}{4} \]</p>
+    <p><b>双保险（原函数法）</b>：\( u=x^2y^3-y^2\sin x+y \) 满足 \( u_x=P,\ u_y=Q \)，代终点 \( u\big(\frac{\pi}{2},1\big)=\frac{\pi^2}{4}-1+1=\frac{\pi^2}{4} \)，两路一致。</p>
+  </div>
+  <div class="comment done"><b>点评</b>：满分模板——验证一行、折线两段各一行、代值收尾。折线设计的<b>顺手原则</b>：第一段走坐标轴（\( y=0 \) 让 P 绝大部分归零），第二段走竖线（\( dx=0 \) 只剩 Q，且 \( x=\frac{\pi}{2} \) 处三角函数取特殊值）。原函数法做校验，两路一致才交卷。</div>
+</section>
+
+<!-- ================= 题型七 ================= -->
+<section class="block" id="t7">
+  <h2><span class="sec-no">七</span>合一投影 vs 补面高斯 · 双路对照 <span class="tag hot">综合收官</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 7（收官 · 满分，双路验证一致）</div>
+    <p>\[ \iint_\Sigma x\,dydz+y\,dzdx+z\,dxdy,\qquad \Sigma:\ z=x^2+y^2\ (0\le z\le 1)\ \text{取下侧} \]</p>
+    <p><b>速览</b>：下侧直投化成 \( \iint_D(x^2+y^2)d\sigma \)，或补面高斯 \( 3\cdot\frac{\pi}{2}-\pi \) —— 两路一致，\( \dfrac{\pi}{2} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">路 A · 合一投影（下侧直投）</div>
+    <p>\( z_x=2x,\ z_y=2y \)，下侧时三项合一（\( dydz=z_xdxdy,\ dzdx=z_ydxdy \)，末项变号）：</p>
+    <p>\[ I=\iint_{D}\big[2x^2+2y^2-(x^2+y^2)\big]d\sigma=\iint_D(x^2+y^2)\,d\sigma=2\pi\int_0^1 r^3dr=\frac{\pi}{2} \]</p>
+    <div class="slabel">路 B · 补面 + 高斯</div>
+    <p>补 \( \Sigma_1:\ z=1,\ x^2+y^2\le1 \) 取<b>上侧</b>。<b>方向论证</b>：Ω 夹在抛物面<b>上方</b>与 z=1 之间 ⟹ 抛物面的外侧 = <b>下侧</b>（法向背向区域）、圆盘的外侧 = 上侧——恰与题设配套，直接高斯：</p>
+    <p>\[ I+\iint_{\Sigma_1}=\iiint_\Omega 3\,dV=3\cdot\frac{\pi}{2},\qquad \iint_{\Sigma_1}\overset{z=1,\ \text{上侧}}{=}\iint_D 1\,d\sigma=\pi \]</p>
+    <p>\[ I=\frac{3\pi}{2}-\pi=\frac{\pi}{2}\quad(\text{与路 A 一致}) \]</p>
+  </div>
+  <div class="comment done"><b>点评</b>：本题灵魂是<b>方向判定</b>，心法一句话：<b>区域在曲面哪一侧，外侧就指向另一侧</b>——Ω 在抛物面上方 ⟹ 下侧即外侧。这比背"下侧变号"可靠。<b>易混孪生题</b>：\( \Sigma:\ z=1-x^2-y^2\ (z\ge0) \) 取下侧——碗口朝下、区域在碗<b>下方</b>，外侧是上侧 ⟹ 下侧 = 反外侧，同款场算得 \( -\frac{3\pi}{2} \)。两个"碗"方向逻辑相反、答案一正一负，考前把这对孪生题对照一遍。初答 \( \frac{\pi}{2} \) 经两路独立验证，满分。</div>
+</section>
+
+</div>
+</body>
+</html>

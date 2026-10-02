@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>备赛工作区 — CompetitionPrep Workspace</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 60px; }
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 40px 36px 34px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker {
+  font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px;
+  font-weight: 600;
+}
+.hero h1 { margin: 0 0 10px; font-size: 32px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  padding: 3px 14px;
+  font-size: 12.5px;
+}
+
+/* ===== 比赛卡片 ===== */
+.grid { display: grid; gap: 18px; margin: 28px 0 8px; }
+.mcard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 28px 24px;
+  text-decoration: none;
+  color: inherit;
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 20px;
+  align-items: center;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+a.mcard:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-border);
+  box-shadow: 0 10px 24px rgba(67, 56, 214, .12);
+}
+.mcard .badge {
+  width: 64px; height: 64px;
+  border-radius: 14px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: #fff; font-weight: 700;
+  flex: 0 0 auto;
+}
+.mcard .badge small { font-size: 10.5px; font-weight: 600; opacity: .85; letter-spacing: 1px; }
+.mcard .badge b { font-size: 24px; line-height: 1.1; }
+.mcard .badge--math { background: linear-gradient(135deg, #4338d6, #6f6fff); }
+.mcard .badge--grid { background: linear-gradient(135deg, #0b5aa8, #1e90d6); }
+.mcard h2 { margin: 0 0 6px; font-size: 20px; }
+.mcard .type {
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; vertical-align: 2px; margin-left: 8px;
+}
+.mcard .type--contest { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a8; }
+.mcard .type--exam { background: #e7f3fb; color: #0b5aa8; border: 1px solid #b9dcf2; }
+.mcard p { margin: 0 0 10px; font-size: 13.5px; color: var(--ink-soft); max-width: 560px; }
+.mcard .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.mcard .tag {
+  background: var(--accent-soft); color: var(--accent);
+  border-radius: 999px; padding: 1px 11px; font-size: 12px;
+}
+.mcard .go {
+  align-self: center;
+  background: var(--accent); color: #fff;
+  border-radius: 10px; padding: 9px 20px;
+  font-size: 14px; font-weight: 600;
+  white-space: nowrap;
+  transition: background .15s ease;
+}
+a.mcard:hover .go { background: #322bc0; }
+.mcard .status { font-size: 12px; color: var(--ink-faint); margin-top: 8px; }
+
+/* ===== 使用说明 ===== */
+.guide {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-top: 30px;
+}
+.guide h2 { font-size: 18px; margin: 0 0 14px; color: var(--accent); }
+.guide .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.guide .col h3 { font-size: 15px; margin: 0 0 6px; }
+.guide .col p { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
+.guide .col .k {
+  display: inline-flex; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent);
+  align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; margin-bottom: 6px;
+}
+
+footer {
+  margin-top: 34px; text-align: center;
+  font-size: 13px; color: var(--ink-faint);
+}
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 720px) {
+  .mcard { grid-template-columns: 52px 1fr; }
+  .mcard .badge { width: 52px; height: 52px; }
+  .mcard .badge b { font-size: 19px; }
+  .mcard .go { grid-column: 1 / -1; text-align: center; }
+  .guide .cols { grid-template-columns: 1fr; gap: 14px; }
+  .hero { padding: 28px 22px; }
+}
+@media print { body { background: #fff; } .mcard { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">COMPETITION PREP WORKSPACE</p>
+  <h1>备赛工作区 · 总入口</h1>
+  <p>每场比赛一个文件夹，一个地址看所有比赛 —— 内容以纯静态网页组织，本地双击即用，推送 GitHub 自动上线。</p>
+  <div class="meta">
+    <span class="chip">2 场比赛在线</span>
+    <span class="chip">纯静态 · 离线可用</span>
+    <span class="chip">GitHub Actions 自动部署</span>
+  </div>
+</div>
+
+<!-- ================= 比赛导航 ================= -->
+<div class="grid">
+
+  <a class="mcard" href="大数竞赛/index.html">
+    <div class="badge badge--math"><small>NO.</small><b>01</b></div>
+    <div>
+      <h2>大数竞赛<span class="type type--contest">学科竞赛</span></h2>
+      <p>全国大学生数学竞赛（非数学类）—— 高等数学九大专题，按「知识框架 → 例题精讲 → 练习真题」三步推进，考点标注竞赛出题频率。</p>
+      <div class="tags">
+        <span class="tag">初赛 2026-11-14</span>
+        <span class="tag">9 大专题</span>
+        <span class="tag">5 个已完成 · 讲练中</span>
+      </div>
+    </div>
+    <span class="go">进入 →</span>
+  </a>
+
+  <a class="mcard" href="电网备考/index.html">
+    <div class="badge badge--grid"><small>NO.</small><b>02</b></div>
+    <div>
+      <h2>电网备考<span class="type type--exam">招聘考试</span></h2>
+      <p>南方电网 · 珠海供电局 —— 24 个月备考路线图（2026.09–2028.11）：考试解密、六门专业课攻略、软实力建设与执行系统，面向 2029 届秋招。</p>
+      <div class="tags">
+        <span class="tag">统一笔试 2028-11</span>
+        <span class="tag">6 门专业课</span>
+        <span class="tag">阶段 0 筑基 · 进行中</span>
+      </div>
+    </div>
+    <span class="go">进入 →</span>
+  </a>
+
+</div>
+
+<!-- ================= 使用说明 ================= -->
+<div class="guide">
+  <h2>怎么用</h2>
+  <div class="cols">
+    <div class="col">
+      <span class="k">1</span>
+      <h3>本地复习</h3>
+      <p>克隆或下载本仓库后，双击 <code>index.html</code> 即可离线使用 —— 各比赛公式渲染与图表库均内置本地文件，不依赖网络。</p>
+    </div>
+    <div class="col">
+      <span class="k">2</span>
+      <h3>在线访问</h3>
+      <p>推送至 GitHub 后由 Actions 自动部署，手机浏览器同样可看；仓库根 <code>README.md</code> 记录了全部约定与更新步骤。</p>
+    </div>
+    <div class="col">
+      <span class="k">3</span>
+      <h3>新增比赛</h3>
+      <p>仓库根新建文件夹（内含自己的 <code>index.html</code>），在本页加一张卡片即可 —— 详细规范见 <code>README.md</code>「新增一场比赛」。</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  个人备赛项目 · 开源部署于 GitHub · 仓库约定见 <a href="README.md">README.md</a>
+</footer>
+
+</div>
+</body>
+</html>

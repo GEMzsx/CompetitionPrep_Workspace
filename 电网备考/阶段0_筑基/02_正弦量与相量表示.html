@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段0 · 第2课 — 正弦量与相量表示</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+.ph { position: relative; padding: 0 1px; font-style: normal; }
+.ph::after {
+  content: "•";
+  position: absolute; top: -0.62em; left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55em;
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+.sqrt { border-top: 1.4px solid var(--ink); padding: 0 3px; }
+
+/* ===== 波形示意 ===== */
+.wave {
+  background: #fbfdff;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  margin: 14px 0;
+  padding: 10px;
+  text-align: center;
+}
+.wave svg { max-width: 100%; height: auto; }
+.wave .cap { font-size: 12.5px; color: var(--ink-faint); margin-top: 6px; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+  text-align: center;
+  font-size: 14.5px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+.pager .next-card { text-align: right; }
+.pager .next-card .dir { color: var(--gold); }
+
+/* ===== 下一课 ===== */
+.next {
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 26px 0 10px;
+}
+.next h2 { margin: 0 0 8px; font-size: 19px; }
+.next p { margin: 0; opacity: .93; font-size: 14.5px; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .tbl { font-size: 13px; }
+}
+@media print { body { background: #fff; } section.block { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段0目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 0 筑基 · 第 2 课</p>
+  <h1>正弦量与相量表示</h1>
+  <p>上一课磨好了复数这把刀，这一课把刀用在正弦交流电上：把 u = U<sub>m</sub>·sin(ωt + φ) 变成相量 U∠φ —— 从此交流电路的加减计算降维成复数四则运算。这是整个正弦稳态分析的第一块基石。</p>
+  <div class="meta">
+    <span class="chip">预计 1.5–2 小时</span>
+    <span class="chip">5 个知识块 · 4 道例题 · 8 道练习</span>
+    <span class="chip">承接第 1 课复数运算</span>
+  </div>
+</div>
+
+<!-- ================= 为什么 ================= -->
+<section class="block">
+  <h2><span class="no">?</span>先认识主角：电网的心跳是正弦波</h2>
+  <p>中国电网的电压是 <b>50 Hz 正弦交流电</b> —— 每秒完成 50 次完整的振荡，电压从 0 涨到峰值、回落穿过零、反向到负峰值、再回到 0，如此往复。发电厂的发电机转一圈，就送出一个完整的正弦周期：正弦波不是"选择"，而是旋转发电的天然产物。</p>
+  <div class="know"><b>为什么正弦这么好用？</b>数学上有条黄金性质：<b>同频率</b>的正弦量做加、减、求导、积分，结果仍是<b>同频率</b>的正弦量（只变幅值和初相）。这意味着整个线性交流电路里，所有电压电流"长得一样"，唯一区别是大小和先后 —— 而大小与先后，恰好是复数的模与辐角。相量法就是利用这一点，把微积分方程降维成代数方程。</div>
+  <div class="exam"><span class="tag-exam">南网考点</span>电路科目考纲的「相量法与正弦稳态」与「三相电路」两章全部建立在本课之上；"三要素、有效值、相位差"三个概念更是直接出题的常客。</div>
+</section>
+
+<!-- ================= 知识 1 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>正弦量三要素：幅值、角频率、初相位</h2>
+  <p>一个正弦电压的完整写法：</p>
+  <div class="formula">
+    u(t) = U<sub>m</sub> · sin(ωt + φ)
+    <div class="small">U<sub>m</sub> —— 幅值（最大值）　 ω —— 角频率（rad/s）　 φ —— 初相位</div>
+  </div>
+  <p>知道这三个量，这个正弦量就被完全确定 —— 所以叫<b>三要素</b>。逐个看：</p>
+  <ul>
+    <li><b>幅值 U<sub>m</sub></b>：波峰的高度。注意它不是"220V"—— 见知识块 3。</li>
+    <li><b>角频率 ω</b>：振荡的快慢。<b>ω = 2πf = 2π/T</b>（T 是周期）。中国电网 f = 50 Hz，所以：</li>
+  </ul>
+  <div class="formula">
+    ω = 2π × 50 = 100π ≈ <b>314 rad/s</b>　　T = 1/f = <b>0.02 s</b>
+    <div class="small">这两个数是电力行业的"常识级"数字，见到 314 就要想 50Hz，反之亦然</div>
+  </div>
+  <ul>
+    <li><b>初相位 φ</b>：t = 0 时刻波形所处的"起跑位置"。φ &gt; 0 波形左移（提前起跑），φ &lt; 0 右移。</li>
+  </ul>
+  <h3 class="sub">同频率的三个正弦量长什么样</h3>
+  <div class="wave">
+    <svg viewBox="0 0 560 190" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="95" x2="540" y2="95" stroke="#c3c9d6" stroke-width="1"/>
+      <text x="546" y="99" font-size="11" fill="#8a90a6">t</text>
+      <line x1="40" y1="20" x2="40" y2="170" stroke="#c3c9d6" stroke-width="1"/>
+      <text x="30" y="24" font-size="11" fill="#8a90a6">u</text>
+      <path d="M 40 95 C 70 30, 100 30, 130 95 S 190 160, 220 95 S 280 30, 310 95 S 370 160, 400 95 S 460 30, 490 95 S 550 160, 540 118" fill="none" stroke="#0b5aa8" stroke-width="2.2"/>
+      <path d="M 40 65 C 60 40, 80 40, 100 65 S 140 125, 160 65 S 200 40, 220 65 S 260 125, 280 65 S 320 40, 340 65 S 380 125, 400 65 S 440 40, 460 65 S 500 125, 520 65" fill="none" stroke="#b07800" stroke-width="2"/>
+      <path d="M 40 115 C 60 140, 80 140, 100 115 S 140 65, 160 115 S 200 140, 220 115 S 260 65, 280 115 S 320 140, 340 115 S 380 65, 400 115 S 440 140, 460 115 S 500 65, 520 115" fill="none" stroke="#1f7a3d" stroke-width="2"/>
+      <text x="200" y="30" font-size="12" fill="#0b5aa8">u₁（φ₁ = +30°，超前）</text>
+      <text x="380" y="60" font-size="12" fill="#b07800">u₂（φ₂ = 0°）</text>
+      <text x="380" y="180" font-size="12" fill="#1f7a3d">u₃（φ₃ = −30°，滞后）</text>
+    </svg>
+    <div class="cap">图 1：同频率、不同初相位的三个正弦量。初相越大越"提前"，波形越靠左。</div>
+  </div>
+</section>
+
+<!-- ================= 知识 2 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>相位差：谁超前、谁滞后</h2>
+  <p>两个<b>同频率</b>正弦量的相位之差，等于初相之差（ωt 相互抵消）：</p>
+  <div class="formula">
+    φ = φ₁ − φ₂
+    <div class="small">约定取 |φ| ≤ 180°（超过 180° 就换个方向说）</div>
+  </div>
+  <ul>
+    <li>φ &gt; 0：前者<b>超前</b>后者 φ；φ &lt; 0：前者<b>滞后</b>。</li>
+    <li>"u 超前 i 90°" 与 "i 滞后 u 90°" 是<b>同一句话的两种说法</b>。</li>
+    <li>特殊关系：φ = 0 <b>同相</b>；φ = ±180° <b>反相</b>；φ = ±90° <b>正交</b>。</li>
+  </ul>
+  <div class="exam"><span class="tag-exam">南网考点</span>相位差判断是电路科目的经典送分/送命题。最强坑位："u 滞后 i 30°"等价于"i 超前 u 30°"，选项里两种说法都可能出现在正确/错误位置，务必眼明心亮。另外记住伏笔：<b>感性电路 u 超前 i（0~90°）、容性电路 u 滞后 i（0~90°）</b>—— 第 3 课将解释为什么。</div>
+</section>
+
+<!-- ================= 知识 3 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>有效值：为什么插座上的 220V 不是波峰值</h2>
+  <p>正弦电压每一瞬间都在变，那"220V"指的是什么？指的是<b>有效值</b>（方均根值，RMS）：把交流通进电阻 R，一个周期发的热，与某个直流 I 通同样时间发的热相等，这个 I 就是交流电流的有效值。</p>
+  <h3 class="sub">两步推导（考试可再现）</h3>
+  <ol>
+    <li>正弦平方后：sin²(ωt) = (1 − cos 2ωt)/2 —— 一个周期内 cos 2ωt 的平均值是 0，所以<b>平方的平均值是 1/2</b>；</li>
+    <li>有效值 = 平方平均后开根：I = √(I<sub>m</sub>²/2) = I<sub>m</sub>/√2。</li>
+  </ol>
+  <div class="formula">
+    U = <span class="frac"><span class="top">U<sub>m</sub></span><span class="bot"><span class="sqrt">√2</span></span></span> ≈ 0.707 U<sub>m</sub>　　U<sub>m</sub> = <span class="sqrt">√2</span> · U ≈ 1.414 U
+    <div class="small">√2 ≈ 1.414、1/√2 ≈ 0.707 —— 这两个乘数必须像乘法口诀一样熟</div>
+  </div>
+  <ul>
+    <li>家用插座 220V 是<b>有效值</b>，真实波峰是 220 × 1.414 ≈ <b>311V</b>；</li>
+    <li>380V（线电压）波峰 ≈ 537V；</li>
+    <li>万用表交流档读的就是有效值；电器铭牌上写的电压电流也都是有效值。</li>
+  </ul>
+  <div class="exam"><span class="tag-exam">南网考点</span>"正弦电压有效值 220V，其幅值是多少？"（311V）以及反向考法，是概念题常客。同时记住：相量的模用的是<b>有效值</b>（见知识块 4）。</div>
+</section>
+
+<!-- ================= 知识 4 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>相量：给正弦量拍一张"定妆照"</h2>
+  <p>核心洞察分两步：</p>
+  <ol>
+    <li>在一个确定频率的电路里（比如整个 50 Hz 电网），所有正弦量的 ω 都相同 —— <b>ω 根本不用参与计算</b>，真正区分它们的只有<b>大小</b>和<b>初相</b>两个数；</li>
+    <li>"大小 + 角度" —— 这正是第 1 课极坐标式复数的长相！</li>
+  </ol>
+  <p>于是定义相量（记号：大写字母上加一个点）：</p>
+  <div class="formula">
+    u(t) = U<sub>m</sub> sin(ωt + φ)　⇒&nbsp;&nbsp;　<span class="ph">U</span> = U∠φ　（取<b>有效值</b>作模）
+    <div class="small">例：u = 311 sin(314t + 60°) V　⇒　U = 311/√2 = 220 V　⇒　U̇ = 220∠60° V</div>
+  </div>
+  <p>反过来，从相量恢复正弦量，就是把模乘 √2 变幅值、把角度放进 sin：</p>
+  <div class="formula">
+    <span class="ph">U</span> = 100∠60° V（f = 50 Hz）　⇒&nbsp;&nbsp;　u(t) = 141.4 sin(314t + 60°) V
+  </div>
+  <h3 class="sub">相量图：把"全家福"拍在同一张照片里</h3>
+  <p>把电路中各电压电流相量画在同一复平面上：<b>箭头长度 = 有效值，与实轴夹角 = 初相位</b>。谁的角度大（逆时针在前），谁的波形就超前。</p>
+  <div class="wave">
+    <svg viewBox="0 0 560 210" xmlns="http://www.w3.org/2000/svg">
+      <line x1="70" y1="105" x2="500" y2="105" stroke="#c3c9d6" stroke-width="1"/>
+      <line x1="70" y1="15" x2="70" y2="195" stroke="#c3c9d6" stroke-width="1"/>
+      <text x="505" y="109" font-size="11" fill="#8a90a6">+Re</text>
+      <text x="58" y="22" font-size="11" fill="#8a90a6">+j</text>
+      <defs>
+        <marker id="arrB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0b5aa8"/></marker>
+        <marker id="arrG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1f7a3d"/></marker>
+      </defs>
+      <line x1="70" y1="105" x2="270" y2="105" stroke="#0b5aa8" stroke-width="2.4" marker-end="url(#arrB)"/>
+      <text x="160" y="128" font-size="13" fill="#0b5aa8" font-weight="bold">U̇₁ = 100∠0° V</text>
+      <line x1="70" y1="105" x2="160" y2="29" stroke="#1f7a3d" stroke-width="2.4" marker-end="url(#arrG)"/>
+      <text x="95" y="45" font-size="13" fill="#1f7a3d" font-weight="bold">U̇₂ = 50∠54.8° V</text>
+      <path d="M 120 105 A 50 50 0 0 0 99 71" fill="none" stroke="#b07800" stroke-width="1.6" marker-end="url(#arrG)"/>
+      <text x="128" y="93" font-size="12" fill="#b07800">54.8°（U̇₂ 超前 U̇₁）</text>
+    </svg>
+    <div class="cap">图 2：相量图示例。两个箭头的夹角就是相位差；逆时针方向上"走在前面"的相量，波形上超前。</div>
+  </div>
+  <h3 class="sub">三条纪律（判断题最爱）</h3>
+  <ol>
+    <li><b>相量只对同频率正弦量有意义</b>—— 频率不同的两个正弦量没有固定相位差，不能画在同一相量图上；</li>
+    <li><b>相量 ≠ 正弦量本身</b>：相量只携带"大小 + 初相"，丢掉了频率信息（靠约定补回）。严格说"相量<b>表示</b>正弦量"，说"相量<b>等于</b>正弦量"是错的；</li>
+    <li><b>模用有效值</b>是电力系统惯例（也可用幅值相量，但必须前后一致、看清题目约定）。</li>
+  </ol>
+</section>
+
+<!-- ================= 知识 5 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>相量法的威力：正弦相加 = 复数相加</h2>
+  <p>同频正弦量相加，用三角函数展开要算到手软；用相量，就是第 1 课的复数加法 —— 化成代数式，实虚部分别相加（或画相量图用平行四边形合成）。</p>
+  <div class="know"><b>串联电压相加的完整链条（本课最重要的一张图）：</b>两个元件串联，总电压 u = u₁ + u₂ ⇒ 相量相加 <span class="ph">U</span> = <span class="ph">U</span>₁ + <span class="ph">U</span>₂ ⇒ 代数式相加 ⇒ 结果转回极坐标式 ⇒ 读出总电压大小与初相。全程无三角函数恒等式，只有复数四则运算。</div>
+  <div class="exam"><span class="tag-exam">南网考点</span>这一"降维打击"正是电路教材正弦稳态一章的全部地基。下一课学完 R、L、C 的阻抗后，你将第一次完整解出一道正弦稳态电路题。</div>
+</section>
+
+<!-- ================= 例题 ================= -->
+<section class="block">
+  <h2><span class="no">例</span>例题精讲</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 读三要素</div>
+    <div class="ex-body">
+      <p class="q">u = 311 sin(314t − 30°) V。求三要素、有效值与频率。</p>
+      <ol class="steps">
+        <li>幅值 U<sub>m</sub> = 311 V；有效值 U = 311/√2 = 220 V（311 本来就是 220√2）；</li>
+        <li>角频率 ω = 314 rad/s ⇒ f = ω/2π = 314/314 = 50 Hz，T = 0.02 s；</li>
+        <li>初相位 φ = −30°（波形整体右移 30°，"晚起跑"）。</li>
+      </ol>
+      <div class="ans">U<sub>m</sub> = 311 V　ω = 314 rad/s　φ = −30°　U = 220 V　f = 50 Hz</div>
+      <p class="key">看到 311 立即反应 220V 有效值；看到 314 立即反应 50Hz —— 两对换算要形成条件反射。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 正弦量 → 相量</div>
+    <div class="ex-body">
+      <p class="q">i = 14.14 sin(ωt + 45°) A，写出它的相量（有效值相量）。</p>
+      <ol class="steps">
+        <li>有效值：I = 14.14/√2 ≈ 10 A（14.14 就是 10√2）；</li>
+        <li>辐角取初相位 +45°。</li>
+      </ol>
+      <div class="ans">İ = 10∠45° A</div>
+      <p class="key">换算只发生在"模"上（√2 倍关系），角度原样照搬。电力题目爱用 √2 的整数倍：311、14.14、7.07、100，都是为了换算后得到整数。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 相位差判断</div>
+    <div class="ex-body">
+      <p class="q">u = 100 sin(ωt + 60°) V，i = 10 sin(ωt − 30°) A。求相位差并判断超前滞后关系。</p>
+      <ol class="steps">
+        <li>同频率（同一个 ω），可以比较。相位差 = φ<sub>u</sub> − φ<sub>i</sub> = 60° − (−30°) = 90°；</li>
+        <li>φ &gt; 0：电压超前电流 90°，两者<b>正交</b>；</li>
+        <li>等价说法：电流滞后电压 90°。</li>
+      </ol>
+      <div class="ans">φ = 90°，u 超前 i 90°（正交）</div>
+      <p class="key">"u 超前 i 90°" 与 "i 滞后 u 90°" 必须能在两种说法间自由切换 —— 选择题两个说法都可能出现，一个对一个错。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 4 · 相量相加（串联电压合成）</div>
+    <div class="ex-body">
+      <p class="q">串联电路中 U̇₁ = 100∠0° V，U̇₂ = 100∠60° V。求总电压相量 U̇ = U̇₁ + U̇₂ 及其瞬时值表达式（f = 50 Hz）。</p>
+      <ol class="steps">
+        <li>化成代数式：U̇₁ = 100 + j0；U̇₂ = 100cos60° + j100sin60° = 50 + j86.6；</li>
+        <li>实虚部分别相加：U̇ = 150 + j86.6；</li>
+        <li>转回极坐标：模 = √(150² + 86.6²) = √30000 ≈ 173.2 V；辐角 = arctan(86.6/150) = 30°；</li>
+        <li>写回瞬时值：幅值 = 173.2 × √2 ≈ 245 V，ω = 314。</li>
+      </ol>
+      <div class="ans">U̇ = 173.2∠30° V　　u(t) ≈ 245 sin(314t + 30°) V</div>
+      <p class="key">检验：几何上 100∠0° 与 100∠60° 是等腰三角形的两条边，合力方向必然在正中间 —— 30° ✓。另注意：两个"100V"加起来是 173.2V 而不是 200V —— 相位不同，不能直接算术相加，这是交流电路与直流最大的思维转换。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 练习 ================= -->
+<section class="block">
+  <h2><span class="no">练</span>练习（先做再看答案）</h2>
+  <p>拿草稿纸手算。Q1–Q4 概念换算，Q5–Q8 相位差与相量运算，每题 1 分钟内。</p>
+
+  <details class="exercise"><summary><span class="qn">Q1</span>u = 220<span class="sqrt">√2</span> sin(100πt + 45°) V。写出幅值、有效值、频率、初相位<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>幅值 = 220√2 ≈ 311 V；有效值 = 220 V；ω = 100π ⇒ f = 50 Hz；初相 = 45°。</p>
+      <div class="sol">U<sub>m</sub> ≈ 311 V　U = 220 V　f = 50 Hz　φ = 45°</div>
+      <p class="note">220√2 与 311 是同一个数的两种写法，考试两种都出现。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q2</span>f = 50 Hz，求 ω 和周期 T<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>ω = 2πf = 100π ≈ 314 rad/s；T = 1/f = 0.02 s。</p>
+      <div class="sol">ω ≈ 314 rad/s　T = 0.02 s</div>
+      <p class="note">50Hz ↔ 314 rad/s ↔ 0.02s，三位一体，任意一个推出另外两个。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q3</span>幅值为 100 V 的正弦电压，其有效值是多少？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>U = 100/√2 ≈ 70.7 V。</p>
+      <div class="sol">U ≈ 70.7 V</div>
+      <p class="note">除以 √2 即乘 0.707。反向考法：有效值 100V ⇒ 幅值 141.4V。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q4</span>i = 28.28 sin(314t − 120°) A，写出相量<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>I = 28.28/√2 = 20 A；辐角取初相 −120°（第三象限的角度，作为"初相位"直接保留，不必加 180°—— 它本来就是 −120°，不是算出来的 arctan）。</p>
+      <div class="sol">İ = 20∠−120° A</div>
+      <p class="note">第 1 课的象限陷阱出现在"代数式→极坐标"的换算中；从正弦量直接取初相则没有这个问题。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q5</span>u = 310 sin(ωt + 30°) V，i = 5 sin(ωt − 15°) A。相位差多少？谁超前谁？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>φ = 30° − (−15°) = 45° &gt; 0，电压超前电流 45°。</p>
+      <div class="sol">φ = 45°，u 超前 i 45°</div>
+      <p class="note">相位差与有效值无关 —— 310 与 5 只是干扰项。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q6</span>"电流滞后电压 90°"还有几种等价说法？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>① 电压超前电流 90°；② u 与 i 正交；③ 相位差 φ<sub>ui</sub> = +90°（若定义 φ = φ<sub>u</sub> − φ<sub>i</sub>）。</p>
+      <div class="sol">u 超前 i 90° ／ 两者正交</div>
+      <p class="note">这也是纯电感元件的 u-i 关系（下一课主角），先把说法练熟。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q7</span>相量 U̇ = 100∠60° V（f = 50 Hz），写回瞬时值表达式<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>幅值 = 100 × √2 ≈ 141.4 V；ω = 314 rad/s；初相 = 60°。</p>
+      <div class="sol">u(t) ≈ 141.4 sin(314t + 60°) V</div>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q8</span>İ₁ = 3∠0° A，İ₂ = 4∠90° A，求总电流 İ = İ₁ + İ₂<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>代数式：İ₁ = 3 + j0，İ₂ = 0 + j4；相加：İ = 3 + j4。</p>
+      <div class="sol">İ = 5∠53.13° A</div>
+      <p class="note">3-4-5 勾股数又登场了 —— 3 + j4 = 5∠53.13° 是整个交流分析里出镜率最高的复数，第 1 课练的口算在这里直接变现。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 自测 ================= -->
+<section class="block">
+  <h2><span class="no">测</span>本课过关自测</h2>
+  <ul class="checklist">
+    <li>我能默写 50Hz ↔ ω = 314 rad/s ↔ T = 0.02s 的换算链</li>
+    <li>我知道 220V 是有效值、幅值约 311V，并能用 sin² 的平均值是 1/2 推出 U = U<sub>m</sub>/√2</li>
+    <li>我能在正弦量与相量之间双向换算（√2 只作用于模，角度原样搬运）</li>
+    <li>给我两个同频正弦量，我能算相位差并自由切换"超前/滞后"两种说法</li>
+    <li>我能用代数式相加（或相量图合成）求两个同频正弦量之和</li>
+    <li>我能说出相量法的两条纪律：只管同频率；相量表示而非等于正弦量</li>
+  </ul>
+</section>
+
+<!-- ================= 上下课导航 ================= -->
+<div class="pager">
+  <a href="01_复数与相量运算.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 1 课 · 复数与相量运算</div>
+  </a>
+  <a href="index.html" style="text-align:center;">
+    <div class="dir">目录</div>
+    <div class="title">阶段 0 筑基</div>
+  </a>
+  <a href="03_RLC与阻抗.html" class="next-card">
+    <div class="dir">下一课 · 已上线</div>
+    <div class="title">第 3 课 · R、L、C 与阻抗</div>
+  </a>
+</div>
+
+<!-- ================= 下一课 ================= -->
+<div class="next">
+  <h2>下一课预告：R、L、C 与阻抗</h2>
+  <p>电阻、电感、电容三种元件在正弦交流下各是什么"脾气"？电压电流的相位差是多少、感抗容抗怎么算？第 1 课的阻抗三角形 Z = R + jX 将完整成型 —— 学完它，你就能独立解出第一道完整的正弦稳态电路题。</p>
+</div>
+
+<footer>
+  阶段 0 筑基 · 第 2 课 ｜ <a href="index.html">返回阶段0目录</a> ｜ <a href="../index.html">返回电网备考首页</a>
+</footer>
+
+</div>
+</body>
+</html>

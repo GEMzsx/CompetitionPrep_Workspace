@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段0 · 第1课 — 复数与相量运算</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+.sqrt { border-top: 1.4px solid var(--ink); padding: 0 3px; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+  text-align: center;
+  font-size: 14.5px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 下一课 ===== */
+.next {
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 26px 0 10px;
+}
+.next h2 { margin: 0 0 8px; font-size: 19px; }
+.next p { margin: 0; opacity: .93; font-size: 14.5px; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+.pager .next-card { text-align: right; }
+.pager .next-card .dir { color: var(--gold); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .tbl { font-size: 13px; }
+}
+@media print { body { background: #fff; } section.block { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段0目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 0 筑基 · 第 1 课</p>
+  <h1>复数与相量运算</h1>
+  <p>交流电路的全部计算都建立在复数四则运算之上 —— 阻抗、三相功率、功率因数，每一道南网笔试的交流题都在用它。这一课从零开始，把「工具」磨快，后面电路课才能跑得动。</p>
+  <div class="meta">
+    <span class="chip">预计 1.5–2 小时</span>
+    <span class="chip">4 个知识块 · 4 道例题 · 8 道练习</span>
+    <span class="chip">电路课的前置工具课</span>
+  </div>
+</div>
+
+<!-- ================= 为什么先学这个 ================= -->
+<section class="block">
+  <h2><span class="no">?</span>为什么第一课是复数？</h2>
+  <ol>
+    <li><b>它是交流电路的"货币"。</b>正弦电压电流的加减、阻抗的串并联、三相功率的计算，在相量法下全部变成复数四则运算。复数算不快，电路题就做不快。</li>
+    <li><b>它直接出现在考卷上。</b>电路科目考纲中的"相量法与正弦稳态"、"三相电路"，每一步都是复数运算；给定阻抗求电流这类题，90% 的时间花在复数上。</li>
+    <li><b>它只有一层窗户纸。</b>你需要掌握的只有：三种写法互相转化 + 加减乘除规则。高中数学学过皮毛，现在只需要两个小时把它变成肌肉记忆。</li>
+  </ol>
+  <div class="exam"><span class="tag-exam">南网考点</span>复数运算本身很少单独出题，但作为底层工具渗透在电路、电分（如短路电流计算）、电机（如同步电机相量图）等科目的题目中。<b>本课目标：互化与四则运算 30 秒内一题。</b></div>
+</section>
+
+<!-- ================= 知识 1 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>j 是什么：一个"转 90°"的动作</h2>
+  <p>数学里虚数单位叫 <b>i</b>，但电工学里写 <b>j</b> —— 因为 <code>i</code> 已经被电流占用了。它满足：</p>
+  <div class="formula">j² = −1</div>
+  <p>但这不是重点。重点是它的<b>几何意义：乘以 j，就是把一个数逆时针旋转 90°</b>。</p>
+  <ul>
+    <li>1 × j = j —— 从实轴正向（东）转到虚轴正向（北）；</li>
+    <li>j × j = −1 —— 再转 90°，指向实轴负向（西）；</li>
+    <li>(−1) × j = −j —— 继续转，指向虚轴负向（南）；</li>
+    <li>再乘一次 j，转回 1 —— 转一整圈。</li>
+  </ul>
+  <div class="know">
+    <b>为什么电工非要它不可？</b>因为交流电是"旋转"的：正弦波每时每刻的值，就是一根旋转的箭头在实轴上的投影。电容让电流"超前"电压 90°、电感让电流"滞后"电压 90° —— 这些 90° 的关系，用 j 一乘一除就表达了，纯实数运算永远做不到。
+  </div>
+  <h3 class="sub">必须秒答的四个小算式</h3>
+  <div class="formula">
+    j × j = −1 &nbsp;&nbsp;·&nbsp;&nbsp; j × (−j) = 1 &nbsp;&nbsp;·&nbsp;&nbsp; 1/j = −j &nbsp;&nbsp;·&nbsp;&nbsp; j/(−j) = −1
+    <div class="small">提示：1/j 的推导 —— 分子分母同乘 j：j/j² = j/(−1) = −j</div>
+  </div>
+  <div class="exam"><span class="tag-exam">南网考点</span><b>1/j = −j</b> 是电路课的常客：电容的阻抗 1/(jωC) = −j/(ωC)，那个负号就是这么来的。见到 1/j 不假思索写 −j，是你未来的下意识动作。</div>
+</section>
+
+<!-- ================= 知识 2 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>复平面：把数画成箭头</h2>
+  <p>横轴叫<b>实轴</b>（Re），纵轴叫<b>虚轴</b>（Im）。复数 z = a + bj 就是平面上的一个点 (a, b)，或者从原点指向它的一支<b>箭头</b>。</p>
+  <ul>
+    <li><b>模</b> r —— 箭头的长度：<b>r = |z| = √(a² + b²)</b></li>
+    <li><b>辐角</b> θ —— 箭头与实轴正方向的夹角：<b>θ = arctan(b/a)</b>（注意象限，见下）</li>
+  </ul>
+  <p>例如 3 + j4：向右 3、向上 4，箭头长度 √(9+16) = 5，与实轴夹角 arctan(4/3) ≈ 53.13°。</p>
+  <div class="know"><b>背下两套勾股数：</b>3-4-5（角度 53.13°）和 5-12-13（角度 67.38°）。笔试里的复数运算十有八九落在这两套三角形上，角度基本就是 37°/53° 或 23°/67° 一带 —— 认出它们，互化就是口算。</div>
+</section>
+
+<!-- ================= 知识 3 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>三种写法与互化（本课核心）</h2>
+  <p>同一个复数有三种"衣服"，场合不同换着穿：</p>
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <tr><th>形式</th><th>长相</th><th>擅长</th><th>使用场合</th></tr>
+    <tr><td><b>代数式</b></td><td>z = a + bj</td><td>加减</td><td>串联阻抗相加、相量逐项求和</td></tr>
+    <tr><td><b>极坐标式</b></td><td>z = r∠θ</td><td>乘除</td><td>阻抗÷电压求电流、功率计算</td></tr>
+    <tr><td><b>指数式</b></td><td>z = r·e<sup>jθ</sup></td><td>理论推导</td><td>公式推导、理解欧拉公式</td></tr>
+  </table>
+  </div>
+  <h3 class="sub">互化公式</h3>
+  <div class="formula">
+    极坐标 → 代数：a = r·cos θ，b = r·sin θ
+    <div class="small">例：10∠60° = 10cos60° + j·10sin60° = 5 + j8.66</div>
+  </div>
+  <div class="formula">
+    代数 → 极坐标：r = <span class="sqrt">√(a² + b²)</span>，θ = arctan<span class="frac"><span class="top">b</span><span class="bot">a</span></span>
+    <div class="small">例：3 + j4 = 5∠53.13°</div>
+  </div>
+  <h3 class="sub">象限陷阱 —— 考试最爱挖的坑</h3>
+  <p>arctan 计算器只会给出 −90° ~ +90° 的答案。当 a &lt; 0（点在左侧两个象限）时，必须手动修正：</p>
+  <table class="tbl">
+    <tr><th>复数位置</th><th>例子</th><th>计算器给出</th><th>正确辐角</th></tr>
+    <tr><td>第一象限（a&gt;0, b&gt;0）</td><td>3 + j4</td><td>53.13°</td><td>53.13°（直接用）</td></tr>
+    <tr><td>第二象限（a&lt;0, b&gt;0）</td><td>−3 + j4</td><td>−53.13°</td><td>−53.13° + 180° = <b>126.87°</b></td></tr>
+    <tr><td>第三象限（a&lt;0, b&lt;0）</td><td>−3 − j4</td><td>53.13°</td><td>53.13° − 180° = <b>−126.87°</b></td></tr>
+    <tr><td>第四象限（a&gt;0, b&lt;0）</td><td>3 − j4</td><td>−53.13°</td><td>−53.13°（直接用，负角合法）</td></tr>
+  </table>
+  <div class="exam"><span class="tag-exam">南网考点</span>阻抗为负实部（如 Z = −3 + j4）的判断题、电容性/电感性判断，都藏在这个象限陷阱里。<b>口诀：a 为负，角加 180。</b></div>
+</section>
+
+<!-- ================= 知识 4 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>四则运算与共轭</h2>
+  <h3 class="sub">加减 —— 换成代数式，实虚部分别算</h3>
+  <div class="formula">(a + bj) ± (c + dj) = (a ± c) + j(b ± d)</div>
+  <h3 class="sub">乘除 —— 换成极坐标式：模相乘除，角相加减</h3>
+  <div class="formula">
+    (r₁∠θ₁) × (r₂∠θ₂) = (r₁·r₂)∠(θ₁ + θ₂)<br><br>
+    <span class="frac"><span class="top">r₁∠θ₁</span><span class="bot">r₂∠θ₂</span></span> = <span class="frac"><span class="top">r₁</span><span class="bot">r₂</span></span>∠(θ₁ − θ₂)
+  </div>
+  <h3 class="sub">共轭 —— 虚部变号</h3>
+  <div class="formula">
+    z = a + bj &nbsp;⇒&nbsp; z* = a − bj<br><br>
+    z × z* = a² + b² = |z|²（模的平方，纯实数！）
+  </div>
+  <p>共轭的最大用途：<b>分母实数化</b> —— 分母里有复数时，分子分母同乘分母的共轭，分母立刻变成实数。</p>
+  <h3 class="sub">常用三角函数速查（互化的口算基础）</h3>
+  <table class="tbl">
+    <tr><th>θ</th><th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th></tr>
+    <tr><td><b>cos θ</b></td><td>1</td><td>√3/2 ≈ 0.866</td><td>√2/2 ≈ 0.707</td><td>1/2</td><td>0</td></tr>
+    <tr><td><b>sin θ</b></td><td>0</td><td>1/2</td><td>√2/2 ≈ 0.707</td><td>√3/2 ≈ 0.866</td><td>1</td></tr>
+  </table>
+  <div class="know"><b>欧拉公式（了解即可）：</b>e<sup>jθ</sup> = cos θ + j·sin θ —— 指数式和极坐标式其实是一回事（e<sup>jθ</sup> 就是 ∠θ）。验证一下：θ = 90° 时 e<sup>j90°</sup> = cos90° + j·sin90° = j，正是"乘 j 转九十度"。它把"旋转"和"指数"连通了，是相量法的理论基石。</div>
+</section>
+
+<!-- ================= 例题 ================= -->
+<section class="block">
+  <h2><span class="no">例</span>例题精讲</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 基础互化（正角）</div>
+    <div class="ex-body">
+      <p class="q">把 z = 3 + j4 化成极坐标式。</p>
+      <ol class="steps">
+        <li>模：r = √(3² + 4²) = √25 = 5（3-4-5 勾股数）；</li>
+        <li>辐角：a = 3 &gt; 0，第一象限，θ = arctan(4/3) ≈ 53.13°。</li>
+      </ol>
+      <div class="ans">z = 5∠53.13°</div>
+      <p class="key">3-4-5 是笔试第一勾股数，53.13°（或写成 53.1°）要形成条件反射。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 象限陷阱（负实部）</div>
+    <div class="ex-body">
+      <p class="q">把 z = −5 + j12 化成极坐标式。</p>
+      <ol class="steps">
+        <li>模：r = √(25 + 144) = √169 = 13（5-12-13 勾股数）；</li>
+        <li>辐角：a = −5 &lt; 0，第二象限！计算器给 arctan(12/−5) ≈ −67.38°，必须加 180°；</li>
+        <li>θ = −67.38° + 180° = 112.62°。</li>
+      </ol>
+      <div class="ans">z = 13∠112.62°</div>
+      <p class="key">检验：辐角 112.62° 在 90°~180° 之间，第二象限 ✓ 与"负实正虚"一致。养成检验习惯：算完看一眼象限对不对。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 乘除运算</div>
+    <div class="ex-body">
+      <p class="q">已知 A = 6∠30°，B = 2∠45°，求 A × B 和 A ÷ B。</p>
+      <ol class="steps">
+        <li>乘法：模相乘 6 × 2 = 12；角相加 30° + 45° = 75°；</li>
+        <li>除法：模相除 6 ÷ 2 = 3；角相减 30° − 45° = −15°（负角完全合法，表示顺时针转 15°）。</li>
+      </ol>
+      <div class="ans">A × B = 12∠75°　　A ÷ B = 3∠−15°</div>
+      <p class="key">未来电路课里"电压相量 ÷ 阻抗 = 电流相量"就是这个除法：模相除得到电流大小，角相减得到电流相位。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 4 · 综合预演（阻抗的雏形）</div>
+    <div class="ex-body">
+      <p class="q">电阻 R = 3 Ω 与电抗 X = 4 Ω 串联，总阻抗 Z = R + jX = 3 + j4 Ω。求它的模和辐角，并画在复平面上。</p>
+      <ol class="steps">
+        <li>这就是例 1：|Z| = 5，θ = 53.13°；</li>
+        <li>几何意义：电阻 3 沿实轴、电抗 4 沿虚轴，合成箭头长 5、指向 53.13°；</li>
+        <li>这块"斜边"就是未来电路课的<b>阻抗三角形</b>：|Z|、R、X 三边勾股，θ 是<b>阻抗角</b> = 电压与电流的相位差 = 功率因数角！</li>
+      </ol>
+      <div class="ans">Z = 5∠53.13° Ω</div>
+      <p class="key">四道例题连起来看：复数运算 → 阻抗 → 功率因数 → 三相功率，这就是南网笔试电路题的完整链条。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 练习 ================= -->
+<section class="block">
+  <h2><span class="no">练</span>练习（先做再看答案）</h2>
+  <p>要求：拿草稿纸手算，每题目标 30–60 秒。点击题目展开解答。</p>
+
+  <details class="exercise"><summary><span class="qn">Q1</span>把 8 + j6 化成极坐标式<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>r = √(64+36) = √100 = 10；θ = arctan(6/8) = arctan(0.75) ≈ 36.87°（第一象限直接用）。</p>
+      <div class="sol">8 + j6 = 10∠36.87°</div>
+      <p class="note">6-8-10 仍是 3-4-5 的倍数（×2），角度不变 36.87°——正是 53.13° 的余角。一对黄金角度：36.87° 与 53.13°，都来自 3-4-5。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q2</span>把 −8 + j6 化成极坐标式<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>模不变：r = 10。辐角：a = −8 &lt; 0，第二象限，arctan(6/−8) ≈ −36.87°，加 180°。</p>
+      <div class="sol">−8 + j6 = 10∠143.13°</div>
+      <p class="note">与 Q1 对比：只改了实部的符号，角度从 36.87° 跳到 143.13°。这就是"负实部加 180°"。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q3</span>把 10∠60° 化成代数式<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>a = 10·cos60° = 10 × 0.5 = 5；b = 10·sin60° = 10 × 0.866 = 8.66。</p>
+      <div class="sol">10∠60° = 5 + j8.66</div>
+      <p class="note">cos 给实部、sin 给虚部。60° 是速查表里的常客，sin60° = √3/2 ≈ 0.866 必须背。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q4</span>把 4∠−30° 化成代数式<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>a = 4·cos(−30°) = 4 × 0.866 = 3.46；b = 4·sin(−30°) = 4 × (−0.5) = −2。</p>
+      <div class="sol">4∠−30° = 3.46 − j2</div>
+      <p class="note">负角的 cos 是偶函数（不变号）、sin 是奇函数（变号）。虚部为负 = 容性，这在未来判断电路性质时天天用。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q5</span>计算 (3∠20°) × (4∠50°)<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>模相乘：3 × 4 = 12；角相加：20° + 50° = 70°。</p>
+      <div class="sol">(3∠20°)(4∠50°) = 12∠70°</div>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q6</span>计算 20∠75° ÷ 4∠15°<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>模相除：20 ÷ 4 = 5；角相减：75° − 15° = 60°。</p>
+      <div class="sol">20∠75° ÷ 4∠15° = 5∠60°</div>
+      <p class="note">将来这就是：电压模 20、超前 75°，阻抗模 4、超前 15° ⇒ 电流模 5、超前 60°。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q7</span>已知 z = 1 + j，求共轭 z*、模 |z|、以及 z × z*<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>共轭：虚部变号 z* = 1 − j；模：|z| = √(1+1) = √2 ≈ 1.414；乘积：z × z* = |z|² = 2。</p>
+      <div class="sol">z* = 1 − j　|z| = √2　z·z* = 2</div>
+      <p class="note">z = 1 + j 的辐角是 45°，模 √2 —— 它乘自己（平方）就是 (√2∠45°)² = 2∠90° = 2j，很优雅的数。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q8</span>阻抗预演：R = 6 Ω 与感抗 X = 8 Ω 串联，写出阻抗的代数式与极坐标式<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>代数式：Z = R + jX = 6 + j8 Ω；极坐标式：|Z| = √(36+64) = 10，θ = arctan(8/6) ≈ 53.13°。</p>
+      <div class="sol">Z = 6 + j8 = 10∠53.13° Ω</div>
+      <p class="note">这就是将来正弦稳态电路的第一类必考题。记住：感性 j 前为正，容性 j 前为负。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 自测 ================= -->
+<section class="block">
+  <h2><span class="no">测</span>本课过关自测</h2>
+  <p>全部打勾才算过关；有任何一条做不到，回到对应知识块重看。</p>
+  <ul class="checklist">
+    <li>我能不查表默写 30° / 45° / 60° 的正弦、余弦值（知识 4 速查表）</li>
+    <li>我能口算 j×j、j×(−j)、1/j（答案是 −1、1、−j）</li>
+    <li>我能说出三种形式各自擅长什么运算（代数式加减、极坐标式乘除）</li>
+    <li>给我 3 + j4 或 6 + j8，我 30 秒内写出极坐标式（5∠53.13°、10∠53.13°）</li>
+    <li>给我 −5 + j12，我不会忘记加 180°（13∠112.62°）</li>
+    <li>我能解释"乘以 j = 逆时针转 90°"，以及为什么电工用 j 不用 i</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课 ================= -->
+<div class="next">
+  <h2>下一课预告：正弦量与相量表示</h2>
+  <p>工具已就位。下一课把正弦电压 u = U<sub>m</sub>·sin(ωt + φ) 变成相量 U∠φ —— 从此交流电路的微分方程全部降维成复数四则运算，这是电路课最漂亮的一次"降维打击"。学完它，你就能看懂电路教材的整个正弦稳态章节。</p>
+</div>
+
+<!-- ================= 上下课导航 ================= -->
+<div class="pager">
+  <a href="index.html" style="text-align:center;">
+    <div class="dir">目录</div>
+    <div class="title">阶段 0 筑基</div>
+  </a>
+  <a href="02_正弦量与相量表示.html" class="next-card">
+    <div class="dir">下一课 · 已上线</div>
+    <div class="title">第 2 课 · 正弦量与相量表示</div>
+  </a>
+</div>
+
+<footer>
+  阶段 0 筑基 · 第 1 课 ｜ <a href="index.html">返回阶段0目录</a> ｜ <a href="../index.html">返回电网备考首页</a>
+</footer>
+
+</div>
+</body>
+</html>

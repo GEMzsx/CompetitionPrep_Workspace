@@ -22,7 +22,7 @@
     { no: "05", label: "多元微分",   full: "多元微分学",         dir: "05_多元微分学",         ready: true  },
     { no: "06", label: "重积分",     full: "重积分",             dir: "06_重积分",             ready: true  },
     { no: "07", label: "线面积分",   full: "曲线曲面积分",       dir: "07_曲线曲面积分",       ready: true  },
-    { no: "08", label: "无穷级数",   full: "无穷级数",           dir: "08_无穷级数",           ready: false },
+    { no: "08", label: "无穷级数",   full: "无穷级数",           dir: "08_无穷级数",           ready: true  },
     { no: "09", label: "微分方程",   full: "常微分方程",         dir: "09_常微分方程",         ready: false }
   ];
   var ENTRY = "01_知识框架.html";

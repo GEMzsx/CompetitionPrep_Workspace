@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段0 · 第3课 — R、L、C 与阻抗</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+.ph { position: relative; padding: 0 1px; font-style: normal; }
+.ph::after {
+  content: "•";
+  position: absolute; top: -0.62em; left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55em;
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+.sqrt { border-top: 1.4px solid var(--ink); padding: 0 3px; }
+
+/* ===== 示意图 ===== */
+.wave {
+  background: #fbfdff;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  margin: 14px 0;
+  padding: 10px;
+  text-align: center;
+}
+.wave svg { max-width: 100%; height: auto; }
+.wave .cap { font-size: 12.5px; color: var(--ink-faint); margin-top: 6px; }
+
+/* ===== 三联卡 ===== */
+.trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+.trio .card-el {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 14px 10px;
+  font-size: 13px;
+  text-align: center;
+}
+.trio .card-el .sym { font-size: 21px; font-weight: 700; color: var(--blue-deep); }
+.trio .card-el .name { font-size: 12px; color: var(--ink-faint); margin-bottom: 8px; }
+.trio .card-el .rel { color: var(--ink-soft); }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+.pager .next-card { text-align: right; }
+.pager .next-card .dir { color: var(--gold); }
+
+/* ===== 下一课 ===== */
+.next {
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 26px 0 10px;
+}
+.next h2 { margin: 0 0 8px; font-size: 19px; }
+.next p { margin: 0; opacity: .93; font-size: 14.5px; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .tbl { font-size: 12.5px; }
+  .trio { grid-template-columns: 1fr; }
+}
+@media print { body { background: #fff; } section.block { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段0目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 0 筑基 · 第 3 课</p>
+  <h1>R、L、C 与阻抗</h1>
+  <p>成型之战：电阻、电感、电容是电路的三大基本元件，它们在正弦交流下的"脾气"各不相同。这一课把前两课的复数工具和相量方法合成真正的电路分析能力 —— 学完你就能独立解出第一道完整的正弦稳态电路题。</p>
+  <div class="meta">
+    <span class="chip">预计 2 小时</span>
+    <span class="chip">5 个知识块 · 4 道例题 · 8 道练习</span>
+    <span class="chip">承接第 1、2 课</span>
+  </div>
+</div>
+
+<!-- ================= 总览 ================= -->
+<section class="block">
+  <h2><span class="no">?</span>三大元件的"脾气"速览</h2>
+  <div class="trio">
+    <div class="card-el">
+      <div class="sym">R</div>
+      <div class="name">电阻 · 耗能</div>
+      <div class="rel">u 与 i <b>同相</b><br>U = R·I<br>与频率无关</div>
+    </div>
+    <div class="card-el">
+      <div class="sym">L</div>
+      <div class="name">电感 · 储磁能</div>
+      <div class="rel">u <b>超前</b> i 90°<br>U = X<sub>L</sub>·I<br>X<sub>L</sub> = ωL，频率↑ 感抗↑</div>
+    </div>
+    <div class="card-el">
+      <div class="sym">C</div>
+      <div class="name">电容 · 储电场能</div>
+      <div class="rel">i <b>超前</b> u 90°<br>U = X<sub>C</sub>·I<br>X<sub>C</sub> = 1/ωC，频率↑ 容抗↓</div>
+    </div>
+  </div>
+  <div class="know"><b>一句话记住相位关系：</b>电感"压流"（电压在前），电容"流压"（电流在前），电阻"同步走"。第 2 课埋的伏笔——"感性电路 u 超前 i、容性电路 u 滞后 i"——本课将给出完整解释。</div>
+  <div class="exam"><span class="tag-exam">南网考点</span>感抗 / 容抗公式、相位差 90°、阻抗角与电路性质判断，是电路科目客观题的<b>超高频考点</b>；阻抗计算更是所有正弦稳态大题的第一步。</div>
+</section>
+
+<!-- ================= 知识 1 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>电阻 R：老实人，同进同退</h2>
+  <p>欧姆定律在相量世界原样成立，连角度都不用动：</p>
+  <div class="formula">
+    <span class="ph">U</span> = R · <span class="ph">I</span>
+    <div class="small">例：İ = 2∠30° A 流过 R = 50 Ω　⇒　Ù = 100∠30° V —— 模相乘，角度不变</div>
+  </div>
+  <ul>
+    <li>电压电流<b>同相位</b>：相量图上两个箭头方向完全一致；</li>
+    <li>阻值与频率<b>无关</b>：50Hz 下 50Ω，5kHz 下还是 50Ω；</li>
+    <li>唯一真正<b>耗能</b>的元件：把电能变成热（P = UI，第 5 课细讲功率）。</li>
+  </ul>
+</section>
+
+<!-- ================= 知识 2 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>电感 L：线圈，"阻止电流变化"</h2>
+  <p>电感（导线绕成的线圈）的物理本能是<b>抵抗电流变化</b>——电流想变，它就感应出反向电压阻拦。正弦电流一直在变，所以电感一直在"对抗"，表现为对交流的阻碍作用：<b>感抗</b>。</p>
+  <div class="formula">
+    X<sub>L</sub> = ωL = 2πfL　（单位：Ω）
+    <div class="small">L 的单位是亨利 H；频率越高、电感越大，阻碍越强</div>
+  </div>
+  <p>相量关系里，j 正式登场（第 1 课"乘 j 转九十度"在此变现）：</p>
+  <div class="formula">
+    <span class="ph">U</span> = jX<sub>L</sub> · <span class="ph">I</span> = X<sub>L</sub>∠90° · <span class="ph">I</span>
+    <div class="small">电压模 = 感抗 × 电流模；电压角度 = 电流角度 + 90° —— 电压超前电流 90°</div>
+  </div>
+  <h3 class="sub">两个极限，一句话成语</h3>
+  <ul>
+    <li>直流稳态（ω = 0）：X<sub>L</sub> = 0，电感相当于<b>短路</b>；</li>
+    <li>频率极高（ω → ∞）：X<sub>L</sub> → ∞，电感相当于<b>开路</b>；</li>
+    <li>合起来就是中学那句"<b>通直流、阻交流</b>"，现在你能写出它的数学根据了。</li>
+  </ul>
+  <div class="wave">
+    <svg viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg">
+      <line x1="70" y1="75" x2="500" y2="75" stroke="#c3c9d6" stroke-width="1"/>
+      <line x1="70" y1="15" x2="70" y2="135" stroke="#c3c9d6" stroke-width="1"/>
+      <defs>
+        <marker id="aB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0b5aa8"/></marker>
+        <marker id="aG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1f7a3d"/></marker>
+      </defs>
+      <line x1="70" y1="75" x2="290" y2="75" stroke="#1f7a3d" stroke-width="2.4" marker-end="url(#aG)"/>
+      <text x="150" y="96" font-size="13" fill="#1f7a3d" font-weight="bold">İ（参考方向，0°）</text>
+      <line x1="70" y1="75" x2="70" y2="28" stroke="#0b5aa8" stroke-width="2.4" marker-end="url(#aB)"/>
+      <text x="80" y="30" font-size="13" fill="#0b5aa8" font-weight="bold">U̇ = jX_L·İ（+90°，超前）</text>
+      <path d="M 110 75 A 40 40 0 0 0 92 51" fill="none" stroke="#b07800" stroke-width="1.6" marker-end="url(#aG)"/>
+      <text x="118" y="62" font-size="12" fill="#b07800">90°</text>
+    </svg>
+    <div class="cap">图 1：纯电感的相量图。以电流为参考（0°），电压逆时针超前 90° —— "乘 j" 的几何含义。</div>
+  </div>
+</section>
+
+<!-- ================= 知识 3 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>电容 C：两块极板，"阻止电压变化"</h2>
+  <p>电容的脾气与电感镜像对称：它抵抗的是<b>电压变化</b>——电压想变，极板就充放电抵消。表现为<b>容抗</b>：</p>
+  <div class="formula">
+    X<sub>C</sub> = <span class="frac"><span class="top">1</span><span class="bot">ωC</span></span> = <span class="frac"><span class="top">1</span><span class="bot">2πfC</span></span>　（单位：Ω）
+    <div class="small">C 的单位是法拉 F；频率越高、电容越大，阻碍越弱 —— 与感抗的趋势正好相反</div>
+  </div>
+  <p>相量关系中，第 1 课的 <b>1/j = −j</b> 在此落地：</p>
+  <div class="formula">
+    Z<sub>C</sub> = <span class="frac"><span class="top">1</span><span class="bot">jωC</span></span> = −j · <span class="frac"><span class="top">1</span><span class="bot">ωC</span></span> = −jX<sub>C</sub>
+    <div class="small">Ù = −jX<sub>C</sub>·İ —— 电压角度 = 电流角度 − 90°：电压滞后电流 90°（即电流超前电压 90°）</div>
+  </div>
+  <h3 class="sub">两个极限，另一句成语</h3>
+  <ul>
+    <li>直流稳态（ω = 0）：X<sub>C</sub> = 1/0 → ∞，电容相当于<b>开路</b>（充完电就断路）；</li>
+    <li>频率极高（ω → ∞）：X<sub>C</sub> → 0，电容相当于<b>短路</b>；</li>
+    <li>这就是"<b>隔直流、通交流</b>"的数学本质。</li>
+  </ul>
+  <div class="exam"><span class="tag-exam">南网考点</span>容抗公式里的 <b>−j</b> 是判断题高发区："电容电压超前电流 90°"（×，滞后）；"1/(jωC) = jωC⁻¹"（×，负 j）。相位关系记口诀：<b>感压容流</b>——电感的电压在前，电容的电流在前。两个极限（直流下 L 短路 C 开路）则是"换路 / 稳态"类题目的钥匙。</div>
+</section>
+
+<!-- ================= 知识 4 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>阻抗 Z：把 R、L、C 拧成一根绳</h2>
+  <p>RLC <b>串联</b>时，总电压是三个元件电压的相量和，结果是所有作用拧成的一个总阻碍 —— <b>阻抗</b>：</p>
+  <div class="formula">
+    Z = R + jX = R + j(X<sub>L</sub> − X<sub>C</sub>)　，　X = X<sub>L</sub> − X<sub>C</sub>
+    <div class="small">X 叫电抗：感抗减容抗。感性、容性在此"相消"—— 数值大的说了算</div>
+  </div>
+  <p>这正是第 1 课例 4 的"阻抗三角形"，现在三个边都有了物理名字：</p>
+  <div class="wave">
+    <svg viewBox="0 0 560 210" xmlns="http://www.w3.org/2000/svg">
+      <line x1="70" y1="160" x2="440" y2="160" stroke="#c3c9d6" stroke-width="1"/>
+      <line x1="70" y1="40" x2="70" y2="180" stroke="#c3c9d6" stroke-width="1"/>
+      <defs>
+        <marker id="aB2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0b5aa8"/></marker>
+      </defs>
+      <line x1="70" y1="160" x2="230" y2="160" stroke="#1f7a3d" stroke-width="3" marker-end="url(#aB2)"/>
+      <text x="130" y="182" font-size="14" fill="#1f7a3d" font-weight="bold">R（电阻）</text>
+      <line x1="230" y1="160" x2="230" y2="56" stroke="#b07800" stroke-width="3" marker-end="url(#aB2)"/>
+      <text x="240" y="110" font-size="14" fill="#b07800" font-weight="bold">X = X_L − X_C（电抗）</text>
+      <line x1="70" y1="160" x2="230" y2="56" stroke="#0b5aa8" stroke-width="3" marker-end="url(#aB2)"/>
+      <text x="95" y="95" font-size="14" fill="#0b5aa8" font-weight="bold">|Z|（阻抗模）</text>
+      <path d="M 130 160 A 60 60 0 0 0 116 126" fill="none" stroke="#8a90a6" stroke-width="1.6"/>
+      <text x="138" y="143" font-size="13" fill="#8a90a6">φ = arctan(X/R)</text>
+      <text x="300" y="60" font-size="13" fill="#4a5068">|Z| = √(R² + X²)</text>
+      <text x="300" y="82" font-size="13" fill="#4a5068">φ &gt; 0 感性（u 超前 i）</text>
+      <text x="300" y="104" font-size="13" fill="#4a5068">φ &lt; 0 容性（u 滞后 i）</text>
+      <text x="300" y="126" font-size="13" fill="#4a5068">φ = 0 纯阻性（X = 0，谐振！）</text>
+    </svg>
+    <div class="cap">图 2：阻抗三角形。三条边分别是 R、X、|Z|；阻抗角 φ 同时是电压超前电流的角度。</div>
+  </div>
+  <p>电路性质由 <b>X 的正负</b>一锤定音：</p>
+  <table class="tbl">
+    <tr><th>条件</th><th>性质</th><th>阻抗角</th><th>u 与 i 的关系</th></tr>
+    <tr><td>X &gt; 0（X<sub>L</sub> &gt; X<sub>C</sub>）</td><td><b>感性</b></td><td>φ &gt; 0</td><td>u 超前 i（0~90°）</td></tr>
+    <tr><td>X &lt; 0（X<sub>L</sub> &lt; X<sub>C</sub>）</td><td><b>容性</b></td><td>φ &lt; 0</td><td>u 滞后 i（0~90°）</td></tr>
+    <tr><td>X = 0（X<sub>L</sub> = X<sub>C</sub>）</td><td><b>纯阻性</b></td><td>φ = 0</td><td>同相（串联谐振，第 5 课）</td></tr>
+  </table>
+  <div class="exam"><span class="tag-exam">南网考点</span>"判断电路性质 / 阻抗角正负 / 电压电流超前滞后"三位一体，全是同一件事：看 X 的符号。给出 Z = a ± jb，直接读符号 —— b 前为 + 感性，b 前为 − 容性。</div>
+</section>
+
+<!-- ================= 知识 5 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>频率特性总表 + 一个"必背"数值</h2>
+  <table class="tbl">
+    <tr><th>元件</th><th>阻碍（Ω）</th><th>频率 f 升高</th><th>直流稳态（ω=0）</th><th>高频极限</th></tr>
+    <tr><td>电阻 R</td><td>R</td><td>不变</td><td>R</td><td>R</td></tr>
+    <tr><td>电感 L</td><td>X<sub>L</sub> = ωL</td><td>阻碍增大</td><td><b>短路</b>（0）</td><td>开路（∞）</td></tr>
+    <tr><td>电容 C</td><td>X<sub>C</sub> = 1/ωC</td><td>阻碍减小</td><td><b>开路</b>（∞）</td><td>短路（0）</td></tr>
+  </table>
+  <p>最后记住一组"电网人"数字：50 Hz 下，<b>1 H 电感的感抗 ≈ 314 Ω，1 F 电容的容抗 ≈ 0.00318 Ω</b>。反过来，想在 50Hz 下得到 1Ω 的容抗需要多大的电容？C = 1/(ω·X<sub>C</sub>) ≈ 3183 μF —— 电容"个头"往往很大，这也是电容器为什么长得像"油桶"的原因之一。</p>
+</section>
+
+<!-- ================= 例题 ================= -->
+<section class="block">
+  <h2><span class="no">例</span>例题精讲</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 纯电感电路</div>
+    <div class="ex-body">
+      <p class="q">电压 Ù = 100∠0° V 加在纯电感上，X<sub>L</sub> = 5 Ω。求电流相量。</p>
+      <ol class="steps">
+        <li>相量欧姆定律：İ = Ù / (jX<sub>L</sub>)；</li>
+        <li>除法（第 1 课）：模相除 100/5 = 20；角相减 0° − 90° = −90°。</li>
+      </ol>
+      <div class="ans">İ = 20∠−90° A</div>
+      <p class="key">电流滞后电压 90° —— 与"电感电压超前"完全一致，两种说法一个事实。j 在分母照样按"模 1、角 90°"处理即可。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · RLC 串联阻抗（性质判断）</div>
+    <div class="ex-body">
+      <p class="q">R = 30 Ω、X<sub>L</sub> = 80 Ω、X<sub>C</sub> = 40 Ω 串联。求总阻抗，并判断电路性质。</p>
+      <ol class="steps">
+        <li>电抗：X = X<sub>L</sub> − X<sub>C</sub> = 80 − 40 = +40 Ω；</li>
+        <li>阻抗：Z = R + jX = 30 + j40 Ω；</li>
+        <li>极坐标：|Z| = √(900+1600) = 50 Ω，φ = arctan(40/30) ≈ 53.13°（3-4-5 又来了）；</li>
+        <li>X &gt; 0 ⇒ <b>感性</b>，u 超前 i 53.13°。</li>
+      </ol>
+      <div class="ans">Z = 30 + j40 = 50∠53.13° Ω，感性</div>
+      <p class="key">先算 X 再合成 Z，是标准流程；判断性质只看 j 前的正负号。若把 X<sub>C</sub> 改成 120 Ω，X = 80 − 120 = −40，Z = 30 − j40 = 50∠−53.13°，立刻翻转为容性。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 第一道完整的正弦稳态题</div>
+    <div class="ex-body">
+      <p class="q">接例 2 电路（Z = 50∠53.13° Ω），电源电压 Ù = 100∠0° V。求电流相量，并写回瞬时值（f = 50 Hz）。</p>
+      <ol class="steps">
+        <li>相量欧姆定律：İ = Ù / Z；</li>
+        <li>除法：模 100/50 = 2 A；角 0° − 53.13° = −53.13°；</li>
+        <li>写回瞬时值：幅值 = 2 × √2 ≈ 2.83 A，ω = 314，初相 = −53.13°。</li>
+      </ol>
+      <div class="ans">İ = 2∠−53.13° A　　i(t) ≈ 2.83 sin(314t − 53.13°) A</div>
+      <p class="key">三步闭环：Ù 已知 → 除以 Z 得 İ → 乘 √2 回瞬时值。这道题打通了第 1 课（复数除法）、第 2 课（相量↔正弦量）、第 3 课（阻抗）—— 你已经具备解正弦稳态电路的全部基础零件。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 4 · 从阻抗反读性质（概念综合）</div>
+    <div class="ex-body">
+      <p class="q">某二端网络的阻抗 Z = 6 − j8 Ω。求 |Z|、阻抗角，说明电路性质与 u-i 相位关系。</p>
+      <ol class="steps">
+        <li>模：|Z| = √(36+64) = 10 Ω；</li>
+        <li>角：φ = arctan(−8/6) ≈ −53.13°（b 为负，第四象限，负角直接取）；</li>
+        <li>j 前为负 ⇒ 容性；φ &lt; 0 ⇒ u 滞后 i 53.13°（等价：i 超前 u 53.13°）。</li>
+      </ol>
+      <div class="ans">|Z| = 10 Ω，φ = −53.13°，容性，u 滞后 i 53.13°</div>
+      <p class="key">注意区分两个"负号"：这是阻抗角的负（容性），不是第 1 课象限陷阱的负实部（那才需要 +180°）。实部 6 &gt; 0，第四象限，arctan 直接用。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 练习 ================= -->
+<section class="block">
+  <h2><span class="no">练</span>练习（先做再看答案）</h2>
+  <p>前 4 题概念与公式，后 4 题综合计算。单位换算小心：1 mH = 10⁻³ H，1 μF = 10⁻⁶ F。</p>
+
+  <details class="exercise"><summary><span class="qn">Q1</span>L = 0.1 H，f = 50 Hz，求感抗<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>X<sub>L</sub> = ωL = 314 × 0.1 = 31.4 Ω。</p>
+      <div class="sol">X<sub>L</sub> = 31.4 Ω</div>
+      <p class="note">50Hz 下感抗口算 = 314 × L（H）。电感量常用 mH 计：10 mH → 3.14 Ω。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q2</span>C = 100 μF，ω = 314 rad/s，求容抗<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>X<sub>C</sub> = 1/(ωC) = 1/(314 × 100×10⁻⁶) = 1/(0.0314) ≈ 31.85 Ω。</p>
+      <div class="sol">X<sub>C</sub> ≈ 31.85 Ω</div>
+      <p class="note">先把 μF 化成 F（×10⁻⁶）再进分母 —— 单位错一位，答案差千倍，这是实操中最常见的翻车点。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q3</span>纯电感上，电压与电流的相位关系？纯电容呢？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>纯电感：u 超前 i 90°；纯电容：i 超前 u 90°（u 滞后 i 90°）。</p>
+      <div class="sol">感压容流 —— 电感电压在前，电容电流在前</div>
+      <p class="note">判断题喜欢把"电容电压超前电流"当正确说法，注意别被带偏。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q4</span>直流稳态下，电感和电容分别相当于什么？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>ω = 0 时：X<sub>L</sub> = ωL = 0 → 电感相当于<b>短路</b>；X<sub>C</sub> = 1/ωC → ∞ → 电容相当于<b>开路</b>。</p>
+      <div class="sol">L → 短路　C → 开路</div>
+      <p class="note">"稳态下 L 短路、C 开路"是分析直流稳态电路（如电容电压计算）的第一刀。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q5</span>Z = 4 + j3 Ω。求 |Z| 与阻抗角，判断性质<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>|Z| = √(16+9) = 5 Ω；φ = arctan(3/4) ≈ 36.87°；j 前为正，感性。</p>
+      <div class="sol">Z = 5∠36.87° Ω，感性</div>
+      <p class="note">3-4-5 与 4+j3：角度 36.87°（第 1 课 Q1 的老朋友）。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q6</span>Z = 8 − j6 Ω。求 |Z| 与阻抗角，判断性质<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>|Z| = √(64+36) = 10 Ω；φ = arctan(−6/8) ≈ −36.87°；j 前为负，容性；u 滞后 i 36.87°。</p>
+      <div class="sol">Z = 10∠−36.87° Ω，容性</div>
+      <p class="note">与 Q5 成对记忆：±j 换的是角度符号和性质，模不变。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q7</span>R = 3 Ω、X<sub>L</sub> = 10 Ω、X<sub>C</sub> = 4 Ω 串联。求 Z 与电路性质<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>X = X<sub>L</sub> − X<sub>C</sub> = 10 − 4 = 6 Ω；Z = 3 + j6 Ω；|Z| = √(9+36) = √45 ≈ 6.71 Ω；φ = arctan(6/3) ≈ 63.43°。</p>
+      <div class="sol">Z = 3 + j6 ≈ 6.71∠63.43° Ω，感性</div>
+      <p class="note">标准流程：先合并电抗 X，再进阻抗。X<sub>L</sub> 与 X<sub>C</sub> 直接作差，不用先各自写进 Z。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q8</span>Ù = 100∠30° V，Z = 10∠53.13° Ω。求 İ<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>除法：模 100/10 = 10；角 30° − 53.13° = −23.13°。</p>
+      <div class="sol">İ = 10∠−23.13° A</div>
+      <p class="note">这就是例 3 的翻版：电压初相不是 0 也没关系，模相除、角相减，机械执行即可。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 自测 ================= -->
+<section class="block">
+  <h2><span class="no">测</span>本课过关自测</h2>
+  <ul class="checklist">
+    <li>我能默写 X<sub>L</sub> = ωL、X<sub>C</sub> = 1/ωC，并说出频率变化时两者的趋势（L 增 C 减）</li>
+    <li>我知道直流稳态下 L 短路、C 开路，并能用公式解释</li>
+    <li>我能秒答相位关系：感压容流（电感电压超前 90°、电容电流超前 90°）</li>
+    <li>我能算 X = X<sub>L</sub> − X<sub>C</sub>，从正负判断感性 / 容性 / 谐振</li>
+    <li>给我 R 和 X，我能写出 Z = R + jX 并求出 |Z|、φ</li>
+    <li>我能独立完成"Ù 已知 + Z 已知 → İ → 瞬时值"的完整链条（例 3）</li>
+  </ul>
+</section>
+
+<!-- ================= 上下课导航 ================= -->
+<div class="pager">
+  <a href="02_正弦量与相量表示.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 2 课 · 正弦量与相量表示</div>
+  </a>
+  <a href="index.html" style="text-align:center;">
+    <div class="dir">目录</div>
+    <div class="title">阶段 0 筑基</div>
+  </a>
+  <a href="index.html" class="next-card">
+    <div class="dir">下一课 · 待更新</div>
+    <div class="title">第 4 课 · 相量法解正弦稳态电路</div>
+  </a>
+</div>
+
+<!-- ================= 下一课 ================= -->
+<div class="next">
+  <h2>下一课预告：相量法解正弦稳态电路</h2>
+  <p>零件已齐（相量 + 阻抗），下一课组装机器：基尔霍夫定律的相量形式、阻抗的串并联等效 —— 直流电路的全套玩法（分压分流、等效电阻、两网孔电路）平移到正弦世界。学完后，教材正弦稳态一章的常规计算题你都能下手了。</p>
+</div>
+
+<footer>
+  阶段 0 筑基 · 第 3 课 ｜ <a href="index.html">返回阶段0目录</a> ｜ <a href="../index.html">返回电网备考首页</a>
+</footer>
+
+</div>
+</body>
+</html>

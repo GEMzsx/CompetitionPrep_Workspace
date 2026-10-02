@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题8 · 无穷级数 — 知识框架</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --ok: #3d9a50;
+  --ok-soft: #eef8f0;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+h3 { font-size: 17px; margin: 26px 0 10px; color: var(--ink); }
+p { margin: 8px 0; }
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef1f5; color: var(--ink-faint); border: 1px solid #dde2ea; }
+
+.memory {
+  background: var(--gold-soft); border: 1px solid #ecd9a0; border-radius: 10px;
+  padding: 14px 22px; margin: 16px 0; font-size: 15px;
+}
+.memory .label { font-weight: 800; color: var(--gold); font-size: 13px; letter-spacing: 2px; margin-bottom: 4px; }
+
+.warnbox {
+  background: var(--warn-soft); border: 1px solid #f3c3bd; border-radius: 10px;
+  padding: 14px 22px; margin: 16px 0; font-size: 15px;
+}
+.warnbox b { color: var(--warn); }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+.formula-line {
+  display: flex; flex-wrap: wrap; gap: 6px 34px;
+  padding: 6px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+ul, ol { padding-left: 22px; margin: 8px 0; }
+li { margin: 4px 0; }
+
+.next {
+  margin-top: 28px; background: var(--ok-soft); border: 1px solid #bfe3c8;
+  border-radius: 12px; padding: 18px 26px;
+}
+.next h2 { font-size: 17px; margin: 0 0 6px; color: var(--ok); display: flex; align-items: center; gap: 10px; }
+.next p { margin: 4px 0; font-size: 14.5px; color: var(--ink-soft); }
+.next a {
+  color: var(--accent); text-decoration: none; font-weight: 700; border-bottom: 2px solid var(--accent-border);
+  padding-bottom: 1px;
+}
+.next a:hover { border-bottom-color: var(--accent); }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="08"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 08</p>
+  <h1>无穷级数 · 知识框架</h1>
+  <p>判敛全家桶 + 幂级数与和函数 —— 判断题与大题的双料产区。老朋友全员回归：Stirling、定积分定义、泰勒展开。</p>
+  <div class="meta">
+    <span class="chip">前置：专题 01 极限与泰勒 · 03 定积分</span>
+    <span class="chip">竞赛大题高产户</span>
+  </div>
+</div>
+
+<!-- ================= §1 本章地图 ================= -->
+<section class="block" id="s1">
+  <h2><span class="sec-no">1</span>本章地图：三大战区</h2>
+  <table>
+    <tr><th>战区</th><th>内容</th><th>题型与分值</th></tr>
+    <tr><td>数项级数判敛</td><td>正项 / 交错 / 任意项</td><td>判断题、填空小题——<b>快而准</b>是核心要求</td></tr>
+    <tr><td>幂级数</td><td>收敛域、和函数、展开</td><td>大题常客（求和函数可占 10 分+）</td></tr>
+    <tr><td>傅里叶级数</td><td>系数、收敛定理、求和</td><td>低频，但"用展开求数项级数和"是竞赛特色题</td></tr>
+  </table>
+  <div class="memory">
+    <div class="label">一条主线</div>
+    <p>级数 = <b>离散的积分</b>：\( \sum a_n \) 收敛 ⟺ 部分和 \( S_n \) 有极限，正如 \( \int \) 收敛 ⟺ 变上限积分有极限。判敛工具（比较/积分/比值）全是<b>与标尺比阶</b>——比阶意识是全章的灵魂，与专题 01 的增长速度链一脉相承。</p>
+  </div>
+</section>
+
+<!-- ================= §2 基本概念 ================= -->
+<section class="block" id="s2">
+  <h2><span class="sec-no">2</span>基本概念与性质</h2>
+
+  <h3>2.1 定义与必要条件 <span class="tag hot">必考</span></h3>
+  <p>\( \sum_{n=1}^{\infty}a_n \) 收敛 ⟺ 部分和数列 \( S_n=a_1+\cdots+a_n \) 极限存在。余项 \( r_n=S-S_n \)，收敛时 \( r_n\to 0 \)。</p>
+  <div class="warnbox"><b>第一判别（动手前先扫一眼）</b>：\( \lim\limits_{n\to\infty}a_n\ne 0 \)（或不存在）⟹ <b>立即发散</b>。例：\( \sum\dfrac{n^2+1}{n^2+n} \)——通项 → 1，秒杀。反之 \( a_n\to0 \) <b>推不出收敛</b>（调和级数 \( \sum\frac1n \) 发散）。</div>
+
+  <h3>2.2 运算性质</h3>
+  <ul>
+    <li>线性：\( \sum a_n \) 收敛、\( \sum b_n \) 收敛 ⟹ \( \sum(\alpha a_n+\beta b_n) \) 收敛；</li>
+    <li>去掉/改动<b>有限项</b>不改变敛散性（收敛值会变）；</li>
+    <li>收敛级数随意加括号仍收敛（反之不然：\( (1-1)+(1-1)+\cdots \) 收敛但原级数发散）；</li>
+    <li><b>两级数相乘</b>（柯西乘积）：两绝对收敛级数之积绝对收敛 <span class="tag low">决赛向</span>。</li>
+  </ul>
+</section>
+
+<!-- ================= §3 正项级数 ================= -->
+<section class="block" id="s3">
+  <h2><span class="sec-no">3</span>正项级数判敛全家桶 <span class="tag hot">核心</span></h2>
+
+  <h3>3.1 标尺库（比较的基准，背熟）</h3>
+  <table>
+    <tr><th>标尺</th><th>形式</th><th>敛散</th></tr>
+    <tr><td>几何级数</td><td>\( \sum q^n \)</td><td>\( |q|&lt;1 \) 收敛；\( q\ge1 \) 发散</td></tr>
+    <tr><td>p-级数</td><td>\( \sum\dfrac{1}{n^p} \)</td><td>\( p&gt;1 \) 收敛；\( p\le1 \) 发散（p=1 调和）</td></tr>
+    <tr><td>对数级数</td><td>\( \sum\dfrac{1}{n\ln^p n} \)</td><td>\( p&gt;1 \) 收敛；\( p\le1 \) 发散（积分判敛）</td></tr>
+    <tr><td>阶乘指数</td><td>\( \sum\dfrac{1}{n!},\ \sum\dfrac{n!}{n^n} \)</td><td>都收敛（增长链底部最慢的指数也追不上 n!）</td></tr>
+  </table>
+
+  <h3>3.2 四大判别法与选型决策树</h3>
+  <table>
+    <tr><th>判别法</th><th>内容</th><th>触发信号</th></tr>
+    <tr><td><b>比较（极限式）</b></td><td>\( \lim\dfrac{a_n}{b_n}=l \)：\( 0&lt;l&lt;\infty \) 同敛散；\( l=0 \) 大收推小收；\( l=\infty \) 小发推大发</td><td>通项是"分式幂结构"（\( \frac{1}{n^p} \) 型、含 \( \ln n \)）</td></tr>
+    <tr><td><b>比值</b></td><td>\( \lim\dfrac{a_{n+1}}{a_n}=\rho \)：\( \rho&lt;1 \) 收；\( \rho&gt;1 \) 发；\( \rho=1 \) <b>失效</b></td><td>含 \( n! \)、\( c^n \)、连乘、阶乘幂结构</td></tr>
+    <tr><td><b>根值</b></td><td>\( \lim\sqrt[n]{a_n}=\rho \)：判定同上，\( \rho=1 \) 失效</td><td>通项整体是 n 次幂：\( n^n,\ (an+b)^n,\ n^{n/2} \)</td></tr>
+    <tr><td><b>积分</b></td><td>f 正、单降：\( \sum f(n) \) 与 \( \int_1^\infty f(x)dx \) 同敛散</td><td>含 \( \ln n \) 的分式、\( \frac{1}{n\ln n} \) 家族</td></tr>
+  </table>
+  <div class="memory">
+    <div class="label">选型决策树（判敛 10 秒流程）</div>
+    <p>① 通项不趋 0 ⟹ 发散（§2.1）；② 通项含 <b>n! / c^n / 连乘</b> ⟹ 比值；③ 通项是<b>整体 n 次幂</b> ⟹ 根值；④ 含 <b>ln n</b> 或可积结构 ⟹ 积分判敛或对数标尺比较；⑤ 其余分式幂结构 ⟹ 放缩/极限式比较 p-级数。<b>比值根值 = 1 时立刻换武器</b>（p-级数、对数级数全部 ρ=1，正是失效区）。</p>
+  </div>
+
+  <h3>3.3 增长速度链回归（比阶器）<span class="tag hot">专题 01 老朋友</span></h3>
+  <p>\[ \ln n \;\ll\; n^{\alpha} \;\ll\; c^{n} \;\ll\; n! \;\ll\; n^{n} \qquad(\alpha&gt;0,\ c&gt;1) \]</p>
+  <p>判敛视角：链上越靠右的量做<b>分母</b>，通项越快趋 0 ⟹ 越容易收敛。Stirling 公式 \( n!\sim\sqrt{2\pi n}(n/e)^n \) 可精估 \( \frac{n!}{n^n}\sim\sqrt{2\pi n}\,e^{-n} \)——比值法一步、Stirling 十秒，两路互验（专题 01 §3.5）。</p>
+</section>
+
+<!-- ================= §4 交错与任意项 ================= -->
+<section class="block" id="s4">
+  <h2><span class="sec-no">4</span>交错级数与任意项级数</h2>
+
+  <h3>4.1 莱布尼茨判别法 <span class="tag hot">必考</span></h3>
+  <p>\( a_n \) 单调递减且趋 0 ⟹ \( \sum(-1)^{n-1}a_n \) 收敛，且余项 \( |r_n|\le a_{n+1} \)（误差估计填空高频）。</p>
+  <div class="warnbox"><b>两个条件缺一不可</b>：只验趋 0 不验单调是本章高频事故。验单调三招：\( a_{n+1}-a_n\le0 \)、\( \frac{a_{n+1}}{a_n}\le1 \)、令 \( a_n=f(n) \) 验 \( f'&lt;0 \)（导数法最通用，含 \( \frac{1}{n+(-1)^n\sqrt n} \) 这类"伪单调"只能拆项或换判别法）。</div>
+
+  <h3>4.2 绝对收敛与条件收敛</h3>
+  <ul>
+    <li>\( \sum|a_n| \) 收敛 ⟹ \( \sum a_n \) 收敛（"绝对收敛强于收敛"）；</li>
+    <li>\( \sum a_n \) 收敛但 \( \sum|a_n| \) 发散 ⟹ 条件收敛；</li>
+    <li>判"条件"必须<b>两行都写</b>：一行证原级数收敛，一行证绝对值级数发散——只写一半扣一半分。</li>
+  </ul>
+
+  <h3>4.3 必背分段表：\( \sum\dfrac{(-1)^n}{n^p} \)</h3>
+  <table>
+    <tr><th>p 范围</th><th>结论</th><th>依据</th></tr>
+    <tr><td>\( p&gt;1 \)</td><td>绝对收敛</td><td>\( \sum\frac{1}{n^p} \) 收敛</td></tr>
+    <tr><td>\( 0&lt;p\le1 \)</td><td>条件收敛</td><td>莱布尼茨收敛 + p-级数发散</td></tr>
+    <tr><td>\( p\le0 \)</td><td>发散</td><td>通项不趋 0</td></tr>
+  </table>
+
+  <h3>4.4 阿贝尔与狄利克雷判别 <span class="tag mid">竞赛向</span></h3>
+  <p>处理 \( \sum a_nb_n \)（乘积项，如 \( \sum\frac{\sin nx}{n} \)、\( \sum a_n\cos nx \)）：</p>
+  <ul>
+    <li><b>狄利克雷</b>：\( A_n=a_1+\cdots+a_n \) 有界 + \( b_n \) 单调趋 0 ⟹ 收敛（\( \sum\frac{\sin nx}{n} \) 对一切 x 收敛的标准依据）；</li>
+    <li><b>阿贝尔</b>：\( \sum a_n \) 收敛 + \( b_n \) 单调有界 ⟹ 收敛。</li>
+  </ul>
+  <p>记忆锚点：狄利克雷是莱布尼茨的推广（取 \( a_n=(-1)^n \)，部分和有界）。</p>
+</section>
+
+<!-- ================= §5 幂级数 ================= -->
+<section class="block" id="s5">
+  <h2><span class="sec-no">5</span>幂级数与和函数 <span class="tag hot">大题主产区</span></h2>
+
+  <h3>5.1 阿贝尔定理与收敛半径</h3>
+  <p>\( \sum a_nx^n \) 在 \( x_0\ne0 \) 收敛 ⟹ \( |x|&lt;|x_0| \) 内<b>绝对</b>收敛；在某点发散 ⟹ \( |x|&gt;|x_0| \) 全发散。收敛域是以原点为中心的区间，端点单独验。</p>
+  <div class="formula-line">
+    <span>\( R=\lim\limits_{n\to\infty}\Big|\dfrac{a_n}{a_{n+1}}\Big| \)</span>
+    <span>\( R=\dfrac{1}{\lim\limits_{n\to\infty}\sqrt[n]{|a_n|}} \)</span>
+  </div>
+  <div class="warnbox"><b>缺项级数（如 \( \sum x^{2n},\ \sum\frac{x^{2n+1}}{2n+1} \)）禁用上式</b>——a_n 有无数个为零，公式无意义。正确做法：对<b>整个通项</b> \( u_n(x) \) 用比值 \( \lim|\frac{u_{n+1}}{u_n}|&lt;1 \) 直接解不等式，或换元 \( t=x^2 \) 化为标准幂级数。</div>
+
+  <h3>5.2 和函数两板斧 <span class="tag hot">必考</span></h3>
+  <p>收敛半径内可逐项求导、逐项积分（半径不变，<b>端点敛散可能改变</b>——积分改善端点、求导恶化端点）：</p>
+  <ol>
+    <li><b>先积后导</b>：系数含 n（\( \sum nx^{n} \)）——先积分降为 \( \frac{t}{1-t} \) 型，再求导回来；</li>
+    <li><b>先导后积</b>：系数含 \( \frac1n \)（\( \sum\frac{x^n}{n} \)）——先求导化几何级数，再积分回来（\( -\ln(1-x) \)）。</li>
+  </ol>
+  <p>配套动作：提出 x 凑形（\( \sum\frac{x^{n+1}}{n+1}=x\cdot\frac{?}{?} \)）、分解系数（\( n^2=n(n-1)+n \) 拆两次求导型）。端点处和函数取值用<b>连续性 + 单侧收敛</b>讨论。</p>
+  <div class="memory">
+    <div class="label">必背 · 三个高阶和函数结果（由两板斧现场推导一次，之后直接用）</div>
+    <p>\[ \sum_{n=1}^{\infty}x^n=\frac{x}{1-x}\quad(0&lt;x&lt;1),\qquad \sum n x^{n}=\frac{x}{(1-x)^2},\qquad \sum n^2x^{n}=\frac{x(1+x)}{(1-x)^3} \]</p>
+    <p>数项级数求和的桥梁：\( \sum\frac{n^2}{2^n} \) 即 \( x=\frac12 \) 代入第三个——\( \frac{\frac12\cdot\frac32}{\frac18}=6 \)。</p>
+  </div>
+
+  <h3>5.3 五大展开（专题 01 回归，考场直接用）</h3>
+  <table>
+    <tr><th>函数</th><th>展开</th><th>收敛域</th></tr>
+    <tr><td>\( e^x \)</td><td>\( \sum\dfrac{x^n}{n!} \)</td><td>\( (-\infty,+\infty) \)</td></tr>
+    <tr><td>\( \sin x,\ \cos x \)</td><td>\( \sum(-1)^k\dfrac{x^{2k+1}}{(2k+1)!} \) 等</td><td>\( (-\infty,+\infty) \)</td></tr>
+    <tr><td>\( \dfrac{1}{1-x} \)</td><td>\( \sum x^n \)</td><td>\( (-1,1) \)</td></tr>
+    <tr><td>\( \ln(1+x) \)</td><td>\( \sum(-1)^{n-1}\dfrac{x^n}{n} \)</td><td>\( (-1,1] \)</td></tr>
+    <tr><td>\( (1+x)^\alpha \)</td><td>\( 1+\sum\dfrac{\alpha(\alpha-1)\cdots(\alpha-n+1)}{n!}x^n \)</td><td>\( (-1,1) \)（端点看 α）</td></tr>
+  </table>
+  <p>展开考点提醒：间接展开为主（求导/积分/代入后套表，再逐项回来），直接用泰勒系数公式 \( \frac{f^{(n)}(0)}{n!} \) 的场景已在专题 02 泰勒系数法练过（arctan、部分分式）。</p>
+</section>
+
+<!-- ================= §6 傅里叶级数 ================= -->
+<section class="block" id="s6">
+  <h2><span class="sec-no">6</span>傅里叶级数 <span class="tag low">低频 · 竞赛特色题</span></h2>
+
+  <h3>6.1 系数公式（2π 周期）</h3>
+  <div class="formula-line">
+    <span>\( a_n=\frac1\pi\int_{-\pi}^{\pi}f(x)\cos nx\,dx \)</span>
+    <span>\( b_n=\frac1\pi\int_{-\pi}^{\pi}f(x)\sin nx\,dx \)</span>
+    <span>\( a_0=\frac1\pi\int_{-\pi}^{\pi}f\,dx \)</span>
+  </div>
+  <p>奇函数 ⟹ 全部 \( a_n=0 \)（正弦级数）；偶函数 ⟹ 全部 \( b_n=0 \)（余弦级数）。定义在半区间上的函数要<b>延拓</b>（奇延拓得正弦级数、偶延拓得余弦级数）。</p>
+
+  <h3>6.2 狄利克雷收敛定理（必背）</h3>
+  <p>f 分段单调、只有有限个第一类间断点 ⟹ 级数处处收敛：</p>
+  <p>\[ S(x)=\begin{cases}f(x), & x\ \text{为连续点}\\[2pt] \dfrac{f(x^-)+f(x^+)}{2}, & x\ \text{为间断点}\\[2pt] \dfrac{f(-\pi^+)+f(\pi^-)}{2}, & x=\pm\pi\ \text{端点}\end{cases} \]</p>
+  <div class="warnbox"><b>头号考点</b>：间断点收敛于<b>左右极限的平均</b>，不是函数值！例：f 在 \( x=0 \) 左右极限 \( -1, 1 \) ⟹ \( S(0)=0 \)。端点 \( \pm\pi \) 处左右"接上"周期延拓的两侧。</div>
+
+  <h3>6.3 竞赛特色：用展开求数项级数和</h3>
+  <div class="memory">
+    <div class="label">必背 · 两条经典级数值（x² 展开的两个代入）</div>
+    <p>\( x^2=\dfrac{\pi^2}{3}+4\sum\limits_{n=1}^{\infty}\dfrac{(-1)^n\cos nx}{n^2} \)（偶函数，余弦级数）：</p>
+    <p>\[ 代\ x=\pi:\ \sum\frac{1}{n^2}=\frac{\pi^2}{6};\qquad 代\ x=0:\ \sum\frac{(-1)^{n-1}}{n^2}=\frac{\pi^2}{12} \]</p>
+    <p>套路总结：找（或构造）一个函数的傅里叶展开，在特殊点代入 ⟹ 免费得到数项级数的精确值——与 §5.2 幂级数法并列为"求和两大桥梁"。</p>
+  </div>
+</section>
+
+<!-- ================= §7 数项级数求和 ================= -->
+<section class="block" id="s7">
+  <h2><span class="sec-no">7</span>数项级数求和四招 <span class="tag mid">竞赛特色</span></h2>
+  <table>
+    <tr><th>招式</th><th>适用</th><th>例</th></tr>
+    <tr><td><b>裂项</b></td><td>相邻因子分式</td><td>\( \frac{1}{n(n+1)}=\frac1n-\frac1{n+1} \)，和为 1；\( \frac{1}{n(n+1)(n+2)} \) 裂成差分</td></tr>
+    <tr><td><b>幂级数</b></td><td>含 \( \frac{1}{2^n},\ \frac{1}{n!},\ \frac{n^k}{c^n} \)</td><td>\( \sum\frac{n^2}{2^n}=6 \)（§5.2 记忆卡）；\( \sum\frac{1}{n!2^n}=e^{1/2}-1 \)</td></tr>
+    <tr><td><b>傅里叶</b></td><td>\( \sum\frac{1}{n^2} \) 家族</td><td>§6.3 的 \( \frac{\pi^2}{6},\ \frac{\pi^2}{12} \)</td></tr>
+    <tr><td><b>定义（部分和极限）</b></td><td>部分和可显式求出</td><td>Stolz/裂项后 \( S_n \) 有闭式再取极限</td></tr>
+  </table>
+</section>
+
+<!-- ================= §8 一致收敛 ================= -->
+<section class="block" id="s8">
+  <h2><span class="sec-no">8</span>函数项级数的一致收敛 <span class="tag low">决赛向 · 初赛速览</span></h2>
+  <ul>
+    <li>定义：\( \sup\limits_{x\in I}|S_n(x)-S(x)|\to0 \)。非一致收敛经典例：\( \sum x^n \) 在 \( (0,1) \)（在 \( [0,r]\ (r&lt;1) \) 上一致）；</li>
+    <li><b>M-判别法</b>（魏尔斯特拉斯）：\( |u_n(x)|\le M_n \) 且 \( \sum M_n \) 收敛 ⟹ 一致收敛（最常用）；</li>
+    <li>一致收敛 ⟹ 和函数连续、可逐项积分；再加逐项求导条件（导级数一致收敛）⟹ 可逐项求导——这是 §5.2 两板斧的严格依据；</li>
+    <li>阿贝尔/狄利克雷一致收敛版 <span class="tag low">决赛</span>。</li>
+  </ul>
+  <p>初赛备考建议：会写定义、会用 M-判别法、知道逐项求导积分的合法性来源即可。</p>
+</section>
+
+<!-- ================= §9 易错点 ================= -->
+<section class="block" id="s9">
+  <h2><span class="sec-no">9</span>易错点清单（考前再过一遍）</h2>
+  <ol>
+    <li><b>不验必要条件就上判别法</b>：先扫 \( a_n\to0 \)（10 秒省 5 分钟）。</li>
+    <li><b>比值法 \( \rho=1 \) 判发散</b>：ρ=1 是<b>失效</b>不是发散——p-级数全员 ρ=1 而敛散各异。</li>
+    <li><b>比较判别法方向用反</b>：大收敛 ⟹ 小收敛；小发散 ⟹ 大发散。反向推论全错。</li>
+    <li><b>交错级数只验趋 0 不验单调</b>：莱布尼茨两条件缺一不可。</li>
+    <li><b>"条件收敛"只证一半</b>：收敛、绝对值发散各一行，都要写。</li>
+    <li><b>幂级数端点不单独验</b>：\( \sum\frac{x^n}{n} \) 收敛域是 \( [-1,1) \)——右端点发散必须显式检验。</li>
+    <li><b>缺项级数套收敛半径公式</b>：\( \sum x^{2n} \) 的 a_n 大半为零，公式失义——通项整体比值或换元。</li>
+    <li><b>逐项求导/积分后收敛域照抄</b>：半径不变但端点会变（求导丢端点、积分补端点）。</li>
+    <li><b>傅里叶间断点收敛值写成 f(x)</b>：应为左右极限平均 \( \frac{f(x^-)+f(x^+)}{2} \)。</li>
+    <li><b>级数加括号与去括号混同</b>：收敛级数可加括号；加括号收敛推不出原级数收敛。</li>
+    <li><b>把 \( \sum\frac{\sin nx}{n} \) 当绝对收敛</b>：绝对值级数与 \( \sum\frac{|\sin nx|}{n} \) 比较（一般发散），原级数由狄利克雷收敛——常为条件收敛。</li>
+    <li><b>求和函数忘写收敛域</b>：和函数答案必须带定义区间，裸答案扣分。</li>
+  </ol>
+
+  <div class="next">
+    <h2>下一步</h2>
+    <p>框架过完 → 对话里做热身与进阶实录 → <a href="02_例题精讲.html">进入例题精讲 →</a></p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
