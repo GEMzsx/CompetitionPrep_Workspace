@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题8 · 无穷级数 — 例题精讲</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --ok: #3d9a50;
+  --ok-soft: #eef8f0;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef1f5; color: var(--ink-faint); border: 1px solid #dde2ea; }
+
+.prob {
+  background: var(--accent-soft); border: 1px solid var(--accent-border);
+  border-radius: 10px; padding: 14px 22px; margin: 18px 0;
+}
+.prob .plabel { font-size: 13px; font-weight: 800; color: var(--accent); letter-spacing: 1px; margin-bottom: 4px; }
+.sol { padding: 4px 6px 0; }
+.sol .slabel { font-size: 13px; font-weight: 800; color: var(--ok); letter-spacing: 2px; margin-bottom: 2px; }
+.sol .brief { background: var(--ok-soft); border-radius: 8px; padding: 6px 14px; margin: 8px 0; font-size: 14.5px; }
+.comment {
+  border-left: 3px solid var(--gold); background: #fffdf4;
+  border-radius: 0 8px 8px 0; padding: 10px 18px; margin: 14px 0 4px; font-size: 14.5px;
+}
+.comment.done { border-left-color: var(--ok); background: var(--ok-soft); }
+
+.warnbox {
+  background: var(--warn-soft); border: 1px solid #f3c3bd; border-radius: 10px;
+  padding: 14px 22px; margin: 16px 0; font-size: 15px;
+}
+.warnbox b { color: var(--warn); }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="08"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 08</p>
+  <h1>无穷级数 · 例题精讲</h1>
+  <p>题型实录 —— 全部来自对话中实际做过的题，每题带战绩点评。类型求全，不求题量。</p>
+  <div class="meta">
+    <span class="chip">6 道实录题 · 已收官</span>
+    <span class="chip">方法卡在 01_知识框架.html</span>
+  </div>
+</div>
+
+<section class="block">
+  <h2><span class="sec-no">览</span>题型总览与战绩</h2>
+  <table>
+    <tr><th style="width:30%">类型</th><th style="width:22%">实录题</th><th>战绩</th></tr>
+    <tr><td>正项判敛三连（比值 / 积分 / 莱布尼茨 + 绝对性）</td><td>例 1</td><td>✓ 三连全对（③ 两条件建议分行显写）</td></tr>
+    <tr><td>缺项幂级数 · 收敛域与和函数</td><td>例 2</td><td>⚠️ 收敛域对（端点检验未显式）；和函数符号错</td></tr>
+    <tr><td>数项求和 · 构造幂级数</td><td>例 3</td><td>✓ 答案对（中间推导行有误，按标准三行重写）</td></tr>
+    <tr><td>傅里叶展开与免费级数</td><td>例 4</td><td>✓ 数值全对（\( a_n \) 两次分部跳步）</td></tr>
+    <tr><td>间接展开 · 平移中心</td><td>例 5</td><td>✓✓ 满分（考官提示有误，独立做对）</td></tr>
+    <tr><td>裂项求和</td><td>例 6</td><td>✓✓ 满分</td></tr>
+  </table>
+</section>
+
+<!-- ================= 题型一 ================= -->
+<section class="block" id="t1">
+  <h2><span class="sec-no">一</span>正项级数判敛三连 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 1（热身 · 三连全对）</div>
+    <p>\[ ①\ \sum_{n=1}^{\infty}\frac{n!}{n^n}\qquad ②\ \sum_{n=2}^{\infty}\frac{1}{n\ln n}\qquad ③\ \sum_{n=1}^{\infty}(-1)^n\sin\frac{1}{n} \]</p>
+    <p><b>速览</b>：① 比值 → \( \frac1e \) 收敛；② 积分判敛 → 发散；③ 莱布尼茨收 + 绝对值调和散 → 条件收敛。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>①（比值法，含 n! 的标准触发）</b>：</p>
+    <p>\[ \frac{a_{n+1}}{a_n}=\frac{(n+1)!}{(n+1)^{n+1}}\cdot\frac{n^n}{n!}=\frac{n^n}{(n+1)^n}=\frac{1}{\left(1+\frac1n\right)^n}\longrightarrow\frac{1}{e}&lt;1 \]</p>
+    <p>故收敛（正项级数，收敛即绝对收敛）。交叉验证：Stirling \( \dfrac{n!}{n^n}\sim\sqrt{2\pi n}\,e^{-n} \)——通项几何式衰减，与比值结论一致（框架 §3.3 增长链视角）。</p>
+    <p><b>②（积分判敛，含 ln 的标准触发）</b>：\( f(x)=\frac{1}{x\ln x} \) 在 \( [2,+\infty) \) 正、单降，</p>
+    <p>\[ \int_2^{+\infty}\frac{dx}{x\ln x}=\Big[\ln\ln x\Big]_2^{+\infty}=+\infty\ \Longrightarrow\ \sum\frac{1}{n\ln n}\ \text{发散} \]</p>
+    <p><b>③（两行模板）</b>：</p>
+    <p>第一行（收敛）：\( \sin\frac1n \) 单调减（1/n 减、sin 在 (0,1] 增的复合）且 \( \sin\frac1n\to0 \)，莱布尼茨 ⟹ \( \sum(-1)^n\sin\frac1n \) 收敛；</p>
+    <p>第二行（不绝对）：\( \big|\sin\frac1n\big|\sim\frac1n \) 而 \( \sum\frac1n \) 发散 ⟹ 不绝对收敛。结论：<b>条件收敛</b>。</p>
+  </div>
+  <div class="comment done"><b>点评</b>：选型三连全部命中——① 见 n! 走比值（极限恰是重要极限 \( (1+\frac1n)^n \) 的倒数）、② 见 ln 走积分、③ 交错走莱布尼茨 + 绝对性两行。两处书写升级：③ 的莱布尼茨<b>两条件（单调 + 趋 0）各写半行</b>，趋 0 不能默认；① 极限写成 \( \frac{1}{(1+1/n)^n}\to\frac1e \) 比变形 \( (1-\frac{1}{n+1})^n \) 直接（后者虽对，阅卷要多看两秒）。</div>
+</section>
+
+<!-- ================= 题型二 ================= -->
+<section class="block" id="t2">
+  <h2><span class="sec-no">二</span>缺项幂级数 · 收敛域与和函数 <span class="tag hot">大题规格</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 2（热身 · 收敛域对，和函数符号错）</div>
+    <p>\[ \sum_{n=0}^{\infty}\frac{x^{2n+1}}{2n+1} \]</p>
+    <p><b>速览</b>：通项比值 → \( |x|&lt;1 \)；两端 \( \pm\sum\frac{1}{2n+1} \) 皆发散 ⟹ 收敛域 \( (-1,1) \)；和函数 \( S(x)=\frac12\ln\frac{1+x}{1-x} \)（arctanh）。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>收敛域（通项整体比值，禁用 R 公式——a_n 大半为零）</b>：</p>
+    <p>\[ \Big|\frac{u_{n+1}}{u_n}\Big|=\frac{|x|^{2n+3}}{2n+3}\cdot\frac{2n+1}{|x|^{2n+1}}=|x|^2\cdot\frac{2n+1}{2n+3}\longrightarrow |x|^2 \]</p>
+    <p>\( |x|^2&lt;1 \) 即 \( |x|&lt;1 \) 内绝对收敛；\( |x|&gt;1 \) 发散。<b>端点单独验</b>：</p>
+    <p>\[ x=1:\ \sum\frac{1}{2n+1}\ \text{发散}\Big(\frac{1}{2n+1}\ge\frac{1}{2n+2}=\tfrac12\cdot\frac{1}{n+1}\Big);\qquad x=-1:\ -\sum\frac{1}{2n+1}\ \text{发散} \]</p>
+    <p>注意 \( x=-1 \) 时 \( (-1)^{2n+1}=-1 \) <b>恒负</b>——奇次幂把交错结构抹掉了，没有莱布尼茨可用。收敛域 \( (-1,1) \)。</p>
+    <p><b>和函数（先导后积，框架 §5.2 板斧二）</b>：\( S'(x)=\sum_{n=0}^{\infty}x^{2n}=\frac{1}{1-x^2} \)，由 \( S(0)=0 \)（级数在 0 处为 0）：</p>
+    <p>\[ S(x)=\int_0^{x}\frac{dt}{1-t^2}=\frac12\ln\frac{1+x}{1-x},\qquad x\in(-1,1) \]</p>
+  </div>
+  <div class="comment"><b>点评</b>：本题两处要修——<b>① 和函数符号错</b>：初答写成 \( \frac12\ln\frac{x+1}{x-1} \)。在 \( (-1,1) \) 上 \( \frac{x+1}{x-1}&lt;0 \)，对数无定义。<b>5 秒校验</b>：\( x=0 \) 代入，级数明显为 0，而错误公式给 \( \frac12\ln(-1) \)——当场出局。根源在部分分式那一步：\( \frac{1}{1-x^2}=\frac12\big[\frac{1}{1+x}+\frac{1}{1-x}\big] \)，积分 \( \frac12[\ln(1+x)-\ln(1-x)] \)，第二项是 \( \ln(1-x) \) 不是 \( \ln(x-1) \)。<b>② 端点检验行没写</b>：收敛域结论 \( (-1,1) \) 本身正确，但两端各一行的比较/发散依据是采分点；顺带记住本题的陷阱设计——\( \sum\frac{x^n}{n} \) 的收敛域是 \( [-1,1) \)（左端莱布尼茨），而本题奇次幂版本左端也发散，两题对照考的就是"端点必须亲手验"。<b>书写</b>："\( |x|&lt;(-1,1) \)" 这类混写应作 \( |x|&lt;1 \)（即 \( x\in(-1,1) \)）。</div>
+</section>
+
+<!-- ================= 题型三 ================= -->
+<section class="block" id="t3">
+  <h2><span class="sec-no">三</span>数项级数求和 · 构造幂级数 <span class="tag mid">竞赛特色</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 3（热身 · 答案对，推导行需重写）</div>
+    <p>\[ \sum_{n=1}^{\infty}\frac{n^2}{2^n} \]</p>
+    <p><b>速览</b>：构造 \( S(x)=\sum n^2x^n=\frac{x(1+x)}{(1-x)^3} \)，代 \( x=\frac12 \) —— \( 6 \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（标准三行：\( n^2=n(n-1)+n \) 拆分）</div>
+    <p>在 \( |x|&lt;1 \) 内逐项求导合法：</p>
+    <p>\[ \sum_{n=1}^{\infty}nx^{n}=x\sum n x^{n-1}=\frac{x}{(1-x)^2};\qquad \sum_{n=2}^{\infty}n(n-1)x^{n}=x^2\Big(\sum x^n\Big)''=\frac{2x^2}{(1-x)^3} \]</p>
+    <p>\[ S(x)=\sum n^2x^n=\sum n(n-1)x^n+\sum nx^n=\frac{2x^2}{(1-x)^3}+\frac{x}{(1-x)^2}=\frac{2x^2+x(1-x)}{(1-x)^3}=\frac{x(1+x)}{(1-x)^3} \]</p>
+    <p>代 \( x=\frac12 \)：\( S\big(\frac12\big)=\dfrac{\frac12\cdot\frac32}{\frac18}=6 \)。<b>数值校验</b>：前 10 项部分和 \( \approx5.86 \)，尾部 \( \sum_{n\ge11}\frac{n^2}{2^n}\approx0.14 \)，确奔 6。</p>
+  </div>
+  <div class="comment"><b>点评</b>：构造思路与最终公式、代入、答案全对。问题在中间推导：卷面上 \( \sum n^2x^{n-2}=\frac{2-2x}{(1-x)^4} \) 等行<b>本身不成立</b>，前后等号接不上——从终式倒推补中间的痕迹明显。标准三行如上：拆 \( n^2=n(n-1)+n \)，两项各自一行闭式，通分收尾，全程无断链。<b>另两处</b>：① \( S(x) \) 的定义必须带求和号（\( S(x)=\sum n^2x^n \)，不是 \( S(x)=n^2x^n \)）；② 本题也是框架 §5.2 记忆卡 \( \sum n^2x^n=\frac{x(1+x)}{(1-x)^3} \) 的现场推导版——推过一遍之后考场上可直接用记忆卡，10 秒出 6。</div>
+</section>
+
+<!-- ================= 题型四 ================= -->
+<section class="block" id="t4">
+  <h2><span class="sec-no">四</span>傅里叶展开与免费级数 <span class="tag low">竞赛特色</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 4（收官 · 数值全对，aₙ 计算跳步）</div>
+    <p>把 \( f(x)=x^2 \)（\( -\pi\le x\le\pi \)）展开为傅里叶级数，并求 \( \displaystyle\sum\frac{1}{n^2} \) 与 \( \displaystyle\sum\frac{(-1)^{n-1}}{n^2} \)。</p>
+    <p><b>速览</b>：偶函数纯余弦；\( a_0=\frac{2\pi^2}{3} \)、\( a_n=\frac{4(-1)^n}{n^2} \)（两次分部）；代 \( x=\pi \) 得 \( \frac{\pi^2}{6} \)，代 \( x=0 \) 得 \( \frac{\pi^2}{12} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>奇偶剪枝</b>：\( x^2 \) 偶 ⟹ \( b_n=0 \)。\( a_0=\frac1\pi\int_{-\pi}^{\pi}x^2dx=\frac{2\pi^2}{3} \)，首项 \( \frac{a_0}{2}=\frac{\pi^2}{3} \)。</p>
+    <p><b>aₙ（两次分部，本题核心）</b>：</p>
+    <p>\[ a_n=\frac1\pi\int_{-\pi}^{\pi}x^2\cos nx\,dx=\underbrace{\frac1\pi\Big[\frac{x^2\sin nx}{n}\Big]_{-\pi}^{\pi}}_{=0\ (\sin n\pi=0)}-\frac{2}{n\pi}\int_{-\pi}^{\pi}x\sin nx\,dx \]</p>
+    <p>\[ \int_{-\pi}^{\pi}x\sin nx\,dx=\Big[-\frac{x\cos nx}{n}\Big]_{-\pi}^{\pi}+\frac1n\underbrace{\int_{-\pi}^{\pi}\cos nx\,dx}_{=0}=-\frac{2\pi(-1)^n}{n} \]</p>
+    <p>\[ a_n=-\frac{2}{n\pi}\cdot\Big(-\frac{2\pi(-1)^n}{n}\Big)=\frac{4(-1)^n}{n^2} \]</p>
+    <p>\( f(-\pi)=f(\pi)=\pi^2 \)，周期延拓处处连续（端点左右极限平均恰为 \( \pi^2 \)），收敛定理给等号：</p>
+    <p>\[ x^2=\frac{\pi^2}{3}+4\sum_{n=1}^{\infty}\frac{(-1)^n}{n^2}\cos nx,\qquad -\pi\le x\le\pi \]</p>
+    <p><b>两个免费级数</b>：</p>
+    <p>\[ 代\ x=\pi:\ \pi^2=\frac{\pi^2}{3}+4\sum\frac{1}{n^2}\Longrightarrow\sum\frac{1}{n^2}=\frac{\pi^2}{6};\qquad 代\ x=0:\ 0=\frac{\pi^2}{3}-4\sum\frac{(-1)^{n-1}}{n^2}\Longrightarrow\sum\frac{(-1)^{n-1}}{n^2}=\frac{\pi^2}{12} \]</p>
+  </div>
+  <div class="comment"><b>点评</b>：两个级数值、代入点选择全对。<b>核心跳步</b>：\( a_n \) 从积分式直接跳到 \( \frac{4(-1)^n}{n^2} \)——两次分部积分与两处边界归零（\( \sin n\pi=0 \)、\( \int\cos=0 \)）占本题约一半分数，考卷上跳过即丢。框架 §6.3 记忆卡虽有现成结论，考场必须现场推（sympy 已复核系数无误）。另：余弦宗量写全 \( \cos nx \)（卷面疑似漏 x）。<b>修复任务（5 分钟）</b>：单独手算 \( \int_{-\pi}^{\pi}x^2\cos nx\,dx \) 这一个积分，感受边界归零的两步。</div>
+</section>
+
+<!-- ================= 题型五 ================= -->
+<section class="block" id="t5">
+  <h2><span class="sec-no">五</span>间接展开 · 平移中心 <span class="tag mid">部分分式回归</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 5（收官 · 满分，且独立于考官提示）</div>
+    <p>把 \( f(x)=\dfrac{1}{x^2-5x+6} \) 展开为 \( (x-1) \) 的幂级数，并写出收敛域。</p>
+    <p><b>速览</b>：拆 \( \frac{1}{x-3}-\frac{1}{x-2} \)；中心 1 到奇点 3、2 的距离为 2、1，\( R=1 \)；\( \sum\big(1-\frac{1}{2^{n+1}}\big)(x-1)^n \)，域 \( (0,2) \) 两端开。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>部分分式</b>（代根法：\( x=2 \)、\( x=3 \) 各定一系数）：</p>
+    <p>\[ \frac{1}{(x-2)(x-3)}=\frac{1}{x-3}-\frac{1}{x-2} \]</p>
+    <p><b>各自凑 \( \frac{1}{1-u} \)（以 \( x-1 \) 为变量）</b>：</p>
+    <p>\[ \frac{1}{x-3}=\frac{1}{(x-1)-2}=-\frac12\cdot\frac{1}{1-\frac{x-1}{2}}=-\sum_{n=0}^{\infty}\frac{(x-1)^n}{2^{n+1}}\qquad\Big(\Big|\frac{x-1}{2}\Big|&lt;1\Big) \]</p>
+    <p>\[ -\frac{1}{x-2}=-\frac{1}{(x-1)-1}=\frac{1}{1-(x-1)}=\sum_{n=0}^{\infty}(x-1)^n\qquad(|x-1|&lt;1) \]</p>
+    <p>相加：</p>
+    <p>\[ f(x)=\sum_{n=0}^{\infty}\Big(1-\frac{1}{2^{n+1}}\Big)(x-1)^n,\qquad |x-1|&lt;1\ \text{即}\ x\in(0,2) \]</p>
+    <p><b>端点</b>：\( x=0,\ 2 \) 处通项 \( \to\pm1\ne0 \)，皆发散，两端开。<b>5 秒校验</b>：R = 展开中心到最近奇点的距离 \( =|1-2|=1 \)；代 \( x=1 \) 得 \( \frac12=f(1) \) ✓。</p>
+  </div>
+  <div class="comment done"><b>点评</b>：满分，且经受住双重考验——考官出题提示中部分分式次序写反（正确即卷面所写 \( \frac{1}{x-3}-\frac{1}{x-2} \)），学生未跟随、独立完成正确分解；收敛域与系数经机器复核（\( |x-1|&lt;1 \) 上级数闭式恰为 f；\( x=\frac12 \) 处级数和 \( \frac4{15}=f(\frac12) \) ✓）。<b>中心对照卡</b>：同一函数在 \( x=0 \) 处展开是 \( \sum\big(\frac{1}{2^{n+1}}-\frac{1}{3^{n+1}}\big)x^n \)、域 \( |x|&lt;2 \)——中心一换，系数与半径全变，唯有"R = 到最近奇点距离"是不变的锚。书写补一行端点检验即完美。</div>
+</section>
+
+<!-- ================= 题型六 ================= -->
+<section class="block" id="t6">
+  <h2><span class="sec-no">六</span>裂项求和 <span class="tag mid">速览型</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 6（收官 · 满分）</div>
+    <p>\[ \sum_{n=1}^{\infty}\frac{1}{n(n+1)(n+2)} \]</p>
+    <p><b>速览</b>：裂 \( \frac12\big[\frac{1}{n(n+1)}-\frac{1}{(n+1)(n+2)}\big] \)，望远镜相消，和 \( \frac14 \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p>\[ \frac{1}{n(n+1)(n+2)}=\frac12\Big[\frac{1}{n(n+1)}-\frac{1}{(n+1)(n+2)}\Big] \]</p>
+    <p>\[ S_n=\frac12\Big[\frac{1}{1\cdot2}-\frac{1}{(n+1)(n+2)}\Big]\xrightarrow[n\to\infty]{}\frac12\cdot\frac12=\frac14 \]</p>
+    <p>通项恒正、部分和单增有上界——收敛性由闭式自带。</p>
+  </div>
+  <div class="comment done"><b>点评</b>：满分——裂项、望远镜展开（前几项相消显式写出，阅卷友好）、部分和闭式、取极限四步全链无断点。同族变式备查：\( \frac{1}{n(n+2)}=\frac12(\frac1n-\frac1{n+2}) \)（隔项相消有残留）；\( \frac{1}{\sqrt n+\sqrt{n+1}}=\sqrt{n+1}-\sqrt n \)（有理化裂项）。</div>
+</section>
+
+</div>
+</body>
+</html>

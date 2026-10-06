@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段0 · 第5课 — 功率与功率因数</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 示意图 ===== */
+.wave {
+  background: #fbfdff;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  margin: 14px 0;
+  padding: 10px;
+  text-align: center;
+}
+.wave svg { max-width: 100%; height: auto; }
+.wave .cap { font-size: 12.5px; color: var(--ink-faint); margin-top: 6px; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+.pager .next-card { text-align: right; }
+.pager .next-card .dir { color: var(--gold); }
+
+/* ===== 下一课 ===== */
+.next {
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 26px 0 10px;
+}
+.next h2 { margin: 0 0 8px; font-size: 19px; }
+.next p { margin: 0; opacity: .93; font-size: 14.5px; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .tbl { font-size: 12.5px; }
+}
+@media print { body { background: #fff; } section.block { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段0目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 0 筑基 · 第 5 课</p>
+  <h1>功率与功率因数</h1>
+  <p>前四课解决"电流电压是多少"，本课解决"它们在干多少活"——有功 P、无功 Q、视在功率 S 与功率三角形；功率因数 cosφ 为什么是电网的生命线指标，无功补偿为什么是供电局的日常业务。</p>
+  <div class="meta">
+    <span class="chip">预计 2 小时</span>
+    <span class="chip">5 个知识块 · 4 道例题 · 8 道练习</span>
+    <span class="chip">承接第 3、4 课阻抗三角形</span>
+  </div>
+</div>
+
+<!-- ================= 总览 ================= -->
+<section class="block">
+  <h2><span class="no">?</span>本课核心思想</h2>
+  <p>直流电路里功率只有一个：P = UI，干净利落。交流电路里电压电流有相位差，功率随之"裂变"成三种——真做功的（有功）、来回搬运不消耗的（无功）、以及两者的"总规模"（视在功率）。理解这三兄弟的关键，是前几课反复出现的那个角 φ：</p>
+  <div class="know"><b>阻抗角 φ 同时就是功率角</b>——cosφ = R/Z = U<sub>R</sub>/U = P/S，同一个角统治了阻抗、电压、功率三个相似三角形。学到这里你会发现：整个正弦稳态一章，其实只围绕一个角在转。</div>
+  <div class="exam"><span class="tag-exam">南网考点</span>功率与功率因数是<b>笔试高频计算题</b>（求 P/Q/S/cosφ）+ <b>概念判断题</b>（单位、符号、谁吃有功）双重考点，更是<b>面试经典工程题</b>（"为什么电网要补偿无功"）。供电局日常业务（无功补偿、力率电费）全建立在本课概念之上。</div>
+</section>
+
+<!-- ================= 知识 1 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>三大功率：P、Q、S</h2>
+  <p>设某负载两端电压有效值 U、流过电流有效值 I、相位差 φ（电压超前电流为正，感性）：</p>
+  <div class="formula">
+    有功 P = UI cosφ（单位 W，瓦）　　无功 Q = UI sinφ（单位 var，乏）　　视在 S = UI（单位 VA，伏安）
+  </div>
+  <ul>
+    <li><b>有功功率 P</b>：真正转化为热/机械能做功的功率——<b>只有电阻吃有功</b>（P = I²R）。电费单上计费的就是它。</li>
+    <li><b>无功功率 Q</b>：电感建立磁场、电容建立电场时与电源<b>周期性交换</b>的功率——一个周期内平均为零、不消耗能量，但电流是真实流过的。感性负载 Q &gt; 0（吸收），容性 Q &lt; 0（发出）。</li>
+    <li><b>视在功率 S</b>：电压电流的"总规模"，代表设备必须具备的容量——发电机、变压器的铭牌额定值用的就是 kVA 而不是 kW（因为出厂时不知道你接什么 cosφ 的负载）。</li>
+  </ul>
+  <div class="exam"><span class="tag-exam">单位陷阱</span>P 用 W、Q 用 var、S 用 VA——三者量纲相同却<b>绝不允许混用单位或直接相加</b>。"变压器容量 100 kVA 能带 100 kW 负载吗？"是判断题常客（能，且仅当 cosφ = 1）。</div>
+</section>
+
+<!-- ================= 知识 2 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>功率三角形与"三兄弟"的统一</h2>
+  <p>P（横边）、Q（竖边）、S（斜边）构成直角三角形，P 与 S 的夹角正是 φ：</p>
+  <div class="formula">S² = P² + Q²　　cosφ = <span class="frac"><span class="top">P</span><span class="bot">S</span></span>　　tanφ = <span class="frac"><span class="top">Q</span><span class="bot">P</span></span></div>
+  <p>更妙的是它与前两课的三角形是<b>相似三兄弟</b>——阻抗三角形乘以 I 得电压三角形，再乘以 I 得功率三角形：</p>
+  <div class="wave">
+    <svg viewBox="0 0 780 250" xmlns="http://www.w3.org/2000/svg">
+      <!-- 三角形1：阻抗 -->
+      <g stroke-linecap="round" font-family="sans-serif">
+        <line x1="70" y1="200" x2="190" y2="200" stroke="#1f7a3d" stroke-width="3"/>
+        <line x1="190" y1="200" x2="190" y2="60" stroke="#c23a3a" stroke-width="3"/>
+        <line x1="70" y1="200" x2="190" y2="60" stroke="#0b5aa8" stroke-width="3"/>
+        <path d="M 110 200 A 40 40 0 0 0 104 180" fill="none" stroke="#8a90a6" stroke-width="1.5"/>
+        <text x="120" y="222" font-size="13" fill="#1f7a3d" text-anchor="middle">R = 3 Ω</text>
+        <text x="205" y="135" font-size="13" fill="#c23a3a">X = 4 Ω</text>
+        <text x="88" y="115" font-size="13" fill="#0b5aa8" transform="rotate(-53 88 115)">Z = 5 Ω</text>
+        <text x="118" y="192" font-size="12" fill="#8a90a6">φ</text>
+        <text x="130" y="40" font-size="14" fill="#1e2130" font-weight="700" text-anchor="middle">阻抗三角形</text>
+        <text x="130" y="246" font-size="11.5" fill="#8a90a6" text-anchor="middle">cosφ = R / Z</text>
+      </g>
+      <text x="240" y="135" font-size="16" fill="#b07800" font-weight="700" font-family="sans-serif" text-anchor="middle">×I</text>
+      <!-- 三角形2：电压 -->
+      <g stroke-linecap="round" font-family="sans-serif">
+        <line x1="330" y1="200" x2="450" y2="200" stroke="#1f7a3d" stroke-width="3"/>
+        <line x1="450" y1="200" x2="450" y2="60" stroke="#c23a3a" stroke-width="3"/>
+        <line x1="330" y1="200" x2="450" y2="60" stroke="#0b5aa8" stroke-width="3"/>
+        <text x="390" y="222" font-size="13" fill="#1f7a3d" text-anchor="middle">U_R = 60 V</text>
+        <text x="465" y="135" font-size="13" fill="#c23a3a">U_X = 80 V</text>
+        <text x="348" y="115" font-size="13" fill="#0b5aa8" transform="rotate(-53 348 115)">U = 100 V</text>
+        <text x="390" y="40" font-size="14" fill="#1e2130" font-weight="700" text-anchor="middle">电压三角形</text>
+        <text x="390" y="246" font-size="11.5" fill="#8a90a6" text-anchor="middle">cosφ = U_R / U</text>
+      </g>
+      <text x="500" y="135" font-size="16" fill="#b07800" font-weight="700" font-family="sans-serif" text-anchor="middle">×I</text>
+      <!-- 三角形3：功率 -->
+      <g stroke-linecap="round" font-family="sans-serif">
+        <line x1="590" y1="200" x2="710" y2="200" stroke="#1f7a3d" stroke-width="3"/>
+        <line x1="710" y1="200" x2="710" y2="60" stroke="#c23a3a" stroke-width="3"/>
+        <line x1="590" y1="200" x2="710" y2="60" stroke="#0b5aa8" stroke-width="3"/>
+        <text x="650" y="222" font-size="13" fill="#1f7a3d" text-anchor="middle">P = 1200 W</text>
+        <text x="722" y="135" font-size="13" fill="#c23a3a">Q = 1600 var</text>
+        <text x="596" y="115" font-size="13" fill="#0b5aa8" transform="rotate(-53 596 115)">S = 2000 VA</text>
+        <text x="650" y="40" font-size="14" fill="#1e2130" font-weight="700" text-anchor="middle">功率三角形</text>
+        <text x="650" y="246" font-size="11.5" fill="#8a90a6" text-anchor="middle">cosφ = P / S</text>
+      </g>
+    </svg>
+    <div class="cap">图 1 · 相似三兄弟（数据取自例 1）：阻抗 ×I → 电压，×I → 功率；cosφ = 3/5 = 60/100 = 1200/2000 = 0.6</div>
+  </div>
+  <div class="know"><b>记忆锚点</b>：三个三角形的底边都是"电阻侧"（R、U<sub>R</sub>、P——做功的）、竖边都是"电抗侧"（X、U<sub>X</sub>、Q——交换的）、斜边都是"总量"（Z、U、S）。看到任何一个三角形，就能反推出另外两个。</div>
+</section>
+
+<!-- ================= 知识 3 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>功率因数 cosφ：电网的生命线</h2>
+  <div class="formula">
+    cosφ = <span class="frac"><span class="top">P</span><span class="bot">S</span></span> = <span class="frac"><span class="top">R</span><span class="bot">|Z|</span></span>　　（0 ≤ cosφ ≤ 1）
+  </div>
+  <p><b>物理意义</b>：总容量中真正做功的比例。三种典型值：</p>
+  <table class="tbl">
+    <tr><th>负载</th><th>cosφ</th><th>含义</th></tr>
+    <tr><td>纯电阻（电炉、白炽灯）</td><td>1</td><td>全部容量做功，理想</td></tr>
+    <tr><td>纯电感 / 纯电容</td><td>0</td><td>全部容量用于能量交换，一个瓦都不做</td></tr>
+    <tr><td>实际感性负载（电动机、变压器）</td><td>0.6 ~ 0.85</td><td>既做功也吸收无功，需要补偿</td></tr>
+  </table>
+  <p><b>为什么 cosφ 低是"罪"：</b>输送同样的有功 P，电流 I = P/(U·cosφ) 与 cosφ 成反比——cosφ 越低，电流越大，而线路损耗 (∝ I²) 和设备容量占用 (∝ I) 随之暴涨。两宗罪：①线路损耗白白发热；②发电机、变压器容量被无功挤占。</p>
+  <div class="know"><b>考核挂钩</b>：供电局对大工业用户按功率因数调整电费（力率电费）——cosφ 高于标准（一般 0.9）有电费奖励，低于则罚款。这就是企业主动装补偿电容的经济动力，也是"为什么电网要补偿无功"这道面试题的标准答案骨架。</div>
+</section>
+
+<!-- ================= 知识 4 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>无功补偿：并联电容的魔法</h2>
+  <p>感性负载需要无功来建磁场，过去全部由电网远程输送；现在<b>在负载旁边并联电容</b>——电容发出的无功（Q<sub>C</sub> &lt; 0）就地抵消电感吸收的无功，电网只需输送差额：</p>
+  <div class="formula">
+    需补偿容量：Q<sub>C</sub> = Q<sub>1</sub> − Q<sub>2</sub> = P (tanφ<sub>1</sub> − tanφ<sub>2</sub>)
+  </div>
+  <ul>
+    <li><b>为什么并联不串联</b>：并联不影响负载两端的电压（负载工作状态完全不变）；串联电容会改变负载电压，设备没法正常工作；</li>
+    <li><b>补偿后什么不变什么变</b>：负载的 P、Q<sub>L</sub>、电压、电流<b>全都不变</b>；变的是<b>电网侧</b>——总无功 ↓、总电流 ↓、线路损耗 ↓、释放的变压器容量 ↑；</li>
+    <li><b>补到多少合适</b>：一般到 0.9 ~ 0.95，不追 1——过补偿（电流变超前）同样有害，且补到 1 所需电容的成本收益急剧恶化；</li>
+    <li><b>电容值的换算</b>（50Hz 时）：Q<sub>C</sub> = U²ωC → C = Q<sub>C</sub>/(ωU²)。</li>
+  </ul>
+  <div class="exam"><span class="tag-exam">面试高频</span>"为什么要提高功率因数 / 怎么提高"的标准答案 = 知识 3 的两宗罪 + 本节"并联电容就地平衡"原理 + 补偿前后负载侧不变、电网侧减负的完整图景。把例 3 的数字算过一遍，面试时你就不是背概念而是讲工程。</div>
+</section>
+
+<!-- ================= 知识 5 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>功率计算的实战武器库</h2>
+  <p>计算 P、Q、S 的公式家族（都用<b>有效值</b>，无 √2）：</p>
+  <table class="tbl">
+    <tr><th>对象</th><th>有功 P</th><th>无功 Q</th><th>视在 S</th></tr>
+    <tr><td>任意二端网络</td><td>UI cosφ</td><td>UI sinφ</td><td>UI</td></tr>
+    <tr><td>电阻 R</td><td>I²R = U²/R</td><td>0</td><td>= P</td></tr>
+    <tr><td>电感 L</td><td>0</td><td>I²X<sub>L</sub> = U²/X<sub>L</sub></td><td>= |Q|</td></tr>
+    <tr><td>电容 C</td><td>0</td><td>−I²X<sub>C</sub>（发出）</td><td>= |Q|</td></tr>
+    <tr><td>等效阻抗 Z = R + jX</td><td>I²R</td><td>I²X</td><td>I²|Z|</td></tr>
+  </table>
+  <ul>
+    <li><b>双路验证</b>是防错神器：整体用 UI cosφ，元件用 I²R——两条路必须一致（例 1 演示）；</li>
+    <li><b>功率守恒</b>：整个电路的总有功 = 各电阻消耗之和（电阻是唯一的 P 源）；总无功 = 感性 − 容性（代数和）；</li>
+    <li><b>复功率</b>（进阶，识记即可）：Ṡ = Ùİ*，实部 P、虚部 Q——第 1 课的复数在这里完成最后的闭环。</li>
+  </ul>
+</section>
+
+<!-- ================= 例题 ================= -->
+<section class="block">
+  <h2><span class="no">例</span>例题精讲</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · RL 串联的功率全计算（双路验证）</div>
+    <div class="ex-body">
+      <p class="q">R = 3 Ω、X<sub>L</sub> = 4 Ω 串联，接 U = 100 V（有效值）电源。求 cosφ、P、Q、S。</p>
+      <ol class="steps">
+        <li><b>先备好弹药物</b>（第 3、4 课已练熟）：Z = 3 + j4 = 5∠53.13° Ω，İ = 20∠−53.13° A（有效值 20A，φ = 53.13°）；</li>
+        <li><b>路线一：整体公式</b>——
+          cosφ = 0.6；
+          P = UI cosφ = 100 × 20 × 0.6 = 1200 W；
+          Q = UI sinφ = 100 × 20 × 0.8 = 1600 var；
+          S = UI = 2000 VA；</li>
+        <li><b>路线二：元件公式</b>——
+          P = I²R = 400 × 3 = 1200 W ✓；
+          Q = I²X<sub>L</sub> = 400 × 4 = 1600 var ✓；
+          S = I²|Z| = 400 × 5 = 2000 VA ✓；</li>
+        <li><b>自检</b>：S² = P² + Q²？2000² = 1200² + 1600² = 4×10⁶ ✓（3-4-5 家族：1200-1600-2000）。</li>
+      </ol>
+      <div class="ans">cosφ = 0.6（感性）；P = 1200 W，Q = 1600 var，S = 2000 VA</div>
+      <p class="key">考场上强烈建议双路都算（整体一遍、I²R 一遍，30 秒的事）——功率题数字大，一步除错很难靠感觉发现，两条独立路径互相印证才稳。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 读三角形：由 S 和 P 反推全family</div>
+    <div class="ex-body">
+      <p class="q">某负载 S = 2000 VA、P = 1200 W。求 cosφ、φ、Q；若已知流过电流 20A，求阻抗。</p>
+      <ol class="steps">
+        <li>cosφ = P/S = 1200/2000 = <b>0.6</b>，φ = 53.13°（电流滞后，感性）；</li>
+        <li>Q = √(S² − P²) = √(2000² − 1200²) = 1600 var（正 = 感性）；</li>
+        <li>阻抗：|Z| = U/I，而 U = S/I = 2000/20 = 100 V，|Z| = 100/20 = 5 Ω；
+          再由 cosφ = R/|Z|：R = 0.6 × 5 = 3 Ω，X = 0.8 × 5 = 4 Ω → Z = 3 + j4 Ω。</li>
+      </ol>
+      <div class="ans">cosφ = 0.6、φ = 53.13°、Q = 1600 var、Z = 3 + j4 Ω</div>
+      <p class="key">注意解题的"逆向"灵活性：功率 → 三角形 → 阻抗，反着走也通。考试常给铭牌数据（kW、kVA、cosφ）让你反推电路参数或电流——同一套三角关系的不同起点而已。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 无功补偿经典题：0.6 提到 0.8</div>
+    <div class="ex-body">
+      <p class="q">感性负载 P = 1200 W、U = 100 V、cosφ₁ = 0.6。欲将功率因数提高到 cosφ₂ = 0.8，需并联多大电容（f = 50 Hz）？补偿前后线路电流各多少？</p>
+      <ol class="steps">
+        <li><b>补偿前</b>（例 1 的负载）：tanφ₁ = 4/3，Q₁ = P·tanφ₁ = 1200 × 4/3 = 1600 var；
+          S₁ = 2000 VA，I₁ = S₁/U = 20 A；</li>
+        <li><b>补偿后</b>：cosφ₂ = 0.8 → φ₂ = 36.87°，tanφ₂ = 3/4；
+          Q₂ = P·tanφ₂ = 1200 × 0.75 = 900 var（P 不变——电容不消耗有功）；</li>
+        <li><b>需补偿容量</b>：Q<sub>C</sub> = Q₁ − Q₂ = 1600 − 900 = 700 var；</li>
+        <li><b>电容值</b>：C = Q<sub>C</sub>/(ωU²) = 700 / (314 × 100²) ≈ <b>222.9 μF</b>；</li>
+        <li><b>补偿后电流</b>：S₂ = √(P² + Q₂²) = √(1200² + 900²) = 1500 VA（3-4-5 家族 ×300），I₂ = 1500/100 = <b>15 A</b>。</li>
+      </ol>
+      <div class="ans">Q<sub>C</sub> = 700 var，C ≈ 222.9 μF；线路电流 20 A → 15 A（降 25%）</div>
+      <p class="key">三件事看清"补偿只救电网、不动负载"：负载侧的 P（1200W）、Q<sub>L</sub>（1600var）、电压、电流完全没变；变的是电网侧——总无功从 1600 降到 900，电流从 20A 降到 15A，线路损耗（∝I²）直降 44%。若线路电阻 r = 0.5Ω，每年 8760 小时省下的线损电费就是一笔真金白银——这就是力率电费制度存在的原因。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 4 · 无功的账本：电容怎样"吐"无功</div>
+    <div class="ex-body">
+      <p class="q">RLC 串联电路（第 4 课例 1 的原班数据）：R = 3 Ω、X<sub>L</sub> = 8 Ω、X<sub>C</sub> = 4 Ω、I = 20 A、U = 100 V。算清全部功率账目。</p>
+      <ol class="steps">
+        <li><b>有功账</b>：只有电阻吃有功——P = I²R = 400 × 3 = 1200 W；</li>
+        <li><b>无功账（分开记）</b>：
+          电感吸收：Q<sub>L</sub> = I²X<sub>L</sub> = 400 × 8 = 3200 var；
+          电容发出：Q<sub>C</sub> = −I²X<sub>C</sub> = −400 × 4 = −1600 var；
+          净无功：Q = 3200 − 1600 = 1600 var；</li>
+        <li><b>总账</b>：S = UI = 2000 VA，cosφ = 1200/2000 = 0.6；
+          验证 Q：√(2000² − 1200²) = 1600 ✓</li>
+        <li><b>透视</b>：L 要的 3200 var 无功里，一半（1600 var）由电容<b>就地</b>提供，电网只输送差额——串联电路内部的"迷你版无功补偿"。</li>
+      </ol>
+      <div class="ans">P = 1200 W；Q<sub>L</sub> = +3200 var，Q<sub>C</sub> = −1600 var，净 Q = 1600 var；S = 2000 VA，cosφ = 0.6</div>
+      <p class="key">把例 3 和例 4 放在一起看就彻底通透了：无功补偿的本质 = 让电容与电感<b>互相交换</b>能量、与电网只结算差额——串联电路里这是自动发生的（电压分配层面），工程上是人为并联电容实现的（电流层面）。当 X<sub>L</sub> 恰好等于 X<sub>C</sub>，净无功为零、cosφ = 1——这就是下一课的主角：<b>谐振</b>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 练习 ================= -->
+<section class="block">
+  <h2><span class="no">练</span>练习（先做再看答案）</h2>
+  <p>前 3 题概念、中间 3 题计算、后 2 题工程应用。功率题务必双路验证。</p>
+
+  <details class="exercise"><summary><span class="qn">Q1</span>P、Q、S 的单位配对与含义（概念）<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>有功 P —— 瓦（W）—— 真正做功/耗散；无功 Q —— 乏（var）—— 与电源周期交换、不消耗；视在 S —— 伏安（VA）—— 容量总规模（设备铭牌用 kVA）。</p>
+      <div class="sol">W / var / VA 三单位严格区分，量纲同但不混用不相加</div>
+      <p class="note">经典判断题："100 kVA 变压器最多带 100 kW 负载"（√，当且仅当 cosφ = 1；cosφ = 0.8 时最多 80 kW）。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q2</span>S = 2000 VA、P = 1200 W，求 cosφ、φ、Q<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>cosφ = 1200/2000 = 0.6；φ = 53.13°（感性，电流滞后）；Q = √(2000² − 1200²) = 1600 var。</p>
+      <div class="sol">cosφ = 0.6，φ = 53.13°，Q = 1600 var</div>
+      <p class="note">3-4-5 家族：1200-1600-2000。这个家族在功率题里出现率极高——见 cosφ = 0.6 直接反应 sinφ = 0.8、tanφ = 4/3。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q3</span>纯电阻、纯电感、纯电容三种元件的 P 与 Q（概念）<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>纯电阻：P = UI、Q = 0（全部做功，cosφ = 1）；纯电感：P = 0、Q = +UI（吸收无功，cosφ = 0）；纯电容：P = 0、Q = −UI（发出无功，cosφ = 0）。</p>
+      <div class="sol">电阻吃有功；电感吃无功（+）；电容发无功（−）——没有第三个吃有功的元件</div>
+      <p class="note">"电感的 Q 为正、电容的 Q 为负"配合第 3 课"X = X<sub>L</sub> − X<sub>C</sub>"一起记——符号体系一以贯之。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q4</span>U = 220 V、I = 5 A、cosφ = 0.8（感性），求 P、Q、S<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>S = UI = 1100 VA；P = 1100 × 0.8 = 880 W；sinφ = 0.6，Q = 1100 × 0.6 = 660 var。</p>
+      <div class="sol">S = 1100 VA，P = 880 W，Q = 660 var</div>
+      <p class="note">顺序讲究：先算 S = UI（不涉及 φ），再用 cosφ、sinφ 拆出 P 和 Q——比硬套 UIcosφ 少一次乘法错位的机会。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q5</span>负载阻抗 Z = 6 + j8 Ω，求功率因数及电路性质<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>|Z| = √(6² + 8²) = 10 Ω；cosφ = R/|Z| = 6/10 = 0.6，φ = 53.13°。X = +8 &gt; 0 → 感性，电流滞后电压。</p>
+      <div class="sol">cosφ = 0.6，感性（电流滞后 53.13°）</div>
+      <p class="note">cosφ = R/|Z| 是阻抗侧最快的算法——连电流都不用求。性质判断只看 X 的符号：正感性、负容性、零（X=0）纯阻性。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q6</span>并联电容补偿后，下列量如何变化？（负载 P、负载 Q_L、电网总 Q、总电流、线损）<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>负载 P <b>不变</b>；负载自身无功 Q<sub>L</sub> <b>不变</b>（负载工作状态完全没变）；电网总 Q <b>减小</b>；总电流 <b>减小</b>；线路损耗 <b>减小</b>。</p>
+      <div class="sol">"两不变三减小"——负载侧不变，电网侧减负</div>
+      <p class="note">高频多选题/判断题："并联电容后负载电流减小"（×——减小的是<b>电网总</b>电流，负载自己的电流分毫不动）。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q7</span>P = 800 W、cosφ = 0.8、U = 100 V 的感性负载，全补偿（cosφ→1）需多大 Q<sub>C</sub>？此时电流多大？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>I₁ = P/(Ucosφ) = 800/80 = 10 A；φ₁ = 36.87°，tanφ₁ = 0.75，Q₁ = 800 × 0.75 = 600 var；
+        全补偿 Q<sub>C</sub> = Q₁ = 600 var；补偿后 cosφ = 1，I₂ = P/U = 8 A。</p>
+      <div class="sol">Q<sub>C</sub> = 600 var；电流 10 A → 8 A</div>
+      <p class="note">全补偿时电流最小（= P/U，纯有功电流）。工程上不追求补到 1：电容投资随补偿量非线性增长，且过补偿有副作用——0.9~0.95 是性价比区间。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q8</span>工程视角：线路电阻 r = 1 Ω，负载 P = 1320 W、U = 220 V、cosφ = 0.6，补偿到 1 后线损降多少？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>补偿前：I₁ = 1320/(220×0.6) = 10 A，线损 = I₁²r = 100 W；
+        补偿后：I₂ = P/U = 1320/220 = 6 A，线损 = 36 W；
+        省下 64 W——降幅 64%。</p>
+      <div class="sol">线损 100 W → 36 W，降 64%</div>
+      <p class="note">注意"电压 220V"是<b>负载端</b>电压——补偿电容装在负载旁，输电线路（r）上流的电流变小，发热才降。这正是供电局对企业按 cosφ 奖惩电费的底层逻辑：你的低 cosφ 让电网白白发热。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 自测 ================= -->
+<section class="block">
+  <h2><span class="no">测</span>本课过关自测</h2>
+  <ul class="checklist">
+    <li>我能说出 P/Q/S 的定义、公式与单位（W/var/VA），并解释为什么设备铭牌用 kVA</li>
+    <li>我能画功率三角形，并说明它与阻抗三角形、电压三角形的相似关系（cosφ = R/|Z| = U<sub>R</sub>/U = P/S）</li>
+    <li>我能解释 cosφ 的物理意义与"两宗罪"（电流大→线损大、容量被挤占）</li>
+    <li>我能用双路法算功率（UIcosφ 与 I²R 互相验证），并做功率守恒账（总有功 = 各电阻之和）</li>
+    <li>我能解释无功补偿原理：并联电容就地平衡、负载侧不变电网侧减负、为什么补到 0.9~0.95</li>
+    <li>我能独立完成补偿计算题：由 cosφ₁ 提到 cosφ₂ 求 Q<sub>C</sub>、C 值与电流变化（例 3、Q7/Q8 级别）</li>
+  </ul>
+</section>
+
+<!-- ================= 上下课导航 ================= -->
+<div class="pager">
+  <a href="04_相量法解正弦稳态电路.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 4 课 · 相量法解正弦稳态电路</div>
+  </a>
+  <a href="index.html" style="text-align:center;">
+    <div class="dir">目录</div>
+    <div class="title">阶段 0 筑基</div>
+  </a>
+  <a href="index.html" class="next-card">
+    <div class="dir">下一课 · 待更新</div>
+    <div class="title">第 6 课 · 谐振与三相入门</div>
+  </a>
+</div>
+
+<!-- ================= 下一课 ================= -->
+<div class="next">
+  <h2>下一课预告：谐振与三相入门</h2>
+  <p>当 X<sub>L</sub> = X<sub>C</sub>：串联谐振（电压谐振）与并联谐振（电流谐振）——收音机选台与电网滤波的原理，也是前三课埋下的所有伏笔的总爆发；随后对称三相电路入门（星形/三角形、线量与相量），南网笔试三相题的基石。阶段 0 的最终章。</p>
+</div>
+
+<footer>
+  阶段 0 筑基 · 第 5 课 ｜ <a href="index.html">返回阶段0目录</a> ｜ <a href="../index.html">返回电网备考首页</a>
+</footer>
+
+</div>
+</body>
+</html>

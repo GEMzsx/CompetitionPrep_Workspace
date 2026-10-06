@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题9 · 常微分方程 — 例题精讲</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="../assets/mathjax/tex-svg.js" async onerror="var s=document.createElement('script');s.src='https://registry.npmmirror.com/mathjax/3.2.2/files/es5/tex-svg.js';s.async=true;document.head.appendChild(s)"></script>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --accent-soft: #eef0ff;
+  --accent-border: #c9ceff;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --warn: #b3382c;
+  --warn-soft: #fdeeea;
+  --ok: #3d9a50;
+  --ok-soft: #eef8f0;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.hero {
+  background: linear-gradient(135deg, #322bc0 0%, #4b3fe3 55%, #6f6fff 100%);
+  color: #fff; border-radius: 16px; padding: 36px 36px 30px;
+  box-shadow: 0 12px 32px rgba(67, 56, 214, 0.25);
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .chip {
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+section.block {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 30px 34px 26px; margin-bottom: 28px;
+}
+section.block > h2 {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: 21px; border-bottom: 2px solid var(--accent-soft); padding-bottom: 12px;
+}
+.sec-no {
+  background: var(--accent); color: #fff; border-radius: 8px;
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex: 0 0 auto;
+}
+
+.tag {
+  display: inline-block; border-radius: 5px; padding: 1px 9px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px; vertical-align: 2px;
+}
+.tag.hot  { background: #fdeeea; color: var(--warn); border: 1px solid #f3c3bd; }
+.tag.mid  { background: var(--gold-soft); color: var(--gold); border: 1px solid #ecd9a0; }
+.tag.low  { background: #eef1f5; color: var(--ink-faint); border: 1px solid #dde2ea; }
+
+.prob {
+  background: var(--accent-soft); border: 1px solid var(--accent-border);
+  border-radius: 10px; padding: 14px 22px; margin: 18px 0;
+}
+.prob .plabel { font-size: 13px; font-weight: 800; color: var(--accent); letter-spacing: 1px; margin-bottom: 4px; }
+.sol { padding: 4px 6px 0; }
+.sol .slabel { font-size: 13px; font-weight: 800; color: var(--ok); letter-spacing: 2px; margin-bottom: 2px; }
+.sol .brief { background: var(--ok-soft); border-radius: 8px; padding: 6px 14px; margin: 8px 0; font-size: 14.5px; }
+.comment {
+  border-left: 3px solid var(--gold); background: #fffdf4;
+  border-radius: 0 8px 8px 0; padding: 10px 18px; margin: 14px 0 4px; font-size: 14.5px;
+}
+.comment.done { border-left-color: var(--ok); background: var(--ok-soft); }
+
+.warnbox {
+  background: var(--warn-soft); border: 1px solid #f3c3bd; border-radius: 10px;
+  padding: 14px 22px; margin: 16px 0; font-size: 15px;
+}
+.warnbox b { color: var(--warn); }
+
+mjx-container[jax="SVG"][display="true"] {
+  margin: 12px 0 !important;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+th {
+  background: #f0f1f8; text-align: left; padding: 10px 14px;
+  border-bottom: 2px solid var(--line); font-size: 13.5px; letter-spacing: 1px; color: var(--ink-soft);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+
+@media (max-width: 640px) {
+  section.block { padding: 22px 18px; }
+  .hero { padding: 26px 22px; }
+}
+@media print {
+  body { background: #fff; }
+  section.block { break-inside: avoid-page; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<nav id="site-nav" data-base="../" data-current="09"></nav>
+<script src="../assets/site-nav.js"></script>
+<div class="wrap">
+
+<div class="hero">
+  <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 09</p>
+  <h1>常微分方程 · 例题精讲</h1>
+  <p>题型实录 —— 全部来自对话中实际做过的题，每题带战绩点评。类型求全，不求题量。</p>
+  <div class="meta">
+    <span class="chip">6 道实录题 · 已收官</span>
+    <span class="chip">方法卡在 01_知识框架.html</span>
+  </div>
+</div>
+
+<section class="block">
+  <h2><span class="sec-no">览</span>题型总览与战绩</h2>
+  <table>
+    <tr><th style="width:30%">类型</th><th style="width:22%">实录题</th><th>战绩</th></tr>
+    <tr><td>一阶线性 · 完全导数入口</td><td>例 1</td><td>✓ 答案对（公式法跳步；\( (xy)' \) 入口未用）</td></tr>
+    <tr><td>可降阶 · 双缺型选路</td><td>例 2</td><td>⚠️ 代换对，执行断（丢常数 + 循环积分 + 未完成）</td></tr>
+    <tr><td>二阶常系数 · 共振 + 初值</td><td>例 3</td><td>✓ 共振全对；初值未代入（修复轮补完）</td></tr>
+    <tr><td>积分方程 · 两次求导</td><td>例 4</td><td>✓✓ 满分（初值读取习惯已落地）</td></tr>
+    <tr><td>欧拉方程 · 重根共振</td><td>例 5</td><td>✓ 答案对（特解设定书写歧义）</td></tr>
+    <tr><td>刘维尔公式 · 降阶求第二解</td><td>例 6</td><td>⚠️ \( y_2 \) 提取全对，通解结构错（单常数）</td></tr>
+  </table>
+</section>
+
+<!-- ================= 题型一 ================= -->
+<section class="block" id="t1">
+  <h2><span class="sec-no">一</span>一阶线性 · 完全导数入口 <span class="tag hot">必考</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 1（热身 · 答案对）</div>
+    <p>\[ xy'+y=xe^x \]</p>
+    <p><b>速览</b>：左边恰是 \( (xy)' \) ⟹ \( xy=\int xe^x dx=(x-1)e^x+C \)，\( y=\dfrac{(x-1)e^x+C}{x} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（零计算入口）</div>
+    <p>左边 \( xy'+y \) 是乘积导数的展开——<b>直接认出 \( (xy)' \)</b>：</p>
+    <p>\[ (xy)'=xe^x\ \Longrightarrow\ xy=\int xe^x\,dx=(x-1)e^x+C\ \Longrightarrow\ y=\frac{(x-1)e^x+C}{x}\ (x\ne0) \]</p>
+    <p>机器验证：代入原方程残差为 0。标准路线（\( \mu=e^{\int\frac1xdx}=x \)，两边乘 \( x \)）与本题的"认出"完全等价——积分因子机器乘上 \( x \) 之后干的就是这件事。</p>
+  </div>
+  <div class="comment"><b>点评</b>：答案正确（\( e^x-\frac{e^x}{x}+\frac Cx \) 即上式通分）。两个升级点：① <b>入口</b>——看到 \( xy'+y \) 应条件反射 \( (xy)' \)，这是"凑完全导数"家族第四次登场（积分因子 \( e^xf \)、能量函数 \( f'^2-f^2 \)、对数平均的完全平方、本题 \( xy \)），三次都是竞赛大题的核心构造；② <b>跳步</b>——"解得"直接出答案，中间 \( \int xe^xdx \) 的分部（\( xe^x-e^x \)）是采分行，不能省。另注意结论域 \( x\ne0 \)（方程本身在 \( x=0 \) 无意义）。</div>
+</section>
+
+<!-- ================= 题型二 ================= -->
+<section class="block" id="t2">
+  <h2><span class="sec-no">二</span>可降阶 · 双缺型选路 <span class="tag hot">本章最深的考点</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 2（热身 · 代换对，执行断）</div>
+    <p>\[ y''=1+(y')^2 \]</p>
+    <p><b>速览</b>：方程<b>同时缺 x 缺 y</b>（只含 \( y'',y' \)）⟹ 两条降阶路都合法；选<b>缺 y 路</b>（\( y''=p' \)）三行出解：\( y=-\ln|\cos(x+C_1)|+C_2 \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（优路 · 缺 y）</div>
+    <p>方程只含 \( y'' \) 与 \( y' \)——既无 x 也无 y，<b>两条路都在决策树上</b>。先试缺 y 路（\( p=y' \) 视为 x 的函数，\( y''=p' \)）：</p>
+    <p>\[ p'=1+p^2\ \Longrightarrow\ \int\frac{dp}{1+p^2}=x+C_1\ \Longrightarrow\ \arctan p=x+C_1\ \Longrightarrow\ p=\tan(x+C_1) \]</p>
+    <p>\[ y=\int\tan(x+C_1)\,dx=-\ln\big|\cos(x+C_1)\big|+C_2 \]</p>
+    <p><b>一步验证</b>：\( y'=\tan(x+C_1) \)，\( y''=\sec^2(x+C_1)=1+\tan^2(x+C_1)=1+(y')^2 \) ✓。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解（学生所走的缺 x 路 · 修通它）</div>
+    <p>缺 x 路（\( y''=p\frac{dp}{dy} \)）<b>合法</b>，代换本身写得对：</p>
+    <p>\[ p\frac{dp}{dy}=1+p^2\ \Longrightarrow\ \frac{p\,dp}{1+p^2}=dy\ \Longrightarrow\ \frac12\ln(1+p^2)=y+C_1\ \Longrightarrow\ 1+p^2=Ce^{2y} \]</p>
+    <p>此处 \( C=e^{-2C_1}&gt;0 \)（<b>常数必须保留</b>，丢掉 = 丢掉一整族解）。回代 \( p=y' \) 再<b>分离变量</b>（不是 \( \int(\cdots)dx \)！）：</p>
+    <p>\[ \frac{dy}{\sqrt{Ce^{2y}-1}}=\pm\,dx\ \Longrightarrow\ -\arcsin\frac{e^{-y}}{\sqrt C}=\pm x+C_2 \]</p>
+    <p>（换元 \( u=e^{-y} \) 积出。）整理即 \( e^{-y}=\sqrt C\sin(x+C_2') \)，与优路同族（\( -\ln\sin = -\ln\cos \) 平移）。殊途同归，但工作量约 3 : 10。</p>
+  </div>
+  <div class="comment"><b>点评</b>：三处断点——① <b>选路</b>：双缺型（\( y''=f(y') \) 同时匹配两行）应先试缺 y 路 \( p'=f(p) \)，对 x 直接积分一步到位；缺 x 路的第二次分离积分要换元，重一个量级。口诀升级：<b>方程里没有的变量不能当自变量；两个都没有时，先用 x 当自变量的那条</b>。② <b>丢 \( C_1 \)</b>：\( \frac12\ln(1+p^2)=y \) 少写 \( +C_1 \)，后随 \( e^{2y} \) 吞掉一整族解——n 阶方程通解必须 n 个独立常数，少一个是硬伤（框架 §9 第 11 条）。③ <b>循环积分</b>：末步写 \( y=\int\sqrt{e^{2y}-1}\,dx \)——被积函数含 y、积分变量是 x，这是<b>循环定义</b>不是积分。正确动作：\( \frac{dy}{dx}=\sqrt{\cdots} \) ⟹ <b>变量分离</b> \( \frac{dy}{\sqrt{\cdots}}=dx \)，左边对 y 积、右边对 x 积。<b>修复完成</b>：重做走缺 y 路，三行全对、\( C_1,C_2 \) 双常数在位、终式正确——选路与常数管理双双过关；留一个习惯升级：结尾补一行 \( y''=\sec^2=1+\tan^2=1+y'^2 \) 的一步验证（30 秒，专防符号错）。</div>
+</section>
+
+<!-- ================= 题型三 ================= -->
+<section class="block" id="t3">
+  <h2><span class="sec-no">三</span>二阶常系数 · 共振 + 初值 <span class="tag hot">大题全流程</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 3（热身 · 共振全对，差最后一步）</div>
+    <p>\[ y''+y=\sin x,\qquad y(0)=0,\ y'(0)=1 \]</p>
+    <p><b>速览</b>：\( \pm i \) 是特征根 ⟹ 共振 \( k=1 \)，特解 \( x(A\cos x+B\sin x) \)；代值得 \( A=-\frac12,\ B=0 \)；初值定 \( C_1=0,\ C_2=\frac32 \)，\( y=\frac32\sin x-\frac{x\cos x}{2} \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>特征</b>：\( r^2+1=0,\ r=\pm i \)，齐次通解 \( Y=C_1\cos x+C_2\sin x \)。</p>
+    <p><b>共振判定</b>：\( f=\sin x \) 即 \( \lambda\pm i\omega=\pm i \)——<b>恰是特征根</b> ⟹ \( k=1 \)，设 \( y^*=x(A\cos x+B\sin x) \)（cos、sin 成对设）。</p>
+    <p><b>代系数</b>（学生的导数整理完全正确）：</p>
+    <p>\[ y^{*\prime}=(A+Bx)\cos x+(B-Ax)\sin x,\qquad y^{*\prime\prime}=(2B-Ax)\cos x-(2A+Bx)\sin x \]</p>
+    <p>\[ y^{*\prime\prime}+y^*=2B\cos x-2A\sin x\equiv\sin x\ \Longrightarrow\ B=0,\ A=-\tfrac12 \]</p>
+    <p><b>通解</b>：\( y=C_1\cos x+C_2\sin x-\dfrac{x\cos x}{2} \)。</p>
+    <p><b>初值（学生漏掉的最后一公里）</b>：</p>
+    <p>\[ y(0)=C_1=0;\qquad y'=-C_1\sin x+C_2\cos x-\tfrac12\cos x+\tfrac x2\sin x,\quad y'(0)=C_2-\tfrac12=1\ \Longrightarrow\ C_2=\tfrac32 \]</p>
+    <p>\[ \boxed{\,y=\tfrac32\sin x-\tfrac{x\cos x}{2}\,} \]</p>
+    <p><b>5 秒回代校验</b>：\( y(0)=0-\frac{0\cdot1}{2}=0 \) ✓；\( y'(0)=\frac32-\frac12=1 \) ✓（机器验证方程残差亦为 0）。</p>
+  </div>
+  <div class="comment"><b>点评</b>：本题的<b>陷阱设计全部躲过</b>——共振乘 \( x \) ✓、cos/sin 成对设 ✓、乘积法则两阶导数整理 ✓、\( 2B=0,\ -2A=1 \) 系数读取 ✓，机制层面无可挑剔。唯一失分：<b>题目要"解初值问题"，卷面止步于通解</b>——两个任意常数还在，定解没完成。这 3 行（代两个初值、解出 \( C_1,C_2 \)、写出特解并回代校验）在阅卷里约占 1/4 分数。共振大题的标准收尾三件套：<b>通解 → 代初值 → 回代校验</b>，缺一不可。<b>修复完成</b>：特解 \( \frac32\sin x-\frac{x\cos x}{2} \) 与 \( C_1=0,C_2=\frac32 \) 全部正确，"最后一公里"补完；习惯升级：\( y'(0)=C_2-\frac12=1 \) 这行是本题最值钱的一步（分数全在它身上），必须显式落在纸面；末尾的 5 秒回代校验（\( y(0)=0 \)✓、\( y'(0)=1 \)✓）养成条件反射。</div>
+</section>
+
+<!-- ================= 题型四 ================= -->
+<section class="block" id="t4">
+  <h2><span class="sec-no">四</span>积分方程 · 两次求导 <span class="tag hot">压轴联动</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 4（收官 · 满分）</div>
+    <p>\[ f(x)=\cos x+\int_0^x (x-t)f(t)\,dt \]</p>
+    <p><b>速览</b>：两次求导得 \( f''-f=-\cos x \)；初值 \( f(0)=1,\ f'(0)=0 \)；\( f=\frac12\cosh x+\frac12\cos x \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>两次求导（核 \( x-t \) 逐次缩阶）</b>：</p>
+    <p>\[ f'(x)=-\sin x+\Big[(x-t)f(t)\Big|_{t=x}\cdot1+\int_0^x\partial_x(x-t)f(t)dt\Big]=-\sin x+\int_0^x f(t)\,dt \]</p>
+    <p>\[ f''(x)=-\cos x+f(x)\ \Longrightarrow\ f''-f=-\cos x \]</p>
+    <p><b>初值从原方程读取</b>（不是猜的）：\( f(0)=\cos 0+0=1 \)；\( f'(0)=-\sin 0+0=0 \)。</p>
+    <p><b>求解</b>：\( r=\pm1 \)；设 \( f^*=A\cos x+B\sin x \)，\( f^{*\prime\prime}-f^*=-2A\cos x-2B\sin x\equiv-\cos x \Rightarrow A=\frac12,\ B=0 \)；通解 \( f=C_1e^x+C_2e^{-x}+\frac12\cos x \)；初值给 \( C_1=C_2=\frac14 \)：</p>
+    <p>\[ \boxed{\,f(x)=\tfrac12\cosh x+\tfrac12\cos x\,}\qquad\Big(\tfrac14e^x+\tfrac14e^{-x}=\tfrac12\cosh x\Big) \]</p>
+    <p>机器验证：代回原积分方程残差为 0。</p>
+  </div>
+  <div class="comment done"><b>点评</b>：满分，且是"最后一公里"修复的<b>现场验收</b>——初值在求导前从原方程读取 ✓、特解系数 \( -2A=-1 \) 显式 ✓、终解不含 C ✓。答案形式 \( \frac12(\cosh x+\cos x) \) 的对称美感正是本题设计（双曲与三角在 \( f''=\pm f \) 两个世界各出一半力量）。一句话心法：积分方程的初值<b>永远白送在下限</b>，忘了读就丢了定解的锚。</div>
+</section>
+
+<!-- ================= 题型五 ================= -->
+<section class="block" id="t5">
+  <h2><span class="sec-no">五</span>欧拉方程 · 重根共振 <span class="tag mid">竞赛特色</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 5（收官 · 答案对）</div>
+    <p>\[ x^2y''-xy'+y=x\ln x\qquad(x&gt;0) \]</p>
+    <p><b>速览</b>：\( x=e^t \) 化为 \( (D-1)^2y=te^t \)；\( r=1 \) 二重 ⟹ 齐次 \( (C_1+C_2t)e^t \)；右端 \( te^t \) 撞重根 ⟹ 特解 \( t^2(At+B)e^t=\frac{t^3}{6}e^t \)；\( y=x\big(C_1+C_2\ln x+\frac16\ln^3x\big) \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>代换</b>（\( x^2y''=D(D-1)y,\ xy'=Dy \)）：</p>
+    <p>\[ D(D-1)y-Dy+y=te^t\ \Longrightarrow\ (D-1)^2y=te^t \]</p>
+    <p><b>齐次</b>：\( (r-1)^2=0 \) 二重根 ⟹ \( Y=(C_1+C_2t)e^t \)（欧拉世界重根补 \( t=\ln x \)）。</p>
+    <p><b>特解</b>：右端 \( te^t \) 的 \( \lambda=1 \) <b>撞二重特征根</b> ⟹ \( k=2 \)，设 \( y^*=t^2(At+B)e^t \)。用移位技巧 \( (D-1)^2[e^tv]=e^tD^2v \)：</p>
+    <p>\[ (D-1)^2y^*=e^tD^2\big[t^2(At+B)\big]=e^t(6At+2B)\equiv te^t\ \Longrightarrow\ A=\tfrac16,\ B=0 \]</p>
+    <p><b>回代</b> \( t=\ln x \)：</p>
+    <p>\[ \boxed{\,y=x\Big(C_1+C_2\ln x+\tfrac16\ln^3x\Big)\,} \]</p>
+    <p>机器验证：代回原方程残差为 0。</p>
+  </div>
+  <div class="comment"><b>点评</b>：答案与全部机制正确——两处"重根"都处理到位（齐次补 \( \ln x \)、特解乘 \( t^2 \)），这是欧拉方程最易错的组合拳。书写一处歧义：特解先写 \( (At^3+Bt^2)e^t \) 又改 \( t^2(At+B)e^t \)——两者展开相同，但<b>标准写法是"共振因子 × 完全多项式"的 \( t^2(At+B)e^t \) 形</b>（先读出 \( k=2 \) 再设，思路显式）。\( e^tD^2v \) 移位式（拉普拉斯世界的老朋友）比硬求两阶导快一倍，值得内化。</div>
+</section>
+
+<!-- ================= 题型六 ================= -->
+<section class="block" id="t6">
+  <h2><span class="sec-no">六</span>刘维尔公式 · 求第二解 <span class="tag hot">竞赛必背</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 6（收官 · 过程九成对，末行通解结构错）</div>
+    <p>已知 \( y_1=x \) 是 \( (x^2+1)y''-2xy'+2y=0 \) 的解，求线性无关的另一解并写通解。</p>
+    <p><b>速览</b>：\( p=-\frac{2x}{x^2+1} \)，\( e^{-\int p}=x^2+1 \)；\( y_2=x\int\frac{x^2+1}{x^2}dx=x^2-1 \)（舍影子 \( Cx \)）；通解 \( y=C_1x+C_2(x^2-1) \)。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">解</div>
+    <p><b>标准化</b>：\( y''-\frac{2x}{x^2+1}y'+\frac{2}{x^2+1}y=0 \)，故 \( p(x)=-\frac{2x}{x^2+1} \)：</p>
+    <p>\[ e^{-\int p\,dx}=e^{\int\frac{2x}{x^2+1}dx}=e^{\ln(x^2+1)}=x^2+1 \]</p>
+    <p><b>刘维尔公式</b>：</p>
+    <p>\[ y_2=y_1\int\frac{e^{-\int p}}{y_1^2}\,dx=x\int\frac{x^2+1}{x^2}\,dx=x\int\Big(1+\frac{1}{x^2}\Big)dx=x\Big(x-\frac1x+C\Big)=x^2-1+Cx \]</p>
+    <p>其中 \( Cx \) 是<b>旧解的影子</b>（\( y_1 \) 的倍数，被积分常数再造出来）——舍去，取新部分 \( y_2=x^2-1 \)。</p>
+    <p><b>通解（两解直接并列，各配常数）</b>：</p>
+    <p>\[ \boxed{\,y=C_1x+C_2(x^2-1)\,} \]</p>
+    <p>机器验证：\( y_1,y_2 \) 代入残差均为 0，且 \( W=x\cdot2x-1\cdot(x^2-1)=x^2+1\ne0 \) 线性无关。</p>
+  </div>
+  <div class="comment"><b>点评</b>：刘维尔本体<b>全对</b>——\( e^{-\int p}=x^2+1 \)、积分、影子解识别与舍去，四步干净利落（影子解舍去这步多数人漏）。<b>唯独最后一行</b>写成 \( y=C(y_2-y_1)=C(x^2-x-1) \)：① <b>单常数</b>——二阶方程通解必须两个独立常数（\( x^2-x-1 \) 本身确是解，差是组合，但一个 C 罩不住整个解空间）；② "两解之差"是<b>非齐次三特解</b>（框架 §2 记忆卡 \( C_1(y_2-y_1)+\cdots \)）那里的语言，齐次方程的通解语言是"<b>基解 × 常数求和</b>"，两套结构混用了。<b>5 秒自检</b>：数常数——阶数 = 独立常数个数，2 阶 2 个。这条规则本章翻车两次（例 2 丢 \( C_1 \)、本例单参数），考前把它钉死。</div>
+</section>
+
+<section class="block">
+  <h2><span class="sec-no">结</span>收官轮诊断与全系列终章</h2>
+  <p><b>收官 3 题（例 4–6）</b>：例 4 满分——<b>初值读取习惯已落地</b>（两次求导前先回原方程读 \( f(0),f'(0) \)，正是上轮"最后一公里"的修复成果）；例 5 答案正确（\( \frac{x}{6}\ln^3x \) 的重根共振处理干净）；例 6 过程九成对——\( y_2=x^2-1 \) 的提取、影子解 \( Cx \) 的舍去全对，<b>仅最后一行通解写成 \( y=C(y_2-y_1) \)</b>（单常数 + 差结构，见例 6 点评）。</p>
+  <p><b>本章模式收束</b>：三周三条线——识别（一直强）→ 执行（修复轮关闭）→ <b>收尾结构</b>（例 6 最后一行）。"数够独立常数"这条规则在例 2（丢 \( C_1 \)）和例 6（单参数通解）各翻车一次，是全系列最后暴露的缺口：<b>每写完通解，数一遍任意常数的个数是否等于方程阶数</b>。</p>
+  <p><b>全系列（9 专题 · 65 题实录）就此完结</b>。两个全局档案备查：各专题例题精讲的"复盘/点评"行、各框架的易错清单——考前总复习从这两处 + 各"⚠️"战绩行开始。下一阶段：错题重做 + 限时模拟。</p>
+</section>
+
+</div>
+</body>
+</html>

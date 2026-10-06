@@ -284,13 +284,18 @@ li { margin: 4px 0; }
 <section class="block" id="s6">
   <h2><span class="sec-no">6</span>傅里叶级数 <span class="tag low">低频 · 竞赛特色题</span></h2>
 
-  <h3>6.1 系数公式（2π 周期）</h3>
+  <h3>6.1 展开式与系数公式（2π 周期）</h3>
+  <p>\[ f(x)\;\sim\;\frac{a_0}{2}+\sum_{n=1}^{\infty}\big(a_n\cos nx+b_n\sin nx\big) \]</p>
   <div class="formula-line">
     <span>\( a_n=\frac1\pi\int_{-\pi}^{\pi}f(x)\cos nx\,dx \)</span>
     <span>\( b_n=\frac1\pi\int_{-\pi}^{\pi}f(x)\sin nx\,dx \)</span>
-    <span>\( a_0=\frac1\pi\int_{-\pi}^{\pi}f\,dx \)</span>
+    <span>\( a_0=\frac1\pi\int_{-\pi}^{\pi}f(x)\,dx \)</span>
   </div>
-  <p>奇函数 ⟹ 全部 \( a_n=0 \)（正弦级数）；偶函数 ⟹ 全部 \( b_n=0 \)（余弦级数）。定义在半区间上的函数要<b>延拓</b>（奇延拓得正弦级数、偶延拓得余弦级数）。</p>
+  <p>系数来源：三角函数系<b>正交性</b>（如 \( \int_{-\pi}^{\pi}\cos mx\cos nx\,dx=0,\ m\ne n \)）——展开式两边同乘 \( \cos kx \) 或 \( \sin kx \) 再积分，其余项全部归零，只剩目标系数，"投影"即得。</p>
+  <div class="warnbox"><b>两个高频扣分点</b>：① 级数首项是 \( \dfrac{a_0}{2} \)，那个 <b>1/2 不能丢</b>（\( a_0 \) 的定义式里没有 2）；② "～"读作"展开为"——收敛到多少由 §6.2 定理决定，只有连续点处才敢写等号。</div>
+  <p><b>奇偶剪枝</b>：奇函数 ⟹ 全部 \( a_n=0 \)（纯正弦级数）；偶函数 ⟹ 全部 \( b_n=0 \)（纯余弦级数）。定义在半区间 \( [0,l] \) 上的函数要<b>延拓</b>：奇延拓得正弦级数、偶延拓得余弦级数（展开式只在原半区间上代表 f）。</p>
+  <p><b>一般周期 2l</b>（换元即得，\( \pi \) 全部换成 \( \frac{\pi x}{l} \)、\( \frac1\pi \) 换成 \( \frac1l \)）：</p>
+  <p>\[ f(x)\sim\frac{a_0}{2}+\sum_{n=1}^{\infty}\Big(a_n\cos\frac{n\pi x}{l}+b_n\sin\frac{n\pi x}{l}\Big),\qquad a_n=\frac1l\int_{-l}^{l}f(x)\cos\frac{n\pi x}{l}\,dx,\quad b_n=\frac1l\int_{-l}^{l}f(x)\sin\frac{n\pi x}{l}\,dx \]</p>
 
   <h3>6.2 狄利克雷收敛定理（必背）</h3>
   <p>f 分段单调、只有有限个第一类间断点 ⟹ 级数处处收敛：</p>
@@ -299,10 +304,13 @@ li { margin: 4px 0; }
 
   <h3>6.3 竞赛特色：用展开求数项级数和</h3>
   <div class="memory">
-    <div class="label">必背 · 两条经典级数值（x² 展开的两个代入）</div>
-    <p>\( x^2=\dfrac{\pi^2}{3}+4\sum\limits_{n=1}^{\infty}\dfrac{(-1)^n\cos nx}{n^2} \)（偶函数，余弦级数）：</p>
-    <p>\[ 代\ x=\pi:\ \sum\frac{1}{n^2}=\frac{\pi^2}{6};\qquad 代\ x=0:\ \sum\frac{(-1)^{n-1}}{n^2}=\frac{\pi^2}{12} \]</p>
-    <p>套路总结：找（或构造）一个函数的傅里叶展开，在特殊点代入 ⟹ 免费得到数项级数的精确值——与 §5.2 幂级数法并列为"求和两大桥梁"。</p>
+    <div class="label">必背 · 三条免费级数（x 与 x² 的展开代入）</div>
+    <p>\( x^2=\dfrac{\pi^2}{3}+4\sum\limits_{n=1}^{\infty}\dfrac{(-1)^n\cos nx}{n^2} \)（偶函数，余弦级数）——代 \( x=\pi \) 与 \( x=0 \)：</p>
+    <p>\[ \sum\frac{1}{n^2}=\frac{\pi^2}{6};\qquad \sum\frac{(-1)^{n-1}}{n^2}=\frac{\pi^2}{12} \]</p>
+    <p>\( x=2\sum\limits_{n=1}^{\infty}\dfrac{(-1)^{n+1}}{n}\sin nx \)（\( -\pi&lt;x&lt;\pi \)，奇函数正弦级数）——代 \( x=\dfrac{\pi}{2} \)：</p>
+    <p>\[ 2\sum_{k=0}^{\infty}\frac{(-1)^k}{2k+1}=\frac{\pi}{2}\quad\Longleftrightarrow\quad \sum_{k=0}^{\infty}\frac{(-1)^k}{2k+1}=\frac{\pi}{4} \]</p>
+    <p>即<b>莱布尼茨级数</b>——与专题 02 的 \( \arctan x \) 幂级数是同一结果的两个世界（幂级数代 \( x=1 \)、傅里叶代 \( x=\frac\pi2 \)）。注意 \( x \) 的展开在 \( x=\pm\pi \) 处收敛于左右极限平均 0，不在代入点之列。</p>
+    <p>套路总结：找（或构造）函数的傅里叶展开，在特殊点代入 ⟹ 免费得到数项级数的精确值——与 §5.2 幂级数法并列为"求和两大桥梁"。</p>
   </div>
 </section>
 

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段0 · 第4课 — 相量法解正弦稳态电路</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+.ph { position: relative; padding: 0 1px; font-style: normal; }
+.ph::after {
+  content: "•";
+  position: absolute; top: -0.62em; left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55em;
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 示意图 ===== */
+.wave {
+  background: #fbfdff;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  margin: 14px 0;
+  padding: 10px;
+  text-align: center;
+}
+.wave svg { max-width: 100%; height: auto; }
+.wave .cap { font-size: 12.5px; color: var(--ink-faint); margin-top: 6px; }
+
+/* ===== 五步法 ===== */
+.steps-flow { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.step-chip {
+  flex: 1; min-width: 120px;
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  text-align: center;
+}
+.step-chip .s-no { display: block; font-weight: 700; color: var(--blue); font-size: 15px; }
+.step-chip .s-t { display: block; margin-top: 2px; color: var(--ink); }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+.pager .next-card { text-align: right; }
+.pager .next-card .dir { color: var(--gold); }
+
+/* ===== 下一课 ===== */
+.next {
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 26px 0 10px;
+}
+.next h2 { margin: 0 0 8px; font-size: 19px; }
+.next p { margin: 0; opacity: .93; font-size: 14.5px; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .tbl { font-size: 12.5px; }
+}
+@media print { body { background: #fff; } section.block { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段0目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 0 筑基 · 第 4 课</p>
+  <h1>相量法解正弦稳态电路</h1>
+  <p>收官之战：零件已齐（复数、相量、阻抗），本课组装机器——基尔霍夫定律的相量形式、阻抗串并联、分压分流、解题五步法。学完之后，正弦稳态电路在你的眼里就是"带角度的直流题"。</p>
+  <div class="meta">
+    <span class="chip">预计 2 小时</span>
+    <span class="chip">5 个知识块 · 4 道例题 · 8 道练习</span>
+    <span class="chip">承接第 1–3 课全部内容</span>
+  </div>
+</div>
+
+<!-- ================= 总览 ================= -->
+<section class="block">
+  <h2><span class="no">?</span>本课核心思想</h2>
+  <p>直流电路你早已会解：欧姆定律、串并联等效、分压分流、KCL/KVL。本课的全部内容可以用一句话概括——</p>
+  <div class="know"><b>把电阻换成阻抗、把电压电流换成相量，直流电路的全套方法原封不动地平移到正弦稳态。</b>唯一的新纪律只有一条：所有加减乘除都在复数域进行，<b>模不能直接加减</b>。</div>
+  <div class="exam"><span class="tag-exam">南网考点</span>本课是所有正弦稳态计算题的<b>总入口</b>：南网笔试电路部分的计算题（求电流/电压/等效阻抗）十有八九走这条流程。掌握五步法 = 拿下计算题的框架分。</div>
+</section>
+
+<!-- ================= 知识 1 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>KCL / KVL 的相量形式</h2>
+  <p>基尔霍夫定律的物理本质（电荷守恒、能量守恒）与元件性质无关，对正弦稳态照样成立——只是"电压""电流"要换成<b>相量</b>：</p>
+  <div class="formula">
+    KCL：Σ<span class="ph">I</span> = 0　　KVL：Σ<span class="ph">U</span> = 0
+    <div class="small">节点上各支路电流相量的代数和为零；回路中各段电压相量的代数和为零</div>
+  </div>
+  <div class="exam"><span class="tag-exam">高频陷阱</span>"和为零"指<b>复数（相量）和</b>，不是有效值（模）之和为零！三条支路各 10A 汇入一个节点，总电流完全可以不是 30A 甚至不是 10A——例如 10∠0° + 10∠90° + 10∠180° = 10j ≠ 0。同理，串联电路中各元件电压有效值之和<b>一般大于</b>总电压（例 1 将亲眼见证）。</div>
+</section>
+
+<!-- ================= 知识 2 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>阻抗的串并联：复数版的电阻玩法</h2>
+  <p>公式形态与电阻串并联完全一致，只是 R 换成 Z、实数运算换成复数运算：</p>
+  <div class="formula">
+    串联：Z = Z<sub>1</sub> + Z<sub>2</sub> + …　　并联：<span class="frac"><span class="top">1</span><span class="bot">Z</span></span> = <span class="frac"><span class="top">1</span><span class="bot">Z<sub>1</sub></span></span> + <span class="frac"><span class="top">1</span><span class="bot">Z<sub>2</sub></span></span> + …
+    <div class="small">两个阻抗并联的捷径：Z = Z₁Z₂ / (Z₁ + Z₂) —— 对应电阻并联的"积除和"</div>
+  </div>
+  <ul>
+    <li><b>串联</b>：阻抗代数式直接相加——实部归实部（R 累加），虚部归虚部（X 累加）。感性 (+j) 与容性 (−j) 自动抵消，这就是第 3 课"X = X<sub>L</sub> − X<sub>C</sub>"的来源；</li>
+    <li><b>并联</b>：倒数相加再倒回来。两个相同阻抗 Z 并联 = Z/2（模减半）——与电阻规律一致；</li>
+    <li><b>分压串联的直觉</b>：|Z| 越大的元件分到的电压模越大，但相位上各元件电压方向不同。</li>
+  </ul>
+</section>
+
+<!-- ================= 知识 3 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>分压与分流：相量版公式</h2>
+  <div class="formula">
+    分压：<span class="ph">U</span><sub>1</sub> = <span class="frac"><span class="top">Z<sub>1</sub></span><span class="bot">Z<sub>1</sub> + Z<sub>2</sub></span></span> · <span class="ph">U</span>　　分流：<span class="ph">I</span><sub>1</sub> = <span class="frac"><span class="top">Z<sub>2</sub></span><span class="bot">Z<sub>1</sub> + Z<sub>2</sub></span></span> · <span class="ph">I</span>
+    <div class="small">分压看"自己占总"；分流相反——"对方占总"（谁的阻碍大，谁分到的电流小）</div>
+  </div>
+  <div class="know"><b>使用纪律</b>：公式里的每个量都是复数，代入时统一用极坐标最顺——模相乘除、角相加减，正是第 1 课练熟的乘除法。切忌"模套公式"：|Ù₁| ≠ |Z₁|/(|Z₁|+|Z₂|) × |Ù|，分母是复数和，不是模之和。</div>
+</section>
+
+<!-- ================= 知识 4 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>参考相量与解题五步法</h2>
+  <h3 class="sub">参考相量：人为设定的"零度基准"</h3>
+  <p>相量的角度是相对的，解题时通常<b>设一个参考相量（取 0°）</b>让全题角度统一基准。选谁做参考有固定套路：</p>
+  <ul>
+    <li><b>串联电路选电流</b>：所有元件电压与电流的相位差都是已知角度（0°、±90° 或 φ），相量图最好画；</li>
+    <li><b>并联电路选电压</b>：各支路电流相对电压的相位差都是已知角度；</li>
+    <li><b>混联电路</b>：从离电源最远的支路往回推，通常设末端电压或末端电流为参考。</li>
+  </ul>
+  <h3 class="sub">五步法：标准流程走天下</h3>
+  <div class="steps-flow">
+    <div class="step-chip"><span class="s-no">①</span><span class="s-t">画相量模型<br>R→R　L→jωL　C→−j/ωC</span></div>
+    <div class="step-chip"><span class="s-no">②</span><span class="s-t">选参考相量<br>串联选 İ，并联选 Ù</span></div>
+    <div class="step-chip"><span class="s-no">③</span><span class="s-t">用直流全套方法<br>串并联等效 / 分压分流 / KCL·KVL</span></div>
+    <div class="step-chip"><span class="s-no">④</span><span class="s-t">解出待求相量<br>统一极坐标运算</span></div>
+    <div class="step-chip"><span class="s-no">⑤</span><span class="s-t">回瞬时值（若题目要求）<br>乘 √2 加 ωt</span></div>
+  </div>
+  <p>第 ① 步的换装表：电阻原样；电感变成 jωL（模 ωL、角 +90°）；电容变成 −j/ωC（模 1/ωC、角 −90°）。第 ③ 步就是你在初中物理就会的那套——这是本课最解放思想的一点。</p>
+</section>
+
+<!-- ================= 知识 5 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>相量图法：用几何直觉验证代数</h2>
+  <p>计算做完后，画一张相量图核对，是老电力人的习惯——很多错误（象限搞反、加减搞混）在图上一眼现形。常用几何事实就三条：</p>
+  <ul>
+    <li><b>两个相位差 90° 的相量合成</b>：模按勾股定理，合成的角度在两者之间（两个相等且互差 90° 的相量合成 = 模 × √2，角度取中点）；</li>
+    <li><b>两个反相（180°）的相量相减</b>：模直接相减，方向跟随大者——电感电压与电容电压天然反相，所以 X<sub>L</sub>、X<sub>C</sub> 是"抵消"关系；</li>
+    <li><b>串联电路的电压三角形</b>：电阻电压沿电流方向，电抗电压垂直于电流，总电压是斜边——与阻抗三角形相似（第 3 课图 2 的亲戚）。</li>
+  </ul>
+</section>
+
+<!-- ================= 例题 ================= -->
+<section class="block">
+  <h2><span class="no">例</span>例题精讲</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · RLC 串联完整解题（五步法首秀）</div>
+    <div class="ex-body">
+      <p class="q">R = 3 Ω、X<sub>L</sub> = 8 Ω、X<sub>C</sub> = 4 Ω 串联，电源电压 Ù = 100∠0° V（有效值相量）。求电流及各元件电压相量，验证 KVL。</p>
+      <ol class="steps">
+        <li><b>相量模型</b>：Z<sub>R</sub> = 3，Z<sub>L</sub> = j8，Z<sub>C</sub> = −j4；</li>
+        <li><b>串联求等效阻抗</b>：Z = 3 + j8 − j4 = 3 + j4 = 5∠53.13° Ω（第 3 课例 2 的数字回来了）；</li>
+        <li><b>求电流</b>：İ = Ù / Z = 100∠0° ÷ 5∠53.13° = 20∠−53.13° A；</li>
+        <li><b>求各元件电压</b>（相量欧姆定律，逐个乘）：
+          Ù<sub>R</sub> = 3 × 20∠−53.13° = 60∠−53.13° V；
+          Ù<sub>L</sub> = j8 × 20∠−53.13° = 160∠36.87° V；
+          Ù<sub>C</sub> = (−j4) × 20∠−53.13° = 80∠−143.13° V；</li>
+        <li><b>KVL 验证</b>：化为代数式相加——
+          60∠−53.13° = 36 − j48；160∠36.87° = 128 + j96；80∠−143.13° = −64 − j48；
+          三者之和 = (36+128−64) + j(−48+96−48) = 100 + j0 = 100∠0° ✓</li>
+      </ol>
+      <div class="ans">İ = 20∠−53.13° A；Ù<sub>R</sub> = 60∠−53.13° V，Ù<sub>L</sub> = 160∠36.87° V，Ù<sub>C</sub> = 80∠−143.13° V</div>
+      <p class="key">注意"模不能加"的震撼现场：60 + 160 + 80 = 300 V，但总电压只有 100 V——电感电压 (160V) 甚至比电源电压 (100V) 还大！这在直流电路中不可能，在交流中完全正常（电容电压在相位上"帮着抵消"）。另外注意 Ù<sub>L</sub> 与 Ù<sub>C</sub> 相位差恰好 180°，纯反相——第 3 课预告的谐振现象就藏在这里。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 并联电路与总电流合成</div>
+    <div class="ex-body">
+      <p class="q">电源 Ù = 100∠0° V 同时加在两条并联支路上：支路 1 为纯电阻 R = 5 Ω，支路 2 为纯电感 X<sub>L</sub> = 5 Ω。求各支路电流、总电流和等效阻抗。</p>
+      <ol class="steps">
+        <li><b>并联选电压为参考</b>（本题 Ù 已是 0°，正合适）；</li>
+        <li><b>支路电流</b>：
+          İ<sub>1</sub> = 100∠0° ÷ 5 = 20∠0° A；
+          İ<sub>2</sub> = 100∠0° ÷ 5∠90° = 20∠−90° A（电感支路电流滞后 90°）；</li>
+        <li><b>KCL 求总电流</b>（复数相加）：İ = 20∠0° + 20∠−90° = 20 − j20 = 20√2∠−45° ≈ 28.28∠−45° A；</li>
+        <li><b>等效阻抗</b>：Z = Ù / İ = 100∠0° ÷ (20√2∠−45°) = 3.54∠45° = 2.5 + j2.5 Ω（验证：两条 5Ω 支路并联，等效模 3.54Ω 小于单支路 5Ω，合理）。</li>
+      </ol>
+      <div class="ans">İ<sub>1</sub> = 20∠0° A，İ<sub>2</sub> = 20∠−90° A，İ ≈ 28.28∠−45° A，Z<sub>eq</sub> = 2.5 + j2.5 Ω</div>
+      <p class="key">两个相位差 90° 的等模相量合成：模 × √2、角度取中点——第 2 课例 4 的规律在这里实战兑现。总电流 (28.28A) 大于任一支路电流 (20A) 是正常的（两条支路都在送电流）；但若支路相位相反，总电流反而可能<b>小于</b>任一支路——并联谐振的伏笔。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 分压公式：一道题的两种打开方式</div>
+    <div class="ex-body">
+      <p class="q">Z<sub>1</sub> = j4 Ω（电感）与 Z<sub>2</sub> = 3 Ω（电阻）串联接 Ù = 100∠0° V。求 Z<sub>2</sub> 上的电压。</p>
+      <ol class="steps">
+        <li><b>方法一：分压公式</b>：
+          Ù<sub>2</sub> = [3 / (3 + j4)] × 100∠0°；分母 3 + j4 = 5∠53.13°；
+          3 ÷ 5∠53.13° = 0.6∠−53.13°；Ù<sub>2</sub> = 0.6∠−53.13° × 100∠0° = <b>60∠−53.13° V</b>；</li>
+        <li><b>方法二：先总后分</b>：
+          İ = Ù/Z = 100∠0° ÷ 5∠53.13° = 20∠−53.13° A；
+          Ù<sub>2</sub> = R × İ = 3 × 20∠−53.13° = 60∠−53.13° V ✓ 两条路殊途同归。</li>
+      </ol>
+      <div class="ans">Ù<sub>2</sub> = 60∠−53.13° V　（顺便：Ù<sub>1</sub> = j4 × 20∠−53.13° = 80∠36.87° V，验证 60∠−53.13° + 80∠36.87° = 100∠0° ✓）</div>
+      <p class="key">这正是第 3 课例 3 的同一道题换了个问法——数据完全复现。体会"分压公式"与"先求电流再算电压"是同一件事的两种包装，考场上哪种顺手用哪种。分压公式一步到位快，但先求电流更不容易错（中间量可复核）。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 4 · 相量图法：几何验证一道计算</div>
+    <div class="ex-body">
+      <p class="q">用相量图重新核验例 1 的结果（R=3Ω、X<sub>L</sub>=8Ω、X<sub>C</sub>=4Ω、İ = 20∠−53.13° A、Ù = 100∠0° V）。</p>
+      <ol class="steps">
+        <li><b>换参考系</b>：以电流为参考（İ = 20∠0°，全体系逆时针转 53.13°，结论等价）；</li>
+        <li><b>画三个电压</b>：Ù<sub>R</sub> = 60V 沿电流方向（0°）；Ù<sub>L</sub> = 160V 垂直向上（+90°）；Ù<sub>C</sub> = 80V 垂直向下（−90°）；</li>
+        <li><b>几何合成</b>：Ù<sub>L</sub> 与 Ù<sub>C</sub> 反向，先抵消成净电抗电压 160 − 80 = 80V 向上；再与 Ù<sub>R</sub> = 60V 勾股合成：|Ù| = √(60² + 80²) = 100V ✓，相位超前电流 arctan(80/60) = 53.13° ✓</li>
+      </ol>
+      <div class="ans">几何结果与复数计算完全一致：100V、超前 53.13°</div>
+      <p class="key">相量图法三秒出模值（垂直分量先抵消、再勾股），适合考场验算。把"电压三角形"（本例）与"阻抗三角形"（第 3 课）放在一起看：60V↔3Ω、80V↔4Ω、100V↔5Ω——两个三角形相似，比例系数正是电流 20A。这就是"串联电路电压三角形与阻抗三角形相似"定理的现场演示。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 练习 ================= -->
+<section class="block">
+  <h2><span class="no">练</span>练习（先做再看答案）</h2>
+  <p>前 3 题概念、中间 3 题公式运用、后 2 题完整解题。完整题请严格走五步法。</p>
+
+  <details class="exercise"><summary><span class="qn">Q1</span>KCL 的相量形式说"节点电流之和为零"，对此的正确理解是？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>流入节点各电流<b>相量（复数）的代数和</b>为零——不是有效值（模）之和为零。相位不同的电流会互相"错开"，模可以直接相加的情况只有各电流同相位时才成立。</p>
+      <div class="sol">Σİ = 0 是复数和为零；模一般不能直接相加</div>
+      <p class="note">对应的经典判断题："三条支路各流入 10A，总流出必为 30A"（×）——支路相位关系未知。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q2</span>Z₁ = 3 + j4 与 Z₂ = 5 − j10 串联，求等效阻抗<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>串联直接代数式相加：实部 3+5=8，虚部 j4 − j10 = −j6。</p>
+      <div class="sol">Z = 8 − j6 = 10∠−36.87° Ω（容性）</div>
+      <p class="note">串联合并是唯一"可以直接把实部虚部分开加"的运算——这也解释了为什么串联电路总是先算 X = X<sub>L</sub> − X<sub>C</sub>。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q3</span>两个 Z = j10 Ω 并联，等效阻抗是多少？若串联呢？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>两个相同阻抗并联 = Z/2：j10 ∥ j10 = j5 Ω；串联 = 2Z：j10 + j10 = j20 Ω。</p>
+      <div class="sol">并联 j5 Ω；串联 j20 Ω</div>
+      <p class="note">与电阻规律一致：并联减半、串联翻倍。但一般情况（不同阻抗）必须走复数运算——积除和公式 Z₁Z₂/(Z₁+Z₂)。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q4</span>Z₁ = 6 Ω 与 Z₂ = j8 Ω 串联接 Ù = 100∠0° V，求 Z₁ 上的电压<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>分压公式：Ù₁ = [6/(6+j8)] × 100∠0°；6+j8 = 10∠53.13°；6 ÷ 10∠53.13° = 0.6∠−53.13°。</p>
+      <div class="sol">Ù₁ = 60∠−53.13° V</div>
+      <p class="note">易错算法：|Z₁|/(|Z₁|+|Z₂|) × 100 = 6/14 × 100 ≈ 43V（× 错）——分母必须先做复数和 6+j8=10∠53.13°，模是 10 不是 14。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q5</span>串联电路解题通常选什么做参考相量？并联呢？为什么？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>串联选<b>电流</b>（各元件电压与电流的夹角都是已知角 0°/±90°/φ，相量图好画好算）；并联选<b>电压</b>（各支路电流与电压的夹角都是已知角）。</p>
+      <div class="sol">串联选 İ，并联选 Ù</div>
+      <p class="note">混联电路从最远离电源的支路往电源方向推，参考相量通常设在末端。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q6</span>R = 4 Ω、X<sub>L</sub> = 3 Ω 串联，接 Ù = 100∠0° V。求电流相量与瞬时值（f = 50 Hz）<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>Z = 4 + j3 = 5∠36.87° Ω；İ = 100∠0° ÷ 5∠36.87° = 20∠−36.87° A；瞬时值幅值 20√2 ≈ 28.3A，ω = 314。</p>
+      <div class="sol">İ = 20∠−36.87° A；i(t) ≈ 28.3 sin(314t − 36.87°) A</div>
+      <p class="note">五步法完整链路：相量模型 → 参考相量（Ù 已给定）→ 等效阻抗 → 除法 → 瞬时值。第 3 课练的是零件，本课练的是装配。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q7</span>串联电路中 Ù<sub>L</sub> = 60∠90° V、Ù<sub>C</sub> = 24∠−90° V、Ù<sub>R</sub> = 48∠0° V（以电流为参考）。求总电压<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>电抗电压反相先抵消：净电抗电压 = 60 − 24 = 36V（向上）；与电阻电压 48V 勾股合成：|Ù| = √(48² + 36²) = 60 V，角度 arctan(36/48) = 36.87°。</p>
+      <div class="sol">Ù = 60∠36.87° V</div>
+      <p class="note">相量图法三步出结果：反相抵消 → 垂直勾股 → 读角度。验证用复数：j60 − j24 + 48 = 48 + j36 = 60∠36.87° ✓（3-4-5 三角形：48-36-60）。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q8</span>支路 1 为 R = 5 Ω，支路 2 为 X<sub>C</sub> = 5 Ω（纯电容），两支路并联接 Ù = 100∠0° V。求总电流<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>İ₁ = 100∠0° ÷ 5 = 20∠0° A；İ₂ = 100∠0° ÷ 5∠−90° = 20∠90° A（电容支路电流超前 90°）；İ = 20 + j20 = 20√2∠45°。</p>
+      <div class="sol">İ ≈ 28.28∠45° A（容性电路，电流超前电压 45°）</div>
+      <p class="note">与例 2 完全镜像：电感换电容，−45° 变 +45°。90° 合成 √2 放大、角度取中点——把这对题放在一起记，考场直接报答案。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 自测 ================= -->
+<section class="block">
+  <h2><span class="no">测</span>本课过关自测</h2>
+  <ul class="checklist">
+    <li>我能默写 KCL/KVL 相量形式，并解释"模不能直接加减"（含 100V+100V≠200V 类判断题）</li>
+    <li>我能做阻抗的串并联合并（含两个阻抗并联的"积除和"捷径）</li>
+    <li>我能写出相量版分压/分流公式，且不会犯"分母用模相加"的错</li>
+    <li>我知道串联选电流、并联选电压做参考相量，并说得出理由</li>
+    <li>我能按五步法独立解一道完整的 RLC 串联 / 并联题（Q6、Q8 级别）</li>
+    <li>我会用相量图几何验证计算：反相抵消 → 垂直勾股 → 读角度</li>
+  </ul>
+</section>
+
+<!-- ================= 上下课导航 ================= -->
+<div class="pager">
+  <a href="03_RLC与阻抗.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 3 课 · R、L、C 与阻抗</div>
+  </a>
+  <a href="index.html" style="text-align:center;">
+    <div class="dir">目录</div>
+    <div class="title">阶段 0 筑基</div>
+  </a>
+  <a href="05_功率与功率因数.html" class="next-card">
+    <div class="dir">下一课 · 已上线</div>
+    <div class="title">第 5 课 · 功率与功率因数</div>
+  </a>
+</div>
+
+<!-- ================= 下一课 ================= -->
+<div class="next">
+  <h2>下一课预告：功率与功率因数</h2>
+  <p>有功功率 P、无功功率 Q、视在功率 S 与功率三角形（与阻抗三角形、电压三角形一脉三兄弟）；功率因数 cosφ 的物理意义与"为什么电网拼命补偿无功"——这是南网面试最爱问的工程常识之一，也是第 6 课（谐振与三相）的最后一块拼图。</p>
+</div>
+
+<footer>
+  阶段 0 筑基 · 第 4 课 ｜ <a href="index.html">返回阶段0目录</a> ｜ <a href="../index.html">返回电网备考首页</a>
+</footer>
+
+</div>
+</body>
+</html>
