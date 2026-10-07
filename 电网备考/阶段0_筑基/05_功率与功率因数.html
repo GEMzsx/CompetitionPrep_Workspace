@@ -550,12 +550,13 @@ footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px das
     </div>
   </details>
 
-  <details class="exercise"><summary><span class="qn">Q7</span>P = 800 W、cosφ = 0.8、U = 100 V 的感性负载，全补偿（cosφ→1）需多大 Q<sub>C</sub>？此时电流多大？<span class="hint-arrow">点击展开 ▾</span></summary>
+  <details class="exercise"><summary><span class="qn">Q7</span>P = 800 W、cosφ = 0.8、U = 100 V 的感性负载，全补偿（cosφ→1）需多大 Q<sub>C</sub>？补偿后线路电流、负载电流各是多少？<span class="hint-arrow">点击展开 ▾</span></summary>
     <div class="ex-content">
-      <p>I₁ = P/(Ucosφ) = 800/80 = 10 A；φ₁ = 36.87°，tanφ₁ = 0.75，Q₁ = 800 × 0.75 = 600 var；
-        全补偿 Q<sub>C</sub> = Q₁ = 600 var；补偿后 cosφ = 1，I₂ = P/U = 8 A。</p>
-      <div class="sol">Q<sub>C</sub> = 600 var；电流 10 A → 8 A</div>
-      <p class="note">全补偿时电流最小（= P/U，纯有功电流）。工程上不追求补到 1：电容投资随补偿量非线性增长，且过补偿有副作用——0.9~0.95 是性价比区间。</p>
+      <p>补偿前线路上：I₁ = P/(Ucosφ) = 800/80 = 10 A；φ₁ = 36.87°，tanφ₁ = 0.75，Q₁ = P·tanφ₁ = 800 × 0.75 = 600 var；</p>
+      <p>全补偿需 Q<sub>C</sub> = Q₁ = 600 var；补偿后<b>线路</b>电流 I₂ = P/U = 800/100 = 8 A（纯有功分量）；<b>负载</b>电流不变，仍为 10 A；电容支路电流 I<sub>C</sub> = Q<sub>C</sub>/U = 600/100 = 6 A。</p>
+      <p>相量验证：负载电流 10∠−36.87° = 8 − j6（有功 8A + 无功 −6A）；电容电流 +j6 恰好抵消无功分量；总电流 = 8 − j6 + j6 = 8∠0° ✓</p>
+      <div class="sol">Q<sub>C</sub> = 600 var；线路电流 10 A → 8 A，负载电流仍为 10 A（不变）</div>
+      <p class="note"><b>关键区分：补偿后变的是"线路电流"，不变的是"负载电流"</b>——Q6"两不变三减小"的现场验证。若把两者混淆，会得出与 Q6 矛盾的结论。工程上不追求补到 1：电容投资随补偿量非线性增长，且过补偿有副作用——0.9~0.95 是性价比区间。</p>
     </div>
   </details>
 

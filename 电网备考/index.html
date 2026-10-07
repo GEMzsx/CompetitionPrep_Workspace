@@ -86,6 +86,9 @@ a.tcard:hover {
   border-radius: 5px; padding: 2px 10px;
   background: #e8f6ec; color: #1f7a3d; border: 1px solid #bfe3cc;
 }
+.tcard .status.status-wip {
+  background: #fff7e8; color: #b97a12; border: 1px solid #f3dfb6;
+}
 div.tcard { opacity: .62; border-style: dashed; }
 div.tcard .status {
   background: #f0f1f4; color: var(--ink-faint); border: 1px dashed #d5d8e2;
@@ -107,6 +110,27 @@ div.tcard .status {
 .guide h2 { font-size: 18px; margin: 0 0 14px; color: var(--blue); }
 .guide p { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 8px; }
 .guide p:last-child { margin-bottom: 0; }
+
+/* ===== 进度表 ===== */
+.p-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.p-head .utime { font-size: 12px; color: var(--ink-faint); white-space: nowrap; }
+.pbar-label { font-size: 13.5px; font-weight: 600; margin: 18px 0 6px; }
+.pbar { background: #e9edf5; border-radius: 999px; height: 10px; overflow: hidden; }
+.pbar-fill { background: linear-gradient(90deg, #0b5aa8, #1e90d6); height: 100%; border-radius: 999px; }
+.ptable { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 12px 0 4px; }
+.ptable td { padding: 7px 4px; border-bottom: 1px solid var(--line); }
+.ptable tr:last-child td { border-bottom: none; }
+.ptable .idx { color: var(--ink-faint); font-size: 12px; padding-right: 10px; white-space: nowrap; }
+.ptable .cname { color: var(--ink); }
+.ptable .st { white-space: nowrap; text-align: right; font-weight: 600; }
+.ptable .st-done { color: #1f7a3d; }
+.ptable .st-todo { color: var(--ink-faint); font-weight: 400; }
+.guide h3 { font-size: 14px; margin: 18px 0 6px; color: var(--ink); }
+.guide ul.mile { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--ink-soft); }
+.guide ul.mile li { margin: 4px 0; }
+.guide ul.mile b { color: var(--ink); }
+.guide .date { color: var(--blue); font-weight: 600; white-space: nowrap; }
+.guide .foot-note { font-size: 12.5px; color: var(--ink-faint); margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--line); }
 
 footer {
   margin-top: 34px; text-align: center;
@@ -151,7 +175,7 @@ footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px das
   <a class="tcard" href="阶段0_筑基/index.html">
     <div class="head"><span class="no">02</span><h3>阶段 0 筑基 · 课程目录</h3></div>
     <p>从零基础到读懂电路教材的学习链：复数工具 → 正弦量与相量 → 阻抗 → 解正弦稳态电路。每课含知识框架、例题精讲与自测。</p>
-    <span class="status">✓ 已更新 2 课 · 学习中</span>
+    <span class="status status-wip">更新中</span>
   </a>
 
   <div class="tcard">
@@ -162,11 +186,42 @@ footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px das
 
 </div>
 
-<!-- ================= 使用说明 ================= -->
+<!-- ================= 最新进度表 ================= -->
 <div class="guide">
-  <h2>关于本板块</h2>
-  <p><b>当前阶段</b>：阶段 0 筑基（2026.09–2027.02）—— 数学工具回炉、电路跟课内学到 85+、建立信息渠道。当前进行：<a href="阶段0_筑基/05_功率与功率因数.html">第 5 课 · 功率与功率因数</a>（前四课已过关）。战略升级：升学双轨（保研/考研上交）已并入路线图第八章；六级首考倒计时（2026.12，目标 500+）。</p>
-  <p><b>更新方式</b>：本地编辑后 <code>git add . → commit → push</code>，自动上线；进度与文件约定见本目录内 <code>README</code> 与根目录 <code>README.md</code>。</p>
+  <div class="p-head">
+    <h2>最新进度表</h2>
+    <span class="utime">更新于 2026-10-07</span>
+  </div>
+
+  <div class="pbar-label">阶段 0 · 电路筑基 <span style="color:var(--blue);">5 / 6 课</span></div>
+  <div class="pbar"><div class="pbar-fill" style="width:83%;"></div></div>
+
+  <table class="ptable">
+    <tr><td class="idx">01</td><td class="cname">复数与相量运算</td><td class="st st-done">✓ 已过关 · 09.29</td></tr>
+    <tr><td class="idx">02</td><td class="cname">正弦量与相量表示</td><td class="st st-done">✓ 已过关 · 09.30</td></tr>
+    <tr><td class="idx">03</td><td class="cname">R、L、C 与阻抗</td><td class="st st-done">✓ 已过关 · 10.02</td></tr>
+    <tr><td class="idx">04</td><td class="cname">相量法解正弦稳态电路</td><td class="st st-done">✓ 已过关 · 10.04</td></tr>
+    <tr><td class="idx">05</td><td class="cname">功率与功率因数（含 Q7 修正）</td><td class="st st-done">✓ 已过关 · 10.07</td></tr>
+    <tr><td class="idx">06</td><td class="cname">谐振与三相入门 —— 阶段 0 最终章</td><td class="st st-todo">○ 筹备中</td></tr>
+  </table>
+
+  <h3>战略里程碑 · 2026 秋季学期</h3>
+  <ul class="mile">
+    <li><span class="date">09.24</span> 备考路线图上线 —— 24 个月总纲、南网考试全解密</li>
+    <li><span class="date">09.28</span> 阶段 0 课程开课；备赛工作区总入口建立</li>
+    <li><span class="date">09.30</span> 升学双轨战略入库 —— 保研联培 / 考研上交 / 本科直考三路线漏斗（路线图第八章）</li>
+    <li><span class="date">10.07</span> 电网实习渠道调研完成；第 5 课过关，Q7 表述修正</li>
+  </ul>
+
+  <h3>近期日程</h3>
+  <ul class="mile">
+    <li><span class="date">随时</span> 第 6 课 · 谐振与三相入门 —— 阶段 0 收官之战</li>
+    <li><span class="date">2026.12 中旬</span> 六级首考 —— 目标 500+，倒计时约 65 天</li>
+    <li><span class="date">2027.01</span> 大二上期末 —— 绩点攻坚第一战（前 20% → 冲前 10%）</li>
+    <li><span class="date">2027.03–05</span> 电网实习申请窗口 —— 就业中心 / 院系合作 / 内推三路并进</li>
+  </ul>
+
+  <p class="foot-note"><b>更新方式</b>：本地编辑后 <code>git add . → commit → push</code>，自动上线；进度与文件约定见本目录内 <code>README</code> 与根目录 <code>README.md</code>。</p>
 </div>
 
 <footer>

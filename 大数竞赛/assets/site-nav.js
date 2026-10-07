@@ -37,7 +37,7 @@
     + "#site-nav{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.92);"
     + "-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);"
     + "border-bottom:1px solid var(--line,#e3e5ee);}"
-    + "#site-nav .sn-inner{max-width:920px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:14px;height:52px;}"
+    + "#site-nav .sn-inner{max-width:1240px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:14px;height:52px;position:relative;}"
     + "#site-nav .sn-brand{display:flex;align-items:center;gap:8px;text-decoration:none;"
     + "color:var(--ink,#1e2130);font-weight:800;font-size:14.5px;letter-spacing:1px;white-space:nowrap;}"
     + "#site-nav .sn-logo{width:26px;height:26px;border-radius:7px;flex:0 0 auto;"
@@ -55,6 +55,9 @@
     + "#site-nav .sn-item.active{background:var(--accent,#4338d6);color:#fff;}"
     + "#site-nav .sn-item.active b{color:rgba(255,255,255,.75);}"
     + "#site-nav .sn-item.todo{opacity:.38;cursor:default;-webkit-user-select:none;user-select:none;}"
+    + "#site-nav.has-more .sn-inner::after{content:\"\";position:absolute;top:6px;right:8px;bottom:6px;width:36px;"
+    + "background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.94));"
+    + "border-radius:10px;pointer-events:none;}"
     + "@media (max-width:640px){#site-nav .sn-inner{padding:0 14px;gap:10px;}}"
     + "@media (max-width:480px){#site-nav .sn-sub{display:none;}}"
     + "@media print{#site-nav{display:none!important;}}"
@@ -107,4 +110,17 @@
   inner.appendChild(brand);
   inner.appendChild(links);
   mount.appendChild(inner);
+
+  var active = links.querySelector(".sn-item.active");
+  if (active && links.scrollWidth > links.clientWidth + 4) {
+    active.scrollIntoView({ block: "nearest", inline: "center" });
+  }
+
+  function refresh() {
+    var more = links.scrollWidth - links.clientWidth - links.scrollLeft > 4;
+    mount.classList.toggle("has-more", more);
+  }
+  links.addEventListener("scroll", refresh, { passive: true });
+  window.addEventListener("resize", refresh);
+  refresh();
 })();
