@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段1 · 第2课 — 电路定理</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 下一课卡 ===== */
+.next-card {
+  display: block;
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  text-decoration: none;
+  margin: 26px 0 10px;
+}
+.next-card .dir { font-size: 12.5px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+.next-card .title { font-size: 18px; font-weight: 700; }
+.next-card:hover { opacity: .94; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .exercise summary .uses { display: none; }
+  .tbl { font-size: 12.5px; }
+  .tbl th, .tbl td { padding: 6px 6px; }
+}
+@media print { body { background: #fff; } section.block, .example { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段1目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 1 · 第 2 课 · 2026-10-12</p>
+  <h1>电路定理</h1>
+  <p>叠加定理、戴维南与诺顿等效、最大功率传输 —— 总纲点名的里程碑必会题，南网笔试最爱考的"求等效电阻 + 开路电压"套路。学完本课，任何线性电路在你眼里只剩一个电压源和一个电阻。</p>
+  <div class="meta">
+    <span class="chip">预计 2.5 小时</span>
+    <span class="chip">依赖：第 1 课（节点 / 网孔法）</span>
+    <span class="chip">笔试高频 · 填空常客</span>
+  </div>
+</div>
+
+<!-- ================= 1 核心思想 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>本课核心思想：把复杂电路"砍成小块"</h2>
+  <p>第 1 课的节点法和网孔法是"正面硬刚"——列出全部方程一把解出。但考场上更多时候你只想知道<b>某一条支路</b>的电流电压，或为<b>某个负载</b>选参数。这时全场列方程就是大材小用，本课三大定理是更锋利的手术刀：</p>
+  <table class="tbl">
+    <tr><th>定理</th><th>一句话</th><th>什么时候用</th></tr>
+    <tr><td><b>叠加定理</b></td><td>多个独立源 = 各源单独作用的代数和</td><td>源少（2~3 个）、求某一支路响应</td></tr>
+    <tr><td><b>戴维南 / 诺顿</b></td><td>任一线性二端网络 = 一个源 + 一个电阻</td><td>只关心端口外接负载的电压电流</td></tr>
+    <tr><td><b>最大功率传输</b></td><td>负载 = 等效内阻时功率最大</td><td>"R<sub>L</sub> 为何值时功率最大"类题</td></tr>
+  </table>
+  <p>三个定理是一条流水线：先判断能不能<b>叠加</b>拆开算；拆不动就把负载以外的部分<b>戴维南等效</b>成一个源一个电阻；最后若问"最大功率"，直接套匹配条件。<b>戴维南是本课的枢纽</b>——最大功率题本质就是先做戴维南。</p>
+  <div class="know"><b>南网笔试视角</b>：历年笔试电路部分的填空计算，"求开路电压 U<sub>oc</sub>、等效电阻 R<sub>eq</sub>、最大功率 P<sub>max</sub>"三件套出现频率极高，而且全是固定套路 —— 这是送分题，必须做到肌肉记忆。</div>
+</section>
+
+<!-- ================= 2 叠加定理 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>叠加定理：一次只留一个源</h2>
+  <p>在线性电路中，任一支路的电流（或电压）等于<b>每个独立源单独作用</b>时在该支路产生的电流（或电压）的代数和。</p>
+
+  <h3 class="sub">置零规则（背到条件反射）</h3>
+  <table class="tbl">
+    <tr><th>元件</th><th>单独作用时怎么处理</th><th>原因</th></tr>
+    <tr><td>独立电压源</td><td><b>短路</b>（导线代替）</td><td>令 U = 0，两端无压差</td></tr>
+    <tr><td>独立电流源</td><td><b>开路</b>（直接断开）</td><td>令 I = 0，无电流通过</td></tr>
+    <tr><td><b>受控源</b></td><td><b>保留不动</b></td><td>它不是"源"，只是元件约束</td></tr>
+    <tr><td>电阻</td><td>保留不动</td><td>—</td></tr>
+  </table>
+
+  <div class="formula">
+    i = i′ + i″ + i‴ + ⋯<br>
+    <span class="small">每个分量只由一个独立源产生，叠加的是「代数 和」—— 方向相反要相减</span>
+  </div>
+
+  <div class="exam"><span class="tag-exam">头号陷阱</span><b>功率不能叠加！</b>因为 P = I²R 是二次（非线性）关系：先叠加出总电流 i，再算 P = i²R；绝不能把各源单独的功率相加。笔试判断题 / 选择题超爱考这一句。</div>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 叠加定理三步走</div>
+    <div class="ex-body">
+      <p class="q">电路：12 V 电压源串 6 Ω 电阻接到节点 a；节点 a 经 3 Ω 电阻接地；另有 2 A 电流源从地注入节点 a。求节点 a 的电压 V<sub>a</sub>。</p>
+      <ol class="steps">
+        <li><b>12 V 单独作用</b>（电流源→开路）：6 Ω 与 3 Ω 串联分压，V<sub>a</sub>′ = 12 × 3/(6+3) = <b>4 V</b></li>
+        <li><b>2 A 单独作用</b>（电压源→短路）：6 Ω ∥ 3 Ω = 2 Ω，V<sub>a</sub>″ = 2 × 2 = <b>4 V</b></li>
+        <li><b>代数叠加</b>：两分量同向，V<sub>a</sub> = 4 + 4 = 8 V</li>
+      </ol>
+      <div class="ans">答案：V<sub>a</sub> = 8 V</div>
+      <p class="key">检验（第 1 课节点法）：(V−12)/6 + V/3 = 2 → V = 8 V ✓ —— 两种方法互验，考场上随手一查，错不了。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3 戴维南等效 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>戴维南等效：任一二端网络 = U<sub>oc</sub> + R<sub>eq</sub></h2>
+  <p>任何一个含独立源的<b>线性</b>二端网络，对外电路而言，都可以等效为<b>一个电压源 U<sub>oc</sub> 串联一个电阻 R<sub>eq</sub></b>。外部接什么负载都一样 —— 先求这两个数，后面全是欧姆定律。</p>
+
+  <div class="formula">
+    U = U<sub>oc</sub> − R<sub>eq</sub>·I<br>
+    <span class="small">U<sub>oc</sub>：端口<b>开路</b>时的电压（开路电压）｜ R<sub>eq</sub>：从端口看进去的等效电阻</span>
+  </div>
+
+  <h3 class="sub">求 R<sub>eq</sub> 的三板斧（按电路类型选用）</h3>
+  <table class="tbl">
+    <tr><th>方法</th><th>做法</th><th>适用条件</th></tr>
+    <tr><td>① 置零法</td><td>独立源全部置零（压源短路、流源开路），用电阻串并联 / Y-Δ 化简</td><td>网络<b>不含受控源</b></td></tr>
+    <tr><td>② 外加电源法</td><td>独立源置零，端口外加电压 U（或电流 I），求流入电流 I，R<sub>eq</sub> = U/I</td><td>网络<b>含受控源</b>（受控源保留）</td></tr>
+    <tr><td>③ 开路短路法</td><td>分别求开路电压 U<sub>oc</sub> 和短路电流 I<sub>sc</sub>，R<sub>eq</sub> = U<sub>oc</sub>/I<sub>sc</sub></td><td>通用；网络含独立源时最省事</td></tr>
+  </table>
+
+  <div class="exam"><span class="tag-exam">区分度题</span>含受控源求 R<sub>eq</sub> 时，<b>绝不能</b>直接对电阻做串并联化简 —— 受控源会"暗中"改变端口伏安关系，必须用方法②或③。这是期末和笔试都爱埋的雷。</div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 完整戴维南套路</div>
+    <div class="ex-body">
+      <p class="q">电路：24 V 电压源串 4 Ω 电阻到节点 a，节点 a 经 12 Ω 电阻接地。端口在 a 与地之间，外接负载 R<sub>L</sub> = 6 Ω。求负载电流 I<sub>L</sub>。</p>
+      <ol class="steps">
+        <li><b>求 U<sub>oc</sub></b>：断开 R<sub>L</sub>，4 Ω 与 12 Ω 分压，U<sub>oc</sub> = 24 × 12/(4+12) = <b>18 V</b></li>
+        <li><b>求 R<sub>eq</sub></b>（置零法，无受控源）：电压源短路，从端口看 4 Ω ∥ 12 Ω = 3 Ω</li>
+        <li><b>接回负载</b>：I<sub>L</sub> = U<sub>oc</sub>/(R<sub>eq</sub>+R<sub>L</sub>) = 18/(3+6) = 2 A</li>
+      </ol>
+      <div class="ans">答案：I<sub>L</sub> = 2 A（负载电压 U<sub>L</sub> = 12 V）</div>
+      <p class="key">顺手验证方法③：端口短接时 I<sub>sc</sub> = 24/4 = 6 A，R<sub>eq</sub> = U<sub>oc</sub>/I<sub>sc</sub> = 18/6 = 3 Ω ✓ —— 两种求法互检，考场标配。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4 诺顿等效 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>诺顿等效：同一个网络的另一张脸</h2>
+  <p>同一个二端网络，也可以等效为<b>一个电流源 I<sub>sc</sub> 并联一个电阻 R<sub>eq</sub></b>。R<sub>eq</sub> 与戴维南完全相同，电流源就是端口短路电流：</p>
+
+  <div class="formula">
+    I<sub>sc</sub> = <span class="frac"><span class="top">U<sub>oc</sub></span><span class="bot">R<sub>eq</sub></span>　⇔　U<sub>oc</sub> = I<sub>sc</sub>·R<sub>eq</sub><br>
+    <span class="small">戴维南 ⇌ 诺顿 自由互换（这就是阶段 0 学过的电源等效变换）</span>
+  </div>
+
+  <ul>
+    <li>求<b>某支路电流</b>或负载并联分流时，诺顿形式往往更顺手（电流源 + 分流公式一步到位）</li>
+    <li>求<b>开路电压、最大功率</b>时，戴维南形式更直观</li>
+    <li>例 2 的诺顿版：I<sub>sc</sub> = 6 A 并 3 Ω，接 6 Ω 负载分流得 I<sub>L</sub> = 6 × 3/(3+6) = 2 A —— 同一答案，不同路径</li>
+  </ul>
+  <div class="know"><b>选型直觉</b>：题目给电压源串电阻 → 戴维南；给电流源并电阻 → 诺顿；问最大功率 → 一律先戴维南。</div>
+</section>
+
+<!-- ================= 5 最大功率传输 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>最大功率传输：R<sub>L</sub> = R<sub>eq</sub> 的匹配条件</h2>
+  <p>负载 R<sub>L</sub> 可变，问 R<sub>L</sub> 取何值时从网络吸收功率最大？把网络戴维南等效后，负载功率 P = U<sub>oc</sub>²·R<sub>L</sub>/(R<sub>eq</sub>+R<sub>L</sub>)²，对 R<sub>L</sub> 求导（或配方）可得极值条件：</p>
+
+  <div class="formula">
+    R<sub>L</sub> = R<sub>eq</sub>　时，　P<sub>max</sub> = <span class="frac"><span class="top">U<sub>oc</sub>²</span><span class="bot">4R<sub>eq</sub></span><br>
+    <span class="small">匹配条件 + 最大功率公式 —— 笔试填空题的标准答案格式</span>
+  </div>
+
+  <ul>
+    <li><b>效率只有 50%</b>：匹配时内阻 R<sub>eq</sub> 与负载各分一半电压、各耗一半功率。所以电力系统（追求效率）绝不工作在匹配点，"最大功率"只对小信号 / 测量电路有意义</li>
+    <li>正弦稳态下的共轭匹配（Z<sub>L</sub> = Z<sub>eq</sub>*）留到后面交流深化课再展开，本课先把直流版练熟</li>
+  </ul>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 最大功率三问（笔试标准题型）</div>
+    <div class="ex-body">
+      <p class="q">接例 2 电路（U<sub>oc</sub> = 18 V，R<sub>eq</sub> = 3 Ω），R<sub>L</sub> 可调。问：① R<sub>L</sub> 取何值时功率最大？② 最大功率为多少？③ 此时效率多少？</p>
+      <ol class="steps">
+        <li><b>匹配条件</b>：R<sub>L</sub> = R<sub>eq</sub> = 3 Ω</li>
+        <li><b>最大功率</b>：P<sub>max</sub> = U<sub>oc</sub>²/(4R<sub>eq</sub>) = 18²/12 = 324/12 = <b>27 W</b></li>
+        <li><b>效率</b>：η = R<sub>L</sub>/(R<sub>eq</sub>+R<sub>L</sub>) = 3/6 = <b>50%</b></li>
+      </ol>
+      <div class="ans">答案：R<sub>L</sub> = 3 Ω，P<sub>max</sub> = 27 W，η = 50%</div>
+      <p class="key">考场模板：凡"最大功率"题，先戴维南求 U<sub>oc</sub> 和 R<sub>eq</sub>，再默写匹配条件与公式 —— 全程不超过三分钟。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6 限时练习 ================= -->
+<section class="block">
+  <h2><span class="no">6</span>限时练习（建议 20 分钟，做完再展开）</h2>
+
+  <details class="exercise">
+    <summary><span class="qn">练 1</span>叠加定理求节点电压<span class="uses">叠加 · 置零规则</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电路：6 V 电压源串 2 Ω 电阻接到节点 a；节点 a 经 3 Ω 电阻接地；2 A 电流源从地注入节点 a。用叠加定理求 V<sub>a</sub>。
+      <div class="sol">6 V 单独：V<sub>a</sub>′ = 6 × 3/(2+3) = 3.6 V ｜ 2 A 单独：V<sub>a</sub>″ = 2 × (2∥3) = 2 × 1.2 = 2.4 V ｜ 叠加 V<sub>a</sub> = 3.6 + 2.4 = <b>6 V</b></div>
+      <p class="note">节点法自检：(V−6)/2 + V/3 = 2 → 3V−18+2V = 12 → V = 6 V ✓</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 2</span>开路短路法求 R<sub>eq</sub><span class="uses">戴维南 · 方法③</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电路：30 V 电压源串 6 Ω 电阻到节点 a，节点 a 经 12 Ω 电阻接地。用开路短路法求端口 a-地的戴维南等效。
+      <div class="sol">U<sub>oc</sub> = 30 × 12/(6+12) = <b>20 V</b> ｜ I<sub>sc</sub> = 30/6 = <b>5 A</b> ｜ R<sub>eq</sub> = U<sub>oc</sub>/I<sub>sc</sub> = 20/5 = <b>4 Ω</b>（置零法验证：6∥12 = 4 Ω ✓）</div>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 3</span>含受控源求等效电阻<span class="uses">外加电源法 · 区分度</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      一端口网络：a-b 之间接 5 Ω 电阻，另有一受控电流源从 a 流向 b，大小为 2i₁，其中 i₁ 为 5 Ω 电阻中 a→b 方向的电流。网络内无独立源。求端口等效电阻 R<sub>eq</sub>。
+      <div class="sol">外加电压 U：i₁ = U/5；端口总电流 I = i₁ + 2i₁ = 3U/5；R<sub>eq</sub> = U/I = 5/3 ≈ <b>1.67 Ω</b></div>
+      <p class="note">注意：答案不是 5 Ω！受控源把端口电流放大到 3 倍，等效电阻被"压小"—— 这就是含受控源不能直接串并联的原因。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 7 自测清单 ================= -->
+<section class="block">
+  <h2><span class="no">7</span>自测清单：全勾才算过关</h2>
+  <ul class="checklist">
+    <li>能不看书写出置零规则：电压源→短路、电流源→开路、<b>受控源保留</b></li>
+    <li>能解释为什么<b>功率不能叠加</b>（P = I²R 是二次关系），并知道正确做法是先叠加电流再算功率</li>
+    <li>默写戴维南三件套：U<sub>oc</sub> 定义、R<sub>eq</sub> 三种求法（置零法 / 外加电源法 / 开路短路法）及各自适用条件</li>
+    <li>含受控源求 R<sub>eq</sub> 时，能立刻反应"不能串并联，用外加电源法或开路短路法"</li>
+    <li>默写最大功率模板：R<sub>L</sub> = R<sub>eq</sub>，P<sub>max</sub> = U<sub>oc</sub>²/(4R<sub>eq</sub>)，η = 50%</li>
+    <li>限时练习 3 题全部独立做对，且每题都用第二种方法自检过</li>
+  </ul>
+</section>
+
+<!-- ================= 上下课导航 ================= -->
+<div class="pager">
+  <a href="01_节点电压法与网孔电流法.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 1 课 · 节点电压法与网孔电流法</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">下一课 · 规划中</div>
+    <div class="title">第 3 课 · 一阶动态电路与三要素法</div>
+  </a>
+</div>
+
+<footer>
+  阶段 1 · 电路深化 · 第 2 课 电路定理 ｜ <a href="index.html">返回阶段1目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">学完记得回目录打卡：第 2 课标记「✓ 已过关」后告诉我，我更新门户进度并开第 3 课</span>
+</footer>
+
+</div>
+</body>
+</html>
