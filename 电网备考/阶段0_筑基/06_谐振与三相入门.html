@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段0 · 第6课 — 谐振与三相入门</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 示意图 ===== */
+.wave {
+  background: #fbfdff;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  margin: 14px 0;
+  padding: 10px;
+  text-align: center;
+}
+.wave svg { max-width: 100%; height: auto; }
+.wave .cap { font-size: 12.5px; color: var(--ink-faint); margin-top: 6px; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+.pager .next-card { text-align: right; }
+.pager .next-card .dir { color: var(--gold); }
+
+/* ===== 收官卡 ===== */
+.next {
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 26px 0 10px;
+}
+.next h2 { margin: 0 0 8px; font-size: 19px; }
+.next p { margin: 0; opacity: .93; font-size: 14.5px; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .tbl { font-size: 12.5px; }
+}
+@media print { body { background: #fff; } section.block { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段0目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 0 筑基 · 第 6 课 · 最终章</p>
+  <h1>谐振与三相入门</h1>
+  <p>上半场收伏笔：当 X<sub>L</sub> = X<sub>C</sub>，前五课积攒的全部能量在一瞬间总爆发——谐振；下半场开新世界：三相电路，电网的"母语"，南网笔试三相题的地基。阶段 0 的收官之战。</p>
+  <div class="meta">
+    <span class="chip">预计 2.5 小时</span>
+    <span class="chip">7 个知识块 · 4 道例题 · 8 道练习</span>
+    <span class="chip">阶段 0 最终章</span>
+  </div>
+</div>
+
+<!-- ================= 总览 ================= -->
+<section class="block">
+  <h2><span class="no">?</span>本课核心思想</h2>
+  <p>本课分两半。<b>上半场"谐振"</b>：第 3 课说过 X = X<sub>L</sub> − X<sub>C</sub>，若某个频率下两者恰好相等，净电抗归零——电路"退化"成纯电阻，电流冲到最大，而电感电容内部却憋出远超电源的电压。这不是学术游戏：收音机选台、电网滤波、变压器烧毁事故，都在这一刻。<b>下半场"三相"</b>：真实电网不是单相而是三相——三个相位互差 120° 的电源协同工作，星形/三角形两种接法、线量与相量的 √3 关系，是读懂一切电力系统的字母表。</p>
+  <div class="know"><b>一句话记住</b>：谐振回答"什么时候 L 和 C 会突然发飙"；三相回答"电网为什么长成这样"。一个管异常，一个管日常。</div>
+  <div class="exam"><span class="tag-exam">南网考点</span>谐振的<b>条件、公式、过电压特性</b>是概念判断题高频区；三相的 <b>√3 关系与功率公式</b>是计算题绝对主力——南网笔试电路部分几乎每年必考一道三相计算。作为未来电网人，"为什么不能三相三线制给民用供电"这类问题面试也会问。</div>
+</section>
+
+<!-- ================= 知识 1 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>谐振：X<sub>L</sub> = X<sub>C</sub> 的时刻</h2>
+  <p>回顾第 3 课：感抗 X<sub>L</sub> = ωL 随频率<b>上升</b>，容抗 X<sub>C</sub> = 1/(ωC) 随频率<b>下降</b>。频率从低到高扫过去，两条线必有一个交点——交点处 X = X<sub>L</sub> − X<sub>C</sub> = 0，电路发生<b>谐振（resonance）</b>：</p>
+  <div class="formula">
+    条件：ω<sub>0</sub>L = <span class="frac"><span class="top">1</span><span class="bot">ω<sub>0</sub>C</span></span>　⟹　谐振角频率 ω<sub>0</sub> = <span class="frac"><span class="top">1</span><span class="bot">√(LC)</span></span>　，　谐振频率 f<sub>0</sub> = <span class="frac"><span class="top">1</span><span class="bot">2π√(LC)</span></span>
+  </div>
+  <ul>
+    <li>谐振频率<b>只由 L 和 C 决定</b>（与 R、与电源电压无关）——这是"电路的固有属性"，就像音叉的固有音调。</li>
+    <li>R 只决定谐振峰的<b>胖瘦</b>（锐利程度），不决定<b>位置</b>。</li>
+  </ul>
+  <div class="wave">
+    <svg viewBox="0 0 780 240" xmlns="http://www.w3.org/2000/svg">
+      <line x1="50" y1="200" x2="740" y2="200" stroke="#8a90a6" stroke-width="1.5"/>
+      <line x1="50" y1="200" x2="50" y2="20" stroke="#8a90a6" stroke-width="1.5"/>
+      <!-- X_L rising -->
+      <path d="M 60 200 Q 400 198 700 40" fill="none" stroke="#c23a3a" stroke-width="3"/>
+      <!-- X_C falling -->
+      <path d="M 60 40 Q 300 190 700 196" fill="none" stroke="#0b5aa8" stroke-width="3"/>
+      <!-- intersection -->
+      <circle cx="395" cy="170" r="6" fill="#b07800"/>
+      <line x1="395" y1="170" x2="395" y2="200" stroke="#b07800" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <text x="405" y="185" font-size="13" fill="#b07800" font-weight="700">f₀：X_L = X_C，谐振！</text>
+      <text x="640" y="60" font-size="13.5" fill="#c23a3a" font-weight="700">X_L = ωL ↑</text>
+      <text x="580" y="230" font-size="13.5" fill="#0b5aa8" font-weight="700">X_C = 1/(ωC) ↓</text>
+      <text x="30" y="30" font-size="12" fill="#8a90a6">X</text>
+      <text x="730" y="218" font-size="12" fill="#8a90a6">f</text>
+    </svg>
+    <div class="cap">图 1 · 感抗随频率上升、容抗随频率下降，交点即谐振频率 f₀</div>
+  </div>
+</section>
+
+<!-- ================= 知识 2 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>串联谐振三大特点与品质因数 Q</h2>
+  <p>R-L-C 串联电路在 f = f₀ 时，X = 0，Z = R（纯阻性）。三大特点：</p>
+  <table class="tbl">
+    <tr><th>特点</th><th>结果</th><th>说明</th></tr>
+    <tr><td>阻抗最小</td><td>Z = R</td><td>电抗完全抵消，只剩电阻</td></tr>
+    <tr><td>电流最大</td><td>I₀ = U/R</td><td>同电压下电路能达到的最大电流</td></tr>
+    <tr><td>L、C 上出现过电压</td><td>U<sub>L</sub> = U<sub>C</sub> = QU</td><td>元件电压可达电源的 Q 倍！</td></tr>
+  </table>
+  <p>第三个特点最反直觉也最重要——电源明明只有 U 伏，电感和电容上却各自扛着 Q 倍电压。原因：U<sub>L</sub> 与 U<sub>C</sub> <b>反相</b>（一个超前电流 90°、一个滞后 90°），相量求和抵消，总电压 Ù = Ù<sub>R</sub>；但每个元件自己的电压是 I·X，谐振时 I 很大、X<sub>L</sub> = X<sub>C</sub> 也不小，乘积自然惊人。其中 <b>Q（品质因数）</b>：</p>
+  <div class="formula">
+    Q = <span class="frac"><span class="top">ω<sub>0</sub>L</span><span class="bot">R</span></span> = <span class="frac"><span class="top">1</span><span class="bot">ω<sub>0</sub>CR</span></span>　（谐振时 <span class="frac"><span class="top">U<sub>L</sub></span><span class="bot">U</span></span> = <span class="frac"><span class="top">U<sub>C</sub></span><span class="bot">U</span></span> = Q）
+  </div>
+  <div class="know"><b>为什么叫"电压谐振"</b>：串联谐振的标志性现象是<b>元件电压被放大</b>——收音机天线回路里，微弱的电台信号在电容上被放大 Q 倍（几百倍），才够检波电路用。R 越小，Q 越大，选台越"灵"。</div>
+  <div class="exam"><span class="tag-exam">判断题高发</span>"串联谐振时电感和电容两端电压为零"（<b>×</b>——为零的是<b>总电抗电压</b> U<sub>L</sub> − U<sub>C</sub>，元件各自电压 = QU，往往远超电源电压）；"串联谐振时电路呈纯阻性"（<b>✓</b>）；"谐振频率与电源大小有关"（<b>×</b>——只由 L、C 决定）。</div>
+</section>
+
+<!-- ================= 知识 3 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>并联谐振与工程两面性</h2>
+  <p>电感与电容<b>并联</b>的电路在谐振频率下，两支路的无功电流抵消，总电流最小、总阻抗最大——标志性现象是"元件电流被放大"，故称<b>电流谐振</b>。与串联谐振刚好镜像：</p>
+  <table class="tbl">
+    <tr><th>对比项</th><th>串联谐振</th><th>并联谐振</th></tr>
+    <tr><td>谐振时阻抗</td><td>最小（= R）</td><td>最大</td></tr>
+    <tr><td>谐振时电流</td><td>最大</td><td>最小</td></tr>
+    <tr><td>放大的是</td><td>元件电压（QU）</td><td>元件电流</td></tr>
+    <tr><td>别名</td><td>电压谐振</td><td>电流谐振</td></tr>
+    <tr><td>典型应用</td><td>收音机选台、信号选通</td><td>滤波、阻波（阻高频、通工频）</td></tr>
+  </table>
+  <p><b>工程的同一枚硬币</b>：谐振在通信里是宝贝（选台、滤波），在电力系统里却常是<b>事故源</b>——电网里大量的线路电感与电缆/电容若在工频附近满足谐振条件，过电压会击穿绝缘、烧毁变压器。所以电力系统要做"谐振校核"和"消谐"设计。</p>
+  <div class="know"><b>记忆口诀</b>：串联谐振"小阻抗、大电流、高电压"；并联谐振"大阻抗、小电流、大支路电流"——先记串联（考得多），并联按镜像反推。</div>
+</section>
+
+<!-- ================= 知识 4 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>三相电源：电网的母语</h2>
+  <p>把三个<b>幅值相等、频率相同、相位互差 120°</b> 的正弦电压源组合起来，就是三相电源：</p>
+  <div class="formula">
+    u<sub>A</sub> = U<sub>m</sub>sin(ωt)　　u<sub>B</sub> = U<sub>m</sub>sin(ωt − 120°)　　u<sub>C</sub> = U<sub>m</sub>sin(ωt + 120°)
+  </div>
+  <p>三个电压到达正峰值的先后次序叫<b>相序</b>，A→B→C 为正序。相序不是小事：三相电动机的<b>转向</b>由相序决定——把任意两相对调，电机反转，这是"倒相"检修的原理。</p>
+  <div class="wave">
+    <svg viewBox="0 0 780 230" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="115" x2="750" y2="115" stroke="#c9c9d8" stroke-width="1"/>
+      <path d="M 60 115 C 100 15 140 15 180 115 S 260 215 300 115 S 380 15 420 115 S 500 215 540 115 S 620 15 660 115 S 740 215 780 115" fill="none" stroke="#c23a3a" stroke-width="2.5"/>
+      <path d="M 60 178 C 100 78 140 78 180 178 S 260 232 300 178 S 380 78 420 178 S 500 232 540 178 S 620 78 660 178 S 740 232 780 178" fill="none" stroke="#0b5aa8" stroke-width="2.5" transform="translate(0,0)"/>
+      <path d="M 60 52 C 100 -48 140 -48 180 52 S 260 232 300 52 S 380 -48 420 52 S 500 232 540 52 S 620 -48 660 52 S 740 232 780 52" fill="none" stroke="#1f7a3d" stroke-width="2.5" transform="translate(0,0)"/>
+      <text x="700" y="30" font-size="13" fill="#c23a3a" font-weight="700">u_A</text>
+      <text x="700" y="160" font-size="13" fill="#0b5aa8" font-weight="700">u_B（滞后 120°）</text>
+      <text x="665" y="205" font-size="13" fill="#1f7a3d" font-weight="700">u_C</text>
+    </svg>
+    <div class="cap">图 2 · 三相对称电压：三条波形形状相同，起点错开 120°（三分之一周期）</div>
+  </div>
+  <div class="know"><b>为什么全世界都用三相</b>：①三相对称时瞬时总功率<b>恒定不变</b>（单相功率每周期两次过零，电机会抖）；②同样输电容量，三相用线最省；③三相电流能直接产生<b>旋转磁场</b>——电动机的物理基础（电机课伏笔）。这三条是"电网为什么长成这样"的第一性答案。</div>
+</section>
+
+<!-- ================= 知识 5 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>星形（Y）连接：380/220 的来历</h2>
+  <p>发电机三相绕组的末端接在一起（<b>中性点 N</b>），三个首端引出 A、B、C 三根<b>相线（火线）</b>，从中性点再引一根<b>中性线（零线）</b>——共四根线，即<b>三相四线制</b>。</p>
+  <ul>
+    <li><b>相电压 U<sub>相</sub></b>：任一相线对中性线的电压（U<sub>AN</sub> 等，即每相绕组自己的电压）；</li>
+    <li><b>线电压 U<sub>线</sub></b>：两根相线之间的电压（U<sub>AB</sub> 等）。</li>
+  </ul>
+  <p>对称时两者的关系是本课最重要的公式之一：</p>
+  <div class="formula">
+    Y 接：U<sub>线</sub> = √3 × U<sub>相</sub>　（线电压<b>超前</b>对应相电压 30°）
+  </div>
+  <p>我国低压配电网：相电压 220 V（家用），线电压 = 220 × √3 ≈ 381 V（标称 <b>380 V</b>，工程圆整）。<b>插座里的 220 V 和工厂里的 380 V，是同一个三相电源的两种取法</b>——取一根火线加零线得 220，取两根火线得 380。</p>
+  <div class="exam"><span class="tag-exam">必背数字</span>220 × √3 ≈ 381 → 标称 380。计算题里若给 U<sub>线</sub> = 380 V，则 U<sub>相</sub> = 380/√3 ≈ 219.4 ≈ 220 V——两种写法都接受，但<b>别把 380 当相电压</b>（Y 接时这是最高频错误）。</div>
+  <div class="know"><b>中线的作用</b>：三相负载对称时中线电流为零（三相对称抵消）；负载<b>不对称</b>（家家户户用电不同）时，中线把中性点"钉"在电源电位上，保证每相负载都稳稳拿到 220 V。所以<b>中线绝不允许装熔断器/开关</b>——中线一断，中性点位移，轻则电压失衡，重则烧毁家用电器。</div>
+</section>
+
+<!-- ================= 知识 6 ================= -->
+<section class="block">
+  <h2><span class="no">6</span>三角形（△）连接与速查表</h2>
+  <p>三相绕组（或负载）首尾相连构成闭环，三个连接点引出三根线——无中性点、无中线、只有三根线（<b>三相三线制</b>）。此时每相绕组直接跨接在两根相线上：</p>
+  <div class="formula">
+    △ 接：U<sub>相</sub> = U<sub>线</sub>　，　I<sub>线</sub> = √3 × I<sub>相</sub>　（线电流<b>滞后</b>对应相电流 30°）
+  </div>
+  <p>把两种连接的四个关系放进一张速查表（<b>笔试前必默</b>）：</p>
+  <table class="tbl">
+    <tr><th>连接方式</th><th>电压关系</th><th>电流关系</th><th>相位关系</th><th>典型场景</th></tr>
+    <tr><td>星形 Y</td><td>U<sub>线</sub> = √3 U<sub>相</sub></td><td>I<sub>线</sub> = I<sub>相</sub></td><td>线电压超前相电压 30°</td><td>低压配电网（四线制供 380/220）</td></tr>
+    <tr><td>三角形 △</td><td>U<sub>相</sub> = U<sub>线</sub></td><td>I<sub>线</sub> = √3 I<sub>相</sub></td><td>线电流滞后相电流 30°</td><td>高压系统、三相电动机绕组</td></tr>
+  </table>
+  <div class="know"><b>记忆窍门</b>：Y 接"压差线大"（线电压是 √3 倍）；△ 接"流差线大"（线电流是 √3 倍）——每组只有<b>一个量</b>被放大 √3，另一个相等。30° 的超前/滞后方向容易混，考试时不确定就在草稿上画三个 120° 相量现推。</div>
+</section>
+
+<!-- ================= 知识 7 ================= -->
+<section class="block">
+  <h2><span class="no">7</span>三相功率：一个公式打天下</h2>
+  <p>对称三相负载，每相功率 P<sub>相</sub> = U<sub>相</sub>I<sub>相</sub>cosφ（φ 是<b>每相负载自己的阻抗角</b>，与接法无关）。三相总计：</p>
+  <div class="formula">
+    P = 3 U<sub>相</sub>I<sub>相</sub>cosφ = √3 U<sub>线</sub>I<sub>线</sub>cosφ
+    <div class="small">两个式子完全等价（√3 = 3/√3 做桥）；工程上多用后者——因为线电压线电流在设备铭牌和现场表计上直接可读</div>
+  </div>
+  <ul>
+    <li>cosφ 里的 φ 永远是<b>相电压与相电流</b>的相位差 = 负载阻抗角，<b>与 Y/△ 接法无关</b>；</li>
+    <li>同理有无功 Q = √3 U<sub>线</sub>I<sub>线</sub>sinφ、视在 S = √3 U<sub>线</sub>I<sub>线</sub>——结构照搬第 5 课；</li>
+    <li><b>重要推论</b>：同一负载、同一电网，从 Y 接改成 △ 接：相电压变 √3 倍 → 相电流变 √3 倍 → 功率变 <b>3 倍</b>（例 4 现场验证）。</li>
+  </ul>
+  <div class="exam"><span class="tag-exam">计算题模板</span>三相题八成长这样："对称三相负载，U<sub>线</sub> = 380 V，每相 Z = R + jX，求线电流与三相功率"。三步走：①按接法换出相电压（Y 除 √3、△ 直接用）→ ②I<sub>相</sub> = U<sub>相</sub>/|Z|，按接法换出线电流 → ③P = √3U<sub>线</sub>I<sub>线</sub>cosφ。φ 用阻抗三角形（第 3 课）求。</div>
+</section>
+
+<!-- ================= 例题 ================= -->
+<section class="block">
+  <h2><span class="no">例</span>例题精讲</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 串联谐振的"总爆发"</div>
+    <div class="ex-body">
+      <p class="q">R = 10 Ω、L = 0.1 H、C = 10 μF 的串联电路接 U = 10 V 电源。求谐振频率、谐振时电流，以及电感两端电压。</p>
+      <ol class="steps">
+        <li>谐振角频率：ω₀ = 1/√(LC) = 1/√(0.1 × 10×10⁻⁶) = 1/√(10⁻⁶) = <b>1000 rad/s</b>，f₀ = ω₀/2π ≈ <b>159.2 Hz</b>；</li>
+        <li>此时 X<sub>L</sub> = ω₀L = 100 Ω，X<sub>C</sub> = 1/(ω₀C) = 100 Ω ✓ 恰好抵消，Z = R = 10 Ω；</li>
+        <li>电流 I = U/R = 10/10 = <b>1 A</b>（同电压下的最大电流）；</li>
+        <li>品质因数 Q = ω₀L/R = 100/10 = 10，故 U<sub>L</sub> = U<sub>C</sub> = QU = <b>100 V</b>。</li>
+      </ol>
+      <div class="ans">f₀ ≈ 159.2 Hz；I = 1 A；U<sub>L</sub> = U<sub>C</sub> = 100 V（电源的 10 倍！）</div>
+      <p class="key">电源才 10 V，电感电容上却各有 100 V——两者反相抵消，总电压仍等于 U<sub>R</sub> = 10 V，KVL 完好无损。这就是"过电压"：若此电路工作在谐振频率，元件绝缘必须按 100 V 以上设计，否则击穿。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 收音机选台</div>
+    <div class="ex-body">
+      <p class="q">收音机调谐回路线圈 L = 250 μH，可变电容调到 C = 100 pF。它能选出哪个频率的电台？为什么其他电台"听不见"？</p>
+      <ol class="steps">
+        <li>f₀ = 1/(2π√(LC)) = 1/(2π√(250×10⁻⁶ × 100×10⁻¹²)) = 1/(2π × 1.581×10⁻⁷) ≈ <b>1.006 MHz ≈ 1 MHz</b>——恰好中波段；</li>
+        <li>谐振时该频率信号在电容上呈现 Q 倍电压，被放大后送入检波；</li>
+        <li>偏离 f₀ 的其他电台：电路远离谐振，阻抗显著大于 R，电流大幅缩水，输出被抑制。</li>
+      </ol>
+      <div class="ans">f₀ ≈ 1 MHz；旋钮转动改变 C，就改变了 f₀——这就是"调台"的全部秘密</div>
+      <p class="key">一个公式连接了课本和收音机：调谐 = 扫描谐振频率。注意单位换算（μH、pF → H、F）是本题唯一的计算陷阱。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · Y 接对称负载（380/220 主场）</div>
+    <div class="ex-body">
+      <p class="q">三相对称负载 Y 接，每相 Z = 30 + j40 Ω，接相电压 220 V 的电源。求线电流与三相总有功功率。</p>
+      <ol class="steps">
+        <li>Y 接：U<sub>相</sub> = 220 V（线电压 = √3 × 220 ≈ 381 V，标称 380）；</li>
+        <li>|Z| = √(30² + 40²) = 50 Ω，Z 的阻抗角 φ = arctan(40/30) = 53.13°，cosφ = 30/50 = 0.6；</li>
+        <li>I<sub>相</sub> = 220/50 = <b>4.4 A</b>，Y 接 I<sub>线</sub> = I<sub>相</sub> = <b>4.4 A</b>；</li>
+        <li>P = 3 U<sub>相</sub>I<sub>相</sub>cosφ = 3 × 220 × 4.4 × 0.6 = <b>1742.4 W ≈ 1.74 kW</b>。</li>
+      </ol>
+      <div class="ans">I 线 = 4.4 A；P ≈ 1.74 kW</div>
+      <p class="key">3-4-5 三角形第三次登场（Z = 30+j40 = 50∠53.13°）——前三课的功夫全部复用：阻抗角求法（第 3 课）、cosφ = R/|Z|（第 5 课）一个都没白学。φ 是负载自己的角，与 Y/△ 接法无关。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 4 · 同一负载改 △ 接：功率翻 3 倍</div>
+    <div class="ex-body">
+      <p class="q">例 3 的负载（每相 Z = 30 + j40 Ω）改接成三角形，仍接在 380 V 电网上。求相电流、线电流与三相功率，并与 Y 接比较。</p>
+      <ol class="steps">
+        <li>△ 接：U<sub>相</sub> = U<sub>线</sub> = 380 V；</li>
+        <li>I<sub>相</sub> = 380/50 = <b>7.6 A</b>；I<sub>线</sub> = √3 × 7.6 ≈ <b>13.16 A</b>；</li>
+        <li>P = 3 U<sub>相</sub>I<sub>相</sub>cosφ = 3 × 380 × 7.6 × 0.6 = <b>5198.4 W ≈ 5.2 kW</b>；</li>
+        <li>对比 Y 接（1742.4 W）：5198.4 / 1742.4 ≈ <b>3 倍整</b>。</li>
+      </ol>
+      <div class="ans">I 相 = 7.6 A，I 线 ≈ 13.16 A，P ≈ 5.2 kW —— 恰为 Y 接的 3 倍</div>
+      <p class="key">链条：相电压 ×√3 → 相电流 ×√3 → 功率 ×3。这个"3 倍"是三相计算的经典结论，也是异步电动机 Y-△ 降压起动的原理——起动时用 Y 接（功率和电流都降到 1/3，避免电流冲击），转起来后换 △ 接满功率运行（电机课再见）。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 练习 ================= -->
+<section class="block">
+  <h2><span class="no">练</span>练习题（手算，每题限时 90 秒）</h2>
+
+  <details class="exercise"><summary><span class="qn">Q1</span>R = 5 Ω、L = 0.2 H、C = 80 μF 串联，谐振频率是多少？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>ω₀ = 1/√(LC) = 1/√(0.2 × 80×10⁻⁶) = 1/√(1.6×10⁻⁵) = 1/(4×10⁻³) = 250 rad/s；</p>
+      <p>f₀ = ω₀/2π = 250/6.283 ≈ 39.8 Hz。</p>
+      <div class="sol">ω₀ = 250 rad/s，f₀ ≈ 39.8 Hz</div>
+      <p class="note">注意 R 根本没出场——谐振频率只由 L、C 决定，这是判断题最爱考的"无关项"。√(1.6×10⁻⁵) 的算术：1.6×10⁻⁵ = 16×10⁻⁶，√ = 4×10⁻³，化成平方数就好算。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q2</span>串联谐振发生时，下列说法正确的是：A. 总阻抗最大　B. 电路呈容性　C. 电流最大且与电源电压同相　D. 电路呈感性<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>X = X<sub>L</sub> − X<sub>C</sub> = 0：Z = R 为<b>最小</b>（排除 A）；电抗归零呈<b>纯阻性</b>（排除 B、D）；I = U/R 最大，且电压电流同相位（纯阻性电路的标志）。</p>
+      <div class="sol">选 C —— 阻抗最小、纯阻性、电流最大、电压电流同相</div>
+      <p class="note">"同相"这个细节别丢：第 2 课讲过纯电阻电路 u、i 同相——谐振时整个电路"退化"成纯电阻，相位差自然为零。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q3</span>例 1 电路（Q = 10，电源 10 V）中，若电源频率恰为谐振频率，电容两端电压是多少？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>谐振时 U<sub>C</sub> = QU = 10 × 10 = 100 V。</p>
+      <div class="sol">U<sub>C</sub> = 100 V，为电源电压的 10 倍</div>
+      <p class="note">这就是为什么谐振电路里电容、电感的耐压等级常要按远超电源电压设计——过电压是真实存在的物理现象，不是做题技巧。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q4</span>判断：串联谐振时，电感两端电压为零。<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p><b>错。</b>为零的是电抗上的<b>总</b>电压（U<sub>L</sub> 与 U<sub>C</sub> 反相抵消后对外表现的合电压），电感自己的电压 U<sub>L</sub> = QU 往往远超电源电压。</p>
+      <div class="sol">× —— U_L = QU ≠ 0（如例 1 中 U_L = 100 V）</div>
+      <p class="note">换个角度验证：若 U<sub>L</sub> 真为零，那 I·X<sub>L</sub> = 0，可谐振时 I = U/R ≠ 0 且 X<sub>L</sub> = ω₀L ≠ 0——矛盾。反证法兜底。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q5</span>对称三相电源 Y 接，线电压 380 V，相电压是多少？家用插座取的是什么电压、怎么取的？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>U<sub>相</sub> = 380/√3 ≈ 219.4 ≈ 220 V。</p>
+      <p>插座取的是<b>相电压 220 V</b>：任一根火线 + 中性线；工厂动力电取<b>线电压 380 V</b>：任意两根火线。同一个三相电源，两种取法。</p>
+      <div class="sol">U 相 ≈ 220 V；插座 = 火线 + 零线（相电压）</div>
+      <p class="note">精确值 219.4 与 220 的差异来自标称圆整（220×√3 = 381 标称 380）。答题写 220 V 即可，但推导时要能写出 380/√3。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q6</span>对称三相负载 △ 接，相电流 10 A，线电流是多少？若同一负载改 Y 接到同一电网，相电流又是多少？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>△ 接：I<sub>线</sub> = √3 × I<sub>相</sub> = √3 × 10 ≈ <b>17.32 A</b>。</p>
+      <p>改 Y 接：U<sub>相</sub> 缩为原来的 1/√3（U<sub>线</sub> 不变、Y 接 U<sub>相</sub> = U<sub>线</sub>/√3），故 I<sub>相</sub> 也缩为 1/√3：I<sub>相</sub> = 10/√3 ≈ 5.77 A（此时 I<sub>线</sub> = I<sub>相</sub> ≈ 5.77 A）。</p>
+      <div class="sol">△：I 线 ≈ 17.32 A；改 Y 后 I 相 = I 线 ≈ 5.77 A（缩为 1/√3）</div>
+      <p class="note">与例 4 串起来记：Y ⇄ △ 之间，相电压差 √3 倍、相电流差 √3 倍、功率差 3 倍——三个数一组打包记忆。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q7</span>对称三相负载 Y 接，U<sub>线</sub> = 380 V，线电流 5 A，功率因数 0.8（感性）。三相总有功功率是多少？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>不需要换相量——线量直接进公式：</p>
+      <p>P = √3 U<sub>线</sub>I<sub>线</sub>cosφ = 1.732 × 380 × 5 × 0.8 ≈ <b>2633 W ≈ 2.63 kW</b>。</p>
+      <div class="sol">P ≈ 2.63 kW</div>
+      <p class="note">这就是"√3 公式打天下"的含金量：题给线量、公式用线量，一步到位。注意 cosφ 给了就直接用（它就是每相负载的阻抗角余弦，与接法无关）。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q8</span>概念题：为什么民用低压电网的中线（零线）上不允许安装熔断器？<span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>民用负载<b>不对称</b>（每家每户用电随机），中线里流着不平衡电流，其作用是把负载中性点的电位"钉"在电源中性点上，保证每相负载都稳定获得 220 V。</p>
+      <p>若中线装了熔断器且熔断：中性点发生<b>位移</b>，三相相电压重新分配——有的相电压升到远超 220 V（烧家电），有的相电压跌落（设备欠压）。一处断线，全楼遭殃。</p>
+      <div class="sol">中线是三相不对称运行的"定海神针"，必须用机械强度高的可靠导体，严禁熔断器/开关</div>
+      <p class="note">这是面试与笔试都爱问的"工程常识"题——答案的物理内核就一句话：<b>不对称靠中线兜底</b>。顺带理解规程里"零线截面不得小于相线的一半"这类规定的来历。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 自测 ================= -->
+<section class="block">
+  <h2><span class="no">测</span>本课过关自测</h2>
+  <ul class="checklist">
+    <li>我能默写 f₀ = 1/(2π√LC)，并独立完成 Q1 级别的谐振频率计算（含单位换算）</li>
+    <li>我能说出串联谐振三大特点（Z 最小、I 最大、元件电压 QU），并解释过电压为何与 KVL 不矛盾</li>
+    <li>我能说清"电压谐振 / 电流谐振"分别指什么、对应哪种连接，各自的典型应用</li>
+    <li>我能默写两组 √3 关系与 30° 相位关系（Y：U<sub>线</sub> = √3U<sub>相</sub>；△：I<sub>线</sub> = √3I<sub>相</sub>），并解释 380/220 的来历</li>
+    <li>我能用两种方法计算对称三相功率（3U<sub>相</sub>I<sub>相</sub>cosφ 与 √3U<sub>线</sub>I<sub>线</sub>cosφ），并说出 Y→△ 功率 3 倍的推导链</li>
+    <li>我能解释中线的作用、为什么不能装熔断器，以及"单相 220V 从三相取"的原理</li>
+  </ul>
+</section>
+
+<!-- ================= 上下课导航 ================= -->
+<div class="pager">
+  <a href="05_功率与功率因数.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 5 课 · 功率与功率因数</div>
+  </a>
+  <a href="index.html" style="text-align:center;">
+    <div class="dir">目录</div>
+    <div class="title">阶段 0 筑基</div>
+  </a>
+  <a href="07_阶段0综合复盘.html" class="next-card">
+    <div class="dir">下一步 · 综合复盘</div>
+    <div class="title">阶段 0 综合复盘 · 毕业测试</div>
+  </a>
+</div>
+
+<!-- ================= 阶段0收官 ================= -->
+<div class="next">
+  <h2>阶段 0 完结：你已经走了多远</h2>
+  <p>六课串起来：复数（工具）→ 相量（语言）→ 阻抗（元件脾气）→ 相量法（解题框架）→ 功率（能量账本）→ 谐振与三相（电网母语）。你现在能读懂教材正弦稳态一章的每一行推导，能独立完成南网笔试的电路基础题——本学期期末（2027.01）就是这套功夫的第一次实弹检验。接下来：六级（2026.12）冲刺和期末备考将占用主战场，电路侧进入"跟课内节奏 + 每周复盘"模式。学完本课告诉教练，我们做阶段 0 综合复盘 + 规划阶段 1。</p>
+</div>
+
+<footer>
+  阶段 0 筑基 · 第 6 课（完结） ｜ <a href="index.html">返回阶段0目录</a> ｜ <a href="../index.html">返回电网备考首页</a>
+</footer>
+
+</div>
+</body>
+</html>

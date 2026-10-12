@@ -173,11 +173,11 @@ tr:last-child td { border-bottom: none; }
 <div class="hero">
   <p class="kicker">全国大学生数学竞赛 · 非数学类 · 专题 02</p>
   <h1>一元微分学 · 例题精讲</h1>
-  <p>八大题型 × 九道例题 —— 中值定理构造、泰勒展开、不等式、根个数、高阶导数、渐近线、微分不等式的完整解题谱系。</p>
+  <p>九大题型 × 十道例题 —— 中值定理构造、泰勒展开、不等式、根个数、高阶导数、渐近线、微分不等式、含参不等式的完整解题谱系。</p>
   <div class="meta">
     <span class="chip">使用方法：每题先动手 10~15 分钟</span>
     <span class="chip">重点读"分析"栏：那是选型训练</span>
-    <span class="chip">例 1 / 4 / 5 / 9 为对话实录定稿</span>
+    <span class="chip">例 1 / 4 / 5 / 9 / 10 为对话实录定稿</span>
   </div>
 </div>
 
@@ -192,6 +192,7 @@ tr:last-child td { border-bottom: none; }
     <li><a href="#t6">高阶导数：泰勒系数法</a></li>
     <li><a href="#t7">渐近线（泰勒算 b）</a></li>
     <li><a href="#t8">微分不等式：能量函数</a></li>
+    <li><a href="#t9">含参不等式：单调性 + 参数临界</a></li>
   </ol>
 </nav>
 
@@ -247,7 +248,7 @@ tr:last-child td { border-bottom: none; }
     <p>\[ f'\big(\tfrac12\big)-f(0)=\tfrac12 f'(\xi) \;\Longrightarrow\; f'(\xi)=2f\big(\tfrac12\big). \]</p>
     <p>在 \( [\frac12,1] \) 上用拉格朗日：∃\( \eta\in(\frac12,1) \)，</p>
     <p>\[ f(1)-f\big(\tfrac12\big)=\tfrac12 f'(\eta) \;\Longrightarrow\; f'(\eta)=2\Big(1-f\big(\tfrac12\big)\Big). \]</p>
-    <p>两式相加：\( f'(\xi)+f'(\eta)=2 \)。且 \( \xi<\frac12<\eta \)，二者互异。∎</p>
+    <p>两式相加：\( f'(\xi)+f'(\eta)=2 \)。且 \( \xi&lt;\frac12&lt;\eta \)，二者互异。∎</p>
   </div>
   <div class="comment"><b>点评</b>：① "互异"必须显式交代——两个中值点落在<b>不相交</b>的子区间，这是写"互异"的唯一依据。② 若结论是 \( f'(\xi)+2f'(\eta)=3 \)，同法取 \( c=\frac13 \)（对话练习 1）。③ 千万不要对整个 \( [0,1] \) 用一次拉格朗日再"取两次"——同一个 \( \xi \) 用两遍不构成两个点。</div>
 </section>
@@ -280,7 +281,7 @@ tr:last-child td { border-bottom: none; }
 
   <div class="prob">
     <div class="plabel">例 5</div>
-    <p>设 \( a>b>0 \)，证明：\[ \frac{a-b}{a}<\ln\frac{a}{b}<\frac{a-b}{b}. \]</p>
+    <p>设 \( a>b>0 \)，证明：\[ \frac{a-b}{a}&lt;\ln\frac{a}{b}&lt;\frac{a-b}{b}. \]</p>
   </div>
   <div class="anal">
     <div class="alabel">分析（选型）</div>
@@ -389,6 +390,37 @@ tr:last-child td { border-bottom: none; }
     <p>但第二步在 \( (x_0,1) \) 上仍给出 \( f'(x)\le-\sqrt{g(0)}&lt;-1\ne0 \)，矛盾。故 \( f'(0)\ge-\sqrt2 \)。∎</p>
   </div>
   <div class="comment"><b>点评</b>：① <b>泰勒路线的天花板</b>：\( f(x)\le 1+f'(0)x+\tfrac{x^2}{2} \) ⟹ \( f'(0)\ge-\big(\tfrac1x+\tfrac x2\big) \)，右端在 \( (0,1) \) 上单调增，\( x\to1^- \) 只得 \( -\tfrac32&lt;-\sqrt2 \)。放缩 \( f''(\xi)\le f(\xi)\le1 \) 把"海拔越低、上弯越弱"的反馈链扔掉了——泰勒是<b>一次性</b>估计，捕捉不了 \( f''\le f \) 的自耦合。② <b>√2 的设计来源</b>：\( g(0)=f'(0)^2-f(0)^2=f'(0)^2-1 \)，要赶在 \( x&lt;1 \) 内把高度 1 消耗完，需 \( \sqrt{g(0)}&gt;1 \)，即 \( f'(0)^2&gt;1+1=2 \)——常数 = 初始高度平方 + 平均速度平方。③ \( g=f'^2-f^2 \) 沿等式 \( f''=f \) 的解（\( \cosh,\sinh \) 组合）守恒、沿不等式单调——与对数平均题的完全平方、§6.2 的积分因子是同一思想：<b>乘恰当因子，凑出完全导数</b>。</div>
+</section>
+
+<!-- ================= 题型九 含参不等式 ================= -->
+<section class="block" id="t9">
+  <h2><span class="sec-no">九</span>含参不等式：单调性 + 参数临界 <span class="tag hot">必考样式</span></h2>
+
+  <div class="prob">
+    <div class="plabel">例 10（对话实录 · 2018 考研数二 T18）</div>
+    <p>已知常数 \( k\ge\ln2-1 \)，证明：\[ (x-1)\big(x-\ln^2x+2k\ln x-1\big)\ge0. \]</p>
+    <p><b>速览</b>：设 \( F=x-\ln^2x+2k\ln x-1 \)，验 \( F(1)=0 \)；\( F'=\dfrac{g}{x} \)，\( g=x-2\ln x+2k \) 的最小值在 \( x=2 \)，\( g(2)\ge0 \) 恰是条件的翻译 ⟹ \( F\nearrow \) ⟹ 分界收尾。</p>
+  </div>
+  <div class="anal">
+    <div class="alabel">分析（选型）</div>
+    <p>\( (x-1)F(x)\ge0 \) 是<b>分界结构</b>：\( x&gt;1 \) 要 \( F\ge0 \)，\( 0&lt;x&lt;1 \) 要 \( F\le0 \)。验 \( F(1)=0 \)——分界点恰是零点，说明"单调性 + 过零"一行收尾。条件 \( k\ge\ln2-1 \) 是怪常数 ⟹ <b>配平某个最小值</b>的临界参数（与例 9 的 \( \sqrt2 \)、例 4 的 \( -16 \) 同一设计原理，但只需一阶）。</p>
+  </div>
+  <div class="sol">
+    <div class="slabel">证明（四步）</div>
+    <p><b>① 设函数验零点</b>：令 \( F(x)=x-\ln^2x+2k\ln x-1\ (x&gt;0) \)，则 \( F(1)=1-0+0-1=0 \)。</p>
+    <p><b>② 求导，锁定分子</b>：</p>
+    <p>\[ F'(x)=1-\frac{2\ln x}{x}+\frac{2k}{x}=\frac{x-2\ln x+2k}{x}=\frac{g(x)}{x},\qquad g(x):=x-2\ln x+2k. \]</p>
+    <p>分母 \( x&gt;0 \)，只需 \( g\ge0 \)。</p>
+    <p><b>③ 求分子最小值（条件在此进场）</b>：\( g'(x)=1-\dfrac2x=\dfrac{x-2}{x} \)。故 \( g \) 在 \( (0,2) \) 递减、\( (2,+\infty) \) 递增，最小值</p>
+    <p>\[ g(2)=2-2\ln2+2k\ \ge\ 2-2\ln2+2(\ln2-1)=0 \quad(\text{由 } k\ge\ln2-1). \]</p>
+    <p>故 \( g(x)\ge0\ (\forall x&gt;0) \)，从而 \( F'(x)\ge0 \)，\( F \) 在 \( (0,+\infty) \) 单调不减。</p>
+    <p><b>④ 分界收尾（三段）</b>：</p>
+    <p>\[ x&gt;1:\ F(x)\ge F(1)=0,\ (x-1)&gt;0 \implies (x-1)F(x)\ge0; \]</p>
+    <p>\[ 0&lt;x&lt;1:\ F(x)\le F(1)=0,\ (x-1)&lt;0 \implies (x-1)F(x)\ge0; \qquad x=1:\ \text{两端均为 } 0. \]</p>
+    <p>综上，\( (x-1)\big(x-\ln^2x+2k\ln x-1\big)\ge0 \) 对一切 \( x&gt;0 \) 成立。∎</p>
+    <p><b>机器验证</b>：临界 \( k=\ln2-1 \) 下对 \( x\in\{0.05,\dots,100\} \) 全程非负 ✓；\( k \) 更大时更宽松（\( 0&lt;x&lt;1 \) 段 \( 2k\ln x \) 更负）。</p>
+  </div>
+  <div class="comment"><b>点评（实录复盘）</b>：初答走换元 \( t=x-1 \)，三处翻车——① <b>换元是恒等改名</b>：\( f(t)=F(1+t) \)，换元后要证的"\( f \) 单调"与"\( F \) 单调"是同一句话，结构零简化、导数却从 \( (\ln x)'=\frac1x \) 变成 \( [\ln(1+t)]'=\frac1{1+t} \)——账面更繁，符号记账立刻出错（\( 2k \) 变号、目标不等号反向）。<b>换元的判据</b>：它必须把导数变简单（如 \( t=\ln x \) 于 \( x^k \)、\( t=\sqrt x \) 于根式），否则别动。<b>5 秒反例校验</b>：所断言的 \( f'(t)\le0 \) 代 \( t=0 \) 得 \( 2k-1 \)，取 \( k=1 \)（满足条件！）即为正——断言当场死亡，可惜没验。② <b>未证断言当已证</b>：\( f'\le0 \) 无依据即用，是采分链的断裂点。③ <b>条件 \( k\ge\ln2-1 \) 全程未进场</b>：这类参数条件的标准入口是"某个函数的最小值 ≥ 0"——\( \ln2-1 \) 正是让 \( g(2)=0 \) 的临界值（例 9 点评② 的廉价版：<b>常数 = 被配平的最值</b>）。<b>一个引擎定理</b>：原变量、\( t=x-1 \)、\( t=\ln x \) 三条路最终都汇于 \( g(x)=x-2\ln x+2k \)——题目的发动机只有一个，最短的坐标是原坐标。</div>
 </section>
 
 </div>

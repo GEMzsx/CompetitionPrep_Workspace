@@ -124,6 +124,7 @@ div.tcard .status {
 .ptable .cname { color: var(--ink); }
 .ptable .st { white-space: nowrap; text-align: right; font-weight: 600; }
 .ptable .st-done { color: #1f7a3d; }
+.ptable .st-wip { color: var(--blue); }
 .ptable .st-todo { color: var(--ink-faint); font-weight: 400; }
 .guide h3 { font-size: 14px; margin: 18px 0 6px; color: var(--ink); }
 .guide ul.mile { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--ink-soft); }
@@ -174,12 +175,18 @@ footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px das
 
   <a class="tcard" href="阶段0_筑基/index.html">
     <div class="head"><span class="no">02</span><h3>阶段 0 筑基 · 课程目录</h3></div>
-    <p>从零基础到读懂电路教材的学习链：复数工具 → 正弦量与相量 → 阻抗 → 解正弦稳态电路。每课含知识框架、例题精讲与自测。</p>
-    <span class="status status-wip">更新中</span>
+    <p>从零基础到读懂电路教材的学习链：复数 → 相量 → 阻抗 → 正弦稳态 → 功率 → 谐振三相。六课 + 综合复盘全部过关，课程链毕业。</p>
+    <span class="status">✓ 课程链毕业</span>
+  </a>
+
+  <a class="tcard" href="阶段1_电路深化/index.html">
+    <div class="head"><span class="no">03</span><h3>阶段 1 电路深化 · 课程目录</h3></div>
+    <p>不跟课内、教练主导的电路主线：节点/网孔引擎 → 电路定理 → 动态电路 → 耦合 → 三相深化 → 谐波 → 二端口。8 课 + 期末总复盘，已开课。</p>
+    <span class="status status-wip">已开课 · 第 1 课上线</span>
   </a>
 
   <div class="tcard">
-    <div class="head"><span class="no">03</span><h3>分科目知识梳理</h3></div>
+    <div class="head"><span class="no">04</span><h3>分科目知识梳理</h3></div>
     <p>电路 / 电分 / 继保 / 电机 / 高压 / 电力电子 —— 按考纲逐条整理的知识框架与例题（规划中，参照大数竞赛专题结构）。</p>
     <span class="status">规划中</span>
   </div>
@@ -190,11 +197,11 @@ footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px das
 <div class="guide">
   <div class="p-head">
     <h2>最新进度表</h2>
-    <span class="utime">更新于 2026-10-07</span>
+    <span class="utime">更新于 2026-10-08</span>
   </div>
 
-  <div class="pbar-label">阶段 0 · 电路筑基 <span style="color:var(--blue);">5 / 6 课</span></div>
-  <div class="pbar"><div class="pbar-fill" style="width:83%;"></div></div>
+  <div class="pbar-label">阶段 0 · 电路筑基 <span style="color:var(--blue);">6 / 6 课 · 完结</span></div>
+  <div class="pbar"><div class="pbar-fill" style="width:100%;"></div></div>
 
   <table class="ptable">
     <tr><td class="idx">01</td><td class="cname">复数与相量运算</td><td class="st st-done">✓ 已过关 · 09.29</td></tr>
@@ -202,8 +209,12 @@ footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px das
     <tr><td class="idx">03</td><td class="cname">R、L、C 与阻抗</td><td class="st st-done">✓ 已过关 · 10.02</td></tr>
     <tr><td class="idx">04</td><td class="cname">相量法解正弦稳态电路</td><td class="st st-done">✓ 已过关 · 10.04</td></tr>
     <tr><td class="idx">05</td><td class="cname">功率与功率因数（含 Q7 修正）</td><td class="st st-done">✓ 已过关 · 10.07</td></tr>
-    <tr><td class="idx">06</td><td class="cname">谐振与三相入门 —— 阶段 0 最终章</td><td class="st st-todo">○ 筹备中</td></tr>
+    <tr><td class="idx">06</td><td class="cname">谐振与三相入门 —— 阶段 0 最终章</td><td class="st st-done">✓ 已过关 · 10.08</td></tr>
+    <tr><td class="idx">+</td><td class="cname">综合复盘 —— 跨课混合毕业测试</td><td class="st st-done">✓ 10/10 全对 · 10.08</td></tr>
   </table>
+
+  <div class="pbar-label" style="margin-top:16px;">阶段 1 · 电路深化 <span style="color:var(--blue);">0 / 8 课 · 已上线 1 课</span></div>
+  <div class="pbar"><div class="pbar-fill" style="width:12.5%;"></div></div>
 
   <h3>战略里程碑 · 2026 秋季学期</h3>
   <ul class="mile">
@@ -211,11 +222,14 @@ footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px das
     <li><span class="date">09.28</span> 阶段 0 课程开课；备赛工作区总入口建立</li>
     <li><span class="date">09.30</span> 升学双轨战略入库 —— 保研联培 / 考研上交 / 本科直考三路线漏斗（路线图第八章）</li>
     <li><span class="date">10.07</span> 电网实习渠道调研完成；第 5 课过关，Q7 表述修正</li>
+    <li><span class="date">10.08</span> 第 6 课过关 —— 阶段 0 六课全部完结</li>
+    <li><span class="date">10.08</span> 综合复盘 10/10 全对 —— 阶段 0 电路课程链毕业</li>
+    <li><span class="date">10.08</span> 阶段 1 电路深化提前开课 —— 不跟课内，教练主导推进</li>
   </ul>
 
   <h3>近期日程</h3>
   <ul class="mile">
-    <li><span class="date">随时</span> 第 6 课 · 谐振与三相入门 —— 阶段 0 收官之战</li>
+    <li><span class="date">10.08</span> 阶段 1 第 1 课 · 节点电压法与网孔电流法 —— 本周任务；六级备考专区同日开跑</li>
     <li><span class="date">2026.12 中旬</span> 六级首考 —— 目标 500+，倒计时约 65 天</li>
     <li><span class="date">2027.01</span> 大二上期末 —— 绩点攻坚第一战（前 20% → 冲前 10%）</li>
     <li><span class="date">2027.03–05</span> 电网实习申请窗口 —— 就业中心 / 院系合作 / 内推三路并进</li>

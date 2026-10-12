@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段 0 · 综合复盘 —— 六课合成一套</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+.tbl td { vertical-align: top; text-align: left; }
+.tbl .role { color: var(--blue); font-weight: 600; white-space: nowrap; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+/* ===== 收官卡 ===== */
+.next {
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 26px 0 10px;
+}
+.next h2 { margin: 0 0 8px; font-size: 19px; }
+.next p { margin: 0; opacity: .93; font-size: 14.5px; }
+.next ul { margin: 10px 0 0; padding-left: 1.4em; opacity: .95; font-size: 14.5px; }
+.next li { margin-bottom: 5px; }
+.next b { color: #ffe9a8; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .tbl { font-size: 12.5px; }
+  .exercise summary .uses { display: none; }
+}
+@media print { body { background: #fff; } section.block { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段0目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 0 筑基 · 综合复盘 · 2026-10-08</p>
+  <h1>六课武功，合成一套</h1>
+  <p>六课学的是零件，复盘装成整机：先对照知识地图自查每课的"毕业标准"，再打一场 10 题跨课混合测试——每一题都要同时调用两门以上课程工具。这是阶段 0 课程链的毕业典礼。</p>
+  <div class="meta">
+    <span class="chip">预计 1.5 – 2 小时</span>
+    <span class="chip">知识地图 + 6 大陷阱 + 10 题混合测试</span>
+    <span class="chip">六课全过关后解锁</span>
+  </div>
+</div>
+
+<!-- ================= 怎么用 ================= -->
+<section class="block">
+  <h2><span class="no">?</span>本页怎么用</h2>
+  <ol>
+    <li><b>过地图（约 20 分钟）</b>：对照下表逐课自问"加粗的这几样我还能不能不看书写出来"——写不出的课，先回去翻对应课程页再回来。</li>
+    <li><b>打测试（整卷限时 60 分钟）</b>：10 题全部手算，<b>做完再统一翻答案</b>。每题右侧标注了它调用哪几课的工具。</li>
+    <li><b>定去向（约 5 分钟）</b>：全对 → 汇报教练，正式切换"跟课内 + 周复盘"模式；有错 → 按错题定位回炉，然后重做该题。</li>
+  </ol>
+  <div class="know"><b>复盘的意义</b>：六课过关只说明"每门单独考我都会"；南网笔试从不单课设问——一道三相功率题里同时藏着相量、阻抗、功率因数。链条上任何一环掉链子，整题报废。</div>
+</section>
+
+<!-- ================= 知识地图 ================= -->
+<section class="block">
+  <h2><span class="no">图</span>知识地图：六课是一条链</h2>
+  <p>第 6 课结尾说过，六课的顺序不是随机的：</p>
+  <div class="formula" style="font-size:15px;">
+    复数 <small>（工具）</small> → 相量 <small>（语言）</small> → 阻抗 <small>（元件脾气）</small> → 相量法 <small>（解题框架）</small> → 功率 <small>（能量账本）</small> → 谐振与三相 <small>（电网母语）</small>
+  </div>
+  <table class="tbl">
+    <tr><th style="width:26%;">课</th><th style="width:15%;">角色</th><th>毕业标准：不看笔记还能默写的</th></tr>
+    <tr><td><b>01 复数与相量运算</b></td><td class="role">工具</td><td>代数式 ⇌ 极坐标式 ⇌ 指数式互化；<b>负实部 → 辐角在 90°–180°（象限陷阱）</b>；除法 = 模相除、辐角相减；共轭</td></tr>
+    <tr><td><b>02 正弦量与相量表示</b></td><td class="role">语言</td><td>三要素（幅值 / 频率 / 初相）；<b>有效值 = 幅值 / √2</b>（220 V 的真身）；相位差判超前 / 滞后；正弦量相加 = 相量相加</td></tr>
+    <tr><td><b>03 R、L、C 与阻抗</b></td><td class="role">元件脾气</td><td>Z<sub>R</sub> = R、Z<sub>L</sub> = jωL、<b>Z<sub>C</sub> = −j/(ωC)（负号！）</b>；阻抗三角形 |Z|² = R² + X²；φ = arctan(X/R)</td></tr>
+    <tr><td><b>04 相量法解正弦稳态</b></td><td class="role">解题框架</td><td><b>五步法</b>：正弦量→相量 → 算总阻抗 → 解复数代数（串并联 / 分压分流）→ 反变换回时域 → 相量图验证</td></tr>
+    <tr><td><b>05 功率与功率因数</b></td><td class="role">能量账本</td><td>P = UIcosφ、Q = UIsinφ、S = UI、S² = P² + Q²；<b>cosφ 低 → 线路损耗大</b>；补偿容量 Q<sub>C</sub> = P(tanφ₁ − tanφ₂)</td></tr>
+    <tr><td><b>06 谐振与三相</b></td><td class="role">电网母语</td><td><b>f₀ = 1/(2π√LC)</b>；串联谐振：Z 最小、I 最大、元件电压 QU；Y：U<sub>线</sub> = √3U<sub>相</sub>；△：I<sub>线</sub> = √3I<sub>相</sub>；<b>P = √3U<sub>线</sub>I<sub>线</sub>cosφ</b></td></tr>
+  </table>
+  <div class="know"><b>一题通吃</b>：下面混合测试的 Q10 就是"整条链调用"的活样本——读正弦量（第 2 课）→ 求每相阻抗（第 3 课）→ Y/△ 换算（第 6 课 √3）→ 算总功率（第 5 + 6 课公式）→ 用复数模验证（第 1 课）。考的从来不是记忆，是<b>工具箱的调用顺序</b>。</div>
+</section>
+
+<!-- ================= 历史踩坑 ================= -->
+<section class="block">
+  <h2><span class="no">坑</span>六大陷阱：血泪与高频</h2>
+  <p>前六课你踩过的坑 + 南网笔试的埋雷点，按"再踩一次代价"排序。测试前先过一遍，测试中它们还会出现。</p>
+  <ol>
+    <li><b>象限陷阱（第 1 课）</b>：负实部复数的辐角在第二象限（90°–180°）。例：−0.5 + j3.5 的辐角是 98.1°，<b>不是 −81.9°</b>，更不是 81.9°。正确姿势：实部为负，arctan 出来先加 180°。</li>
+    <li><b>有效值 ≠ 幅值（第 2 课）</b>：220 V 是有效值，幅值 311 V。功率计算永远用有效值；绝缘耐压设计才关心幅值。正确姿势：看到"220 V"先问自己——√2 乘不乘？</li>
+    <li><b>容抗负号（第 3 课）</b>：Z<sub>C</sub> = 1/(jωC) = <b>−</b>j/(ωC)。丢了负号，X 永远算正，谐振条件 X<sub>L</sub> = X<sub>C</sub> 永远"不成立"。正确姿势：j 在分母 = 乘 −j 上去。</li>
+    <li><b>补偿量的条件（第 5 课 Q7 教训）</b>：Q<sub>C</sub> = P(tanφ₁ − tanφ₂) 里，tanφ₂ 由<b>目标功率因数</b>决定；"全补偿"= cosφ₂ → 1、tanφ₂ = 0、Q<sub>C</sub> = P·tanφ₁。正确姿势：先问"补到多少"，再动公式。</li>
+    <li><b>√3 的方向（第 6 课）</b>：Y 接电压差 √3、△ 接电流差 √3；功率公式线量进线量出。方向记反，三相题全灭。正确姿势：口诀"<b>星压角流</b>"，功率公式认准 U<sub>线</sub>I<sub>线</sub>。</li>
+    <li><b>谐振 = 隐身 ≠ 消失（第 6 课）</b>：谐振时 U<sub>L</sub> 与 U<sub>C</sub> 反相抵消、对电源"隐身"，但各自电压 = QU，可达电源电压的几十上百倍。说"电感电压为零"是错的。正确姿势：抵消发生在<b>总电压</b>层面，元件电压一个都不小。</li>
+  </ol>
+</section>
+
+<!-- ================= 混合测试 ================= -->
+<section class="block">
+  <h2><span class="no">测</span>跨课混合测试（整卷限时 60 分钟）</h2>
+  <p>10 题手算，做完再展开答案。每题右侧标签标注调用课程。<b>评分</b>：10/10 毕业；8–9 道对，回炉错题对应课；≤7 道对，说明链条有环节松动，按错误分布重看第 3、4 课（最常松的两环）。</p>
+
+  <details class="exercise"><summary><span class="qn">Q1</span>把 (3 + j4)/(1 − j1) 化成极坐标式。<span class="uses">考 01</span><span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>除法 = 模相除、辐角相减，但先化成乘法更稳：(3 + j4)/(1 − j) = (3 + j4)(1 + j)/|1 − j|² = (−1 + j7)/2 = <b>−0.5 + j3.5</b>。</p>
+      <p>模 = √(0.25 + 12.25) = √12.5 ≈ 3.54；实部为负、虚部为正 → 第二象限，辐角 = 180° − arctan(3.5/0.5) = 180° − 81.9° = 98.1°。</p>
+      <div class="sol">≈ 3.54 ∠ 98.1°</div>
+      <p class="note">陷阱 1 原题重现：负实部 → 辐角加 180°。答 −81.9° 或 81.9° 都是被同一块石头绊倒。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q2</span>i₁ = 10√2 sin(ωt + 30°) A，i₂ = 10√2 sin(ωt − 60°) A。求总电流 i = i₁ + i₂ 的瞬时表达式。<span class="uses">考 01·02</span><span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>化相量：İ₁ = 10∠30° = 8.66 + j5；İ₂ = 10∠−60° = 5 − j8.66。</p>
+      <p>相加：İ = 13.66 − j3.66，模 = √200 ≈ 14.14，辐角 = arctan(−3.66/13.66) = −15°，即 İ = 14.14∠−15° A。</p>
+      <p>反变换（有效值 × √2 回幅值）：i = 14.14√2 sin(ωt − 15°) = 20 sin(ωt − 15°) A。</p>
+      <div class="sol">i = 20 sin(ωt − 15°) A</div>
+      <p class="note">正弦量相加永远"先化相量再算"，硬套和角公式容易翻车；把有效值直接相加（10 + 10 = 20 A）也是错的——20 是算出来的幅值，纯属巧合的数字面具。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q3</span>R = 30 Ω 与 X<sub>L</sub> = 40 Ω 串联。求 Z、|Z|、功率因数与电路性质。<span class="uses">考 03</span><span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>Z = 30 + j40，|Z| = √(30² + 40²) = 50 Ω，φ = arctan(40/30) ≈ 53.1°。</p>
+      <p>cosφ = R/|Z| = 30/50 = 0.6；X = X<sub>L</sub> − X<sub>C</sub> = 40 − 0 > 0 → 感性。</p>
+      <div class="sol">Z = 50∠53.1° Ω，cosφ = 0.6，感性</div>
+      <p class="note">这就是 3-4-5 直角三角形——电路题里出现 30/40/50、6/8/10 这类勾股数组，是命题人留的"算术善意"，也是检查自己有没有算错的锚点。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q4</span>RLC 串联电路接 u = 100√2 sin(314t) V，R = 40 Ω，X<sub>L</sub> = 30 Ω，X<sub>C</sub> = 25 Ω。求 i(t)，并判断电路性质。<span class="uses">考 03·04</span><span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>Z = 40 + j(30 − 25) = 40 + j5，|Z| = √(1600 + 25) ≈ 40.3 Ω，φ = arctan(5/40) ≈ 7.1°。</p>
+      <p>İ = U̇/Z = 100∠0°/40.3∠7.1° ≈ 2.48∠−7.1° A。</p>
+      <p>反变换：i ≈ 2.48√2 sin(314t − 7.1°) A；X = +5 > 0 → 感性。</p>
+      <div class="sol">i ≈ 3.5 sin(314t − 7.1°) A（有效值 2.48 A），感性</div>
+      <p class="note">电路里有电容 ≠ 电路呈容性——性质只由 X = X<sub>L</sub> − X<sub>C</sub> 的<b>符号</b>决定，这是判断题的常驻嘉宾。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q5</span>感性负载 Z = 40 + j30 Ω 接在 U = 200 V 电源上。求电流、P、Q、S、cosφ。<span class="uses">考 04·05</span><span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>|Z| = 50 Ω → I = 200/50 = 4 A；cosφ = 40/50 = 0.8，sinφ = 0.6。</p>
+      <p>P = UIcosφ = 200 × 4 × 0.8 = 640 W；Q = UIsinφ = 200 × 4 × 0.6 = 480 var；S = UI = 800 VA。</p>
+      <p>验算：S² = P² + Q² → 640² + 480² = 640 000 = 800² ✓（勾股自洽）。</p>
+      <div class="sol">I = 4 A，P = 640 W，Q = 480 var，S = 800 VA，cosφ = 0.8</div>
+      <p class="note">另一条路验证：P = I²R = 16 × 40 = 640 W ✓。一道题两个独立算法互相咬合，才是"真的会"——考场上这就是你的验算本能。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q6</span>某感性负载 P = 1000 W、cosφ₁ = 0.5。要把功率因数提到 cosφ₂ = 0.8，需要补偿多少无功？<span class="uses">考 05</span><span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>cosφ₁ = 0.5 → φ₁ = 60°，tanφ₁ = 1.732；cosφ₂ = 0.8 → φ₂ = 36.9°，tanφ₂ = 0.75。</p>
+      <p>Q<sub>C</sub> = P(tanφ₁ − tanφ₂) = 1000 × (1.732 − 0.75) ≈ 982 var。</p>
+      <div class="sol">约 982 var（欠补偿到 0.8，不必到 1）</div>
+      <p class="note">Q7 修正案的原班人马：先看清目标 cosφ 再动公式。工程上"全补偿"反而不做——过补偿会让电路变容性、抬高电压，补偿到 0.8–0.95 才是常态。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q7</span>R = 10 Ω、L = 100 μH、C = 100 pF 串联。求谐振频率 f₀、特性阻抗 ρ、品质因数 Q；若电源电压 10 V 且频率恰为 f₀，电容电压多大？<span class="uses">考 06</span><span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>ω₀ = 1/√(LC) = 1/√(10⁻⁴ × 10⁻¹⁰) = 1/10⁻⁷ = 10⁷ rad/s → f₀ = ω₀/2π ≈ 1.59 MHz。</p>
+      <p>ρ = √(L/C) = √(10⁻⁴/10⁻¹⁰) = √10⁶ = 1000 Ω；Q = ρ/R = 1000/10 = 100。</p>
+      <p>谐振时 U<sub>C</sub> = QU = 100 × 10 = 1000 V。</p>
+      <div class="sol">f₀ ≈ 1.59 MHz，ρ = 1000 Ω，Q = 100，U_C = 1000 V（电源的 100 倍）</div>
+      <p class="note">Q = 100 是通信级的高品质因数（选频极尖锐、通频带极窄）——收音机锁台靠的就是它。同一个公式，电网人看到的是"过电压烧设备"，通信人看到的是"频道隔离"——这就是第 6 课说的工程两面性。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q8</span>R = 10 Ω、X<sub>L</sub> = X<sub>C</sub> = 40 Ω 串联，接 U = 100 V（频率恰使 X<sub>L</sub> = X<sub>C</sub>）。求电流 I 与电感电压 U<sub>L</sub>。<span class="uses">考 04·06</span><span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>电抗互相抵消：Z = 10 + j(40 − 40) = 10∠0° Ω → I = U/|Z| = 100/10 = 10 A（与电源同相）。</p>
+      <p>U<sub>L</sub> = I·X<sub>L</sub> = 10 × 40 = <b>400 V</b>——电源电压的 4 倍。U<sub>C</sub> 同为 400 V，两者反相抵消，对外"隐身"。</p>
+      <div class="sol">I = 10 A（同相），U_L = 400 V = 4U</div>
+      <p class="note">KVL 没有失效：各元件电压相量<b>求和</b>才是 100 V（400∠−90° + 400∠90° + 100∠0° = 100∠0° ✓）。相量的"和"不等于"模的和"——这是第 4 课相量图给你的最深一课。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q9</span>对称三相 Y–Y 电路，电源相电压 220 V，每相负载 Z = 22∠60° Ω。求线电流与三相总有功功率。<span class="uses">考 02·03·05·06</span><span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>Y 接：U<sub>相</sub> = 220 V 直接加在每相负载上 → I<sub>相</sub> = U<sub>相</sub>/|Z| = 220/22 = 10 A；Y 接 I<sub>线</sub> = I<sub>相</sub> = <b>10 A</b>。</p>
+      <p>三相功率（相量版）：P = 3U<sub>相</sub>I<sub>相</sub>cosφ = 3 × 220 × 10 × cos60° = 3 × 220 × 10 × 0.5 = <b>3300 W = 3.3 kW</b>。</p>
+      <p>线量版验证：U<sub>线</sub> = 220√3 ≈ 381 V，P = √3 × 381 × 10 × 0.5 ≈ 3300 W ✓。</p>
+      <div class="sol">I 线 = 10 A，P = 3.3 kW</div>
+      <p class="note">cosφ 就是每相负载的阻抗角余弦（60° → 0.5），与接法无关。两个功率公式算同一道题必须咬合——这就是"一题通吃"的完整版。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q10</span>把 Q9 的同一负载改为 △ 接，接回同一线电压（U<sub>线</sub> = 220√3 V）。求相电流、线电流与三相总功率——功率变为几倍？<span class="uses">考 04·06</span><span class="hint-arrow">点击展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>△ 接每相直接承受线电压：U<sub>相</sub> = U<sub>线</sub> = 220√3 V → I<sub>相</sub> = 220√3/22 = <b>10√3 ≈ 17.32 A</b>。</p>
+      <p>△ 接 I<sub>线</sub> = √3 I<sub>相</sub> = √3 × 10√3 = <b>30 A</b>。</p>
+      <p>P = 3U<sub>相</sub>I<sub>相</sub>cosφ = 3 × 220√3 × 10√3 × 0.5 = 3 × 220 × 10 × 3 × 0.5 = <b>9900 W = 9.9 kW</b>。</p>
+      <p>对比 Q9：9.9/3.3 = <b>3 倍</b>。</p>
+      <div class="sol">I 相 = 10√3 ≈ 17.32 A，I 线 = 30 A，P = 9.9 kW —— 同一线电压下 △ 是 Y 的 3 倍</div>
+      <p class="note">"√3 × √3 = 3"的整活：相电压涨 √3 倍、相电流再涨 √3 倍，功率两次涨 → 3 倍。三相电动机"星三角降压起动"就靠这一手：起动时 Y 接把电流功率压到 1/3，转起来再切 △——这就是你未来工作中最常见的一个电路操作。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 毕业自评 ================= -->
+<section class="block">
+  <h2><span class="no">评</span>毕业自评清单</h2>
+  <p>混合测试之外，再加一道"默写关"——以下 7 条全部能不看笔记打勾，阶段 0 课程链才算真正毕业：</p>
+  <ul class="checklist">
+    <li>我能默写复数三种形式的互化公式，并处理负实部象限陷阱（Q1 已验证）</li>
+    <li>我能说出有效值与幅值的关系，并解释 220 V 插座的"真身"</li>
+    <li>我能默写 R、L、C 三元件的阻抗与各自电压电流相位关系（含容抗负号）</li>
+    <li>我能复述解题五步法，并用它独立完成一道完整正弦稳态题（Q4、Q5 已验证）</li>
+    <li>我能默写功率三角形三边关系与补偿公式，并解释 cosφ 对电网的意义</li>
+    <li>我能默写谐振频率公式与串联谐振三大特点，并解释过电压为何与 KVL 不矛盾（Q7、Q8 已验证）</li>
+    <li>我能默写 Y / △ 两组 √3 关系与三相功率公式，并说出 Y → △ 功率 3 倍的推导链（Q9、Q10 已验证）</li>
+  </ul>
+</section>
+
+<!-- ================= 收官 ================= -->
+<div class="next">
+  <h2>复盘之后：阶段 0 后半程（2026.10 – 2027.02）</h2>
+  <p>课程链毕业 ≠ 阶段 0 毕业。按总纲，阶段 0 到 2027.02 才收尾，剩余主战场已经排好：</p>
+  <ul>
+    <li><b>六级冲刺（2026.12）</b>：目标 500+，倒计时约 65 天——接下来两个月它是第一优先级。</li>
+    <li><b>期末攻坚（2027.01）</b>：电路 85+ 是阶段 0 的核心 KPI；绩点排名冲前 10%（升学双轨的燃料）。</li>
+    <li><b>电路主线升级</b>：课程链推进完毕后启动教练主导的「阶段 1 · 电路深化」（2026.10 提前开课，不跟课内节奏）。动态电路（一阶三要素法）、戴维南等效等总纲里程碑点名的必会题将逐课拿下——对称三相功率计算这一类，你已经在 Q9、Q10 里解决。</li>
+    <li><b>阶段 1 预告</b>：电路知识轮已提前启动（电路深化链）；2027.03 起进入正式阶段 1——考研题库 300–500 题刷题轮 + 行测入门 + 暑假竞赛 / 实习三选一，详见路线图总纲第二章。</li>
+  </ul>
+  <p style="margin-top:12px;">测试全对 → 汇报教练，进入阶段 1 电路深化；有错 → 回对应课回炉。阶段 1 见，电路人。</p>
+</div>
+
+<!-- ================= 导航 ================= -->
+<div class="pager">
+  <a href="06_谐振与三相入门.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 6 课 · 谐振与三相入门</div>
+  </a>
+  <a href="index.html" style="text-align:center;">
+    <div class="dir">目录</div>
+    <div class="title">阶段 0 筑基</div>
+  </a>
+</div>
+
+<footer>
+  阶段 0 筑基 · 综合复盘（收官） ｜ <a href="index.html">返回阶段0目录</a> ｜ <a href="../index.html">返回电网备考首页</a>
+</footer>
+
+</div>
+</body>
+</html>

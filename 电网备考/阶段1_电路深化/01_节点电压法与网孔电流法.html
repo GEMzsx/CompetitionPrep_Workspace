@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段1 · 第1课 — 节点电压法与网孔电流法</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 下一课卡 ===== */
+.next-card {
+  display: block;
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  text-decoration: none;
+  margin: 26px 0 10px;
+}
+.next-card .dir { font-size: 12.5px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+.next-card .title { font-size: 18px; font-weight: 700; }
+.next-card:hover { opacity: .94; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .exercise summary .uses { display: none; }
+  .tbl { font-size: 12.5px; }
+  .tbl th, .tbl td { padding: 6px 6px; }
+}
+@media print { body { background: #fff; } section.block, .example { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段1目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 1 · 第 1 课 · 2026-10-08</p>
+  <h1>节点电压法与网孔电流法</h1>
+  <p>从"见招拆招"到固定套路：复杂电路不再靠灵感化简，而是靠系统化引擎一把解出。这是阶段 0 第 4 课相量法的引擎本体 —— 学完本课，直流、正弦、暂态电路共用同一台机器。</p>
+  <div class="meta">
+    <span class="chip">预计 2.5 小时</span>
+    <span class="chip">依赖：阶段 0 第 4 课（KCL / KVL）</span>
+    <span class="chip">期末大题重镇</span>
+  </div>
+</div>
+
+<!-- ================= 1 核心思想 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>本课核心思想：变量越少，方程越少</h2>
+  <p>阶段 0 第 4 课的解法是：能串并联就化简、能分压分流就套公式。但它有个致命局限 —— 电路一复杂（两个以上电源、多网孔嵌套），<b>等效化简动不了</b>，逐条支路硬列方程又慢得离谱。</p>
+  <p>本课的答案是：换未知量。不追着每条支路的电流电压跑，而是选一套"最少的独立变量"，让部分定律<b>自动满足</b>，只对剩下的定律列方程：</p>
+  <table class="tbl">
+    <tr><th>方法</th><th>未知量</th><th>方程个数</th><th>特点</th></tr>
+    <tr><td>2b 法</td><td>b 个电流 + b 个电压</td><td>2b 个</td><td>暴力流，思路最直但最笨重</td></tr>
+    <tr><td>支路电流法</td><td>b 个支路电流</td><td>b 个</td><td>KCL + KVL 各出一部分</td></tr>
+    <tr><td><b>节点电压法</b></td><td>n − 1 个节点电压</td><td>n − 1 个</td><td>KVL 自动满足，只列 KCL</td></tr>
+    <tr><td><b>网孔电流法</b></td><td>m 个网孔电流</td><td>m 个</td><td>KCL 自动满足，只列 KVL</td></tr>
+  </table>
+  <p>其中 n 为节点数、m 为网孔数、b 为支路数。<b>自动满足</b>是精髓：节点电压一旦确定，任何回路的电压自动闭合（KVL 天生成立）；网孔电流一旦确定，任何节点的进出自动平衡（KCL 天生成立）。你只需要为剩下的那部分定律列方程。</p>
+  <div class="know"><b>南网笔试视角</b>：考场上的复杂电路大题，九成靠这两台引擎吃分。方法本身是"体力活"，胜负在于<b>列方程又快又准</b>——这正是本课练习的目标。</div>
+</section>
+
+<!-- ================= 2 节点电压法 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>节点电压法：以节点电压为未知量</h2>
+  <p>任选一个节点做参考点（接地，电位为 0），剩下 n − 1 个节点的电位就是全部未知量。每条支路的电流都可以用<b>两端节点电压之差</b>写出来，然后对每个独立节点列一条 KCL。</p>
+  <h3 class="sub">标准方程结构（背这个模板）</h3>
+  <div class="formula">
+    G<sub>11</sub>V<sub>1</sub> + G<sub>12</sub>V<sub>2</sub> = &Sigma;I<sub>S流入</sub> + &Sigma;U<sub>S</sub>G<br>
+    <span class="small">G<sub>11</sub>：节点 1 的<b>自导</b>（连到节点 1 的所有电导之和，恒为正）；G<sub>12</sub>：节点 1、2 之间的<b>互导</b>（公共支路电导，带负号）</span>
+  </div>
+  <p>右端是"注入"的代数和：流入该节点的电流源取正；戴维南支路（电压源串电阻）等效成 U<sub>S</sub>·G 注入。口诀：<b>自导正、互导负；流入正、流出负</b>。</p>
+  <h3 class="sub">弥尔曼定理：两节点电路的秒杀公式</h3>
+  <p>只有两个节点时，n − 1 = 1，方程只剩一条——把所有戴维南支路合并，就是弥尔曼定理：</p>
+  <div class="formula">
+    V<sub>A</sub> = <span class="frac"><span class="top">&Sigma; (U<sub>k</sub> / R<sub>k</sub>)</span><span class="bot">&Sigma; (1 / R<sub>k</sub>)</span></span><br>
+    <span class="small">分子：各含源支路的"注入"代数和（源正极朝节点取正）；分母：所有支路电导之和</span>
+  </div>
+  <div class="exam"><span class="tag-exam">考点</span>弥尔曼定理是<b>期末与南网笔试的常客</b>：题目特征是"多个电源并联汇到同一条母线"。看到两节点直接套公式，30 秒出答案。</div>
+</section>
+
+<!-- ================= 3 网孔电流法 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>网孔电流法：绕圈的假想电流</h2>
+  <p>网孔是平面电路里"最小回路"（不能再分割的孔）。给每个网孔假想一个<b>沿孔流动的电流</b>，公共支路的真实电流 = 两网孔电流的代数差。这样每个节点上，流出的网孔电流必然等于流入的 —— KCL 自动满足，只需对每个网孔列 KVL。</p>
+  <h3 class="sub">标准方程结构（和节点法完美对偶）</h3>
+  <div class="formula">
+    R<sub>11</sub>I<sub>1</sub> + R<sub>12</sub>I<sub>2</sub> = &Sigma;U<sub>S</sub><br>
+    <span class="small">R<sub>11</sub>：网孔 1 的<b>自阻</b>（绕行一周所有电阻之和，恒为正）；R<sub>12</sub>：网孔 1、2 的<b>互阻</b>（公共电阻，两网孔同向绕行时带负号）；&Sigma;U<sub>S</sub>：网孔内电压源代数和，<b>先遇负极取正</b></span>
+  </div>
+  <div class="know"><b>两个"恒正"对比记</b>：节点法自导恒正、互导恒负；网孔法自阻恒正、互阻（同向绕行时）恒负。把"导↔阻、节点↔网孔"对调，两套模板互为镜像 —— 背熟一套等于会两套。</div>
+  <div class="exam"><span class="tag-exam">考点</span>电压源正负号是网孔法第一大失分点。统一约定：<b>绕行方向先撞到电源负极 → 该源记正号</b>（先负后正写正号）。列方程前先把每个网孔的绕行方向（全部顺时针）固定，中途绝不换向。</div>
+</section>
+
+<!-- ================= 4 特殊源处理 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>特殊源处理规则（考点密集区）</h2>
+  <p>标准模板只管普通支路，命题人真正出刀的地方是<b>无伴源</b>（不串联/并联任何电阻的电源）和<b>受控源</b>。处理规则如下：</p>
+  <table class="tbl">
+    <tr><th>元件</th><th>节点电压法</th><th>网孔电流法</th></tr>
+    <tr><td><b>无伴电流源</b></td><td>设其两端电压为辅助量，或用<b>超节点</b>（把两端节点合并列一条 KCL，再补约束 V<sub>1</sub> − V<sub>2</sub> = 已知）</td><td><b>白给</b>：公共支路电流源 → 两网孔电流之差 = 源电流，直接得到一条约束方程</td></tr>
+    <tr><td><b>无伴电压源</b></td><td><b>白给</b>：两端节点电压差 = 源电压，一条约束方程到手</td><td>设流过它的网孔电流为辅助量，或用超网孔</td></tr>
+    <tr><td><b>受控源</b></td><td colspan="2">两步走：<b>先当独立源</b>按上面规则列方程，<b>再补一条控制量方程</b>（把控制量用未知量表示），联立消去</td></tr>
+  </table>
+  <div class="know"><b>白给规律</b>：电流源在公共支路 → 网孔法白给；电压源跨在节点间 → 节点法白给。<b>哪边白给，就选哪台引擎</b>——这是考场上选方法的第一直觉。</div>
+  <div class="exam"><span class="tag-exam">考点</span>受控源两步走是期末压轴题标配。答案出来后必须<b>回代验算</b>：求出受控源的值，回原电路检查 KCL/KVL 是否闭合——验算是防止符号错误的最后一道闸。</div>
+</section>
+
+<!-- ================= 5 引擎选择策略 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>选哪台引擎：四问定方法</h2>
+  <ol>
+    <li><b>能等效化简吗？</b>——串联并联、分压分流能化到底的（阶段 0 第 4 课），直接化简，别动引擎。</li>
+    <li><b>有白给结构吗？</b>——公共支路是电流源 → 网孔法；节点间跨电压源 → 节点法。</li>
+    <li><b>数未知量</b>——n − 1 个节点电压 vs m 个网孔电流，哪个少选哪个。经验：节点少的电路（放射状）选节点法，孔多节点少反着选。</li>
+    <li><b>是平面电路吗？</b>——支路在平面上<b>交叉、无法摊开</b>的（非平面），网孔电流法失效，只能用节点法。</li>
+  </ol>
+  <div class="know"><b>终极心法</b>：两台引擎解同一个电路，答案必然一致。平时练习可以换引擎互验 —— 期末考场上这就是你的<b>验算手段</b>：节点法解完，用网孔法抽查一个支路电流。</div>
+</section>
+
+<!-- ================= 6 与阶段0的桥 ================= -->
+<section class="block">
+  <h2><span class="no">6</span>与阶段 0 的桥：一台引擎，三个时代</h2>
+  <p>阶段 0 第 4 课的相量法五步法里，"算阻抗、解复数代数"这一步，用的其实就是本课的引擎——只不过把电阻 R 换成了复阻抗 Z：</p>
+  <table class="tbl">
+    <tr><th>时代</th><th>元件语言</th><th>引擎写法</th></tr>
+    <tr><td>直流电阻电路（本课）</td><td>R、G = 1/R</td><td>节点电压 / 网孔电流，全是实数</td></tr>
+    <tr><td>正弦稳态（阶段 0 第 4 课）</td><td>Z、Y = 1/Z</td><td>同一模板，G 换成 Y，方程变复数</td></tr>
+    <tr><td>动态电路（本阶段第 3–4 课之后）</td><td>s 域运算电路</td><td>同一模板再战，暂态一次解出</td></tr>
+  </table>
+  <p>所以本课学的不是"一个新方法"，而是<b>后面所有电路分析的通用机器</b>。本阶段收官时，直流、正弦、暂态三条线会在这台引擎上合一。</p>
+</section>
+
+<!-- ================= 7 例题精讲 ================= -->
+<section class="block">
+  <h2><span class="no">例</span>例题精讲</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 弥尔曼定理：三支路汇流</div>
+    <div class="ex-body">
+      <p class="q">三条支路并连汇于节点 A：支路 1 为 12 V 电压源串 2 Ω（正极朝节点），支路 2 为 6 V 电压源串 3 Ω（正极朝节点），支路 3 为纯电阻 6 Ω 到参考点。求节点电压 V<sub>A</sub>。</p>
+      <ol class="steps">
+        <li>套弥尔曼公式，分子 = 各源注入：12/2 + 6/3 = 6 + 2 = 8；分母 = 全部电导：1/2 + 1/3 + 1/6 = 1。</li>
+        <li>V<sub>A</sub> = 8 / 1 = 8 V。</li>
+        <li><b>验算</b>（KCL）：支路 1 流入 (12−8)/2 = 2 A；支路 2 流入 (6−8)/3 = −2/3 A（实际流出 2/3 A）；支路 3 流出 8/6 = 4/3 A。流入 2 − 2/3 = 4/3 ✓ 闭合。</li>
+      </ol>
+      <div class="ans">V<sub>A</sub> = 8 V</div>
+      <p class="key">两节点 = 一条方程 = 30 秒。看到"多源并联汇母线"，直接条件反射弥尔曼。验算那一步（代回 KCL）在考场上值 5 分钟——负号错误当场现形。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 网孔法 + 无伴电流源（超网孔）</div>
+    <div class="ex-body">
+      <p class="q">平面电路两个网孔：左网孔含 18 V 电压源（绕行升压）与 3 Ω 电阻；两网孔公共支路上是一个 2 A 无伴电流源（方向向上）；右网孔含 6 Ω 电阻与 3 V 电压源（外圈绕行时为电位降）。求两网孔电流 I<sub>1</sub>、I<sub>2</sub>（均取顺时针）。</p>
+      <ol class="steps">
+        <li>公共支路是无伴电流源 → 网孔法<b>白给</b>一条约束：两网孔电流反向经过公共支路，净向上电流 = I<sub>1</sub> − I<sub>2</sub> = 2 A。</li>
+        <li>电流源电压未知，绕不开它 —— 用<b>超网孔</b>：跳过公共支路，绕外圈列一条 KVL：18 − 3I<sub>1</sub> − 6I<sub>2</sub> − 3 = 0，即 3I<sub>1</sub> + 6I<sub>2</sub> = 15。</li>
+        <li>联立：I<sub>1</sub> = I<sub>2</sub> + 2 → 3(I<sub>2</sub>+2) + 6I<sub>2</sub> = 15 → 9I<sub>2</sub> = 9 → I<sub>2</sub> = 1 A，I<sub>1</sub> = 3 A。</li>
+        <li><b>验算</b>：外圈 KVL：18 − 3×3 − 6×1 − 3 = 0 ✓。</li>
+      </ol>
+      <div class="ans">I<sub>1</sub> = 3 A，I<sub>2</sub> = 1 A</div>
+      <p class="key">无伴电流源的两板斧：公共支路给约束（白给），绕行用超网孔（跳过它）。一约束一方程，两网孔问题两条方程，齐活。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 网孔法 + 受控电压源（两步走）</div>
+    <div class="ex-body">
+      <p class="q">两网孔电路：网孔 1（顺时针）含 14 V 电压源（绕行升压）、4 Ω 电阻、受控电压源 4I<sub>2</sub>（正极靠公共电阻侧，绕行时作电位降）；公共支路 2 Ω；网孔 2 含 2 Ω 电阻。求 I<sub>1</sub>、I<sub>2</sub>。</p>
+      <ol class="steps">
+        <li><b>第一步，当独立源</b>列方程。网孔 1：14 − 4I<sub>1</sub> − 2(I<sub>1</sub>−I<sub>2</sub>) − 4I<sub>2</sub> = 0，整理得 6I<sub>1</sub> + 2I<sub>2</sub> = 14。网孔 2：−2(I<sub>2</sub>−I<sub>1</sub>) − 2I<sub>2</sub> = 0，整理得 −2I<sub>1</sub> + 4I<sub>2</sub> = 0。</li>
+        <li><b>第二步，补控制量方程</b>：这里控制量恰好就是未知量 I<sub>2</sub> 本身，无需额外方程，直接联立。</li>
+        <li>由方程 2：I<sub>2</sub> = I<sub>1</sub>/2。代入方程 1：6I<sub>1</sub> + I<sub>1</sub> = 14 → I<sub>1</sub> = 2 A，I<sub>2</sub> = 1 A。</li>
+        <li><b>回代验算</b>：受控源此刻电压 = 4I<sub>2</sub> = 4 V。网孔 1 KVL：14 − 8 − 2×(2−1) − 4 = 0 ✓ 闭合。</li>
+      </ol>
+      <div class="ans">I<sub>1</sub> = 2 A，I<sub>2</sub> = 1 A，受控源电压 4 V</div>
+      <p class="key">两步走全程只有一条新纪律：受控源列方程时先"装傻"，控制量用未知量表达后必须回代联立。解完一定回原电路验算——受控源的符号陷阱是压轴题的头号杀手。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 8 练习 ================= -->
+<section class="block">
+  <h2><span class="no">练</span>练习题（手算，先自己列方程再展开）</h2>
+
+  <details class="exercise"><summary><span class="qn">Q1</span>三条支路汇于节点 A：20 V 源串 4 Ω（正朝节点）、5 V 源串 5 Ω（正朝节点）、20 Ω 电阻到参考点。求 V<sub>A</sub>。<span class="uses">弥尔曼</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>分子 = 20/4 + 5/5 = 5 + 1 = 6；分母 = 1/4 + 1/5 + 1/20 = 0.25 + 0.2 + 0.05 = 0.5。</p>
+      <div class="sol">V<sub>A</sub> = 6 / 0.5 = 12 V</div>
+      <p class="note">验算：流入 (20−12)/4 = 2 A、(5−12)/5 = −1.4 A（实际流出），流出 12/20 = 0.6 A。2 − 1.4 = 0.6 ✓。分母凑整（0.25+0.2+0.05）是命题人的"算术善意"，看到就该心里有数：答案多半是整数。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q2</span>节点 1 经 1 Ω 接 10 V 电压源（正朝节点 1）；节点 1 与节点 2 之间接 1 Ω；节点 2 经 2 Ω 接参考点。求 V<sub>1</sub>、V<sub>2</sub>。<span class="uses">节点法</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>节点 1 自导 = 1 + 1 = 2（源支路 1 Ω + 互支路 1 Ω），互导 1：2V<sub>1</sub> − V<sub>2</sub> = 10×1 = 10。</p>
+      <p>节点 2 自导 = 1 + 0.5 = 1.5：−V<sub>1</sub> + 1.5V<sub>2</sub> = 0。</p>
+      <p>由第二式 V<sub>2</sub> = 2V<sub>1</sub>/3，代入第一式：2V<sub>1</sub> − 2V<sub>1</sub>/3 = 10 → V<sub>1</sub>(4/3) = 10 → V<sub>1</sub> = 7.5 V。</p>
+      <div class="sol">V<sub>1</sub> = 7.5 V，V<sub>2</sub> = 5 V</div>
+      <p class="note">验算：1 Ω 支路电流 (10−7.5)/1 = 2.5 A 全部流经互支路 (7.5−5)/1 = 2.5 A ✓，再经 2 Ω 入地 5/2 = 2.5 A ✓ —— 一条河从头流到尾。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q3</span>两网孔：左网孔 8 V 源（绕行升压）串 1 Ω；公共支路 2 Ω；右网孔 3 Ω 串 2 V 源（沿顺时针绕行先遇负极）。求网孔电流 I<sub>1</sub>、I<sub>2</sub>。<span class="uses">网孔法</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>网孔 1：自阻 3、互阻 −2：(3)I<sub>1</sub> − 2I<sub>2</sub> = 8。</p>
+      <p>网孔 2：自阻 5、互阻 −2：−2I<sub>1</sub> + 5I<sub>2</sub> = <b>+2</b>（顺时针绕行先遇负极 → 记正）。</p>
+      <p>消元：第一式 ×5 + 第二式 ×2：15I<sub>1</sub> − 4I<sub>1</sub> = 44 → I<sub>1</sub> = 4 A；回代 −8 + 5I<sub>2</sub> = 2 → I<sub>2</sub> = 2 A。</p>
+      <div class="sol">I<sub>1</sub> = 4 A，I<sub>2</sub> = 2 A</div>
+      <p class="note">2 V 源的符号是本题唯一的坑："先负后正写正号"——绕行方向先撞负极就记正。第二问验算：右网孔 KVL：−2(I<sub>2</sub>−I<sub>1</sub>) − 3I<sub>2</sub> + 2 = −2(2−4) − 6 + 2 = 0 ✓。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q4</span>节点 1 经 1 Ω 接 6 V 源（正朝节点 1）、再经 2 Ω 接参考点；节点 1 与节点 2 之间接 3 A 电流源（方向从节点 2 流向节点 1）；节点 2 经 2 Ω 接参考点。求 V<sub>1</sub>、V<sub>2</sub>。<span class="uses">无伴电流源</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>电流源注入节点 1 → 节点 1 的 KCL：(6 − V<sub>1</sub>)/1 + 3 = V<sub>1</sub>/2 → 9 = 1.5V<sub>1</sub> → V<sub>1</sub> = 6 V。</p>
+      <p>节点 2 只有电流源（流出 3 A）与 2 Ω：V<sub>2</sub>/2 = −3 → V<sub>2</sub> = −6 V。</p>
+      <div class="sol">V<sub>1</sub> = 6 V，V<sub>2</sub> = −6 V</div>
+      <p class="note">V<sub>2</sub> 为负 = 电流真实方向与你预设相反（2 Ω 里电流从地流向节点 2，被电流源抽走）。<b>负电压不是错，是信息</b>——写答案时保留负号并理解其含义。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q5</span>某电路 5 个节点（n−1 = 4 个独立节点电压）、5 个网孔，且支路在平面上交叉摊不开。应该用哪种方法？为什么？<span class="uses">引擎选择</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p>两个判断依次生效：① 非平面电路（交叉摊不开）→ <b>网孔电流法直接出局</b>；② 剩节点法，4 个未知量方程可解。</p>
+      <div class="sol">节点电压法：非平面 + 未知量 4 &lt; 5</div>
+      <p class="note">选择题里"非平面"三个字就是网孔法的死刑判决书。若本题是平面电路，仍建议节点法（4 &lt; 5，方程更少）——数未知量永远是第一直觉。</p>
+    </div>
+  </details>
+
+  <details class="exercise"><summary><span class="qn">Q6</span>节点 1 经 1 Ω 接 10 V 源（正朝节点 1）；节点 1 与节点 2 之间接 8 V 无伴电压源（正极在节点 2 侧）；节点 2 经 2 Ω 接参考点。求 V<sub>1</sub>、V<sub>2</sub>。<span class="uses">超节点</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p><b>白给约束</b>：V<sub>2</sub> − V<sub>1</sub> = 8。</p>
+      <p><b>超节点</b>（把节点 1、2 连同电压源包成一个大局）：对外 KCL：流入 = (10 − V<sub>1</sub>)/1，流出 = V<sub>2</sub>/2 → 10 − V<sub>1</sub> = V<sub>2</sub>/2。</p>
+      <p>代入约束 V<sub>2</sub> = V<sub>1</sub> + 8：10 − V<sub>1</sub> = (V<sub>1</sub>+8)/2 → 20 − 2V<sub>1</sub> = V<sub>1</sub> + 8 → 3V<sub>1</sub> = 12 → V<sub>1</sub> = 4 V，V<sub>2</sub> = 12 V。</p>
+      <div class="sol">V<sub>1</sub> = 4 V，V<sub>2</sub> = 12 V</div>
+      <p class="note">无伴电压源跨节点 → 节点法白给 + 超节点合并 KCL，两条方程定两个未知量。注意 1 Ω 支路电流此刻 = (10−4)/1 = 6 A，全部经 2 Ω 入地：12/2 = 6 A ✓——超节点内部流的电流（8V 源支路）不用你操心，KCL 只看边界。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 9 自测 ================= -->
+<section class="block">
+  <h2><span class="no">测</span>本课过关自测（全勾过关，缺一补漏）</h2>
+  <ul class="checklist">
+    <li>我能说出 2b 法、支路法、节点法、网孔法的未知量个数，并解释节点法 KVL / 网孔法 KCL 为什么"自动满足"</li>
+    <li>我能默写节点法标准方程模板（自导正、互导负、流入正）与网孔法模板（自阻正、互阻负、先负后正）</li>
+    <li>我能默写弥尔曼定理，并说出它的适用特征（两节点、多源汇流）</li>
+    <li>我知道无伴电流源在网孔法白给、无伴电压源在节点法白给，并能用超网孔 / 超节点处理对应局面</li>
+    <li>我能用"两步走 + 回代验算"完整解出含受控源电路（例 3 独立重做一遍）</li>
+    <li>我能按"化简 → 白给 → 数未知量 → 平面性"四问为任一电路选引擎，并说明非平面电路只能用节点法</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 待开</div>
+  <div class="title">第 2 课 · 电路定理 —— 叠加 · 戴维南 · 最大功率传输</div>
+</a>
+
+<div class="pager">
+  <a href="index.html">
+    <div class="dir">目录</div>
+    <div class="title">阶段 1 · 电路深化</div>
+  </a>
+  <a href="../index.html" style="text-align:center;">
+    <div class="dir">门户</div>
+    <div class="title">电网备考首页</div>
+  </a>
+</div>
+
+<footer>
+  阶段 1 · 电路深化 · 第 1 课 ｜ <a href="index.html">返回阶段1目录</a> ｜ <a href="../index.html">电网备考首页</a>
+</footer>
+
+</div>
+</body>
+</html>
