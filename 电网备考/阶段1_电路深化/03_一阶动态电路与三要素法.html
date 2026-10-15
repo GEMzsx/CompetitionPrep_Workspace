@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段1 · 第3课 — 一阶动态电路与三要素法</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; display: block; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 下一课卡 ===== */
+.next-card {
+  display: block;
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  text-decoration: none;
+  margin: 26px 0 10px;
+}
+.next-card .dir { font-size: 12.5px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+.next-card .title { font-size: 18px; font-weight: 700; }
+.next-card:hover { opacity: .94; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .exercise summary .uses { display: none; }
+  .tbl { font-size: 12.5px; }
+  .tbl th, .tbl td { padding: 6px 6px; }
+}
+@media print { body { background: #fff; } section.block, .example { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段1目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 1 · 第 3 课 · 2026-10-15</p>
+  <h1>一阶动态电路与三要素法</h1>
+  <p>换路定则、RC / RL 暂态、三要素法（初值 + 终值 + 时间常数）—— 总纲点名的必会题，期末必出一道大题的"稳拿分"章节。学完本课，任何一阶电路都只有一行公式，且这道公式还能顺手把第 2 课的戴维南等效用上。</p>
+  <div class="meta">
+    <span class="chip">预计 2.5 小时</span>
+    <span class="chip">依赖：第 2 课（戴维南等效）</span>
+    <span class="chip">期末大题 · 稳拿分</span>
+  </div>
+</div>
+
+<!-- ================= 1 核心思想 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>本课核心思想：暂态是"电的惯性"，三要素是万能钥匙</h2>
+  <p>前面所有课学都是<b>稳态</b>——电路早就稳定了，电流电压不再变化。但只要电路里有<b>储能元件</b>（电容存电场能、电感存磁场能），一"换路"（开关动作、电源突变），能量没法瞬间改变，电路就会经历一段<b>过渡过程（暂态）</b>，然后才进入新的稳态。</p>
+  <p>动态电路的难点本来在于"要解微分方程"，但一阶电路（只含一个等效储能元件）有一条<b>万能钥匙</b>——三要素法。背下这一个公式，微分方程一步都不用解：</p>
+  <div class="formula">
+    f(t) = f(∞) + [ f(0⁺) − f(∞) ] · e<sup>−t/τ</sup>
+    <span class="small">f 可以是任一支路的电流或电压；三要素 = 初值 f(0⁺)、终值 f(∞)、时间常数 τ</span>
+  </div>
+  <div class="know"><b>本课的骨架</b>：换路定则（拿初值）→ 稳态电路（拿终值）→ 从动态元件看进去求等效电阻（拿 τ）→ 代公式。<b>全程不解微分方程</b>，考场上就是"三步取值 + 一行公式"。</div>
+  <div class="exam"><span class="tag-exam">南网 / 期末视角</span>动态电路是期末必出一道大题的高频章节（通常 10–15 分），也是南网笔试电路部分常考的"求 u<sub>C</sub>(t) / i<sub>L</sub>(t)"题型。它同时是第 4 课（二阶电路）的地基。</div>
+</section>
+
+<!-- ================= 2 换路定则与初始值 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>换路定则：储能元件的值不能突变</h2>
+  <p>换路瞬间（记作 t = 0），电容电压和电感电流<b>必须连续</b>——因为它们对应能量（W<sub>C</sub> = ½Cu<sub>C</sub>²、W<sub>L</sub> = ½Li<sub>L</sub>²），能量不能突变：</p>
+
+  <div class="formula">
+    u<sub>C</sub>(0⁺) = u<sub>C</sub>(0⁻)　　i<sub>L</sub>(0⁺) = i<sub>L</sub>(0⁻)
+    <span class="small">换路定则 —— 只有这两个量不突变，其余都可突变</span>
+  </div>
+
+  <h3 class="sub">怎么求初值 f(0⁺)：两步走</h3>
+  <ol>
+    <li><b>先求 0⁻ 稳态</b>：换路前电路已达稳态，此时<b>电容相当于开路</b>（电流为 0）、<b>电感相当于短路</b>（电压为 0），据此算出 u<sub>C</sub>(0⁻) 或 i<sub>L</sub>(0⁻)。</li>
+    <li><b>再画 0⁺ 等效电路</b>：换路后的电路里，把动态元件替换成"已知值"，其余元件保留，解出目标量在 t = 0⁺ 时的值。</li>
+  </ol>
+
+  <table class="tbl">
+    <tr><th>动态元件在 0⁺ 等效电路里</th><th>替换为</th><th>特殊情况</th></tr>
+    <tr><td>电容 C</td><td>电压源，值 = u<sub>C</sub>(0⁺)</td><td>u<sub>C</sub>(0⁺) = 0 → 直接用导线短路</td></tr>
+    <tr><td>电感 L</td><td>电流源，值 = i<sub>L</sub>(0⁺)</td><td>i<sub>L</sub>(0⁺) = 0 → 直接断开开路</td></tr>
+  </table>
+
+  <div class="exam"><span class="tag-exam">头号陷阱</span><b>别搞错"不突变"的对象！</b>不突变的只有 u<sub>C</sub> 和 i<sub>L</sub>。电容电流 i<sub>C</sub>、电感电压 u<sub>L</sub>、以及电阻上的电流电压，在换路瞬间<b>都可以跳变</b>。所以求 i<sub>C</sub>(0⁺)、u<sub>L</sub>(0⁺) 时，必须先拿到 u<sub>C</sub>(0⁺)/i<sub>L</sub>(0⁺)，再用 KCL / KVL 在 0⁺ 电路里算——不能想当然。</div>
+</section>
+
+<!-- ================= 3 三要素 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>三要素：初值、终值、时间常数</h2>
+  <table class="tbl">
+    <tr><th>要素</th><th>含义</th><th>怎么求</th></tr>
+    <tr><td><b>初值 f(0⁺)</b></td><td>换路瞬间的值</td><td>换路定则 + 0⁺ 等效电路（上一节）</td></tr>
+    <tr><td><b>终值 f(∞)</b></td><td>换路后新稳态的值</td><td>换路后电路稳态：<b>电容开路、电感短路</b>，按稳态电路算</td></tr>
+    <tr><td><b>时间常数 τ</b></td><td>过渡过程的快慢</td><td>从动态元件两端看进去求等效电阻 R<sub>eq</sub></td></tr>
+  </table>
+
+  <div class="formula">
+    RC 电路：τ = R<sub>eq</sub> · C　　RL 电路：τ = <span class="frac"><span class="top">L</span><span class="bot">R<sub>eq</sub></span></span>
+    <span class="small">R<sub>eq</sub>：把电源全部置零后，<b>从动态元件两端看进去</b>的等效电阻</span>
+  </div>
+
+  <div class="exam"><span class="tag-exam">第二个陷阱</span><b>τ 里的电阻不是"回路总电阻"</b>，而是<b>从动态元件两端看进去的等效电阻</b> R<sub>eq</sub>。求它就是把第 2 课的戴维南方法搬过来：独立源置零（压源短路、流源开路），从动态元件端口向外看；<b>含受控源时必须用外加电源法或开路短路法</b>，不能直接串并联。</div>
+
+  <p>为什么 τ 用 R<sub>eq</sub>？直观理解：电容放电是"电流流过外电路"，外电路越"堵"（R<sub>eq</sub> 越大），放电越慢；电感储的是电流，外电路电阻越小，"泄流"越快（τ = L/R<sub>eq</sub> 与 R<sub>eq</sub> 成反比）。</p>
+</section>
+
+<!-- ================= 4 指数曲线的物理直觉 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>指数曲线直觉：τ 到底是什么</h2>
+  <p>三要素公式画出来是一条从 f(0⁺) 出发、渐近到 f(∞) 的指数曲线。记住这三条数轴刻度，判断和估算就都有了：</p>
+  <table class="tbl">
+    <tr><th>时间</th><th>已完成的改变量（占总量的比例）</th><th>工程含义</th></tr>
+    <tr><td>t = 1τ</td><td>63.2%</td><td>τ 是"快慢的尺度"，不是"过程结束时间"</td></tr>
+    <tr><td>t = 3τ</td><td>95.0%</td><td>工程上通常认为已进入稳态</td></tr>
+    <tr><td>t = 5τ</td><td>99.3%</td><td>教材默认"过渡过程结束"</td></tr>
+  </table>
+  <ul>
+    <li><b>τ 越大</b>：曲线越平缓，过程越长（大电阻、大电容使放电慢）</li>
+    <li><b>τ 越小</b>：曲线越陡，几乎"瞬间"完成</li>
+    <li>若 f(0⁺) = 0：整条曲线是<b>充电上升</b>（1 − e<sup>−t/τ</sup> 形态）；若 f(∞) = 0：是<b>放电衰减</b>（e<sup>−t/τ</sup> 形态）</li>
+  </ul>
+  <div class="know"><b>速判技巧</b>：考试若问"经过多久达到某值"，把三要素代回公式解 t 即可：e<sup>−t/τ</sup> = [f(∞) − f(t)]/[f(∞) − f(0⁺)]，再取对数。别死记"3τ"。</div>
+  <p>本课讨论的一阶电路，指<b>只含一个等效储能元件</b>（一个 C，或一个 L；多个同类元件可先合并）。若同时含 C 和 L，则是二阶电路——那是第 4 课的内容。</p>
+</section>
+
+<!-- ================= 5 例题 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>例题精讲（三道模板题）</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · RC 充电：三要素法的最基本形态</div>
+    <div class="ex-body">
+      <p class="q">电路：10 V 电压源经开关 S、串联 R = 2 kΩ 与 C = 1 μF 接通到地。t = 0 前 S 断开、电容未储能；t = 0 合上 S。求 u<sub>C</sub>(t) 及电流 i(t)。</p>
+      <ol class="steps">
+        <li><b>初值</b>：换路前电容未储能 → u<sub>C</sub>(0⁻) = 0，由换路定则 u<sub>C</sub>(0⁺) = <b>0</b></li>
+        <li><b>终值</b>：t → ∞ 稳态，电容开路（无电流），电阻上无压降 → u<sub>C</sub>(∞) = <b>10 V</b></li>
+        <li><b>时间常数</b>：从电容两端看进去 R<sub>eq</sub> = R = 2 kΩ（电压源短路后就是它自己）→ τ = R<sub>eq</sub>C = 2×10³ × 1×10⁻⁶ = <b>2 ms</b></li>
+        <li><b>代公式</b>：u<sub>C</sub>(t) = 10 + (0 − 10)e<sup>−t/0.002</sup> = <b>10(1 − e<sup>−500t</sup>) V</b></li>
+        <li><b>求电流</b>：i(t) = (10 − u<sub>C</sub>)/R = 10e<sup>−500t</sup>/2000 = <b>5e<sup>−500t</sup> mA</b>（0⁺ 瞬间为 5 mA，稳态为 0）</li>
+      </ol>
+      <div class="ans">答案：u<sub>C</sub>(t) = 10(1 − e<sup>−500t</sup>) V，t ≥ 0</div>
+      <p class="key">校验：t = τ = 2 ms 时 u<sub>C</sub> = 10 × 63.2% = 6.32 V ✓；t = 3τ = 6 ms 时达 9.5 V，进入稳态。注意 0⁺ 时电容电压为 0（相当于短路），而电流却最大（5 mA 可突变）——这正是"不突变的只有 u<sub>C</sub>"的活例。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · RL 电路：先用第 2 课的戴维南求 τ 与终值</div>
+    <div class="ex-body">
+      <p class="q">电路：24 V 电压源串 4 Ω 电阻到节点 a，节点 a 经 12 Ω 电阻接地；电感 L = 0.5 H 接在 a 与地之间（t = 0 起接通，电感初始无电流）。求 i<sub>L</sub>(t)。</p>
+      <ol class="steps">
+        <li><b>初值</b>：i<sub>L</sub>(0⁻) = 0 → i<sub>L</sub>(0⁺) = <b>0</b></li>
+        <li><b>终值</b>：稳态时电感短路，即 a-地 被短接 → 电感所在支路两端电压为 0，a 点被钳到 0 V → i<sub>L</sub>(∞) = <b>24/4 = 6 A</b></li>
+        <li><b>时间常数</b>：从电感两端（a-地）看进去，电压源短路 → R<sub>eq</sub> = 4 Ω ∥ 12 Ω = <b>3 Ω</b> → τ = L/R<sub>eq</sub> = 0.5/3 = <b>1/6 s ≈ 0.167 s</b></li>
+        <li><b>代公式</b>：i<sub>L</sub>(t) = 6 + (0 − 6)e<sup>−6t</sup> = <b>6(1 − e<sup>−6t</sup>) A</b></li>
+      </ol>
+      <div class="ans">答案：i<sub>L</sub>(t) = 6(1 − e<sup>−6t</sup>) A，t ≥ 0</div>
+      <p class="key">看套路：τ 里的 R<sub>eq</sub> 正是第 2 课"从端口看进去的等效电阻"（4 ∥ 12 = 3 Ω）；终值 6 A 恰好是"戴维南 U<sub>oc</sub> = 18 V 除以 R<sub>eq</sub> = 3 Ω"。<b>第 2 课练熟的戴维南，在这里直接变成取 τ 和终值的工具</b>——这就是课程链的价值。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 换路切换：初值来自换路前，终值与 τ 来自换路后</div>
+    <div class="ex-body">
+      <p class="q">电路：开关 S 有两个位置。t &lt; 0 时 S 在位置 1，20 V 电源经 4 Ω 给 C = 0.5 μF 充电，已达稳态；t = 0 时 S 拨到位置 2，改为 10 V 电源经 10 Ω 与电容相连。求 u<sub>C</sub>(t)（t ≥ 0）。</p>
+      <ol class="steps">
+        <li><b>初值（来自换路前）</b>：t &lt; 0 稳态，电容开路无电流，4 Ω 上无压降 → u<sub>C</sub>(0⁻) = 20 V → u<sub>C</sub>(0⁺) = <b>20 V</b></li>
+        <li><b>终值（来自换路后稳态）</b>：位置 2 稳态，电容开路 → u<sub>C</sub>(∞) = <b>10 V</b></li>
+        <li><b>时间常数（来自换路后电路）</b>：从电容两端看，位置 2 的电压源短路 → R<sub>eq</sub> = 10 Ω → τ = 10 × 0.5×10⁻⁶ = <b>5 μs</b></li>
+        <li><b>代公式</b>：u<sub>C</sub>(t) = 10 + (20 − 10)e<sup>−t/5μs</sup> = <b>(10 + 10e<sup>−2×10⁵t</sup>) V</b></li>
+      </ol>
+      <div class="ans">答案：u<sub>C</sub>(t) = 10 + 10e<sup>−2×10⁵t</sup> V，t ≥ 0</div>
+      <p class="key">三要素各有出处，别用混：<b>初值只认换路前</b>（20 V），<b>终值和 τ 只认换路后</b>（10 V、10 Ω）。这是换路类题最容易翻车的地方——把旧电路的电阻拿去算 τ，或把旧稳态值当终值。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6 限时练习 ================= -->
+<section class="block">
+  <h2><span class="no">6</span>限时练习（建议 20 分钟，做完再展开）</h2>
+
+  <details class="exercise">
+    <summary><span class="qn">练 1</span>RC 充电三要素<span class="uses">基础模板</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电路：6 V 电压源经 3 kΩ 与 C = 2 μF 接通，电容初始未储能，t = 0 合上开关。求 u<sub>C</sub>(t) 和达到 3.79 V 需要多久。
+      <div class="sol">初值 0；终值 6 V；τ = 3×10³ × 2×10⁻⁶ = 6 ms → u<sub>C</sub>(t) = 6(1 − e<sup>−t/6ms</sup>) V。达到 3.79 V（即 63.2% × 6 V = 3.79 V）所需时间 = <b>1τ = 6 ms</b></div>
+      <p class="note">记住"1τ 完成 63.2%"这条刻度，这类"求时间"题不用解对数。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 2</span>RL 电路求 i<sub>L</sub>(t)<span class="uses">τ = L / R<sub>eq</sub></span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电路：15 V 电压源串 5 Ω 与 L = 2 H 回到源，电感初始无电流，t = 0 合上开关。求 i<sub>L</sub>(t) 及 3τ 时的电流值。
+      <div class="sol">初值 0；终值 i<sub>L</sub>(∞) = 15/5 = 3 A；从电感两端看 R<sub>eq</sub> = 5 Ω → τ = 2/5 = 0.4 s → i<sub>L</sub>(t) = 3(1 − e<sup>−2.5t</sup>) A。3τ = 1.2 s 时 i<sub>L</sub> = 3 × 95% = <b>2.85 A</b></div>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 3</span>τ 易错点：看进去的等效电阻<span class="uses">戴维南 · 区分度</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电路：12 V 电压源串 6 Ω 到节点 a，节点 a 经 3 Ω 接地；电感 L = 0.6 H 接在 a 与地之间，初始无电流，t = 0 接通。求 i<sub>L</sub>(t)。<br>
+      <b>陷阱</b>：τ 能不能用 L/(6 + 3)？
+      <div class="sol">不能！R<sub>eq</sub> 是从电感两端（a-地）看进去：电压源短路 → 6 Ω ∥ 3 Ω = 2 Ω → τ = 0.6/2 = 0.3 s。终值：稳态电感短路，a 点电压钳到 0 → i<sub>L</sub>(∞) = 12/6 = 2 A。故 i<sub>L</sub>(t) = <b>2(1 − e<sup>−t/0.3</sup>) = 2(1 − e<sup>−3.33t</sup>) A</b></div>
+      <p class="note">若错用 L/(6+3) = 0.067 s，τ 就差了 4.5 倍，整条曲线全错。记住：<b>从动态元件两端向外看</b>，不是沿回路把电阻相加。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 7 自测清单 ================= -->
+<section class="block">
+  <h2><span class="no">7</span>自测清单：全勾才算过关</h2>
+  <ul class="checklist">
+    <li>能默写换路定则 u<sub>C</sub>(0⁺) = u<sub>C</sub>(0⁻)、i<sub>L</sub>(0⁺) = i<sub>L</sub>(0⁻)，并说清"为什么只有这两个量不突变"</li>
+    <li>能独立求初值：换路前稳态（C 开路 / L 短路）→ 换路定则 → 画 0⁺ 等效电路（C 换电压源、L 换电流源）</li>
+    <li>能默写三要素公式 f(t) = f(∞) + [f(0⁺) − f(∞)]e<sup>−t/τ</sup>，并说清三个要素各自的来源</li>
+    <li>能正确求 τ：从动态元件两端看进去求 R<sub>eq</sub>，τ = R<sub>eq</sub>C 或 L/R<sub>eq</sub>；含受控源时知道要用第 2 课的外加电源法</li>
+    <li>记得 1τ = 63.2%、3τ ≈ 95%、5τ ≈ 99.3%，并能用它做速算估算</li>
+    <li>限时练习 3 题全部独立做对，特别是练 3 的 τ 没有误用回路总电阻</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 规划中</div>
+  <div class="title">第 4 课 · 二阶动态电路 —— 过阻尼 / 临界阻尼 / 欠阻尼</div>
+</a>
+
+<div class="pager">
+  <a href="02_电路定理.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 2 课 · 电路定理</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">目录</div>
+    <div class="title">阶段 1 · 电路深化</div>
+  </a>
+</div>
+
+<footer>
+  阶段 1 · 电路深化 · 第 3 课 一阶动态电路与三要素法 ｜ <a href="index.html">返回阶段1目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">学完记得回目录打卡：第 3 课标记「✓ 已过关」后告诉我，我更新门户进度并开第 4 课</span>
+</footer>
+
+</div>
+</body>
+</html>
