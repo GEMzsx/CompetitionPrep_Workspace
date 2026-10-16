@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段1 · 第4课 — 二阶动态电路</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; display: block; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 下一课卡 ===== */
+.next-card {
+  display: block;
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  text-decoration: none;
+  margin: 26px 0 10px;
+}
+.next-card .dir { font-size: 12.5px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+.next-card .title { font-size: 18px; font-weight: 700; }
+.next-card:hover { opacity: .94; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .exercise summary .uses { display: none; }
+  .tbl { font-size: 12.5px; }
+  .tbl th, .tbl td { padding: 6px 6px; }
+}
+@media print { body { background: #fff; } section.block, .example { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段1目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 1 · 第 4 课 · 2026-10-16</p>
+  <h1>二阶动态电路</h1>
+  <p>RLC 暂态的过阻尼 / 临界阻尼 / 欠阻尼三种形态 —— 一阶的续集，振荡的起点。三要素法在这里失效，但换来一个更深的视角：电阻到底"阻"的是什么。为第 6 课谐振深化和电力系统暂态打底。</p>
+  <div class="meta">
+    <span class="chip">预计 2 小时</span>
+    <span class="chip">依赖：第 3 课（换路定则、初值）</span>
+    <span class="chip">期末中频 · 振荡直觉</span>
+  </div>
+</div>
+
+<!-- ================= 1 核心思想 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>本课核心思想：两个储能元件，一场"能量拔河"</h2>
+  <p>第 3 课的一阶电路里只有一个储能元件，能量只能"单向泄"，所以曲线是指数形的、单调的。一旦<b>电容和电感同时存在</b>（二阶电路），能量就有了两个仓库——它会在这两个仓库之间<b>来回倒腾</b>，这就是<b>振荡</b>的起源。</p>
+  <p>电阻 R 决定这场拔河的"刹车力度"：R 大，能量很快被耗光，来不及振荡（过阻尼）；R 小，能量能倒腾很多个来回（欠阻尼）；恰好卡在分界线上，就是临界阻尼。</p>
+  <div class="know"><b>先说结论（考试重心）</b>：二阶电路完整求解微分方程在期末出现频率中等，但<b>"判断响应类型 + 欠阻尼参数计算 + 定性画波形"几乎必会</b>。本课把完整解法给你，但重点磨"判型直觉"。</div>
+  <div class="exam"><span class="tag-exam">课程链地位</span>本课的 ω₀、衰减振荡、品质因数，将在第 6 课《谐振深化》以正弦稳态的面孔重新登场；电力系统短路暂态、变电站操作过电压，用的都是同一套"阻尼振荡"语言。这课是在给电网主业铺路。</div>
+</section>
+
+<!-- ================= 2 标准模板方程 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>标准模板：RLC 串联的零输入响应</h2>
+  <p>最经典的二阶电路：电容已充好电（u<sub>C</sub>(0⁻) = U₀），t = 0 时经 R、L 放电。沿回路列 KVL，代入 i = −C·du<sub>C</sub>/dt，得到：</p>
+
+  <div class="formula">
+    LC · d²u<sub>C</sub>/dt² + RC · du<sub>C</sub>/dt + u<sub>C</sub> = 0
+    <span class="small">二阶常系数齐次微分方程 —— 换元成标准形：s² + (R/L)s + 1/(LC) = 0（特征方程）</span>
+  </div>
+
+  <p>一阶方程只有一个特征根、一个待定常数；二阶方程有<b>两个特征根、两个待定常数</b>——这正是"需要两个初值"的根源：</p>
+
+  <div class="formula">
+    s<sub>1,2</sub> = <span class="frac"><span class="top">−R</span><span class="bot">2L</span></span> ± √<span style="text-decoration:overline;">(R/2L)² − 1/(LC)</span>
+    <span class="small">根号里的正负，就是三种形态的分水岭</span>
+  </div>
+
+  <p>定义两个标志性参数（后文全靠它们说话）：</p>
+  <div class="formula">
+    α = <span class="frac"><span class="top">R</span><span class="bot">2L</span></span>（衰减系数）　　ω₀ = <span class="frac"><span class="top">1</span><span class="bot">√<span style="text-decoration:overline;">LC</span></span></span>（固有振荡角频率）
+    <span class="small">判型只看 α 与 ω₀ 谁大：等价于 R 与 2√(L/C) 谁大</span>
+  </div>
+</section>
+
+<!-- ================= 3 三种形态 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>三种形态：一张表定乾坤</h2>
+
+  <table class="tbl">
+    <tr><th>形态</th><th>判别条件</th><th>特征根</th><th>响应形式</th><th>波形特征</th></tr>
+    <tr><td><b>过阻尼</b></td><td>R &gt; 2√(L/C)<br>(α &gt; ω₀)</td><td>两个不相等负实根 s₁、s₂</td><td>A₁e<sup>s₁t</sup> + A₂e<sup>s₂t</sup></td><td>单调缓慢衰减，无振荡</td></tr>
+    <tr><td><b>临界阻尼</b></td><td>R = 2√(L/C)<br>(α = ω₀)</td><td>二重根 s = −α</td><td>(A₁ + A₂t)e<sup>−αt</sup></td><td>不振荡，且<b>最快</b>无超调回到稳态</td></tr>
+    <tr><td><b>欠阻尼</b></td><td>R &lt; 2√(L/C)<br>(α &lt; ω₀)</td><td>共轭复根 −α ± jω<sub>d</sub></td><td>Ae<sup>−αt</sup>sin(ω<sub>d</sub>t + φ)</td><td>衰减振荡，包络 ±Ae<sup>−αt</sup></td></tr>
+  </table>
+
+  <p>其中欠阻尼的振荡角频率（阻尼振荡角频率）：</p>
+  <div class="formula">
+    ω<sub>d</sub> = √<span style="text-decoration:overline;">ω₀² − α²</span>
+    <span class="small">α 越小 → ω<sub>d</sub> 越接近 ω₀；R = 0 时 α = 0，ω<sub>d</sub> = ω₀，等幅振荡（理想 LC 永动）</span>
+  </div>
+
+  <h3 class="sub">物理直觉（考试答"为什么"用）</h3>
+  <ul>
+    <li><b>过阻尼</b>：R 太大，电容放电的电流刚起来就被电阻抽干能量，电感存不进多少——整场戏电容单方面放电，曲线单调趴下。</li>
+    <li><b>临界阻尼</b>：刹车恰到好处，不振荡且以最快速度归零。自动控制系统（比如指针仪表）最爱这个状态——"快而不晃"。</li>
+    <li><b>欠阻尼</b>：R 小，能量在 C（电场能）和 L（磁场能）之间来回倒腾，每倒一次被 R 抽走一点，形成衰减振荡。</li>
+    <li><b>无阻尼</b>（R = 0）：没有耗散，能量永动循环，等幅正弦振荡，频率 ω₀。</li>
+  </ul>
+
+  <div class="know"><b>判型口诀（RLC 串联）</b>：算 2√(L/C)，与 R 比大小——<b>大二过、等二临、小二欠</b>。先算 2√(L/C) 再比 R，三秒定形态，这永远是此类题的第一问。</div>
+  <div class="exam"><span class="tag-exam">头号陷阱</span>判型不等式只对<b>RLC 串联</b>成立。若是<b>并联</b>电路（G、L、C 并联），判型条件对偶地变为 G 与 2√(C/L) 比较，α = G/2C。看到题目先看拓扑再套公式，别拿串联公式硬套并联题。</div>
+</section>
+
+<!-- ================= 4 欠阻尼细看 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>欠阻尼细看：考试最爱的一档</h2>
+  <p>欠阻尼响应 u<sub>C</sub>(t) = Ae<sup>−αt</sup>sin(ω<sub>d</sub>t + φ) 里有三个可考参数，各自管一件事：</p>
+  <table class="tbl">
+    <tr><th>参数</th><th>公式</th><th>管什么</th><th>考法</th></tr>
+    <tr><td>衰减系数 α</td><td>R/2L</td><td>包络线 ±Ae<sup>−αt</sup> 下沉的快慢</td><td>"衰减多快""经过几周衰减到多少"</td></tr>
+    <tr><td>阻尼振荡角频率 ω<sub>d</sub></td><td>√(ω₀²−α²)</td><td>振荡多快（一秒倒腾几回）</td><td>"振荡周期 T = 2π/ω<sub>d</sub>"</td></tr>
+    <tr><td>固有角频率 ω₀</td><td>1/√(LC)</td><td>无阻尼时的振荡频率（只由 L、C 决定）</td><td>与 α、ω<sub>d</sub> 构成勾股关系</td></tr>
+  </table>
+
+  <p><b>勾股关系</b>是记住三参数的钥匙：α² + ω<sub>d</sub>² = ω₀²——α 和 ω<sub>d</sub> 是直角边，ω₀ 是斜边。衰减越猛（α 大），振得越慢（ω<sub>d</sub> 小）；完全不衰减（α=0）时 ω<sub>d</sub> = ω₀ 取满。</p>
+
+  <div class="know"><b>与阶段 0 第 6 课的暗线</b>：谐振课里出现过 Q = ω₀L/R（品质因数）。在欠阻尼里 Q = ω₀/2α——<b>Q 大 = 衰减小 = 振得久</b>。谐振回路要"振得纯"，暂态分析要"振得快停"，同一个 Q，两种立场。第 6 课会正式接上这条线。</div>
+</section>
+
+<!-- ================= 5 完整解法 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>完整解法：经典法四步（以过阻尼为例）</h2>
+  <ol>
+    <li><b>列方程</b>：KVL / KCL + 元件约束，整理成标准形式 s² + 2αs + ω₀² 对应的微分方程。</li>
+    <li><b>解特征方程</b>：得 s₁、s₂，按判型写出齐次通解框架（含两个待定常数 A₁、A₂）。</li>
+    <li><b>找特解</b>：直流激励下，特解 = 新稳态值（电容开路 / 电感短路来求）。零输入响应特解为 0。全解 = 特解 + 齐次通解。</li>
+    <li><b>两个初值定常数</b>：这一步是二阶与一阶最大的不同——
+      <ul>
+        <li>初值①：u<sub>C</sub>(0⁺)（换路定则直接给）</li>
+        <li>初值②：<b>du<sub>C</sub>/dt(0⁺) = i<sub>C</sub>(0⁺)/C</b>——由 0⁺ 电路里的电容电流（往往就是 i<sub>L</sub>(0⁺)）换算来</li>
+      </ul>
+      把 t = 0 代入全解及其导数，联立两个方程解出 A₁、A₂。
+    </li>
+  </ol>
+  <div class="exam"><span class="tag-exam">区分度所在</span>一阶只要一个初值，二阶要<b>函数值 + 导数值</b>。导数初值的来源（du<sub>C</sub>/dt = i<sub>C</sub>/C 或 di<sub>L</sub>/dt = u<sub>L</sub>/L）是阅卷时最容易丢分的一步，也是出题人故意设置区分度的地方。</div>
+</section>
+
+<!-- ================= 6 例题 ================= -->
+<section class="block">
+  <h2><span class="no">6</span>例题精讲（三道模板题）</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 判型题：永远是第一问</div>
+    <div class="ex-body">
+      <p class="q">RLC 串联电路，R = 4 Ω，L = 1 H，C = 1 F。判断响应类型；若 R 减小到 2 Ω，再判断一次。</p>
+      <ol class="steps">
+        <li><b>算分界线</b>：2√(L/C) = 2√(1/1) = 2 Ω</li>
+        <li><b>第一次比</b>：R = 4 Ω &gt; 2 Ω → <b>过阻尼</b>（R 比临界电阻大）</li>
+        <li><b>第二次比</b>：R = 2 Ω = 2 Ω → <b>临界阻尼</b>（恰好卡在分界线）</li>
+      </ol>
+      <div class="ans">答：R = 4 Ω 过阻尼；R = 2 Ω 临界阻尼（此时 s = −R/2L = −1，二重根）</div>
+      <p class="key">套路固定：先算 2√(L/C)，再比 R——顺序别反。顺带留意：本题的 2√(L/C) = 2 Ω 恰好等于 2√(L/C) 的"2"×√(L/C)，算的时候别漏乘 2。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 欠阻尼参数三件套</div>
+    <div class="ex-body">
+      <p class="q">RLC 串联，R = 2 Ω，L = 1 H，C = 1/4 F。求 α、ω₀、ω<sub>d</sub> 与振荡周期 T，并写响应骨架。</p>
+      <ol class="steps">
+        <li><b>判型</b>：2√(L/C) = 2√4 = 4 Ω &gt; R = 2 Ω → 欠阻尼</li>
+        <li><b>α</b> = R/2L = 2/2 = <b>1 s⁻¹</b></li>
+        <li><b>ω₀</b> = 1/√(LC) = 1/√(1/4) = <b>2 rad/s</b></li>
+        <li><b>ω<sub>d</sub></b> = √(ω₀² − α²) = √(4 − 1) = <b>√3 rad/s</b></li>
+        <li><b>T</b> = 2π/ω<sub>d</sub> = 2π/√3 ≈ <b>3.63 s</b>；响应骨架 u<sub>C</sub>(t) = Ae<sup>−t</sup>sin(√3t + φ)</li>
+      </ol>
+      <div class="ans">答：α = 1，ω₀ = 2，ω<sub>d</sub> = √3 rad/s，T = 2π/√3 ≈ 3.63 s；包络 ±Ae<sup>−t</sup></div>
+      <p class="key">校验勾股：α² + ω<sub>d</sub>² = 1 + 3 = 4 = ω₀² ✓。三个参数算完必自检这一条，30 秒防错。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 过阻尼完整求解：两个初值定两个常数</div>
+    <div class="ex-body">
+      <p class="q">RLC 串联零输入，R = 2.5 Ω，L = 1 H，C = 1 F，u<sub>C</sub>(0⁻) = 6 V，i<sub>L</sub>(0⁻) = 0。求 u<sub>C</sub>(t)。</p>
+      <ol class="steps">
+        <li><b>判型</b>：2√(L/C) = 2 Ω &lt; R = 2.5 Ω → 过阻尼，响应形如 u<sub>C</sub> = A₁e<sup>s₁t</sup> + A₂e<sup>s₂t</sup></li>
+        <li><b>特征根</b>：s² + 2.5s + 1 = 0 → s = (−2.5 ± 1.5)/2 → s₁ = −0.5，s₂ = −2</li>
+        <li><b>通解</b>：u<sub>C</sub>(t) = A₁e<sup>−0.5t</sup> + A₂e<sup>−2t</sup></li>
+        <li><b>初值①</b>：u<sub>C</sub>(0⁺) = u<sub>C</sub>(0⁻) = 6 → A₁ + A₂ = 6</li>
+        <li><b>初值②</b>：du<sub>C</sub>/dt(0⁺) = i<sub>C</sub>(0⁺)/C = 0（串联电路 i<sub>C</sub> = i<sub>L</sub>，i<sub>L</sub>(0⁺) = 0）→ −0.5A₁ − 2A₂ = 0</li>
+        <li><b>联立求解</b>：A₁ = 8，A₂ = −2</li>
+      </ol>
+      <div class="ans">答：u<sub>C</sub>(t) = 8e<sup>−0.5t</sup> − 2e<sup>−2t</sup> V，t ≥ 0</div>
+      <p class="key">两处自检：t = 0 时 8 − 2 = 6 ✓；求导 −4e<sup>−0.5t</sup> + 4e<sup>−2t</sup> 在 t = 0 时为 0 ✓。本题最关键的一步是初值②——<b>电流初值换算成电压导数初值</b>，这是二阶定常数的命门。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 7 限时练习 ================= -->
+<section class="block">
+  <h2><span class="no">7</span>限时练习（建议 20 分钟，做完再展开）</h2>
+
+  <details class="exercise">
+    <summary><span class="qn">练 1</span>快速判型<span class="uses">基础模板</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      RLC 串联，R = 1 Ω，L = 1 H，C = 1 F。判断响应类型，并指出特征根的性质。
+      <div class="sol">2√(L/C) = 2 Ω &gt; R = 1 Ω → <b>欠阻尼</b>；特征根为共轭复根 −0.5 ± j(√3/2)</div>
+      <p class="note">α = R/2L = 0.5，ω₀ = 1，ω<sub>d</sub> = √(1 − 0.25) = √3/2 ≈ 0.866 rad/s。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 2</span>临界阻尼的参数<span class="uses">重根情形</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      RLC 串联，R = 4 Ω，L = 2 H，C = 0.5 F。判断响应类型，求特征根。
+      <div class="sol">2√(L/C) = 2√(2/0.5) = 2√4 = 4 Ω = R → <b>临界阻尼</b>；重根 s = −R/2L = −4/4 = <b>−1（二重）</b>，响应形如 (A₁ + A₂t)e<sup>−t</sup></div>
+      <p class="note">临界阻尼的标志：特征方程是完全平方——s² + 2αs + α² = (s + α)²。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 3</span>导数初值的来源<span class="uses">区分度题</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      RLC 串联零输入电路中，u<sub>C</sub>(0⁺) = 10 V，i<sub>L</sub>(0⁺) = 2 A，C = 0.5 F。求 du<sub>C</sub>/dt(0⁺)。若改求 di<sub>L</sub>/dt(0⁺)，还需要知道什么？
+      <div class="sol">串联电路 i<sub>C</sub> = i<sub>L</sub>，故 du<sub>C</sub>/dt(0⁺) = i<sub>C</sub>(0⁺)/C = 2/0.5 = <b>4 V/s</b>。若求 di<sub>L</sub>/dt(0⁺) = u<sub>L</sub>(0⁺)/L，需要先在 0⁺ 电路里用 KVL 求出 u<sub>L</sub>(0⁺)（= −u<sub>C</sub>(0⁺) − R·i<sub>L</sub>(0⁺)，零输入情形）。</div>
+      <p class="note">记忆锚点：求导数初值永远走"另一元件"——电容的导数初值用电感电流（i<sub>C</sub>/C），电感的导数初值用电容电压（u<sub>L</sub>/L）。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 8 自测清单 ================= -->
+<section class="block">
+  <h2><span class="no">8</span>自测清单：全勾才算过关</h2>
+  <ul class="checklist">
+    <li>能列 RLC 串联的特征方程 s² + (R/L)s + 1/(LC) = 0，并说清它从 KVL 而来</li>
+    <li>能背判型口诀"大二过、等二临、小二欠"，并知道判的是 R 与 2√(L/C) 的大小（串联）</li>
+    <li>能默写三种形态的特征根性质与响应形式，画出各自波形草图（过阻尼单调、临界最快、欠阻尼衰减振荡）</li>
+    <li>能算欠阻尼三件套 α、ω₀、ω<sub>d</sub>，并用勾股关系 α² + ω<sub>d</sub>² = ω₀² 自检</li>
+    <li>知道二阶需要两个初值，能从 i<sub>C</sub>(0⁺)/C 拿到 du<sub>C</sub>/dt(0⁺)（练 3 的命门）</li>
+    <li>限时练习 3 题独立做对；知道并联电路判型条件与串联对偶（G vs 2√(C/L)），不混用</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 规划中</div>
+  <div class="title">第 5 课 · 互感与变压器 —— 同名端 / 耦合系数 / 阻抗变换</div>
+</a>
+
+<div class="pager">
+  <a href="03_一阶动态电路与三要素法.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 3 课 · 一阶动态电路与三要素法</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">目录</div>
+    <div class="title">阶段 1 · 电路深化</div>
+  </a>
+</div>
+
+<footer>
+  阶段 1 · 电路深化 · 第 4 课 二阶动态电路 ｜ <a href="index.html">返回阶段1目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">学完记得回目录打卡：第 4 课标记「✓ 已过关」后告诉我，我更新门户进度并开第 5 课</span>
+</footer>
+
+</div>
+</body>
+</html>
