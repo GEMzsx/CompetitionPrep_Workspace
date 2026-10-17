@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段1 · 第5课 — 互感与变压器</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; display: block; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 下一课卡 ===== */
+.next-card {
+  display: block;
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  text-decoration: none;
+  margin: 26px 0 10px;
+}
+.next-card .dir { font-size: 12.5px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+.next-card .title { font-size: 18px; font-weight: 700; }
+.next-card:hover { opacity: .94; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .exercise summary .uses { display: none; }
+  .tbl { font-size: 12.5px; }
+  .tbl th, .tbl td { padding: 6px 6px; }
+}
+@media print { body { background: #fff; } section.block, .example { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段1目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 1 · 第 5 课 · 2026-10-17</p>
+  <h1>互感与变压器</h1>
+  <p>同名端、耦合系数、理想变压器与阻抗变换 —— 电力变压器（变电站里最贵的设备）的电路模型。两个线圈靠磁场"隔空握手"：这是"磁耦合"第一次正式进场，也是电力系统"变压不变频"的全部秘密。</p>
+  <div class="meta">
+    <span class="chip">预计 2 小时</span>
+    <span class="chip">依赖：阶段0 第2课（相量）、第3课（电感）</span>
+    <span class="chip">笔试中频 · 电力设备基础</span>
+  </div>
+</div>
+
+<!-- ================= 1 核心思想 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>本课核心思想：磁的耦合——能量隔空传递</h2>
+  <p>自感是"线圈自己感自己"（磁通全部穿过自己绕的线圈）；<b>互感</b>是"线圈感别人"——线圈 1 的电流产生的磁通，有一部分穿过了线圈 2。于是线圈 1 的电流变化，会在线圈 2 上<b>隔空感应出电压</b>，一根导线都不用连。</p>
+  <p>把这个现象工程化、极致化，就是<b>变压器</b>：原边线圈接电源，副边线圈接负载，能量全靠磁场跨过去。变电站里那台嗡嗡响的大家伙，电路模型就是本课内容。</p>
+  <div class="know"><b>课程链地位</b>：前面所有课的元件都是"两端的"（R、L、C 都只有一对端子），互感元件是<b>第一个四端元件</b>——它有两条支路、靠磁场（而不是导线）传递信号。理解了它，第 8 课二端口网络的"端口思维"就有了台阶。</div>
+  <div class="exam"><span class="tag-exam">南网视角</span>电力变压器是电网"电压的枢纽"：发电机发出的电靠它升压远距离输送（减小线损），到城市再降压分配入户。110 kV / 10 kV 这样的数字，就是变压器两边的电压比。南网笔试既考电路计算（阻抗变换），也考设备概念（变压器原理、损耗）。</div>
+</section>
+
+<!-- ================= 2 互感与耦合系数 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>互感系数 M 与耦合系数 k</h2>
+  <p>线圈 1 的电流 i₁ 变化，在线圈 2 上感应的互感电压：</p>
+  <div class="formula">
+    u<sub>M2</sub> = M · di<sub>1</sub>/dt　　（正弦稳态相量形式：<span style="white-space:nowrap;">U̇<sub>M2</sub> = jωM · İ<sub>1</sub></span>）
+    <span class="small">M：互感系数，单位亨利（H）——和 L 同量纲，因为它就是"别人家的电感"作用的度量</span>
+  </div>
+
+  <p><b>耦合系数</b> k 衡量两个线圈"握手的紧密程度"：</p>
+  <div class="formula">
+    k = <span class="frac"><span class="top">M</span><span class="bot">√(L₁L₂)</span></span>　　0 ≤ k ≤ 1
+    <span class="small">k = 1：全耦合（无漏磁）；k 越小，漏磁越多，耦合越松</span>
+  </div>
+
+  <ul>
+    <li><b>铁芯变压器</b>：磁通几乎全走铁芯，k ≈ 0.99+，接近全耦合</li>
+    <li><b>空心线圈</b>：磁通大量漏到空气里，k 可能只有零点几</li>
+    <li>反过来由 k 也能算 M：M = k√(L₁L₂) —— <b>k 给定时 M 是确定值</b>，不是随便标</li>
+  </ul>
+  <div class="exam"><span class="tag-exam">常见考法</span>给 L₁、L₂、M 求 k（或反向求 M）。数值上注意 √(L₁L₂) 是几何平均——别算成 (L₁+L₂)/2。</div>
+</section>
+
+<!-- ================= 3 同名端 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>同名端：互感电路的"极性地图"</h2>
+  <p>互感电压的方向（正极在哪个端子）取决于<b>绕向 + 电流方向</b>，每题都要重新判断太麻烦。于是定义<b>同名端</b>一劳永逸：</p>
+
+  <div class="know"><b>定义</b>：从两线圈各选一个端子，当两电流<b>同时从这两个端子流入</b>（或同时流出）时，产生的磁场相互<b>增强</b>——这两个端子就是一对同名端，图上用 · 或 * 标记。</div>
+
+  <h3 class="sub">同名端怎么判断（考试画图题）</h3>
+  <ol>
+    <li>假设电流从线圈 1 的某端流入，用右手螺旋定则判断磁通方向（四指沿电流绕向，拇指即磁通方向）。</li>
+    <li>再假设电流从线圈 2 的某端流入，同样判断磁通方向。</li>
+    <li>两次磁通<b>同向（叠加）</b> → 这两个流入端是同名端；<b>反向（抵消）</b> → 该端与另一端是同名端。</li>
+  </ol>
+  <p>绕向不同（顺绕/反绕）、位置不同（同轴/并排/相对），同名端就不同——所以画图题给绕向，就是要你走这三步。</p>
+
+  <h3 class="sub">同名端的真正用处：定互感电压的极性</h3>
+  <div class="formula">
+    电流从线圈 1 的<b>同名端</b>流入且增大 → 线圈 2 感应电压的<b>同名端为正</b>
+    <span class="small">口诀：流入同名端，同名端出正电压（"同进同正"）</span>
+  </div>
+  <p>有了这句话，任何互感电路的电压符号都不用现场推导：看电流从哪端流入、看感应端是同名端还是异名端，符号立判。</p>
+  <div class="exam"><span class="tag-exam">头号陷阱</span>自感电压 L·di/dt 的符号由<b>本支路</b>的电压电流参考方向决定（关联取正）；互感电压 ±jωM·İ 的符号由<b>两支路电流与同名端的相对关系</b>决定。两套规则互不相干，混着用必错。</div>
+</section>
+
+<!-- ================= 4 伏安方程与去耦 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>耦合电感的伏安方程与去耦等效</h2>
+  <p>正弦稳态下，两线圈端口电压（各取关联参考方向）：</p>
+  <div class="formula">
+    U̇₁ = jωL₁·İ₁ ± jωM·İ₂<br>
+    U̇₂ = jωL₂·İ₂ ± jωM·İ₁
+    <span class="small">符号规则："同进取正"——两电流都从各自同名端流入（或都从异名端流入）取 +；一同一异取 −</span>
+  </div>
+
+  <h3 class="sub">去耦等效（T 型）：互感电路的"卸妆水"</h3>
+  <p>互感电路背着 ±jωM 不好算，工程上把它<b>等效成普通 T 型三电感电路</b>，之后全是熟悉的阻抗串并联。两线圈有一端相连时（公共节点）：</p>
+  <table class="tbl">
+    <tr><th>连接方式</th><th>T 型三臂（左臂 / 中臂 / 右臂）</th><th>口诀</th></tr>
+    <tr><td>同名端相连</td><td>L₁ − M　｜　M　｜　L₂ − M</td><td>"同连减 M"</td></tr>
+    <tr><td>异名端相连</td><td>L₁ + M　｜　−M　｜　L₂ + M</td><td>"异连加 M"</td></tr>
+  </table>
+
+  <h3 class="sub">串联的快速结论（从去耦直接推出）</h3>
+  <div class="formula">
+    顺接（异名端相连，磁场增强）：L<sub>eq</sub> = L₁ + L₂ + 2M<br>
+    反接（同名端相连，磁场削弱）：L<sub>eq</sub> = L₁ + L₂ − 2M
+    <span class="small">由此得到实验室测 M 的标准方法：M = (L<sub>顺</sub> − L<sub>反</sub>)/4 —— 常考填空</span>
+  </div>
+  <div class="exam"><span class="tag-exam">易错提醒</span>"顺接 = 异名端相连"容易记反：顺接时电流一个从同名端进、一个从异名端进（沿串联路径必然如此），磁场才增强。判据别背反了——记不住就现场用右手螺旋验一次磁通方向，比背错强。</div>
+</section>
+
+<!-- ================= 5 理想变压器 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>理想变压器：一个参数 n 管全部</h2>
+  <p>把耦合电感推向三个极限，就得到<b>理想变压器</b>：</p>
+  <ul>
+    <li><b>全耦合</b>：k = 1，无漏磁</li>
+    <li><b>无损耗</b>：绕组电阻为零，铁芯无涡流、无磁滞损耗</li>
+    <li><b>自感无穷大</b>：L₁、L₂、M → ∞，但比值保持为匝比平方（L₁/L₂ = n²）</li>
+  </ul>
+
+  <p>理想变压器只剩一个参数 <b>n = N₁/N₂（匝比）</b>，三大关系全部由它决定：</p>
+  <div class="formula">
+    变压：<span class="frac"><span class="top">U̇₁</span><span class="bot">U̇₂</span></span> = n　　变流：<span class="frac"><span class="top">İ₁</span><span class="bot">İ₂</span></span> = <span class="frac"><span class="top">1</span><span class="bot">n</span></span>　　阻抗：Z<sub>in</sub> = n²·Z<sub>L</sub>
+    <span class="small">电压比 = 匝比；电流比 = 匝比倒数；副边阻抗折算到原边乘 n²</span>
+  </div>
+
+  <p><b>功率守恒</b>是理想变压器的灵魂：U̇₁İ₁* = U̇₂İ₂*，它自己不储能、不耗能，只做"即时转发"。这和耦合电感（储能动态元件，3 个参数 L₁、L₂、M）有本质区别——理想变压器是<b>无记忆元件</b>，直流稳态下它"短路/开路"没有物理意义（实际变压器靠磁通变化工作，直流不工作）。</p>
+
+  <div class="know"><b>阻抗变换——本课最重要考点</b>：副边接 Z<sub>L</sub>，从原边看进去就是 n²Z<sub>L</sub>。电阻变大还是变小看 n：<br>
+  • n &gt; 1（降压变压器）：折算后阻抗<b>变大</b> n² 倍<br>
+  • n &lt; 1（升压变压器）：折算后阻抗<b>变小</b><br>
+  记忆：<b>"从哪边看，乘哪边匝数的平方、除另一边的"</b>——本质是功率不变（U 变 n 倍，I 变 1/n 倍，U/I 自然变 n² 倍）。</div>
+
+  <h3 class="sub">最大功率匹配：变压器的经典应用</h3>
+  <p>信号源内阻 R<sub>S</sub>、负载 R<sub>L</sub> 不匹配（比如音响 8 Ω 喇叭 vs 数千欧输出级），中间插一个变压器，选匝比使 n²R<sub>L</sub> = R<sub>S</sub>，负载即获得最大功率——这就是第 2 课最大功率传输定理的"工程实现版"：</p>
+  <div class="formula">
+    n = √<span style="text-decoration:overline;">R<sub>S</sub> / R<sub>L</sub></span>
+    <span class="small">把负载"折算"到信号源一侧，凑成阻抗匹配</span>
+  </div>
+</section>
+
+<!-- ================= 6 电力视角 ================= -->
+<section class="block">
+  <h2><span class="no">6</span>电力视角：为什么电网离不开变压器</h2>
+  <p>输电线路损耗 P<sub>loss</sub> = I²R<sub>line</sub>，同样功率下电压越高电流越小、线损越小。所以电力系统"高出力必先升压"：</p>
+  <ul>
+    <li>发电机出口 ~20 kV → 升压到 220/500 kV 远距离输送</li>
+    <li>到城市逐级降压：220 kV → 110 kV → 10 kV → 380/220 V 入户</li>
+    <li>每一级降压，电路模型都是本课的"降压变压器"；其额定容量（kVA）、变比、联结组别是南网设备类笔试的概念题素材</li>
+  </ul>
+  <p>此外电力系统中大量"折算"思想（把副边参数折算到原边做统一计算）用的正是 Z′ = n²Z——本课学的不是应试技巧，是电力行业的基础语言。</p>
+</section>
+
+<!-- ================= 7 例题 ================= -->
+<section class="block">
+  <h2><span class="no">7</span>例题精讲（三道模板题）</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 同名端判断：三步走</div>
+    <div class="ex-body">
+      <p class="q">两线圈绕在同一铁芯上：线圈 1 顺绕，线圈 2 绕向与线圈 1 相同、且两线圈首端位于磁芯同侧（同名端位置待判）。请说明判断流程并给出"同进同正"验证。</p>
+      <ol class="steps">
+        <li><b>定电流</b>：设电流 i₁ 从线圈 1 的 a 端流入、i₂ 从线圈 2 的 x 端流入。</li>
+        <li><b>螺旋定则</b>：i₁ 产生的磁通 Φ₁ 方向、i₂ 产生的磁通 Φ₂ 方向（两线圈绕向相同、位置同侧 → 磁通<b>同向</b>）。</li>
+        <li><b>结论</b>：Φ₁ 与 Φ₂ 叠加增强 → a 与 x 为<b>同名端</b>。验证口诀：i₂ 从同名端 x 流入且增大时，线圈 1 的同名端 a 感应出正电压——"同进同正" ✓</li>
+      </ol>
+      <div class="ans">答：绕向相同、位置同侧时两首端（a、x）为同名端；若线圈 2 反绕（或位置对调），则 a 与 y 为同名端。</div>
+      <p class="key">画图题的命门永远是"绕向"和"位置"两个变量——只改其中一个，同名端就换。判断顺序固定：假设电流 → 螺旋定则 → 比磁通方向。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 串联测 M：两读数定三个参数</div>
+    <div class="ex-body">
+      <p class="q">两耦合线圈，顺向串联时等效电感 0.9 H，反向串联时 0.3 H。求互感 M；若 L₁ = L₂，再求耦合系数 k。</p>
+      <ol class="steps">
+        <li><b>求 M</b>：M = (L<sub>顺</sub> − L<sub>反</sub>)/4 = (0.9 − 0.3)/4 = <b>0.15 H</b></li>
+        <li><b>求 L</b>：L₁ + L₂ = (L<sub>顺</sub> + L<sub>反</sub>)/2 = (0.9 + 0.3)/2 = 0.6 H；若 L₁ = L₂ = L，则 L = <b>0.3 H</b></li>
+        <li><b>求 k</b>：k = M/√(L₁L₂) = 0.15/0.3 = <b>0.5</b>（半耦合）</li>
+      </ol>
+      <div class="ans">答：M = 0.15 H；L₁ = L₂ = 0.3 H 时 k = 0.5</div>
+      <p class="key">两个串联读数"十字相减再除四"拿 M、"相加除二"拿自感总和——这是实验测耦合参数的标准考法，公式值得当模板背。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 阻抗匹配：变压器的"中介"角色</div>
+    <div class="ex-body">
+      <p class="q">正弦信号源 U̇<sub>S</sub> = 10∠0° V，内阻 R<sub>S</sub> = 800 Ω，负载为 8 Ω 扬声器。中间加理想变压器匹配，求匝比 n（N₁/N₂）与扬声器获得的最大功率。</p>
+      <ol class="steps">
+        <li><b>匹配条件</b>：从原边看，n²R<sub>L</sub> = R<sub>S</sub>（第 2 课最大功率传输的变压器版）</li>
+        <li><b>求 n</b>：n = √(R<sub>S</sub>/R<sub>L</sub>) = √(800/8) = √100 = <b>10</b></li>
+        <li><b>原边电路</b>：匹配时原边电流 İ₁ = U̇<sub>S</sub>/(R<sub>S</sub> + n²R<sub>L</sub>) = 10/1600 = 6.25 mA</li>
+        <li><b>功率</b>：扬声器折算阻抗上消耗 P = I₁² · n²R<sub>L</sub> = (6.25×10⁻³)² × 800 ≈ <b>31.25 mW</b>（即电源供出功率的一半，另一半耗在内阻）</li>
+      </ol>
+      <div class="ans">答：n = 10（降压变压器，N₁:N₂ = 10:1）；扬声器获最大功率约 31.25 mW</div>
+      <p class="key">校验直觉：n² × 8 Ω = 100 × 8 = 800 Ω = R<sub>S</sub> ✓。这就是收音机/音响输出变压器的原理——数欧的喇叭配数千欧的放大器，全靠一个铁芯线圈"翻译"。若不匹配直连，8 Ω 负载只能拿到不到 0.3 mW——差百倍。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 8 限时练习 ================= -->
+<section class="block">
+  <h2><span class="no">8</span>限时练习（建议 20 分钟，做完再展开）</h2>
+
+  <details class="exercise">
+    <summary><span class="qn">练 1</span>耦合系数计算<span class="uses">基础模板</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      L₁ = 0.4 H，L₂ = 0.1 H，M = 0.1 H。求耦合系数 k，并判断耦合松紧。
+      <div class="sol">k = M/√(L₁L₂) = 0.1/√(0.4×0.1) = 0.1/√0.04 = 0.1/0.2 = <b>0.5</b>（半耦合，有漏磁）</div>
+      <p class="note">√(L₁L₂) 是几何平均——0.4 和 0.1 的几何平均是 0.2，不是算术平均 0.25。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 2</span>同名端符号判断<span class="uses">口诀应用</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      两耦合线圈，1 和 2 为同名端。i₁ 从线圈 1 的 1 端流入且增大。问：线圈 2 的感应电压在哪个端子为正？若 i₁ 减小呢？
+      <div class="sol">i₁ 增大：感应电压 <b>2 端为正</b>（"同进同正"）。i₁ 减小：di₁/dt 变号，感应电压随之反号——<b>1′ 端（2 的对端）为正</b>。</div>
+      <p class="note">符号跟着 di/dt 走：电流减小与电流反向是一回事，感应电压极性自动翻转。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 3</span>理想变压器折算<span class="uses">阻抗变换</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      理想变压器 n = 4（N₁:N₂ = 4:1），副边接 Z<sub>L</sub> = (2 + j2) Ω。求从原边看入的阻抗 Z<sub>in</sub>；若原边电压有效值 100 V，求副边电压与负载电流。
+      <div class="sol">Z<sub>in</sub> = n²Z<sub>L</sub> = 16 × (2 + j2) = <b>(32 + j32) Ω</b>。副边电压 = 100/4 = <b>25 V</b>；负载电流 = 25/|2+j2| = 25/2√2 ≈ <b>8.84 A</b>。</div>
+      <p class="note">折算时模和辐角都不变，只把模乘 n²——"阻抗乘匝比平方，电压电流一个除 n 一个乘 n"。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 9 自测清单 ================= -->
+<section class="block">
+  <h2><span class="no">9</span>自测清单：全勾才算过关</h2>
+  <ul class="checklist">
+    <li>能说清互感现象的物理机制（磁通穿过对方线圈），写出互感电压 u<sub>M2</sub> = M·di₁/dt 及相量形式</li>
+    <li>能默写 k = M/√(L₁L₂) 并正反运用（k 求 M / M、L 求 k）</li>
+    <li>能用三步法（假设电流 → 螺旋定则 → 比磁通）判断同名端，会背"同进同正"口诀</li>
+    <li>能写耦合电感伏安方程并正确取 ± 号（"同进取正"），知道它与自感符号规则互不相干</li>
+    <li>会去耦等效（同连减 M / 异连加 M）与串联结论 L = L₁+L₂±2M，记得 M = (L<sub>顺</sub>−L<sub>反</sub>)/4</li>
+    <li>能默写理想变压器三大关系（变压 n、变流 1/n、阻抗 n²）与匹配公式 n = √(R<sub>S</sub>/R<sub>L</sub>)，限时练习 3 题全对</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 规划中</div>
+  <div class="title">第 6 课 · 三相深化 —— 不对称三相 / 二表法 / 中性点位移</div>
+</a>
+
+<div class="pager">
+  <a href="04_二阶动态电路.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 4 课 · 二阶动态电路</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">目录</div>
+    <div class="title">阶段 1 · 电路深化</div>
+  </a>
+</div>
+
+<footer>
+  阶段 1 · 电路深化 · 第 5 课 互感与变压器 ｜ <a href="index.html">返回阶段1目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">学完记得回目录打卡：第 5 课标记「✓ 已过关」后告诉我，我更新门户进度并开第 6 课</span>
+</footer>
+
+</div>
+</body>
+</html>
