@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段1 · 第6课 — 三相深化</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; display: block; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 下一课卡 ===== */
+.next-card {
+  display: block;
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  text-decoration: none;
+  margin: 26px 0 10px;
+}
+.next-card .dir { font-size: 12.5px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+.next-card .title { font-size: 18px; font-weight: 700; }
+.next-card:hover { opacity: .94; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .exercise summary .uses { display: none; }
+  .tbl { font-size: 12.5px; }
+  .tbl th, .tbl td { padding: 6px 6px; }
+}
+@media print { body { background: #fff; } section.block, .example { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段1目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 1 · 第 6 课 · 2026-10-17</p>
+  <h1>三相深化</h1>
+  <p>不对称三相、功率测量（二表法）、中性点位移、对称分量法 —— 阶段 0 第 6 课"三相入门"的续集，南网笔试三相题的完整火力。对称是理想，不对称是现实；谁吃透不对称，谁就拿稳电网的入场券。</p>
+  <div class="meta">
+    <span class="chip">预计 2.5 小时</span>
+    <span class="chip">依赖：阶段0 第6课（√3 口诀）、第1课（弥尔曼定理）</span>
+    <span class="chip">南网笔试核心</span>
+  </div>
+</div>
+
+<!-- ================= 1 核心思想 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>本课核心思想：从"理想对称"到"真实不对称"</h2>
+  <p>阶段 0 学的三相是<b>理想对称</b>：三相电源对称、三相负载相同、一切公式优美（√3 口诀横着走）。但真实电网随时在不对称：</p>
+  <ul>
+    <li>居民单相负载（照明、家电）天然不均衡——A 相满载、B 相轻载是常态</li>
+    <li><b>故障</b>：单相接地短路（占电网故障的 80%+）、一相断线</li>
+    <li>谐波（第 7 课）造成的波形不对称</li>
+  </ul>
+  <p>对称时三相问题"化成一相算"，不对称时怎么办？本课补上三块拼图：<b>中线的作用</b>（三相四线制为什么是居民供电的标准形态）、<b>中性点位移</b>（无中线不对称的后果——烧设备的元凶）、<b>二表法</b>（三相功率怎么测）。最后给一把进阶钥匙：<b>对称分量法</b>——电力系统故障分析的官方语言。</p>
+  <div class="exam"><span class="tag-exam">南网视角</span>三相是南网笔试电路部分的<b>核心章节</b>：二表法、中线规则、相序、不对称故障概念都是高频题。且它们直接通向后续专业课（电力系统分析、继电保护）——本课每一分都是双倍收益。</div>
+</section>
+
+<!-- ================= 2 中线 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>中线：三相四线制的灵魂</h2>
+  <p>居民供电为什么是<b>三相四线制</b>（三根相线 + 一根中线）？因为家用负载几乎全是单相的（220 V），要挂在某一相上。三相各挂的负载不一样重，<b>中线负责"兜底"</b>：</p>
+
+  <div class="know"><b>有中线（且中线阻抗≈0）时</b>：负载中点 N′ 被中线和电源中点 N 钉在同一电位 → <b>每相负载稳稳获得相电压 220 V</b>，各相<b>独立计算、互不干扰</b>——A 相开灯关灯完全不影响 B 相。这就是"各算各的"原则。</div>
+
+  <p><b>中线电流</b>：İ<sub>N</sub> = İ<sub>A</sub> + İ<sub>B</sub> + İ<sub>C</sub>。对称时三相电流和为零，中线无电流（但绝不能拆——它是保险机制）；不对称时中线流过不平衡电流。</p>
+
+  <h3 class="sub">生死攸关的规则：中线为什么不能装熔断器、不能断开</h3>
+  <ol>
+    <li>中线一旦断开 → 不对称星形负载的公共点"失锚" → <b>中性点位移</b>（下一节）</li>
+    <li>后果：轻载相电压<b>升高超过 220 V</b> 烧毁电器，重载相电压不足、灯光发暗——一栋楼里有的住户电器烧了、有的住户灯不亮，就是中线断了</li>
+    <li>所以规程规定：<b>中线上严禁安装熔断器和开关</b>，中线导线还要保证机械强度</li>
+  </ol>
+  <div class="exam"><span class="tag-exam">概念高频题</span>"为什么居民楼三相负载要尽量均衡分配？""为什么中线不能装熔丝？"——两问的答案都是本节内容：均衡→中线电流小→损耗小；熔丝一旦断，中性点位移烧设备。</div>
+</section>
+
+<!-- ================= 3 中性点位移 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>中性点位移：弥尔曼定理的高光时刻</h2>
+  <p>无中线的不对称星形负载（三相三线制），负载中点 N′ 与电源中点 N <b>不再等电位</b>——两者之间的电压 U̇<sub>N′N</sub> 叫<b>中性点位移电压</b>。求它，正是第 1 课<b>弥尔曼定理</b>（两节点电路秒杀公式）的直接应用：</p>
+
+  <div class="formula">
+    U̇<sub>N′N</sub> = <span class="frac"><span class="top">U̇<sub>A</sub>/Z<sub>A</sub> + U̇<sub>B</sub>/Z<sub>B</sub> + U̇<sub>C</sub>/Z<sub>C</sub></span><span class="bot">1/Z<sub>A</sub> + 1/Z<sub>B</sub> + 1/Z<sub>C</sub></span></span>
+    <span class="small">各相负载电压 = 电源相电压 − U̇<sub>N′N</sub>（相量减法！）</span>
+  </div>
+
+  <p>拿到 U̇<sub>N′N</sub> 后逐相修正，每相负载上的实际电压：</p>
+  <div class="formula">
+    U̇<sub>A′</sub> = U̇<sub>A</sub> − U̇<sub>N′N</sub>　　U̇<sub>B′</sub> = U̇<sub>B</sub> − U̇<sub>N′N</sub>　　U̇<sub>C′</sub> = U̇<sub>C</sub> − U̇<sub>N′N</sub>
+    <span class="small">注意是相量减法不是模值相减——必须带角度算</span>
+  </div>
+
+  <h3 class="sub">定性结论（判断题常客）</h3>
+  <ul>
+    <li><b>重载相（阻抗小）电压被拉低</b>，轻载相（阻抗大）电压被抬高——"重的吃亏，轻的遭殃"</li>
+    <li><b>一相短路</b>（Z<sub>A</sub> → 0）：位移电压 = U̇<sub>A</sub>，B、C 相负载电压升到<b>线电压 380 V</b>（√3 倍过压）——最严重的故障形态</li>
+    <li><b>一相开路</b>（Z<sub>A</sub> → ∞）：B、C 两相<b>串联</b>挂在线电压 U̇<sub>BC</sub> 上，按阻抗比分压——两相都偏离 220 V</li>
+    <li>若 B、C 两相阻抗相等，一相开路时 B、C 各分得 U<sub>BC</sub>/2 = <b>190 V</b>（双双欠压）</li>
+  </ul>
+  <div class="exam"><span class="tag-exam">计算模板</span>不对称三相大题的固定三步：①弥尔曼求 U̇<sub>N′N</sub> → ②逐相相量减法求实际负载电压 → ③按欧姆定律求各相电流（电流 = 电压差 ÷ 该相阻抗）。全部工具都是学过的——这就是课程链的复利。</div>
+</section>
+
+<!-- ================= 4 二表法 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>二表法：三相三线制功率测量的标准姿势</h2>
+  <p><b>问题</b>：三相三线制（无中线，如电动机、工业变压器）的总功率怎么测？直观想法是每相一块表（三表法），但三线制没法"每相单独接表"。答案是：<b>两块就够了</b>。</p>
+
+  <h3 class="sub">原理：三线制的 KCL 是"免费午餐"</h3>
+  <p>三相三线制中 i<sub>A</sub> + i<sub>B</sub> + i<sub>C</sub> = 0 恒成立，三个电流只有两个独立——所以测两个线电流，第三个就"白送"。两块表分别接：</p>
+  <ul>
+    <li><b>表 1</b>：电压线圈接 U̇<sub>AC</sub>，电流线圈串 İ<sub>A</sub> → P₁ = U<sub>AC</sub>I<sub>A</sub>cos∠(U̇<sub>AC</sub>, İ<sub>A</sub>)</li>
+    <li><b>表 2</b>：电压线圈接 U̇<sub>BC</sub>，电流线圈串 İ<sub>B</sub> → P₂ = U<sub>BC</sub>I<sub>B</sub>cos∠(U̇<sub>BC</sub>, İ<sub>B</sub>)</li>
+    <li><b>总功率 P = P₁ + P₂（代数和）</b>，与负载是否对称、是否纯阻统统无关</li>
+  </ul>
+
+  <h3 class="sub">对称负载下的读数公式（计算题主力）</h3>
+  <div class="formula">
+    P₁ = U<sub>L</sub>I<sub>L</sub>cos(φ − 30°)　　P₂ = U<sub>L</sub>I<sub>L</sub>cos(φ + 30°)
+    <span class="small">P₁ + P₂ = √3 U<sub>L</sub>I<sub>L</sub>cosφ（自动回到阶段 0 的总功率公式 ✓）</span>
+  </div>
+
+  <table class="tbl">
+    <tr><th>负载性质</th><th>功率因数角</th><th>P₁</th><th>P₂</th><th>判读</th></tr>
+    <tr><td>纯电阻</td><td>φ = 0°</td><td>P₁ = P₂</td><td>P₁ = P₂</td><td>两表相等</td></tr>
+    <tr><td>一般感性</td><td>0° &lt; φ &lt; 60°</td><td>较大</td><td>较小但为正</td><td>都正，P₁ &gt; P₂</td></tr>
+    <tr><td>临界</td><td>φ = 60°</td><td>P₁ &gt; 0</td><td>P₂ = 0</td><td>表 2 读零</td></tr>
+    <tr><td>深感性 / 纯感</td><td>φ &gt; 60°</td><td>正</td><td><b>负</b></td><td>表 2 反转（读数为负）</td></tr>
+    <tr><td>容性</td><td>φ &lt; 0°</td><td>较小</td><td>较大</td><td>P₁ &lt; P₂</td></tr>
+  </table>
+
+  <div class="exam"><span class="tag-exam">三个高频坑</span>① φ &gt; 60° 时一块表读数为<b>负</b>（指针反偏要换接线极性），总功率仍是<b>代数和</b> P₁ + P₂——不是扔掉负数；② 二表法<b>只适用三线制</b>，四线制（有中线电流）必须三表法；③ 对称负载下 P₁、P₂ 单独都不等于任何物理功率，<b>只有和才有意义</b>——别拿单表读数当某相功率。</div>
+</section>
+
+<!-- ================= 5 对称分量法 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>对称分量法：给"不对称"装上分解术（进阶）</h2>
+  <p>处理不对称的"终极武器"是把不对称系统<b>分解成三套对称系统</b>再分别求解——这是电力系统专业的官方方法，本课建立框架：</p>
+
+  <table class="tbl">
+    <tr><th>分量</th><th>三相关系</th><th>相序</th><th>系统中的形象</th></tr>
+    <tr><td><b>正序</b></td><td>大小相等、互差 120°</td><td>A → B → C</td><td>正常运行的成分</td></tr>
+    <tr><td><b>负序</b></td><td>大小相等、互差 120°</td><td>A → C → B</td><td>不对称 / 故障的标志</td></tr>
+    <tr><td><b>零序</b></td><td>大小相等、<b>同相位</b></td><td>无相序</td><td>接地故障、中线电流的成分</td></tr>
+  </table>
+
+  <p>任何一组不对称三相相量 = 正序 + 负序 + 零序的叠加（数学上可证明这是唯一分解）。分解与合成借助旋转算子 <b>a = 1∠120°</b>（a³ = 1，1 + a + a² = 0）：</p>
+  <div class="formula">
+    İ<sub>A1</sub> = <span class="frac"><span class="top">İ<sub>A</sub> + aİ<sub>B</sub> + a²İ<sub>C</sub></span><span class="bot">3</span></span>　İ<sub>A2</sub> = <span class="frac"><span class="top">İ<sub>A</sub> + a²İ<sub>B</sub> + aİ<sub>C</sub></span><span class="bot">3</span></span>　İ<sub>A0</sub> = <span class="frac"><span class="top">İ<sub>A</sub> + İ<sub>B</sub> + İ<sub>C</sub></span><span class="bot">3</span></span>
+    <span class="small">零序一眼看：三相之和除 3 —— 对称运行时零序为 0，这就是中线电流的来源</span>
+  </div>
+
+  <p><b>为什么它强大</b>：在对称的线性网络里，三套分量<b>互相独立</b>（正序、负序、零序各自单独求解，互不耦合），最后叠加。电力系统短路计算就是"三个序网分别列方程再合成"——本课不深入，但框架和 a 算子要先立住。</p>
+  <div class="know"><b>快速结论（记住两条就够）</b>：① 三相电流之和为零 → 无零序分量（三线制内部永远无零序）；② 单相接地短路 → 正、负、零序三者俱全且相等（专业课再展开）。对称分量在<b>南网笔试</b>以概念题出现，计算题更多在考研。</div>
+</section>
+
+<!-- ================= 6 例题 ================= -->
+<section class="block">
+  <h2><span class="no">6</span>例题精讲（三道模板题）</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 中性点位移：三步模板完整走一遍</div>
+    <div class="ex-body">
+      <p class="q">三相三线制，电源相电压 220 V（U̇<sub>A</sub> = 220∠0°，U̇<sub>B</sub> = 220∠−120°，U̇<sub>C</sub> = 220∠120°），星形负载 Z<sub>A</sub> = 10 Ω，Z<sub>B</sub> = Z<sub>C</sub> = 20 Ω（纯阻）。求中性点位移电压和各相负载电压。</p>
+      <ol class="steps">
+        <li><b>弥尔曼求位移电压</b>：分子 = 220∠0°/10 + 220∠−120°/20 + 220∠120°/20 = 22 + 11∠−120° + 11∠120°。后两项是等幅共轭对，之和 = −11（用 1∠−120° + 1∠120° = −1）。分子 = 22 − 11 = 11；分母 = 0.1 + 0.05 + 0.05 = 0.2</li>
+        <li>U̇<sub>N′N</sub> = 11 / 0.2 = <b>55∠0° V</b></li>
+        <li><b>逐相修正</b>：U̇<sub>A′</sub> = 220 − 55 = <b>165 V</b>（实数同相直接减）；U̇<sub>B′</sub> = |220∠−120° − 55∠0°| = √(220² + 55² − 2×220×55×cos120°) = √63525 ≈ <b>252 V</b>；同理 U̇<sub>C′</sub> ≈ <b>252 V</b></li>
+      </ol>
+      <div class="ans">答：U̇<sub>N′N</sub> = 55∠0° V；负载电压 A 相 165 V（重载被拉低），B、C 相各约 252 V（轻载被抬高、过压 15%）</div>
+      <p class="key">验证直觉：A 相阻抗最小（10 Ω，重载）电压最低；B、C 相阻抗大（轻载）过压——"重载拉低、轻载抬高" ✓。若 B、C 负载是精密电器，252 V 已经开始危险了。这就是为什么供电规程盯着三相平衡不放。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 二表法读数：对称感性负载</div>
+    <div class="ex-body">
+      <p class="q">对称三相三线制，线电压 380 V，每相负载 Z = 10 + j10 Ω（星形）。两表法测量，求 P₁、P₂ 和总功率。</p>
+      <ol class="steps">
+        <li><b>求线电流</b>：I<sub>L</sub> = U<sub>P</sub>/|Z| = 220/√(100+100) = 220/14.14 ≈ <b>15.6 A</b></li>
+        <li><b>求阻抗角</b>：φ = arctan(10/10) = <b>45°</b>（感性）</li>
+        <li><b>表 1</b>：P₁ = U<sub>L</sub>I<sub>L</sub>cos(φ − 30°) = 380 × 15.6 × cos15° ≈ 380 × 15.6 × 0.966 ≈ <b>5720 W</b></li>
+        <li><b>表 2</b>：P₂ = 380 × 15.6 × cos75° ≈ 380 × 15.6 × 0.259 ≈ <b>1530 W</b></li>
+        <li><b>总功率</b>：P = 5720 + 1530 ≈ <b>7250 W</b></li>
+        <li><b>校验</b>：√3 U<sub>L</sub>I<sub>L</sub>cosφ = 1.732 × 380 × 15.6 × 0.707 ≈ 7250 W ✓（两路答案吻合）</li>
+      </ol>
+      <div class="ans">答：P₁ ≈ 5720 W，P₂ ≈ 1530 W，P ≈ 7250 W</div>
+      <p class="key">φ = 45° &lt; 60°，两表都为正且 P₁ &gt; P₂（感性判据）。做完必用 √3 总功率公式反验——这是二表法题的自带校验器，30 秒防计算失误。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 一相开路：定性 + 定量双杀</div>
+    <div class="ex-body">
+      <p class="q">三相三线制星形负载，Z<sub>A</sub> 开路（断线故障），Z<sub>B</sub> = Z<sub>C</sub> = 20 Ω 纯阻，相电压 220 V。求 B、C 相负载电压，并判断两相电器的工作状态。</p>
+      <ol class="steps">
+        <li><b>定性</b>：A 相断开后，B、C 两相负载<b>串联</b>挂在线电压 U̇<sub>BC</sub> = 380 V 上</li>
+        <li><b>定量</b>：串联分压，两阻抗相等 → 各分一半：U<sub>B′</sub> = U<sub>C′</sub> = 380/2 = <b>190 V</b></li>
+        <li><b>判断</b>：190 V &lt; 220 V，B、C 两相<b>同时欠压约 14%</b>——电灯变暗、电机出力不足、接触器可能吸不上；长期欠压电机电流增大反而发热</li>
+      </ol>
+      <div class="ans">答：B、C 相各 190 V，双双欠压；A 相负载完全失电</div>
+      <p class="key">"一相开路 → 剩余两相串联分线电压"是断线故障的标准画像。若两相阻抗不等，按 Z<sub>B</sub> : Z<sub>C</sub> 分 380 V——阻抗大的那相分得多（可能过压），又是一例"轻载遭殃"。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 7 限时练习 ================= -->
+<section class="block">
+  <h2><span class="no">7</span>限时练习（建议 25 分钟，做完再展开）</h2>
+
+  <details class="exercise">
+    <summary><span class="qn">练 1</span>中线电流<span class="uses">三相四线</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      三相四线制，U̇<sub>A</sub> = 220∠0° V，纯阻负载 Z<sub>A</sub> = 22 Ω、Z<sub>B</sub> = 11 Ω、Z<sub>C</sub> = 11 Ω（星形）。求中线电流；若中线断开，哪个相最危险？
+      <div class="sol">İ<sub>A</sub> = 10∠0° A，İ<sub>B</sub> = 20∠−120° A，İ<sub>C</sub> = 20∠120° A；İ<sub>N</sub> = 10 + 20∠−120° + 20∠120° = 10 + 20(−0.5 − j0.866) + 20(−0.5 + j0.866) = 10 − 10 − j17.3 + −10 + j17.3 → İ<sub>N</sub> = <b>10∠180° A = −10 A</b>（量 10 A）。中线断开后 A 相阻抗最大（轻载）→ <b>A 相过压最危险</b>。</div>
+      <p class="note">对称时中线电流为零，不对称时不为零——本例 |İ<sub>N</sub>| = 10 A 正好等于不平衡的"缺口"。注意 B、C 相电流对称抵消，只剩 A 相的 10 A 没人配对。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 2</span>二表法判负载性质<span class="uses">概念深化</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      二表法测得 P₁ = 1200 W，P₂ = −400 W（表 2 反偏，倒接后读 400 W）。求总功率与负载性质，并估算功率因数角的范围。
+      <div class="sol">P = P₁ + P₂ = 1200 + (−400) = <b>800 W</b>。P₂ &lt; 0 → φ &gt; 60°（感性）。由 P₂ = 0 需 φ = 60°、P₂ = −P₁ 需 φ = 90°，本题 |P₂| = P₁/3 介于两者之间 → φ ≈ 70°~80° 区间（精确 arctan 计算为约 75.5°，量级判断即可）。</div>
+      <p class="note">核心认知：负读数不是"测量错误"，是深感性负载的正常现象；总功率永远是代数和。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 3</span>零序分量速判<span class="uses">对称分量</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      三相电流 İ<sub>A</sub> = 100∠0° A、İ<sub>B</sub> = 100∠−120° A、İ<sub>C</sub> = 100∠120° A。求零序分量；若 İ<sub>C</sub> 突变为 0（C 相断线），零序分量变为多少？
+      <div class="sol">对称时：İ<sub>A0</sub> = (İ<sub>A</sub>+İ<sub>B</sub>+İ<sub>C</sub>)/3 = 0（三相对称和为零）→ <b>零序 = 0</b>。C 相断开后：İ<sub>A0</sub> = (İ<sub>A</sub>+İ<sub>B</sub>)/3 = (100∠0° + 100∠−120°)/3 = 100∠−60°/3 ≈ <b>33.3∠−60° A</b>——零序出现，正是"不对称产生零序"的活例子。</div>
+      <p class="note">零序是最容易算的分量（三相相加除 3），也是接地保护、中线电流的理论根据——记住"和为零则零序零"。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 8 自测清单 ================= -->
+<section class="block">
+  <h2><span class="no">8</span>自测清单：全勾才算过关</h2>
+  <ul class="checklist">
+    <li>能说清中线的兜底作用："有中线 → 各相独立吃 220 V"，以及中线上为什么严禁熔断器/开关</li>
+    <li>能用弥尔曼定理求中性点位移电压 U̇<sub>N′N</sub>，并做逐相相量减法求实际负载电压（例 1 三步全走通）</li>
+    <li>能背定性结论："重载拉低、轻载抬高"；一相短路 → 其余两相升到 380 V；一相开路 → 剩余两相串联分线电压</li>
+    <li>能写二表法两表的接法（U̇<sub>AC</sub>×İ<sub>A</sub>、U̇<sub>BC</sub>×İ<sub>B</sub>）与总功率 P = P₁ + P₂（代数和），知道它只适用三线制</li>
+    <li>能算对称负载读数 P₁ = U<sub>L</sub>I<sub>L</sub>cos(φ∓30°)，并判读两表大小关系对应的负载性质（φ = 60°、φ &gt; 60° 的两个临界点）</li>
+    <li>能说清对称分量法的框架（正序/负序/零序 + a 算子 + 各序独立），会速算零序（三相和除 3），限时练习 3 题全对</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 规划中</div>
+  <div class="title">第 7 课 · 非正弦周期电流电路 —— 傅里叶级数 / 谐波 / 有效值合成</div>
+</a>
+
+<div class="pager">
+  <a href="05_互感与变压器.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 5 课 · 互感与变压器</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">目录</div>
+    <div class="title">阶段 1 · 电路深化</div>
+  </a>
+</div>
+
+<footer>
+  阶段 1 · 电路深化 · 第 6 课 三相深化 ｜ <a href="index.html">返回阶段1目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">学完记得回目录打卡：第 6 课标记「✓ 已过关」后告诉我，我更新门户进度并开第 7 课</span>
+</footer>
+
+</div>
+</body>
+</html>
