@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段1 · 第7课 — 非正弦周期电流电路</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; display: block; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 下一课卡 ===== */
+.next-card {
+  display: block;
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  text-decoration: none;
+  margin: 26px 0 10px;
+}
+.next-card .dir { font-size: 12.5px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+.next-card .title { font-size: 18px; font-weight: 700; }
+.next-card:hover { opacity: .94; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .exercise summary .uses { display: none; }
+  .tbl { font-size: 12.5px; }
+  .tbl th, .tbl td { padding: 6px 6px; }
+}
+@media print { body { background: #fff; } section.block, .example { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段1目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 1 · 第 7 课 · 2026-10-20</p>
+  <h1>非正弦周期电流电路</h1>
+  <p>傅里叶级数、谐波分析、有效值与功率的谐波合成 —— 电网"电能质量"的理论底座，南网特色考点。正弦是理想，非正弦是现实；但傅里叶保证：再丑的周期波形，都是正弦波的合唱团。</p>
+  <div class="meta">
+    <span class="chip">预计 2 小时</span>
+    <span class="chip">依赖：阶段0 第2课（相量）、第2课（叠加）、第5课（谐振）</span>
+    <span class="chip">电网谐波理论 · 笔试中频</span>
+  </div>
+</div>
+
+<!-- ================= 1 核心思想 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>本课核心思想：老工具打新怪</h2>
+  <p>前面所有课都在处理<b>单一频率正弦</b>。但真实电源和信号千奇百怪：方波（逆变器输出）、整流波（充电器）、含尖峰的畸变波（带电力电子负载的电网）。周期性非正弦信号怎么办？</p>
+  <p><b>傅里叶级数</b>给出神谕：任何满足狄里赫利条件的周期函数，都能展开成"直流 + 一堆不同频率正弦波"的叠加。于是新问题瞬间变成旧问题——电路的世界观再次升级：</p>
+  <div class="know"><b>方法论三件套（全部是学过的）</b>：① <b>傅里叶分解</b>电源 → ② 对<b>每次谐波单独用相量法</b>（叠加定理的频率版）→ ③ <b>瞬时值叠加</b>各次响应。本课不引入任何新定理，学的是"组合拳"。</div>
+  <div class="exam"><span class="tag-exam">南网视角</span>现代电网充满谐波源（变频器、开关电源、电弧炉、光伏逆变器），"电能质量"是供电局天天面对的指标——谐波限值（GB/T 14549）、滤波器设计、谐波治理都是行业日常。本课概念题在南网笔试稳定出现，且通向高电压、电力电子专业课。</div>
+</section>
+
+<!-- ================= 2 傅里叶级数与谐波 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>傅里叶级数与谐波"成分表"</h2>
+  <p>周期为 T 的信号 f(t)（基波角频率 ω₁ = 2π/T）的傅里叶展开：</p>
+  <div class="formula">
+    f(t) = a₀ + Σ<sub>k=1..∞</sub> [ a<sub>k</sub>cos(kω₁t) + b<sub>k</sub>sin(kω₁t) ]
+    <span class="small">a₀：直流分量；k=1 项：基波；k≥2 项：k 次谐波（频率为基波的 k 倍）</span>
+  </div>
+
+  <h3 class="sub">对称性 = 谐波"体检报告"（考试白送分）</h3>
+  <table class="tbl">
+    <tr><th>对称性质</th><th>数学表达</th><th>谐波成分</th></tr>
+    <tr><td>偶对称（纵轴对称）</td><td>f(−t) = f(t)</td><td>只含<b>余弦</b>项（无正弦）</td></tr>
+    <tr><td>奇对称（原点对称）</td><td>f(−t) = −f(t)</td><td>只含<b>正弦</b>项（无余弦），无直流</td></tr>
+    <tr><td>半波对称（镜像对称）</td><td>f(t ± T/2) = −f(t)</td><td><b>只含奇次谐波</b>（1、3、5…无偶次、无直流）</td></tr>
+  </table>
+
+  <h3 class="sub">常见波形的谐波档案（记结论就行）</h3>
+  <ul>
+    <li><b>对称方波</b>：只有奇次谐波，幅度按 <b>1/k</b> 衰减（基波最强，5 次、7 次仍是麻烦制造者）</li>
+    <li><b>三角波</b>：只有奇次，按 <b>1/k²</b> 衰减（收敛快，波形越"圆滑"高次越少）</li>
+    <li><b>半波整流</b>：含直流 + 奇、偶次都有</li>
+    <li><b>全波整流</b>：含直流 + <b>只有偶次</b>（2、4…次）</li>
+    <li>尖峰越尖锐 → 高次谐波越丰富（尖脉冲的谐波谱可以拖得很长）</li>
+  </ul>
+  <div class="exam"><span class="tag-exam">考法预警</span>"某波形半波对称，问 2 次谐波分量是多少？"——答案是<b>零</b>，根本不用算系数。对称性判断题是白送分，半波对称 → 无偶次这条最常考。</div>
+</section>
+
+<!-- ================= 3 有效值合成 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>有效值：方均根合成（本课第一计算考点）</h2>
+  <p>有效值定义是方均根（对完整周期），不同频率正弦的乘积在周期内积分平均为零，于是各次谐波"各自贡献、互不掺和"：</p>
+  <div class="formula">
+    I = √<span style="text-decoration:overline;">I₀² + I₁² + I₂² + I₃² + …</span>
+    <span class="small">I₀ 为直流分量，I₁、I₂… 为各次谐波的有效值 —— "平方和开根"，缺谁少谁都不行</span>
+  </div>
+  <p>电压同理：U = √(U₀² + U₁² + U₂² + …)。注意——是<b>有效值的平方相加</b>；如果给的是振幅 A<sub>k</sub>，先除 √2 再平方。</p>
+  <div class="exam"><span class="tag-exam">头号陷阱</span>不同频率的正弦量<b>不能相量相加</b>（相量加法只对同频成立）。叠加只能用瞬时值，合成有效值只能用方均根。把 10∠0° + 3∠0°（不同次谐波）"加"成 13，是本课最经典的扣分姿势。</div>
+</section>
+
+<!-- ================= 4 功率合成 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>功率：只有同频才有平均功率</h2>
+  <p>瞬时功率 p(t) = u(t)·i(t)，求平均时"不同频率的乘积项"积分后消失（正交性），只剩<b>同频配对</b>的项：</p>
+  <div class="formula">
+    P = U₀I₀ + U₁I₁cosφ₁ + U₂I₂cosφ₂ + …
+    <span class="small">φₖ 是第 k 次谐波电压、电流的相位差 —— 每次谐波各自一套功率因数</span>
+  </div>
+
+  <p><b>三个衍生结论</b>：</p>
+  <ul>
+    <li>直流只和直流配对：P₀ = U₀I₀（纯阻时 I₀ = U₀/R）</li>
+    <li>电压有某次谐波、电流没有 → 该次功率为零（如纯电阻上，电容把 3 次谐波电流挡住了，3 次谐波电压再大也不产生功率）</li>
+    <li>视在功率 S = UI（U、I 均为合成有效值），但此时 <b>S² ≠ P² + Q²</b>——多出一个"畸变功率 D"，功率三角形变成"功率四面体"。这是非正弦电路的标志性现象，概念题爱考</li>
+  </ul>
+</section>
+
+<!-- ================= 5 分析流程与谐波特选择性 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>分析流程三步走 + L、C 的"频率偏心"</h2>
+  <p>非正弦电源激励下的稳态响应，标准流程：</p>
+  <ol>
+    <li><b>分解</b>：把激励展开为傅里叶级数（题目通常直接给各次分量，不用自己算系数）</li>
+    <li><b>逐频计算</b>：对直流（L 短路、C 开路）和每次谐波（k 次角频率 kω₁）<b>分别画电路、分别相量法求解</b>。核心变化：
+      <div class="formula" style="margin:10px 0;">X<sub>L</sub>(k) = kω₁L　　X<sub>C</sub>(k) = <span class="frac"><span class="top">1</span><span class="bot">kω₁C</span></span></div>
+    </li>
+    <li><b>瞬时值叠加</b>：把各次响应写回时域正弦表达式再相加——<b>绝不能把不同次的相量直接相加</b></li>
+  </ol>
+
+  <h3 class="sub">L 和 C 的"偏心"：滤波器的原理</h3>
+  <ul>
+    <li><b>电感</b>：X<sub>L</sub> = kωL 随 k 增大——"通低频、阻高频"（高频扼流圈；高频噪声被电感拦下）</li>
+    <li><b>电容</b>：X<sub>C</sub> = 1/(kωC) 随 k 减小——"通高频、阻低频"（旁路电容；纹波经电容入地）</li>
+    <li>组合起来就是<b>低通 / 高通 / 带通滤波器</b>：整流器后面的平滑滤波（电容+电感）、通信线路的高频通道，原理全在此</li>
+  </ul>
+
+  <div class="exam"><span class="tag-exam">谐波的谐振放大——电力系统真实事故原理</span>第 5 课（阶段 0）学过：L、C 谐振频率 ω₀ 固定。若电网中恰好存在某次谐波（如 5 次、7 次）与系统电感电容组合谐振，该次谐波会被显著放大——电容器组烧毁、保护误动多源于此。所以电网装电容补偿时必须"躲开"谐波谐振点。这条链把"谐振 + 谐波"两个考点焊在了一起，南网面试也可能问。</div>
+</section>
+
+<!-- ================= 6 三相中的谐波 ================= -->
+<section class="block">
+  <h2><span class="no">6</span>三相电路中的谐波：3 的倍数次是"零序家属"</h2>
+  <p>对称三相电源本身只有基波，但变压器励磁电流、非线性负载会产生谐波。三相系统中谐波有个独特规律——<b>3、6、9 次（3 的倍数次）谐波三相同相位</b>（各相本就差 120°，3 次谐波把 3×120° = 360° 甩回同相）：</p>
+  <ul>
+    <li>3 的倍数次谐波 = <b>零序性质</b>（呼应第 6 课对称分量法的"零序"）</li>
+    <li><b>星形无中线</b>：零序电流无通路 → 线电流中无 3 次；线电压 = 相电压之差，3 次同相互相抵消 → <b>线电压中永无 3 次谐波</b>（线电压波形比相电压"更正弦"）</li>
+    <li><b>三角形接法电源</b>：3 次谐波在闭合三角内自成环流（外面测不到，但环流增加损耗——变压器用三角形接法"消化"3 次谐波）</li>
+    <li>有中线时：3 次谐波全部涌入中线——中线电流可能比相线还大（谐波治理的现实痛点）</li>
+  </ul>
+  <div class="exam"><span class="tag-exam">南网概念题素材</span>谐波危害清单（背五条）：① 附加损耗使电机变压器发热 ② 电容器过载甚至谐振烧毁 ③ 继电保护误动/拒动 ④ 电能计量误差 ⑤ 通信干扰 + 精密设备死机。治理手段：滤波器（无源 LC / 有源 APF）、增加整流脉波数、Delta 接线隔离 3 次。出"多选题"时这份清单就是标准答案库。</div>
+</section>
+
+<!-- ================= 7 例题 ================= -->
+<section class="block">
+  <h2><span class="no">7</span>例题精讲（三道模板题）</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 有效值合成：先把"振幅"翻译成"有效值"</div>
+    <div class="ex-body">
+      <p class="q">某支路电流 i(t) = [10 + 10√2·sin(ω₁t) + 3√2·sin(3ω₁t)] A。求电流有效值。</p>
+      <ol class="steps">
+        <li><b>认清各分量</b>：直流 I₀ = 10 A；基波有效值 I₁ = 10 A（振幅 10√2 除 √2）；3 次谐波有效值 I₃ = 3 A</li>
+        <li><b>方均根合成</b>：I = √(I₀² + I₁² + I₃²) = √(100 + 100 + 9) = √209</li>
+        <li>I ≈ <b>14.5 A</b></li>
+      </ol>
+      <div class="ans">答：I = √209 ≈ 14.5 A</div>
+      <p class="key">两步防错：① 振幅 → 有效值先除 √2（别把 10√2 直接平方）；② 直流项别忘（10² = 100 占了半壁江山）。合成的结果 14.5 比直觉的"10+10+3"小得多——方均根天然"稀释"。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 逐频响应：一个电路、三套参数</div>
+    <div class="ex-body">
+      <p class="q">RL 串联电路，R = 10 Ω，L = 0.1 H，电源 u(t) = [100√2·sin(100t) + 30√2·sin(300t)] V。求电流瞬时值与有效值。</p>
+      <ol class="steps">
+        <li><b>基波单独作用</b>（ω₁ = 100）：Z₁ = R + jω₁L = 10 + j10 Ω，|Z₁| = 14.14，∠−45°。İ₁ = 100∠0°/(10 + j10) = 7.07∠−45° A</li>
+        <li><b>3 次谐波单独作用</b>（3ω₁ = 300）：X<sub>L</sub> 翻三倍 → Z₃ = 10 + j30 Ω，|Z₃| = 31.6。İ₃ = 30∠0°/(10 + j30) = 0.95∠−71.6° A</li>
+        <li><b>瞬时值叠加</b>：i(t) = [7.07√2·sin(100t − 45°) + 0.95√2·sin(300t − 71.6°)] A</li>
+        <li><b>有效值</b>：I = √(7.07² + 0.95²) = √(50 + 0.9) ≈ <b>7.13 A</b></li>
+      </ol>
+      <div class="ans">答：i(t) = [7.07√2 sin(100t − 45°) + 0.95√2 sin(300t − 71.6°)] A，I ≈ 7.13 A</div>
+      <p class="key">看懂数字背后的物理：3 次谐波电压虽达基波的 30%，但电感阻抗翻了三倍，3 次电流只剩基波的 13%——<b>电感"欺软怕硬"地偏爱低频</b>。这就是扼流圈原理的现场演示：加个铁芯电感，波形立即变干净。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 功率合成：谁和谁配对</div>
+    <div class="ex-body">
+      <p class="q">某负载端电压 u = [50 + 100√2·sin(ωt)] V，电流 i = [10√2·sin(ωt − 36.9°) + 2√2·sin(2ωt)] A。求平均功率。</p>
+      <ol class="steps">
+        <li><b>清点配对</b>：直流电压 50 V，但直流电流 = 0 → P₀ = 0（电压有直流、电流没有，配不上）</li>
+        <li><b>基波配对</b>：P₁ = U₁I₁cosφ₁ = 100 × 10 × cos36.9° = 1000 × 0.8 = <b>800 W</b></li>
+        <li><b>2 次谐波</b>：电流有 2 次（2 A 有效值），但电压无 2 次 → P₂ = 0</li>
+        <li><b>合计</b>：P = 0 + 800 + 0 = <b>800 W</b></li>
+      </ol>
+      <div class="ans">答：P = 800 W（只有基波在干活）</div>
+      <p class="key">本题浓缩了功率合成的全部要点：<b>同频才配对</b>。直流电压配不上直流电流、2 次电流配不上 2 次电压——它们都"单相思"零功率。谐波电流在纯基波电压下流窜，不干活还制造损耗（线路 I²R 发热），这正是谐波"有害无功"的本质。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 8 限时练习 ================= -->
+<section class="block">
+  <h2><span class="no">8</span>限时练习（建议 20 分钟，做完再展开）</h2>
+
+  <details class="exercise">
+    <summary><span class="qn">练 1</span>有效值速算<span class="uses">基础模板</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电压 u(t) = [100 + 80√2·sin(ωt) + 60√2·sin(2ωt)] V，求有效值。
+      <div class="sol">U = √(100² + 80² + 60²) = √(10000 + 6400 + 3600) = √20000 ≈ <b>141.4 V</b></div>
+      <p class="note">直流 100、基波 80、二次 60 勾股合成 141.4——顺手的数字提示这是"3-4-5"家族的放大版（60-80-100）。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 2</span>对称性判谐波<span class="uses">概念题</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      四个周期波形：① 原点对称且半波对称的方波；② 全波整流波形；③ 纵轴对称的三角波；④ 原点对称的锯齿波。问：哪些无直流分量？哪些只含奇次谐波？哪些含 2 次谐波？
+      <div class="sol">无直流：①③④（凡原点对称必无直流）；只含奇次：①（半波对称）；含 2 次：②（全波整流只含偶次，2 次最强）和④（锯齿波奇偶次都有）。③纵轴对称三角波：只含余弦项、奇偶次兼有？——注意三角波半波对称仍只含奇次（三角波 f(t±T/2)=−f(t) 也成立），修正为只含奇次余弦。</div>
+      <p class="note">判断顺序建议：先看半波对称（决定有无偶次）→ 再看轴对称（决定正弦还是余弦）→ 最后定直流。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 3</span>电容的"偏爱"反向题<span class="uses">逐频响应</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      RC 串联电路，R = 10 Ω，C = 100 μF，电源含 1、3 次谐波（ω₁ = 100 rad/s）：u = [30√2·sin(100t) + 10√2·sin(300t)] V。哪个谐波在电容上"更响"（分得电压比例更高）？
+      <div class="sol">基波：X<sub>C1</sub> = 1/(100×10⁻⁴) = 100 Ω → |Z| = √(10²+100²) ≈ 100.5，电容分压占比 ≈ 100/100.5 ≈ 99.5%。3 次：X<sub>C3</sub> = 100/3 ≈ 33.3 Ω → |Z| = √(10²+33.3²) ≈ 34.8，电容分压占比 ≈ 33.3/34.8 ≈ 96%。答：<b>基波在电容上分得比例更高</b>——频率越高电容越"短路"，高频都被电容"漏掉"了。</div>
+      <p class="note">电容与电感正好相反：X<sub>C</sub> 随 k 递减 → 高频畅通。本题的 RC 是高通滤波器雏形（电容输出端取高频），反过来从电阻端取输出就是低通——一个电路两种滤波，全看你从哪个端子引出。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 9 自测清单 ================= -->
+<section class="block">
+  <h2><span class="no">9</span>自测清单：全勾才算过关</h2>
+  <ul class="checklist">
+    <li>能写出傅里叶级数展开式，说清直流分量、基波、k 次谐波的定位</li>
+    <li>能用对称性预判谐波成分（偶对称→余弦；奇对称→正弦无直流；半波对称→只含奇次），秒杀概念题</li>
+    <li>能默写有效值方均根合成 I = √(I₀²+I₁²+…)，记得振幅先除 √2、直流别漏（例 1 全对）</li>
+    <li>能默写功率配对公式 P = U₀I₀ + ΣU<sub>k</sub>I<sub>k</sub>cosφ<sub>k</sub>，说清"同频才配对"、S² ≠ P² + Q² 的畸变功率</li>
+    <li>会逐频分析三步法（分解 → 逐频相量法，X<sub>L</sub>=kωL / X<sub>C</sub>=1/(kωC) → 瞬时值叠加），知道不同频相量不能相加</li>
+    <li>能说清三相谐波特性（3 的倍数次零序、线电压无 3 次、三角环流）与谐波危害五条清单，限时练习 3 题全对</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 规划中</div>
+  <div class="title">第 8 课 · 二端口网络 —— Z / Y / H 参数与等效电路</div>
+</a>
+
+<div class="pager">
+  <a href="06_三相深化.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 6 课 · 三相深化</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">目录</div>
+    <div class="title">阶段 1 · 电路深化</div>
+  </a>
+</div>
+
+<footer>
+  阶段 1 · 电路深化 · 第 7 课 非正弦周期电流电路 ｜ <a href="index.html">返回阶段1目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">学完记得回目录打卡：第 7 课标记「✓ 已过关」后告诉我，我更新门户进度并开第 8 课（阶段 1 倒数第二课）</span>
+</footer>
+
+</div>
+</body>
+</html>
