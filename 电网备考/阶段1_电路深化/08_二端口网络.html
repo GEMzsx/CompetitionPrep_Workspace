@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段1 · 第8课 — 二端口网络</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; display: block; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 矩阵 ===== */
+.mat {
+  display: inline-block; vertical-align: middle;
+  font-family: Cambria, "Times New Roman", serif;
+}
+.mat .bracket { display: inline-block; }
+.mat .grid2 {
+  display: inline-grid; grid-template-columns: auto auto;
+  gap: 2px 18px; padding: 4px 8px; text-align: center; vertical-align: middle;
+}
+.mat .grid2 .c { text-align: center; }
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 下一课卡 ===== */
+.next-card {
+  display: block;
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  text-decoration: none;
+  margin: 26px 0 10px;
+}
+.next-card .dir { font-size: 12.5px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+.next-card .title { font-size: 18px; font-weight: 700; }
+.next-card:hover { opacity: .94; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .exercise summary .uses { display: none; }
+  .tbl { font-size: 12.5px; }
+  .tbl th, .tbl td { padding: 6px 6px; }
+  .mat .grid2 { gap: 2px 8px; }
+}
+@media print { body { background: #fff; } section.block, .example { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段1目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 1 · 第 8 课（正课收官）· 2026-10-22</p>
+  <h1>二端口网络</h1>
+  <p>Z / Y / H 参数与等效电路 —— 把整个电路装进"黑盒子"，只用端口电压电流关系描述外部行为。这是电路理论通往"系统思维"的门槛：变压器、滤波器、放大器，从此都是同一个抽象。</p>
+  <div class="meta">
+    <span class="chip">预计 2.5 小时</span>
+    <span class="chip">依赖：第1课（网孔/节点法）、第2课（等效思想）</span>
+    <span class="chip">期末大题常客 · 概念中频</span>
+  </div>
+</div>
+
+<!-- ================= 1 核心思想 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>本课核心思想：黑盒子——从"看内部"到"看端口"</h2>
+  <p>前面七课都在<b>解剖</b>电路：元件是什么、怎么连的、每个支路电流是多少。但工程世界经常<b>不需要也不允许</b>看内部——芯片有几十亿晶体管，你拿不到内部电路，厂家只给一张"端口特性表"。</p>
+  <p><b>二端口网络</b>（two-port network）就是这种思维的正式化：一个四端网络，1-1′ 为输入口（激励进）、2-2′ 为输出口（响应出），内部结构不管多复杂，统统封进盒子。我们只研究四个量 U̇₁、İ₁、U̇₂、İ₂ 之间的关系。</p>
+  <div class="know"><b>课程链大回环</b>：你其实早就见过二端口——第 5 课<b>理想变压器</b>（U̇₁=nU̇₂、İ₁=İ₂/n 就是一组端口约束）、第 7 课<b>滤波器</b>（输入信号进来、滤波后的信号出去）。二端口把"元件思维"升维成"系统思维"，是模拟电子（放大器）、信号与系统（传递函数）、电力电子（变换器）的公共前置语言。</div>
+  <div class="exam"><span class="tag-exam">考试定位</span>期末<b>必考大题</b>：给电路求 Z/Y 参数矩阵、判断互易/对称、画等效电路，是电路期末的固定曲目；南网笔试以概念为主（参数物理意义、互易条件）。套路性极强——参数求法就两招（开路法 / 短路法），练熟即满分章。</div>
+</section>
+
+<!-- ================= 2 端口条件与参数体系 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>端口条件：为什么"四个端子"不等于"二端口"</h2>
+  <p><b>二端口 ≠ 任意四端网络</b>。端口条件：从端子 1 流入的电流必须<b>全部</b>从端子 1′ 流出（İ₁ 进 = İ₁ 出），2-2′ 同理。也就是说，每个"口"是一对共命运端子——传输线、变压器、放大器天然满足；随便抓四个端子的网络（比如桥式电路四个顶点）不满足端口条件，只能叫四端网络。</p>
+
+  <p>四个端口量里，取两个作自变量、两个作因变量，共有 6 种组合 → <b>6 套参数体系</b>。本课精讲最常用的三套：</p>
+  <table class="tbl">
+    <tr><th>参数</th><th>自变量 → 因变量</th><th>外号</th><th>主战场</th></tr>
+    <tr><td><b>Z</b>（阻抗）</td><td>İ₁, İ₂ → U̇₁, U̇₂</td><td>开路参数</td><td>串联结构、T 型网络</td></tr>
+    <tr><td><b>Y</b>（导纳）</td><td>U̇₁, U̇₂ → İ₁, İ₂</td><td>短路参数</td><td>并联结构、π 型网络、节点法</td></tr>
+    <tr><td><b>H</b>（混合）</td><td>İ₁, U̇₂ → U̇₁, İ₂</td><td>混合参数</td><td>晶体管小信号模型</td></tr>
+  </table>
+  <div class="know"><b>选型直觉</b>：网络是<b>串</b>着好算就用 Z（T 型），<b>并</b>着好算就用 Y（π 型），"一脚串一脚并"的混合体（晶体管）用 H。三者可互转（Z 与 Y 互为逆矩阵：Z = Y⁻¹）。</div>
+</section>
+
+<!-- ================= 3 Z参数 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>Z 参数：全部用"开路"测</h2>
+  <div class="formula">
+    <span class="mat"><span class="bracket">[</span><span class="grid2"><span class="c">U̇₁</span><span class="c">U̇₂</span><span class="c">İ₁</span><span class="c">İ₂</span></span><span class="bracket">]</span></span> = <span class="mat"><span class="bracket">[</span><span class="grid2"><span class="c">Z₁₁</span><span class="c">Z₁₂</span><span class="c">Z₂₁</span><span class="c">Z₂₂</span></span><span class="bracket">]</span></span> <span class="mat"><span class="bracket">[</span><span class="grid2"><span class="c">İ₁</span><span class="c">İ₂</span><span class="c">·</span><span class="c">·</span></span><span class="bracket">]</span></span>
+    <span class="small">写成方程组：U̇₁ = Z₁₁İ₁ + Z₁₂İ₂；U̇₂ = Z₂₁İ₁ + Z₂₂İ₂</span>
+  </div>
+
+  <h3 class="sub">每个参数的物理意义（考试爱问"是什么"）</h3>
+  <table class="tbl">
+    <tr><th>参数</th><th>定义式</th><th>测量条件</th><th>含义</th></tr>
+    <tr><td>Z₁₁</td><td>U̇₁/İ₁</td><td>出口<b>开路</b>（İ₂ = 0）</td><td>输入阻抗（策动点阻抗）</td></tr>
+    <tr><td>Z₂₁</td><td>U̇₂/İ₁</td><td>出口<b>开路</b></td><td>正向转移阻抗</td></tr>
+    <tr><td>Z₁₂</td><td>U̇₁/İ₂</td><td>入口<b>开路</b>（İ₁ = 0）</td><td>反向转移阻抗</td></tr>
+    <tr><td>Z₂₂</td><td>U̇₂/İ₂</td><td>入口<b>开路</b></td><td>输出阻抗</td></tr>
+  </table>
+
+  <div class="know"><b>口诀</b>：Z 参数全是"开路测"——求谁，就让<b>另一个口的电流为零</b>（开路），再用电压比电流。字母含义：Z<sub>ij</sub> 里 j 是"被开路口"的电流编号，i 是响应电压编号。</div>
+
+  <h3 class="sub">两大性质（判断题铁律）</h3>
+  <ul>
+    <li><b>互易二端口</b>（内部无受控源、线性双向元件）：<b>Z₁₂ = Z₂₁</b>——信号正走反走待遇相同。检验互易性，就看这一条（或 Y₁₂ = Y₂₁）</li>
+    <li><b>对称二端口</b>（从哪个口看进去都一样）：Z₁₁ = Z₂₂ <b>且</b> Z₁₂ = Z₂₁——两个条件缺一不可</li>
+    <li>含<b>受控源</b>（放大器类）的网络：Z₁₂ ≠ Z₂₁，<b>必然不互易</b>——受控源是单向的，这是例 3 的看点</li>
+  </ul>
+</section>
+
+<!-- ================= 4 Y参数 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>Y 参数：全部用"短路"测</h2>
+  <div class="formula">
+    İ₁ = Y₁₁U̇₁ + Y₁₂U̇₂　　İ₂ = Y₂₁U̇₁ + Y₂₂U̇₂
+    <span class="small">Y₁₁ = İ₁/U̇₁（出口短路时输入导纳）；Y₂₁ = İ₂/U̇₁（出口短路正向转移导纳）……全部"短路测"</span>
+  </div>
+
+  <p>Y 与 Z 是同一枚硬币的两面：<b>Z = Y⁻¹</b>（矩阵互逆）。网络是 π 型（并联为主）时，列<b>节点电压方程</b>直接得 Y（第 1 课的节点法在这里复用）；T 型（串联为主）时列<b>网孔方程</b>直接得 Z。</p>
+  <div class="exam"><span class="tag-exam">易错点</span>Y₁₂、Y₂₁ 默认带<b>负号</b>（跨接元件的电流方向与端口电流定义相反）：π 型网络跨臂 Y₂ 贡献 Y₁₂ = Y₂₁ = −Y₂。算完自检互易性（Y₁₂ = Y₂₁），负号不对称多半是方向定义搞反了。</div>
+</section>
+
+<!-- ================= 5 H参数与等效电路 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>H 参数：晶体管的名片 + 二端口等效电路</h2>
+  <h3 class="sub">H（混合）参数：一脚电流一脚电压</h3>
+  <div class="formula">
+    U̇₁ = h₁₁İ₁ + h₁₂U̇₂　　İ₂ = h₂₁İ₁ + h₂₂U̇₂
+    <span class="small">h₁₁：出口短路输入阻抗；h₂₁：出口短路电流放大倍数；h₁₂：入口开路反向电压比；h₂₂：入口开路输出导纳</span>
+  </div>
+  <p>为什么晶体管用 H？因为晶体管天然是"输入口小电流控制输出口大电流"的混合体：h₂₁ 就是<b>电流放大倍数 β</b>（模电第一章的 h<sub>fe</sub>），h₁₁ 就是输入电阻 r<sub>be</sub>。混合参数量纲不齐（阻抗、无量纲、导纳混在一套里），恰好贴合"混合"之名的器件直觉。</p>
+
+  <h3 class="sub">等效电路：黑盒子的"替身"</h3>
+  <p>知道参数矩阵，就能搭一个<b>外部行为完全一致</b>的简单电路来替身（第 2 课戴维南思想的端口版）。Z 参数的 T 型等效：</p>
+  <ul>
+    <li>互易网络（Z₁₂ = Z₂₁）：三阻抗 T 型——左臂 Z₁₁−Z₁₂、中臂 Z₁₂、右臂 Z₂₂−Z₁₂，<b>无受控源</b>，干净利落</li>
+    <li>非互易网络：同样的 T 型骨架 + 输出口串一个<b>受控源 (Z₂₁−Z₁₂)İ₁</b>——多出来的那块"单向性"由受控源补齐</li>
+  </ul>
+  <div class="know"><b>等效的思想地位</b>：内部结构可以有无限种，但端口行为一致就"可互换"。工程师拿到的芯片手册只给参数（H 参数、S 参数），不管内部几十亿晶体管——本课学的正是这种"接口化"的工程世界观。</div>
+</section>
+
+<!-- ================= 6 例题 ================= -->
+<section class="block">
+  <h2><span class="no">6</span>例题精讲（三道模板题）</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · T 型网络求 Z 参数：网孔法一击必中</div>
+    <div class="ex-body">
+      <p class="q">T 型网络：入口串 Z₁ = 10 Ω，出口串 Z₂ = 10 Ω，中臂并 Z₃ = 5 Ω（输入口经 Z₁ 到公共节点，节点经 Z₃ 接公共地，节点经 Z₂ 到输出口）。求 Z 参数矩阵，判断互易性与对称性。</p>
+      <ol class="steps">
+        <li><b>列网孔方程</b>（第 1 课网孔法直接复用）：两个网孔电流就是 İ₁、İ₂。U̇₁ = İ₁(Z₁+Z₃) + İ₂Z₃；U̇₂ = İ₁Z₃ + İ₂(Z₂+Z₃)</li>
+        <li><b>对照标准形读参数</b>：Z₁₁ = Z₁+Z₃ = <b>15 Ω</b>，Z₁₂ = Z₃ = <b>5 Ω</b>，Z₂₁ = Z₃ = <b>5 Ω</b>，Z₂₂ = Z₂+Z₃ = <b>15 Ω</b></li>
+        <li><b>性质判断</b>：Z₁₂ = Z₂₁ = 5 → <b>互易</b> ✓；Z₁₁ = Z₂₂ = 15 → <b>对称</b> ✓</li>
+      </ol>
+      <div class="ans">答：Z = [[15, 5], [5, 15]] Ω；互易且对称</div>
+      <p class="key">T 型网络求 Z 参数就是"列两个网孔方程、对照系数读数"两步，不存在任何新技巧。**中臂 Z₃ 在两个方程里都出现**（既在网孔 1 也在网孔 2），这就是 Z₁₂ = Z₂₁ = Z₃ 的来源——互易性在 T 型结构里是一眼可见的。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · π 型网络求 Y 参数：节点法对偶走一遍</div>
+    <div class="ex-body">
+      <p class="q">π 型网络：入口对地 Y₁ = 0.1 S，跨接入口出口之间 Y₂ = 0.05 S，出口对地 Y₃ = 0.1 S。求 Y 参数矩阵。</p>
+      <ol class="steps">
+        <li><b>列节点方程</b>（节点电压就是 U̇₁、U̇₂）：İ₁ = U̇₁(Y₁+Y₂) − U̇₂Y₂；İ₂ = −U̇₁Y₂ + U̇₂(Y₂+Y₃)</li>
+        <li><b>对照读参数</b>：Y₁₁ = Y₁+Y₂ = <b>0.15 S</b>，Y₁₂ = Y₂₁ = <b>−0.05 S</b>，Y₂₂ = Y₂+Y₃ = <b>0.15 S</b></li>
+        <li><b>性质</b>：Y₁₂ = Y₂₁（互易 ✓）；Y₁₁ = Y₂₂（对称 ✓）——和例 1 完全对偶</li>
+      </ol>
+      <div class="ans">答：Y = [[0.15, −0.05], [−0.05, 0.15]] S；互易且对称</div>
+      <p class="key">把例 1 和例 2 钉在一起记忆：<b>T 型↔Z 参数↔网孔法</b>，<b>π 型↔Y 参数↔节点法</b>，互为镜像。π 型对偶地把跨臂 Y₂ 贡献到所有非对角元（带负号），对角元是"本口所有导纳之和"——和弥尔曼定理的自导/互导语言一模一样。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · 含受控源：互易性的破坏现场</div>
+    <div class="ex-body">
+      <p class="q">在例 1 的 T 型网络中，在输出口再串一个<b>受控电压源</b> U̇<sub>c</sub> = 2İ₁（CCVS，方向加强 U̇₂）。求新 Z 参数并判断互易性。</p>
+      <ol class="steps">
+        <li><b>改写网孔方程</b>：U̇₁ 不变 = 15İ₁ + 5İ₂；U̇₂ = 5İ₁ + 15İ₂ + 2İ₁ = (5+2)İ₁ + 15İ₂</li>
+        <li><b>读参数</b>：Z = [[15, 5], [<b>7</b>, 15]] Ω</li>
+        <li><b>判断</b>：Z₁₂ = 5 ≠ Z₂₁ = 7 → <b>不互易</b>——受控源把"正向待遇"抬高了（正向 7、反向 5），单向性打破了对等</li>
+      </ol>
+      <div class="ans">答：Z = [[15, 5], [7, 15]] Ω；不互易（受控源所致）；仍对称需 Z₁₁=Z₂₂ 且互易，故也不再对称</div>
+      <p class="key">受控源 = 互易性杀手。凡是网络里有受控源（放大器、晶体管），<b>先预期它不互易</b>，算出 Z₁₂ ≠ Z₂₁ 不必慌——那是受控源在干活。等效电路里这块不对称由 (Z₂₁−Z₁₂)İ₁ = 2İ₁ 的受控源补齐，正好就是原电路里的那个 CCVS。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 7 限时练习 ================= -->
+<section class="block">
+  <h2><span class="no">7</span>限时练习（建议 25 分钟，做完再展开）</h2>
+
+  <details class="exercise">
+    <summary><span class="qn">练 1</span>开路实验读参数<span class="uses">测量法</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      对某二端口做开路实验：İ₂ = 0 时测得 U̇₁ = 10 V、İ₁ = 1 A、U̇₂ = 4 V；İ₁ = 0 时测得 U̇₂ = 10 V、İ₂ = 2 A、U̇₁ = 4 V。求全部 Z 参数并判断互易性。
+      <div class="sol">Z₁₁ = 10/1 = <b>10 Ω</b>，Z₂₁ = 4/1 = <b>4 Ω</b>（第一次实验）；Z₂₂ = 10/2 = <b>5 Ω</b>，Z₁₂ = 4/2 = <b>2 Ω</b>（第二次实验）。Z₁₂ = 2 ≠ Z₂₁ = 4 → <b>不互易</b>（内部必有受控源/回转器类元件）。</div>
+      <p class="note">实验数据题是"物理意义定义式"的直接应用：每次开路实验从定义读两个参数。注意第二次实验里 Z₁₂ = U̇₁/İ₂ 别拿成 U̇₁/U̇₂。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 2</span>Y 参数与 Z 参数互逆<span class="uses">参数转换</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      已知 Z = [[4, 2], [2, 6]] Ω（互易）。求 Y 参数矩阵（验证 Y = Z⁻¹）。
+      <div class="sol">det Z = 4×6 − 2×2 = 20；Z⁻¹ = (1/20)[[6, −2], [−2, 4]] → Y = [[0.3, −0.1], [−0.1, 0.2]] S。校验互易：Y₁₂ = Y₂₁ = −0.1 ✓（互易性在参数转换中保持）。</div>
+      <p class="note">二阶矩阵求逆口诀：主对角互换、副对角变号、除以行列式。Z 与 Y 互逆是有条件成立（det Z ≠ 0，即网络不存在使参数退化的特殊约束）。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 3</span>晶体管 H 参数速读<span class="uses">H 参数</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      某晶体管共射 H 参数手册值：h₁₁ = 1.1 kΩ、h₁₂ ≈ 0、h₂₁（β）= 100、h₂₂ = 10⁻⁵ S。问：① 输入短路输出侧激励时入口电压多大？② 基极注入 20 μA 小信号，集电极电流多大？③ h₂₂ 对应的输出电阻多大？
+      <div class="sol">① h₁₂≈0：输出电压几乎不反向影响入口（输出对输入"隔离"）→ 入口电压 ≈ <b>0</b>。② İ₂ = β·İ₁ = 100 × 20 μA = <b>2 mA</b>（这就是"放大"）。③ R<sub>out</sub> = 1/h₂₂ = 1/10⁻⁵ = <b>100 kΩ</b>（输出近似恒流源）。</div>
+      <p class="note">H 参数每个量都直接对应晶体管的一句工程语言：h₁₁ 输入电阻、β 电流放大、h₁₂ 反向隔离、1/h₂₂ 输出电阻——器件手册的"黑盒子表"就是二端口参数表。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 8 自测清单 ================= -->
+<section class="block">
+  <h2><span class="no">8</span>自测清单：全勾才算过关</h2>
+  <ul class="checklist">
+    <li>能说清端口条件（每口流入=流出），区分二端口与四端网络</li>
+    <li>能背 Z/Y/H 三套方程组及各参数的物理意义与测量条件（Z 开路测、Y 短路测、H 混合）</li>
+    <li>会用网孔法求 T 型 Z 参数、节点法求 π 型 Y 参数（例 1、例 2 两板斧），记得 Y 的非对角元带负号</li>
+    <li>能判断互易（Z₁₂=Z₂₁ / Y₁₂=Y₂₁）与对称（对角相等 + 互易），知道受控源必然破坏互易（例 3）</li>
+    <li>会 Z↔Y 互逆转换（二阶求逆口诀），知道互易性在转换中保持（练 2）</li>
+    <li>能画 Z 参数的 T 型等效电路（互易无受控源版 / 非互易补受控源版），说清 H 参数与晶体管 β 的对应，限时练习 3 题全对</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一站 · 期末总复盘</div>
+  <div class="title">阶段 1 收官 · 期末综合模拟 —— 八课混考 + 85+ 冲刺指南</div>
+</a>
+
+<div class="pager">
+  <a href="07_非正弦周期电流电路.html">
+    <div class="dir">← 上一课</div>
+    <div class="title">第 7 课 · 非正弦周期电流电路</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">目录</div>
+    <div class="title">阶段 1 · 电路深化</div>
+  </a>
+</div>
+
+<footer>
+  阶段 1 · 电路深化 · 第 8 课 二端口网络（正课收官）｜ <a href="index.html">返回阶段1目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">八门正课到此完结 —— 学完自测全勾后告诉我，我标记过关并上线期末总复盘（八课混考 + 85+ 冲刺）</span>
+</footer>
+
+</div>
+</body>
+</html>
