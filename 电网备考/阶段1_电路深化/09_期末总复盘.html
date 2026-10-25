@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段1 · 期末总复盘 — 八课混考与 85+ 冲刺</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .q { font-weight: 600; margin-bottom: 10px; }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 下一课卡 ===== */
+.next-card {
+  display: block;
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  text-decoration: none;
+  margin: 26px 0 10px;
+}
+.next-card .dir { font-size: 12.5px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+.next-card .title { font-size: 18px; font-weight: 700; }
+.next-card:hover { opacity: .94; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .exercise summary .uses { display: none; }
+  .tbl { font-size: 12.5px; }
+  .tbl th, .tbl td { padding: 6px 6px; }
+}
+@media print { body { background: #fff; } section.block, .example { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段1目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 1 · 期末总复盘 · 2026-10-25</p>
+  <h1>期末总复盘：八课混考与 85+ 冲刺</h1>
+  <p>八门正课到此合体 —— 一张知识地图串起整条链，六道混考大题检验跨课调用能力，一套冲刺策略瞄准期末 85+。这是阶段 1 的收官之战，也是绩点前 10% 的地基浇筑。</p>
+  <div class="meta">
+    <span class="chip">预计 3 小时（含 90 分钟限时混考）</span>
+    <span class="chip">依赖：第 1–8 课全部</span>
+    <span class="chip">收官任务 · 期末 85+</span>
+  </div>
+</div>
+
+<!-- ================= 1 知识地图 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>八课知识地图：一条链，不是八个盒子</h2>
+  <p>期末复习最忌"一课一课孤立的看"。八课是一条链：<b>第 1 课</b>的节点/网孔法是万能引擎；<b>第 2 课</b>的定理是化简捷径；<b>第 3、4 课</b>给电路加上时间维度；<b>第 5 课</b>让能量跨过磁场传递；<b>第 6、7 课</b>把正弦交流推向电力系统的真实形态；<b>第 8 课</b>把一切封装成黑盒子。<b>期末卷 = 这条链的随机组合。</b></p>
+
+  <table class="tbl">
+    <tr><th>课</th><th>一句话核心</th><th>必背公式 / 结论</th><th>期末权重</th></tr>
+    <tr><td>1 节点 / 网孔</td><td>复杂电路的万能引擎</td><td>弥尔曼 U̇ = (ΣY·U̇ₛ) / ΣY</td><td>★★★ 大题必考</td></tr>
+    <tr><td>2 电路定理</td><td>等效与化简的捷径</td><td>P<sub>max</sub> = U<sub>oc</sub>² / 4R<sub>eq</sub></td><td>★★★ 大题必考</td></tr>
+    <tr><td>3 一阶暂态</td><td>换路后的过渡过程</td><td>f(t) = f(∞) + [f(0⁺)−f(∞)]·e<sup>−t/τ</sup></td><td>★★★ 大题必考</td></tr>
+    <tr><td>4 二阶暂态</td><td>振荡的起点</td><td>s² + 2αs + ω₀² = 0，α 比 ω₀ 判型</td><td>★★ 中频</td></tr>
+    <tr><td>5 互感</td><td>磁场耦合的能量传递</td><td>k = M / √(L₁L₂)；副边折算 n²·Z</td><td>★★ 中频</td></tr>
+    <tr><td>6 三相</td><td>电力系统的基本形态</td><td>P = √3·U<sub>L</sub>I<sub>L</sub>·cosφ + 中性点位移</td><td>★★★ 高频大题</td></tr>
+    <tr><td>7 非正弦</td><td>电能质量的语言</td><td>I = √(ΣIₖ²)；同频才配对</td><td>★★ 特色题</td></tr>
+    <tr><td>8 二端口</td><td>黑盒子的封装语言</td><td>Z₁₂ = Z₂₁（互易）；Y = Z⁻¹</td><td>★★ 小题中频</td></tr>
+  </table>
+
+  <div class="know"><b>链式复利（课程设计时就埋好的钩子）</b>：弥尔曼（第1课）→ 中性点位移（第6课）；戴维南（第2课）→ 时间常数 τ（第3课）；谐振（阶段0）→ 谐波放大（第7课）；变压器与滤波器（第5课）→ 二端口（第8课）。期末出题人组合的，正是这些"天然接口"。</div>
+
+  <div class="exam"><span class="tag-exam">考点</span>把这张表右两列盖住，只看左边两列默写公式 —— 这是考前最后一晚最好的自测。默不出来的那行，就是你明天要重做的课。</div>
+</section>
+
+<!-- ================= 2 混考六题 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>混考六题：期末大题的真实形态</h2>
+  <p>期末大题从不"单课裸考"，最爱把两三个课的套路焊在一道题里。下面六题覆盖六种最常见的组合拳。</p>
+
+  <div class="know"><b>玩法（认真执行）</b>：先<b>限时 90 分钟</b>把六题当一张期末卷子做（纸上完整写过程），再逐题展开核对。得分 ≥ 5/6 → 具备 85+ 实力；&lt; 5 → 把错的那题的"所属课号"记进错题本，回去重做该课练习。</div>
+
+  <details class="exercise">
+    <summary><span class="qn">混考 1</span>戴维南 × 三要素 —— 一阶题万能组合拳<span class="uses">第2课 × 第3课</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p class="q">含源电阻网络 N 从 a-b 端口看进去的戴维南等效为 U<sub>oc</sub> = 10 V、R<sub>eq</sub> = 2 kΩ。电容 C = 100 μF 原已充电至 2 V，t = 0 时接入端口。求 t ≥ 0 的 u<sub>C</sub>(t) 与 i<sub>C</sub>(t)。</p>
+      <p><b>拆解</b>：戴维南负责"压缩"（源 + 电阻网络 → 一条支路），三要素负责"释放"（套公式）。</p>
+      <ol>
+        <li>u<sub>C</sub>(0⁺) = 2 V（换路定则，电容电压不能突变）</li>
+        <li>u<sub>C</sub>(∞) = U<sub>oc</sub> = 10 V（稳态电容开路，电压全部落在 C 上）</li>
+        <li>τ = R<sub>eq</sub>·C = 2000 × 100μ = 0.2 s</li>
+      </ol>
+      <div class="sol">u<sub>C</sub>(t) = 10 + (2−10)·e<sup>−t/0.2</sup> = 10 − 8e<sup>−5t</sup> V；　i<sub>C</sub>(t) = C·du<sub>C</sub>/dt = 4e<sup>−5t</sup> mA</div>
+      <p class="note">自检：t = 0 时 i<sub>C</sub> = (10−2)/2000 = 4 mA ✓ 与解出的初值一致。任何一阶题卡住，先想"能不能先戴维南"。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">混考 2</span>互感串联实验 —— 一组数据拆出三个参数<span class="uses">第5课</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p class="q">两个耦合线圈串联，测得顺接等效电感 0.7 H、反接 0.3 H；又知 L₁ = 0.4 H。求 M、L₂ 与耦合系数 k。</p>
+      <ol>
+        <li>M = (L<sub>顺</sub> − L<sub>反</sub>) / 4 = (0.7 − 0.3)/4 = 0.1 H</li>
+        <li>L₁ + L₂ = (0.7 + 0.3)/2 = 0.5 H → L₂ = 0.1 H</li>
+        <li>k = M / √(L₁L₂) = 0.1 / √(0.04) = 0.5</li>
+      </ol>
+      <div class="sol">M = 0.1 H，L₂ = 0.1 H，k = 0.5（中等耦合）</div>
+      <p class="note">这是实验室测 M 的标准操作：一次顺接一次反接，M 由差值蹦出来。k = 1 为全耦合（无漏磁），k &lt; 0.5 一般算松耦合。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">混考 3</span>三相断线 —— 中性点位移的定量版<span class="uses">第6课 × 第1课</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p class="q">对称三相源相电压 220 V，Y 形负载 Z<sub>A</sub> = Z<sub>B</sub> = 10 Ω，C 相负载断线，无中线。求中性点位移电压、A/B 相负载实际电压、C 相断口电压。</p>
+      <p><b>拆解</b>：弥尔曼三步 —— 列各相导纳、代入相电压、除以总导纳。</p>
+      <ol>
+        <li>U̇<sub>N'N</sub> = (U̇<sub>A</sub> + U̇<sub>B</sub>) / 2 = −U̇<sub>C</sub>/2 = 110∠−60° V（C 相导纳为零，分子只剩两项）</li>
+        <li>U̇<sub>A'</sub> = U̇<sub>A</sub> − U̇<sub>N'N</sub> = 220∠0° − 110∠−60° = 190.5∠30° V（B 相同理 190.5 V）</li>
+        <li>断口电压 U̇<sub>C'</sub> = U̇<sub>C</sub> − U̇<sub>N'N</sub> = 220∠120° − 110∠−60° = 330∠120° V</li>
+      </ol>
+      <div class="sol">U<sub>N'N</sub> = 110 V；A、B 相降到 190.5 V（欠压发暗）；C 相断口高达 330 V</div>
+      <p class="note">"重载拉低、轻载遭殃"的极端版本：A/B 欠压变暗，断口电压却比线电压还高 —— 维修工不知道这一点就会出事。中线的全部作用，就是把这 110 V 位移电压钳回零。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">混考 4</span>谐波逐频 —— 电容"通高频"的定量账<span class="uses">第7课 × 阶段0相量</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p class="q">u(t) = 100 + 100√2·sin(1000t) + 50√2·sin(2000t) V 加于 R = 10 Ω 与 C = 100 μF 的串联电路。求电流有效值与电路吸收的平均功率。</p>
+      <ol>
+        <li>直流：电容隔直 → I₀ = 0（注意：100 V 直流全部落在电容上）</li>
+        <li>一次谐波：X<sub>C1</sub> = 1/(ωC) = 10 Ω，|Z₁| = √(10²+10²) = 14.14 Ω → I₁ = 100/14.14 = 7.07 A</li>
+        <li>二次谐波：X<sub>C2</sub> = 5 Ω，|Z₂| = √(10²+5²) = 11.18 Ω → I₂ = 50/11.18 = 4.47 A</li>
+        <li>有效值方均根：I = √(7.07² + 4.47²) = 8.37 A</li>
+        <li>功率只看电阻：P = R·I² = 10 × 70 = 700 W</li>
+      </ol>
+      <div class="sol">I ≈ 8.37 A；P = 700 W（全部耗在 R 上，电容不耗能）</div>
+      <p class="note">三件事各管一段：逐频算阻抗（X<sub>C</sub> = 1/kωC，频率越高电容越"通"—— 本题二次谐波电流占比远超电压占比）、方均根合成、功率"同频才配对"且只有 R 耗能。检验：P 也可写成 P = ΣR·Iₖ² = 10×(50+20) = 700 W ✓</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">混考 5</span>二端口加载 —— 参数方程 + 端口条件联立<span class="uses">第8课 × 第2课</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p class="q">某二端口 Z 参数为 [[12, 4], [4, 10]] Ω，入口接 İ₁ = 2∠0° A 电流源。① 出口开路时 U̇₂ = ？② 出口改装 R<sub>L</sub> = 5 Ω 后，负载电流与功率各多少？</p>
+      <ol>
+        <li>① 开路 → İ₂ = 0 → U̇₂ = Z₂₁·İ₁ = 4 × 2 = 8 V</li>
+        <li>② 接负载后端口条件：U̇₂ = −R<sub>L</sub>·İ₂（负载上电流方向与 İ₂ 相反）</li>
+        <li>代入参数方程：4×2 + 10·İ₂ = −5·İ₂ → 8 = −15·İ₂ → İ₂ = −8/15 A</li>
+        <li>负号 = 电流实际流出端口 2，即流进负载：I<sub>L</sub> = 8/15 ≈ 0.533 A</li>
+        <li>P<sub>L</sub> = I²·R<sub>L</sub> = (8/15)² × 5 ≈ 1.42 W</li>
+      </ol>
+      <div class="sol">① U̇₂ = 8 V；② I<sub>L</sub> ≈ 0.533 A，P<sub>L</sub> ≈ 1.42 W</div>
+      <p class="note">二端口题的通用套路 = <b>参数方程 + 外电路端口条件联立</b>。İ₂ 的负号不是算错，是"电流实际流进负载"的另一种说法 —— 方向约定（第 8 课讲的"都从上端流入"）一以贯之。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">混考 6</span>二阶判型 —— 30 秒内出形态<span class="uses">第4课</span><span class="hint-arrow">展开 ▾</span></summary>
+    <div class="ex-content">
+      <p class="q">RLC 串联放电电路：R = 2 Ω、L = 1 H、C = 1/4 F，u<sub>C</sub>(0) = 1 V、i(0) = 0。判别响应类型并求 u<sub>C</sub>(t)。</p>
+      <ol>
+        <li>α = R/2L = 1，ω₀ = 1/√(LC) = 2 → α &lt; ω₀，<b>欠阻尼</b>（口诀"小二欠"），ω<sub>d</sub> = √(4−1) = √3</li>
+        <li>设 u<sub>C</sub> = e<sup>−t</sup>(A·cos√3t + B·sin√3t)，u<sub>C</sub>(0) = 1 → A = 1</li>
+        <li>du<sub>C</sub>/dt(0) = i(0)/C = 0 → −A + √3·B = 0 → B = 1/√3</li>
+        <li>勾股自检：α² + ω<sub>d</sub>² = 1 + 3 = 4 = ω₀² ✓</li>
+      </ol>
+      <div class="sol">u<sub>C</sub>(t) = e<sup>−t</sup>(cos√3t + (1/√3)·sin√3t) V，欠阻尼衰减振荡</div>
+      <p class="note">判型只看 α 与 ω₀ 的大小关系（"大二过、等二临、小二欠"），不用真解方程。两个初条件各定一个系数：u<sub>C</sub>(0) 定 A，导数初值 i(0)/C 定 B —— 这是二阶题固定的两步收尾。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 3 冲刺指南 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>期末 85+ 冲刺指南</h2>
+
+  <h3 class="sub">卷面沙盘（按往届电路期末的典型结构预估，以你校实际大纲为准）</h3>
+  <table class="tbl">
+    <tr><th>模块</th><th>典型题型</th><th>分值占比</th><th>建议用时</th></tr>
+    <tr><td>直流电阻网络</td><td>节点/网孔 + 戴维南大题</td><td>~25%</td><td>20 min</td></tr>
+    <tr><td>动态电路</td><td>一阶三要素（必考）± 二阶判型</td><td>~25%</td><td>20 min</td></tr>
+    <tr><td>正弦稳态</td><td>相量法 / 功率 / 谐振</td><td>~20%</td><td>15 min</td></tr>
+    <tr><td>三相</td><td>对称计算 ± 不对称 + 二表法</td><td>~15%</td><td>15 min</td></tr>
+    <tr><td>互感 / 二端口 / 非正弦</td><td>小题或压轴</td><td>~15%</td><td>15 min</td></tr>
+  </table>
+
+  <div class="know"><b>时间分配铁律</b>：开考先花 2 分钟全卷扫题、标星级（A 必拿 / B 可拿 / C 战略放弃），按 A→B→C 顺序做；单题卡住 8 分钟就走，回头再来；最后留 10 分钟只做三件事 —— 查单位、查方向、查正负号。</div>
+
+  <div class="exam"><span class="tag-exam">考点</span><b>六大高频失分点（每个都值 3–5 分）</b>
+    <ol style="margin:8px 0 0;">
+      <li>求等效电阻忘置零独立源（记住：独立源置零，<b>受控源保留</b>）</li>
+      <li>换路定则只保 u<sub>C</sub> 和 i<sub>L</sub> —— 电阻电压、电容电流都可能突变，别想当然</li>
+      <li>三相 √3 混用：Y 形线电压 = √3×相电压且超前 30°，Δ 形线 = 相</li>
+      <li>谐波题把不同频率的电压电流相乘算功率 —— <b>同频才配对</b></li>
+      <li>二端口下标读反：Z₂₁ 是"激励在 1、响应在 2"（响在前、激在后）</li>
+      <li>二阶判型用错 α：串联 α = R/2L，并联 α = 1/2RC —— 先看清电路结构</li>
+    </ol>
+  </div>
+
+  <h3 class="sub">最后两周节奏</h3>
+  <ol>
+    <li><b>复盘周（本周）</b>：混考六题限时重做 → 八课自测清单逐条过 → 知识地图右两列盖住默写，默不出的行回去重做该课练习</li>
+    <li><b>模拟周（考前一周）</b>：找 2 套期末真题，限时 2 小时全真模拟；错题本每题标注"错因 → 所属课号"</li>
+    <li><b>考前一晚</b>：只看错题本 + 知识地图那张表，不碰新题</li>
+  </ol>
+</section>
+
+<!-- ================= 4 自测清单 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>过关自测清单（全勾 = 阶段 1 毕业）</h2>
+  <ul class="checklist">
+    <li>能不看书写出八课知识地图 —— 每课一条核心公式，一个不漏</li>
+    <li>混考六题限时 90 分钟重做，得分 ≥ 5/6</li>
+    <li>戴维南 + 三要素组合题，5 分钟内列出三要素并写出完整表达式</li>
+    <li>中性点位移题能默写弥尔曼三步：列导纳 → 代相电压 → 除总导纳</li>
+    <li>能说清"为什么高次谐波更容易通过电容、更难通过电感"</li>
+    <li>二端口题能从参数方程直接列端口条件联立求解，下标不读反</li>
+    <li>二阶判型不超过 30 秒，且会勾股自检 α² + ω<sub>d</sub>² = ω₀²</li>
+    <li>错题本更新完毕，每题标注错因与所属课号，考前一晚可用</li>
+  </ul>
+</section>
+
+<!-- ================= 下一站 ================= -->
+<a href="../index.html" class="next-card">
+  <div class="dir">阶段 1 毕业 · 下一站</div>
+  <div class="title">2027.01 期末实战 → 2027.03 阶段 1 正式刷题轮（考研题库 300–500 题）</div>
+</a>
+
+<div class="pager">
+  <a href="08_二端口网络.html">
+    <div class="dir">上一课 · 第 8 课</div>
+    <div class="title">二端口网络</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">返回 · 课程目录</div>
+    <div class="title">阶段 1 · 电路深化</div>
+  </a>
+</div>
+
+<footer>
+  阶段 1 · 电路深化 · 期末总复盘 ｜ <a href="index.html">本目录</a> ｜ <a href="../index.html">电网备考首页</a>
+</footer>
+
+</div>
+</body>
+</html>
