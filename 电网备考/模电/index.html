@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模电 · 跟课内课程链 — 目录</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 30px 28px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 24px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.back { display: inline-block; margin-bottom: 14px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--blue); }
+
+.lesson {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+a.lesson { display: grid; grid-template-columns: 56px 1fr auto; gap: 18px; align-items: center; padding: 20px 24px; text-decoration: none; color: inherit; }
+a.lesson:hover { border-color: var(--blue-border); box-shadow: 0 8px 20px rgba(11,90,168,.10); }
+.lesson .no {
+  background: var(--blue); color: #fff; border-radius: 10px;
+  width: 56px; height: 56px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-weight: 700; flex: 0 0 auto;
+}
+.lesson .no small { font-size: 10px; font-weight: 600; opacity: .85; }
+.lesson .no b { font-size: 20px; line-height: 1.1; }
+.lesson h2 { margin: 0 0 4px; font-size: 17.5px; }
+.lesson p { margin: 0 0 8px; font-size: 13.5px; color: var(--ink-soft); }
+.lesson .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.lesson .tag { background: var(--blue-soft); color: var(--blue); border-radius: 999px; padding: 1px 11px; font-size: 12px; }
+.lesson .status {
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 3px 11px; white-space: nowrap;
+  align-self: center;
+}
+.lesson .status--done { background: #e8f6ec; color: #1f7a3d; border: 1px solid #bfe3cc; }
+.lesson .status--live { background: var(--gold-soft); color: var(--gold); border: 1px solid var(--gold-border); }
+.lesson .status--plan { background: #f0f1f4; color: var(--ink-faint); border: 1px dashed #d5d8e2; }
+div.lesson { opacity: .68; padding: 20px 24px; }
+
+.guide {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px 28px 20px;
+  margin-top: 26px;
+}
+.guide h2 { font-size: 17px; margin: 0 0 12px; color: var(--blue-deep); }
+.guide p { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 8px; }
+.guide p:last-child { margin-bottom: 0; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  a.lesson { padding: 16px 18px; grid-template-columns: 48px 1fr; }
+  .lesson .no { width: 48px; height: 48px; }
+  .lesson .no b { font-size: 17px; }
+  .lesson .status { grid-column: 1 / -1; justify-self: start; }
+  .guide { padding: 20px 18px; }
+}
+@media print { body { background: #fff; } .lesson { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="../index.html">← 返回电网备考首页</a>
+
+<div class="hero">
+  <p class="kicker">模拟电子技术 · 跟课内 · 2026.10 – 2027.01</p>
+  <h1>模电 · 跟课内课程链</h1>
+  <p>与课内进度同步的知识整理链：半导体与二极管 → 放大电路 → 运放 → 反馈 → 功放 → 直流电源。双目标：期末 85+（绩点前 10% 的主力课）+ 为南网笔试科目"电力电子"预置地基。模电不是笔试直接考点——这条链按课内节奏走，不抢刷题轮主线。</p>
+  <div class="meta">
+    <span class="chip">2026-10-30 开课 · 课内已开</span>
+    <span class="chip">9 课 · 随堂整理</span>
+    <span class="chip">期末 85+ · 电力电子前置</span>
+  </div>
+</div>
+
+<!-- ================= 课程链 ================= -->
+<a class="lesson" href="01_半导体与二极管.html">
+  <div class="no"><small>第 1 课</small><b>01</b></div>
+  <div>
+    <h2>半导体与二极管</h2>
+    <p>PN 结与单向导电 → 二极管两种分析模型（理想 / 恒压降）→ 限幅与稳压管电路。模电全部后续内容的地基：三极管、场效应管、晶闸管都是"PN 结的组装"。</p>
+    <div class="tags"><span class="tag">6 例题精讲</span><span class="tag">10 限时训练</span><span class="tag">导通判断</span><span class="tag">限幅</span><span class="tag">稳压管</span></div>
+  </div>
+  <span class="status status--live">已上线 · 10.30</span>
+</a>
+
+<div class="lesson">
+  <div class="no"><small>第 2 课</small><b>02</b></div>
+  <div>
+    <h2>三极管与放大电路基础</h2>
+    <p>电流分配与放大条件 → 共射 / 共集 / 共基三种组态 → 静态工作点估算 → 微变等效电路求动态参数。模电期末的题量担当。</p>
+    <div class="tags"><span class="tag">Q 点估算</span><span class="tag">微变等效</span><span class="tag">三种组态对比</span></div>
+  </div>
+  <span class="status status--plan">跟随课内解锁</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第 3 课</small><b>03</b></div>
+  <div>
+    <h2>场效应管与 FET 放大电路</h2>
+    <p>JFET / MOSFET 结构与特性 → 自偏压与分压偏置 → 共源 / 共漏放大电路。与三极管对照学：压控 vs 流控。</p>
+    <div class="tags"><span class="tag">MOSFET</span><span class="tag">跨导 gm</span><span class="tag">与 BJT 对照</span></div>
+  </div>
+  <span class="status status--plan">跟随课内解锁</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第 4 课</small><b>04</b></div>
+  <div>
+    <h2>多级放大与差分电路</h2>
+    <p>耦合方式与级联计算 → 差分放大电路（抑制共模、放大差模）→ 电流源偏置。直接耦合与零点漂移问题。</p>
+    <div class="tags"><span class="tag">多级级联</span><span class="tag">差分放大</span><span class="tag">共模抑制</span></div>
+  </div>
+  <span class="status status--plan">跟随课内解锁</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第 5 课</small><b>05</b></div>
+  <div>
+    <h2>集成运放与运算电路</h2>
+    <p>虚短 / 虚断两板斧 → 比例、加减、积分微分电路 → 电压比较器。考研与期末的高频出题区，"背模板 + 灵活列节点方程"。</p>
+    <div class="tags"><span class="tag">虚短虚断</span><span class="tag">比例/加减</span><span class="tag">比较器</span></div>
+  </div>
+  <span class="status status--plan">跟随课内解锁</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第 6 课</small><b>06</b></div>
+  <div>
+    <h2>负反馈放大电路</h2>
+    <p>四种反馈组态判别 → 深度负反馈近似计算 → 负反馈对性能的影响 → 自激振荡与稳定性。模电最难章，也是期末区分度章。</p>
+    <div class="tags"><span class="tag">四组态判别</span><span class="tag">深度负反馈</span><span class="tag">性能影响</span></div>
+  </div>
+  <span class="status status--plan">跟随课内解锁</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第 7 课</small><b>07</b></div>
+  <div>
+    <h2>功率放大电路</h2>
+    <p>甲类 / 乙类 / 甲乙类 → OCL / OTL 互补对称电路 → 交越失真与功率效率计算。</p>
+    <div class="tags"><span class="tag">OCL / OTL</span><span class="tag">交越失真</span><span class="tag">效率计算</span></div>
+  </div>
+  <span class="status status--plan">跟随课内解锁</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第 8 课</small><b>08</b></div>
+  <div>
+    <h2>直流稳压电源</h2>
+    <p>整流 → 滤波 → 稳压三段式 → 三端稳压器。本章是笔试科目"电力电子"的桥头堡：晶闸管整流就是这里的功率升级版。</p>
+    <div class="tags"><span class="tag">整流滤波</span><span class="tag">稳压电路</span><span class="tag">电力电子接口</span></div>
+  </div>
+  <span class="status status--plan">跟随课内解锁</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第 9 课</small><b>09</b></div>
+  <div>
+    <h2>期末总复盘</h2>
+    <p>九章知识地图 + 跨章混合毕业卷 + 85+ 冲刺指南。2027.01 期末前上线，与电路期末实战周合并使用。</p>
+    <div class="tags"><span class="tag">知识地图</span><span class="tag">混考卷</span><span class="tag">85+ 冲刺</span></div>
+  </div>
+  <span class="status status--plan">2027.01 期末前</span>
+</div>
+
+<!-- ================= 使用说明 ================= -->
+<div class="guide">
+  <h2>怎么用这个目录</h2>
+  <p><b>当前位置</b>：模电课内已开课，本链 2026-10-30 同步上线。第 1 课《半导体与二极管》已上线，其余课程跟随课内进度逐课解锁——课内讲到哪章，就整理到哪课。</p>
+  <p><b>跟课内模式</b>（与电路深化的"不跟课内"相反）：每周随堂听讲 → 课后 40 分钟整理对应课 → 例题精讲 + 限时训练自测 → 期末导向。若课内进度已越过某章，直接跳到对应课，目录按章节解锁、不必顺序补。</p>
+  <p><b>与笔试的关系</b>：模电不在南网笔试六科（电路 / 电分 / 继保 / 电机 / 高压 / 电力电子）之列，但它是<b>电力电子的前置地基</b>——整流、逆变、斩波靠的都是二极管 / 三极管 / 场效应管的开关特性。同时它是本学期绩点主力课，直接服务 85+ / 前 10% 目标。</p>
+  <p><b>与刷题轮的关系</b>：两线并行不冲突——刷题轮每周 1 课限时刷（电路主线），模电每周随堂整理（课内同步）。若某周带宽不足，优先保刷题轮，模电顺延到课内节奏。</p>
+  <p><b>过关标准</b>：每课限时训练 ≥ 9/10 才算过关；≤ 6 分回炉本课对应小节。错题同样并入每周日 30 分钟重做池。</p>
+</div>
+
+<footer>
+  模电 · 跟课内课程链 ｜ <a href="index.html">本目录</a> ｜ <a href="../index.html">电网备考首页</a> ｜ <a href="../阶段1_刷题轮/index.html">并行主线 · 刷题轮</a>
+</footer>
+
+</div>
+</body>
+</html>

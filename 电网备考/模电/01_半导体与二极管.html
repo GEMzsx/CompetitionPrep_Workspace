@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模电跟课链 · 第1课 — 半导体与二极管</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 36px 22px 60px; }
+
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 30px 28px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 24px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.back { display: inline-block; margin-bottom: 14px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--blue); }
+
+section.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 18px;
+}
+section.card > h2 {
+  font-size: 19px; margin: 0 0 4px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.card > h2 .secno {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  font-size: 13px; padding: 2px 10px; letter-spacing: 1px; flex: 0 0 auto;
+}
+section.card > .lead { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 16px; }
+
+h3.block { font-size: 15.5px; margin: 22px 0 8px; color: var(--ink); }
+p { font-size: 14px; margin: 0 0 10px; }
+
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+.know b { color: var(--blue-deep); }
+.know .kt { font-size: 12px; letter-spacing: 2px; color: var(--blue); font-weight: 700; display: block; margin-bottom: 4px; }
+
+table.cmp { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+table.cmp th { background: var(--blue-soft); color: var(--blue-deep); padding: 8px 10px; border: 1px solid var(--blue-border); text-align: left; }
+table.cmp td { padding: 8px 10px; border: 1px solid var(--line); vertical-align: top; }
+table.cmp td:first-child { font-weight: 600; white-space: nowrap; }
+
+.formula {
+  background: #f4f6ff;
+  border: 1px solid #d9defc;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-size: 14.5px;
+  font-family: "Cambria Math", "Times New Roman", serif;
+}
+.formula .cond { display: block; font-size: 12px; color: var(--ink-faint); font-family: inherit; margin-top: 4px; }
+
+.warn {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+.warn b { color: var(--gold); }
+
+/* ===== 题目卡片 ===== */
+.q {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 22px 14px;
+  margin: 14px 0;
+  background: #fff;
+}
+.q .qhead { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.q .qno {
+  background: var(--blue); color: #fff; border-radius: 7px;
+  font-size: 12.5px; font-weight: 700; padding: 2px 11px; letter-spacing: 1px; flex: 0 0 auto;
+}
+.q .stars { color: var(--gold); font-size: 12px; letter-spacing: 2px; }
+.q .qtype { font-size: 12px; color: var(--ink-faint); margin-left: auto; }
+.q .qbody { font-size: 14px; margin: 0 0 4px; }
+.q .qbody .circuit { font-family: "Cambria Math", "Times New Roman", serif; background: #f7f8fb; border: 1px dashed var(--line); border-radius: 8px; padding: 8px 14px; margin: 8px 0; font-size: 13.5px; }
+
+details.sol { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 10px; }
+details.sol summary {
+  cursor: pointer; font-size: 13px; font-weight: 700; color: var(--accent);
+  user-select: none; list-style: none;
+}
+details.sol summary::before { content: "▸ "; }
+details.sol[open] summary::before { content: "▾ "; }
+details.sol .step { font-size: 13.5px; margin: 8px 0; }
+details.sol .ans {
+  background: var(--green-soft); border: 1px solid var(--green-border); color: var(--green);
+  border-radius: 8px; padding: 6px 14px; font-size: 13.5px; font-weight: 700;
+  display: inline-block; margin: 8px 0 4px;
+}
+details.sol .note {
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 8px; padding: 8px 14px; font-size: 12.5px; margin-top: 8px;
+}
+details.sol .note b { color: var(--gold); }
+
+/* ===== 过关标准 / 自测 ===== */
+.check { list-style: none; padding: 0; margin: 10px 0 0; }
+.check li { padding: 6px 0 6px 30px; position: relative; font-size: 13.5px; border-bottom: 1px dashed var(--line); }
+.check li:last-child { border-bottom: none; }
+.check li::before { content: "☐"; position: absolute; left: 6px; color: var(--blue); font-size: 16px; }
+
+/* ===== 下一课卡片 ===== */
+a.next-card {
+  display: block; background: linear-gradient(135deg, #083d75 0%, #0b5aa8 60%, #1e90d6 100%);
+  color: #fff; border-radius: 14px; padding: 22px 26px;
+  text-decoration: none; margin: 22px 0 14px;
+}
+a.next-card .dir { font-size: 12px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+a.next-card .title { font-size: 16.5px; font-weight: 700; }
+a.next-card:hover { opacity: .94; }
+
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.pager a {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 18px; text-decoration: none; color: inherit;
+}
+.pager a:hover { border-color: var(--blue-border); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); margin-bottom: 2px; }
+.pager .title { font-size: 14px; font-weight: 600; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.card { padding: 20px 18px 16px; }
+  .pager { grid-template-columns: 1fr; }
+}
+@media print { body { background: #fff; } section.card { break-inside: avoid; } .q { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回模电跟课链目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">模电 · 跟课链 · 第 1 课 · 2026-10-30</p>
+  <h1>半导体与二极管</h1>
+  <p>模电全部内容的地基课：PN 结与单向导电 → 二极管两种分析模型 → 限幅 / 稳压 / 整流电路分析。三极管、场效应管、晶闸管全是"PN 结的组装"——这一课学透，后面的器件都是变奏。</p>
+  <div class="meta">
+    <span class="chip">16 题 · 6 例题精讲 + 10 限时训练</span>
+    <span class="chip">限时训练建议 40 分钟</span>
+    <span class="chip">期末 85+ · 电力电子前置</span>
+  </div>
+</div>
+
+<!-- ================= 一、本课定位 ================= -->
+<section class="card">
+  <h2><span class="secno">壹</span>本课定位：从"元件是给的"到"元件是造出来的"</h2>
+  <p class="lead">电路课里，电阻电容电感是"给定的黑盒"；模电第一次拆开黑盒——用半导体物理解释元件为什么这样行为。</p>
+
+  <p>这门课在你的备考体系里有两个身份：<b>本学期绩点主力课</b>（期末 85+ 直接进 GPA）和<b>笔试科目"电力电子"的前置地基</b>。电力电子的整流、逆变、斩波，本质全是二极管 / 三极管 / 场效应管工作在<b>开关状态</b>——而"什么条件下导通、什么条件下截止"的物理直觉，就从这个第 1 课开始建立。</p>
+
+  <p>学法上，模电与电路有一个关键区别：电路题靠"解方程的马力"，模电题靠<b>"先判断、再计算"</b>——拿到电路先判断每个 PN 结是正偏还是反偏，判断对了，计算往往只是欧姆定律。本课 16 道题会反复训练这个动作。</p>
+</section>
+
+<!-- ================= 二、半导体与PN结 ================= -->
+<section class="card">
+  <h2><span class="secno">贰</span>半导体与 PN 结：概念速览</h2>
+  <p class="lead">期末概念题（选择 / 填空）的高频来源，一遍过即可，不必深挖物理推导。</p>
+
+  <table class="cmp">
+    <tr><th>概念</th><th>一句话要点</th></tr>
+    <tr><td>本征半导体</td><td>纯净晶体。温度升高 → 自由电子—空穴对<b>成对增多</b>，两种载流子浓度相等。</td></tr>
+    <tr><td>N 型半导体</td><td>掺五价元素（磷）→ 多数载流子为<b>自由电子</b>，少数为空穴。电子为主。</td></tr>
+    <tr><td>P 型半导体</td><td>掺三价元素（硼）→ 多数载流子为<b>空穴</b>，少数为电子。空穴为主。</td></tr>
+    <tr><td>漂移与扩散</td><td>电场驱动载流子 = 漂移；浓度差驱动载流子 = 扩散。PN 结的形成是"扩散 → 内电场 → 漂移抗扩散 → 动态平衡"。</td></tr>
+    <tr><td>PN 结</td><td>内电场方向 N → P。正偏（P 接高电位）：耗尽层变窄、导通；反偏：耗尽层变宽、截止（仅微小饱和电流）。</td></tr>
+    <tr><td>单向导电性</td><td>PN 结全部性质的浓缩表述——正偏导通、反偏截止。二极管 ≈ 一个引出电极的 PN 结。</td></tr>
+  </table>
+
+  <div class="warn"><b>考点提醒</b>：温度升高，本征激发加剧——这是后文"三极管 β 随温度变化""Q 点漂移"等一系列问题的物理根源。概念题常考这条因果链。</div>
+</section>
+
+<!-- ================= 三、二极管模型 ================= -->
+<section class="card">
+  <h2><span class="secno">叁</span>二极管：特性曲线与两种分析模型</h2>
+  <p class="lead">模电第一套"工程近似"思想：不追求精确，只要求够用。</p>
+
+  <h3 class="block">伏安特性四段</h3>
+  <table class="cmp">
+    <tr><th>区段</th><th>电压范围（硅管）</th><th>行为</th></tr>
+    <tr><td>死区</td><td>0 ~ 0.5 V</td><td>电流几乎为零，尚未"打开"</td></tr>
+    <tr><td>正向导通区</td><td>≥ 0.7 V 附近</td><td>电流指数式上升，压降近似恒定 0.7 V（硅）</td></tr>
+    <tr><td>反向截止区</td><td>反偏 &lt; 击穿电压</td><td>只有微小饱和电流（μA 级），近似断路</td></tr>
+    <tr><td>反向击穿区</td><td>反偏 ≥ 击穿电压</td><td>电流急剧增大。<b>普通管损坏，稳压管正常工作区</b></td></tr>
+  </table>
+
+  <h3 class="block">两种分析模型（做题选型的唯一依据）</h3>
+  <div class="formula">
+    理想模型：导通 = 开关闭合（U<sub>D</sub> = 0）；截止 = 开关断开
+    <span class="cond">适用：外电路电压远大于 0.7 V（如几十伏量级），0.7 V 可忽略</span>
+  </div>
+  <div class="formula">
+    恒压降模型：导通时 U<sub>D</sub> = 0.7 V（硅管固定压降）
+    <span class="cond">适用：电源电压几伏到十几伏——期末与考研的默认模型，题目不说就用它</span>
+  </div>
+
+  <div class="know">
+    <span class="kt">稳压管（齐纳二极管）</span>
+    <b>工作在反向击穿区</b>的专用二极管。击穿区内电流大幅变化而管压降 U<sub>Z</sub> 几乎不变 → 用来"钳住"电压。正常工作的两个前提：<b>反偏接法 + 限流电阻 R</b>。只要稳压管电流满足 I<sub>Zmin</sub> ≤ I<sub>Z</sub> ≤ I<sub>Zmax</sub>，输出就稳定在 U<sub>Z</sub>。
+  </div>
+
+  <div class="warn"><b>判断动作固化</b>：任何含二极管 / 稳压管的电路，第一步永远是"假设它断开 → 算两端开路电压 → 判断正偏 / 反偏 → 再代入模型计算"。跳过判断直接列方程是本课第一大失分源。</div>
+</section>
+
+<!-- ================= 四、例题精讲 ================= -->
+<section class="card">
+  <h2><span class="secno">肆</span>例题精讲 × 6</h2>
+  <p class="lead">每题先自己 3 分钟，再看解法。重点学"判断 → 选模型 → 计算"的顺序感。</p>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 1</span><span class="stars">★</span><span class="qtype">导通判断 · 理想模型</span></div>
+    <p class="qbody">理想二极管 D：阳极经电阻 R = 1 kΩ 接 +6 V 电源，阴极直接接 +2 V 电源。求流过 D 的电流。</p>
+    <div class="circuit">+6 V ──[R 1kΩ]──▶|── +2 V　（▶| 为 D，阳极在左）</div>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>判断</b>：假设 D 断开，阳极端电位被 +6 V 拉向 6 V，阴极 = 2 V → 阳极电位高于阴极 → 正偏导通。</div>
+      <div class="step"><b>计算</b>（理想模型，U<sub>D</sub> = 0）：导通后阳极—阴极间像导线，R 上电压 = 6 − 2 = 4 V。</div>
+      <div class="step">I = (6 − 2) / 1 kΩ = 4 mA。</div>
+      <div class="ans">I = 4 mA，方向从 +6 V 经 R 流向 +2 V</div>
+      <div class="note"><b>点评</b>：双电源结构是导通判断的经典载体——"断开看电位"永远比"盯着符号想"可靠。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 2</span><span class="stars">★</span><span class="qtype">恒压降模型</span></div>
+    <p class="qbody">硅二极管 D（恒压降模型 0.7 V）：阳极经 R = 2 kΩ 接 10 V 电源，阴极接地。求电流 I 与二极管功耗 P<sub>D</sub>。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>判断</b>：阳极电位趋势 10 V &gt; 阴极 0 V → 正偏导通。</div>
+      <div class="step"><b>计算</b>：R 上电压 = 10 − 0.7 = 9.3 V → I = 9.3 / 2 kΩ = 4.65 mA。</div>
+      <div class="step">P<sub>D</sub> = U<sub>D</sub> × I = 0.7 × 4.65 mA ≈ 3.26 mW。</div>
+      <div class="ans">I ≈ 4.65 mA，P<sub>D</sub> ≈ 3.26 mW</div>
+      <div class="note"><b>点评</b>：0.7 V 占 10 V 的 7%——若外电压是 100 V，则用理想模型误差只有 0.7%。这就是"模型选型看量级"。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 3</span><span class="stars">★★</span><span class="qtype">上限幅电路 · 波形</span></div>
+    <p class="qbody">输入 v<sub>i</sub> 经电阻 R 接输出 v<sub>o</sub>；二极管 D 阳极接 v<sub>o</sub> 节点，阴极接 +5 V 基准电压（恒压降 0.7 V）。设 v<sub>i</sub> = 10 sin ωt V，定性画出 v<sub>o</sub> 波形并求其最大值。</p>
+    <div class="circuit">v<sub>i</sub> ──[R]──●── v<sub>o</sub>　D：阳极接 ●，阴极接 +5 V</div>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>判断</b>：D 导通条件 v<sub>o</sub> − 5 &gt; 0.7，即 v<sub>o</sub> &gt; 5.7 V。</div>
+      <div class="step">v<sub>i</sub> ≤ 5.7 V 时：D 截止、无电流 → R 上无压降 → v<sub>o</sub> = v<sub>i</sub>（跟随）。</div>
+      <div class="step">v<sub>i</sub> &gt; 5.7 V 时：D 导通把节点钳在 5.7 V，多余电压降在 R 上 → v<sub>o</sub> ≡ 5.7 V（削顶）。</div>
+      <div class="ans">v<sub>o</sub> = min(v<sub>i</sub>, 5.7 V)：正弦波顶部被削平在 5.7 V，负半周完整通过，峰值 −10 V</div>
+      <div class="note"><b>点评</b>"钳位"三问：导通条件是多少？截止时谁定输出？导通时输出钳在哪？限幅题永远只有这三个变量。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 4</span><span class="stars">★★</span><span class="qtype">双向限幅 · 波形</span></div>
+    <p class="qbody">输入 v<sub>i</sub> 经 R 接 v<sub>o</sub>；D<sub>1</sub> 阳极接 v<sub>o</sub>、阴极接 +3 V；D<sub>2</sub> 阳极接 −3 V、阴极接 v<sub>o</sub>（恒压降 0.7 V）。v<sub>i</sub> = 8 sin ωt V，求 v<sub>o</sub> 的正负峰值。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step">D<sub>1</sub>（上钳）：导通条件 v<sub>o</sub> &gt; 3 + 0.7 = 3.7 V → 正向钳位在 +3.7 V。</div>
+      <div class="step">D<sub>2</sub>（下钳）：导通条件 v<sub>o</sub> &lt; −(3 + 0.7) = −3.7 V → 负向钳位在 −3.7 V。</div>
+      <div class="step">中间段（−3.7 &lt; v<sub>i</sub> &lt; 3.7）：两管全截止 → v<sub>o</sub> = v<sub>i</sub>。</div>
+      <div class="ans">v<sub>o</sub> 被限制在 [−3.7 V, +3.7 V]，超出部分削平</div>
+      <div class="note"><b>点评</b>：双向限幅 = 两个单限幅叠加。D<sub>2</sub> 极性容易接反记错——口诀"阳极接谁，谁就被钳"要落笔验证一次。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 5</span><span class="stars">★★</span><span class="qtype">稳压管电路分析</span></div>
+    <p class="qbody">直流源 12 V 经 R = 300 Ω 接稳压管（阴极接电源侧，U<sub>Z</sub> = 6 V）与负载 R<sub>L</sub> = 1.2 kΩ 并联的组合。求稳压管电流 I<sub>Z</sub> 与功耗 P<sub>Z</sub>。</p>
+    <div class="circuit">+12 V ──[R 300Ω]──●──┬── 稳压管(6V, 阴上阳下) ── 地<br>　　　　　　　　　　 R<sub>L</sub> 1.2kΩ ┴── 地</div>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>判断稳压</b>：假设稳压管断开 → R 与 R<sub>L</sub> 分压，U<sub>o</sub> = 12 × 1.2/(0.3+1.2) = 9.6 V &gt; U<sub>Z</sub> = 6 V → 稳压管确实进入击穿区，U<sub>o</sub> = 6 V 成立。</div>
+      <div class="step">R 上电流：I<sub>R</sub> = (12 − 6)/300 = 20 mA。</div>
+      <div class="step">负载电流：I<sub>L</sub> = 6/1.2k = 5 mA。</div>
+      <div class="step">KCL：I<sub>Z</sub> = 20 − 5 = 15 mA；P<sub>Z</sub> = 6 × 15 mA = 90 mW。</div>
+      <div class="ans">I<sub>Z</sub> = 15 mA，P<sub>Z</sub> = 90 mW</div>
+      <div class="note"><b>点评</b>：稳压管题的"隐含第一步"永远是验算是否真在稳压（假设断开看分压）——若断开分压 ≤ U<sub>Z</sub>，管子截止，输出由分压决定。练 7 会考这个陷阱。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 6</span><span class="stars">★★★</span><span class="qtype">限流电阻设计 · 期末大题</span></div>
+    <p class="qbody">稳压管 U<sub>Z</sub> = 4 V，I<sub>Zmin</sub> = 3 mA，I<sub>Zmax</sub> = 35 mA；负载 R<sub>L</sub> = 800 Ω；电源在 8 ~ 12 V 之间波动。求限流电阻 R 的取值范围，并选一个标称值验证。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step">负载电流恒定：I<sub>L</sub> = 4/800 = 5 mA。</div>
+      <div class="step"><b>约束一（防烧管）</b>：电源最高 12 V 时 I<sub>Z</sub> ≤ I<sub>Zmax</sub> → I<sub>R</sub> ≤ 35 + 5 = 40 mA → R ≥ (12−4)/40 mA = 200 Ω。</div>
+      <div class="step"><b>约束二（防掉出稳压区）</b>：电源最低 8 V 时 I<sub>Z</sub> ≥ I<sub>Zmin</sub> → I<sub>R</sub> ≥ 3 + 5 = 8 mA → R ≤ (8−4)/8 mA = 500 Ω。</div>
+      <div class="step"><b>选标称 300 Ω</b> 验证：12 V 时 I<sub>Z</sub> = 8/300 − 5 = 21.7 mA &lt; 35 ✓；8 V 时 I<sub>Z</sub> = 4/300 − 5 = 8.3 mA &gt; 3 ✓。</div>
+      <div class="ans">200 Ω ≤ R ≤ 500 Ω，取标称 300 Ω（两端均留裕量）</div>
+      <div class="note"><b>点评</b>：两个约束的物理方向别背反——R 太小烧管（上限由 I<sub>Zmax</sub> 定），R 太大失稳（下限由 I<sub>Zmin</sub> 定）。电源最高配 R 最小、电源最低配 R 最大，"极端对极端"是设计题的通用套路。</div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= 五、限时训练 ================= -->
+<section class="card">
+  <h2><span class="secno">伍</span>限时训练 × 10</h2>
+  <p class="lead">整段计时 40 分钟，不看书不翻笔记。做完再对答案，每题都有考点标注。</p>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 1</span><span class="stars">★</span><span class="qtype">理想模型</span></div>
+    <p class="qbody">理想二极管：阳极经 500 Ω 电阻接 +8 V，阴极接地。求电流 I。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">正偏导通，U<sub>D</sub> = 0 → I = 8/500 = 16 mA。</div>
+      <div class="ans">16 mA</div>
+      <div class="note"><b>错因对照</b>：若答 14.6 mA，是误用了恒压降模型——题目明说"理想"。审题先看模型。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 2</span><span class="stars">★</span><span class="qtype">恒压降模型</span></div>
+    <p class="qbody">硅二极管（恒压降 0.7 V）：阳极经 1.5 kΩ 接 12 V，阴极接地。求 I 与 P<sub>D</sub>。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">I = (12 − 0.7)/1.5k ≈ 7.53 mA；P<sub>D</sub> = 0.7 × 7.53 mA ≈ 5.27 mW。</div>
+      <div class="ans">I ≈ 7.53 mA，P<sub>D</sub> ≈ 5.27 mW</div>
+      <div class="note"><b>错因对照</b>：忘了减 0.7 V 直接 12/1.5k = 8 mA 是最常见失分。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 3</span><span class="stars">★★</span><span class="qtype">双管竞争导通</span></div>
+    <p class="qbody">D<sub>1</sub> 阳极接 +6 V，D<sub>2</sub> 阳极接 +3 V，两管阴极相连后经 R = 1 kΩ 接地（恒压降 0.7 V）。求输出电压 V<sub>Y</sub> 与流过 R 的电流。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">假设 D<sub>1</sub> 导通：V<sub>Y</sub> = 6 − 0.7 = 5.3 V → D<sub>2</sub> 承受 3 − 5.3 = −2.3 V 反偏截止 ✓ 自洽。</div>
+      <div class="step">假设不成立的方向验证：若 D<sub>2</sub> 导通则 V<sub>Y</sub> = 2.3 V，D<sub>1</sub> 强正偏——矛盾，故只有 D<sub>1</sub> 通。</div>
+      <div class="step">I = 5.3/1k = 5.3 mA。</div>
+      <div class="ans">V<sub>Y</sub> = 5.3 V（D<sub>1</sub> 导通、D<sub>2</sub> 截止），I = 5.3 mA</div>
+      <div class="note"><b>错因对照</b>："高电位获胜"——多管共阴结构，阳极电位最高者抢先导通并封锁其余。这是二极管或门的原型。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 4</span><span class="stars">★★</span><span class="qtype">限幅电路</span></div>
+    <p class="qbody">v<sub>i</sub> 经 R 接 v<sub>o</sub>；D 阳极接 v<sub>o</sub>、阴极接 +4 V（恒压降 0.7 V）。v<sub>i</sub> = 9 sin ωt V，求 v<sub>o</sub> 的正向峰值与 D 的截止区间。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">上钳位：D 导通当 v<sub>o</sub> &gt; 4.7 V → v<sub>o</sub> 正向峰值 4.7 V。</div>
+      <div class="step">D 截止当 v<sub>i</sub> ≤ 4.7 V（此时 v<sub>o</sub> = v<sub>i</sub>）；一个周期内导通角对应 sin ωt &gt; 4.7/9 ≈ 0.522。</div>
+      <div class="ans">正向峰值 4.7 V；v<sub>i</sub> ≤ 4.7 V 期间 D 截止、v<sub>o</sub> 跟随 v<sub>i</sub></div>
+      <div class="note"><b>错因对照</b>：钳位值是 V<sub>ref</sub> + 0.7 而不是 V<sub>ref</sub>——恒压降模型的 0.7 在限幅题里必须带上。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 5</span><span class="stars">★★</span><span class="qtype">双向限幅</span></div>
+    <p class="qbody">v<sub>i</sub> 经 R 接 v<sub>o</sub>；D<sub>1</sub>：阳极接 v<sub>o</sub>、阴极接 +5 V；D<sub>2</sub>：阳极接 −5 V、阴极接 v<sub>o</sub>（恒压降 0.7 V）。v<sub>i</sub> = 8 sin ωt V，求 v<sub>o</sub> 的正、负峰值。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">上钳 +5.7 V（D<sub>1</sub>），下钳 −5.7 V（D<sub>2</sub>）；中间段 v<sub>o</sub> = v<sub>i</sub>。</div>
+      <div class="ans">v<sub>o</sub> ∈ [−5.7 V, +5.7 V]</div>
+      <div class="note"><b>错因对照</b>：注意两管基准对称时输出区间也对称，但峰值是 5.7 不是 5——和练 4 同一个 0.7 的坑。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 6</span><span class="stars">★★</span><span class="qtype">稳压管分析</span></div>
+    <p class="qbody">15 V 源经 R = 600 Ω 接 U<sub>Z</sub> = 6 V 稳压管（阴极接电源侧）与 R<sub>L</sub> = 1.2 kΩ 并联组合。求 I<sub>Z</sub> 与 P<sub>Z</sub>。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">验算稳压：断开分压 15 × 1.2/1.8 = 10 V &gt; 6 V ✓ 击穿区工作。</div>
+      <div class="step">I<sub>R</sub> = (15−6)/600 = 15 mA；I<sub>L</sub> = 6/1.2k = 5 mA；I<sub>Z</sub> = 10 mA。</div>
+      <div class="ans">I<sub>Z</sub> = 10 mA，P<sub>Z</sub> = 60 mW</div>
+      <div class="note"><b>错因对照</b>：先验算"是否真稳压"这一步在草稿上做——考试里直接写结论不扣分，跳过却可能整题方向错。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 7</span><span class="stars">★★</span><span class="qtype">稳压区边界 · 陷阱题</span></div>
+    <p class="qbody">承练 6 电路（15 V 源、R = 600 Ω、U<sub>Z</sub> = 6 V）：① 负载开路时求 I<sub>Z</sub>；② R<sub>L</sub> = 2 kΩ 时求 I<sub>Z</sub>。稳压管是否仍在稳压区？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① R<sub>L</sub> 开路：I<sub>L</sub> = 0 → I<sub>Z</sub> = I<sub>R</sub> = 15 mA（全部电流灌入稳压管——需核对是否超 I<sub>Zmax</sub>，若 P<sub>Z</sub> = 90 mW 在额定内则安全）。</div>
+      <div class="step">② R<sub>L</sub> = 2k：I<sub>L</sub> = 3 mA → I<sub>Z</sub> = 15 − 3 = 12 mA &gt; 0 ✓ 仍在击穿区，U<sub>o</sub> = 6 V。</div>
+      <div class="ans">① I<sub>Z</sub> = 15 mA；② I<sub>Z</sub> = 12 mA，均稳压</div>
+      <div class="note"><b>错因对照</b>：负载开路不是"电路坏了"而是 I<sub>Z</sub> 最大最危险的时刻——限流电阻必须按开路工况校验。这就是例 6 约束一存在的原因。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 8</span><span class="stars">★★★</span><span class="qtype">截止判断 · 概念陷阱</span></div>
+    <p class="qbody">二极管 D：阳极接 −2 V 电源，阴极经 R = 1 kΩ 接 +6 V 电源。判断 D 状态，并求阴极电位 V<sub>K</sub>（D 两端视为开路时按无电流分析）。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">假设 D 截止 → 无电流 → R 上无压降 → 阴极电位 = +6 V。</div>
+      <div class="step">校验：V<sub>阳</sub> − V<sub>阴</sub> = −2 − 6 = −8 V &lt; 0，反偏 → 截止假设成立 ✓。</div>
+      <div class="ans">D 截止，V<sub>K</sub> = +6 V</div>
+      <div class="note"><b>错因对照</b>：直觉看到"+6 V 接阴极"容易慌——"阴极电位高"恰恰是反偏的标志。截止时电阻上的压降必为零，这是隐含得分点。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 9</span><span class="stars">★</span><span class="qtype">工程应用</span></div>
+    <p class="qbody">5 V 电源驱动 LED（恒压降 2 V），要求工作电流 10 mA。求限流电阻 R。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">R = (5 − 2)/10 mA = 300 Ω。</div>
+      <div class="ans">300 Ω</div>
+      <div class="note"><b>错因对照</b>：与稳压管限流电阻同源——"电源 − 管压降 = 电阻上的电压"。这是所有 LED / 稳压管设计题的母公式。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 10</span><span class="stars">★★★</span><span class="qtype">综合设计 · 压轴</span></div>
+    <p class="qbody">稳压管 U<sub>Z</sub> = 6 V，I<sub>Zmin</sub> = 2 mA，I<sub>Zmax</sub> = 38 mA；R<sub>L</sub> = 600 Ω；电源 10 ~ 14 V 波动。求限流电阻 R 的范围并选标称值验证。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">I<sub>L</sub> = 6/600 = 10 mA。</div>
+      <div class="step">R 最小（源 14 V、防烧）：R ≥ (14−6)/(38+10)m = 8/48m ≈ 166.7 Ω。</div>
+      <div class="step">R 最大（源 10 V、防失稳）：R ≤ (10−6)/(2+10)m = 4/12m ≈ 333.3 Ω。</div>
+      <div class="step">选 300 Ω 验证：14 V 时 I<sub>Z</sub> = 8/300 − 10 ≈ 16.7 mA &lt; 38 ✓；10 V 时 I<sub>Z</sub> = 4/300 − 10 ≈ 3.3 mA &gt; 2 ✓。</div>
+      <div class="ans">166.7 Ω ≤ R ≤ 333.3 Ω，取标称 300 Ω</div>
+      <div class="note"><b>错因对照</b>：把两个约束的电压用反（14 配 R 最大）会得到上下限颠倒的"空区间"。写完检查一句：R 小对应电流大、源高——方向对不回来就整题翻车。</div>
+    </details>
+  </div>
+
+  <h3 class="block">对答案与过关标准</h3>
+  <table class="cmp">
+    <tr><th>得分</th><th>判定</th><th>动作</th></tr>
+    <tr><td>≥ 9 / 10</td><td>过关</td><td>等课内讲到第 2 章，跟课链解锁《三极管与放大电路基础》</td></tr>
+    <tr><td>7 ~ 8</td><td>薄弱</td><td>重做错题 + 回本课对应小节（错因对照里已标注）</td></tr>
+    <tr><td>≤ 6</td><td>回炉</td><td>重学 §叁（两种模型与判断动作），隔天重刷整套</td></tr>
+  </table>
+</section>
+
+<!-- ================= 六、自测清单 ================= -->
+<section class="card">
+  <h2><span class="secno">陆</span>过关自测清单</h2>
+  <ul class="check">
+    <li>能 30 秒内说出 N 型 / P 型半导体的多子分别是什么、各掺什么元素</li>
+    <li>能复述 PN 结形成过程：扩散 → 内电场 → 漂移抗扩散 → 动态平衡</li>
+    <li>拿到任何二极管电路，第一动作是"假设断开、算两端电位"而不是直接列方程</li>
+    <li>能说出理想模型与恒压降模型的适用量级，且题目未注明时默认恒压降</li>
+    <li>能独立完成一道限幅电路：判断导通条件 → 分段写 v<sub>o</sub></li>
+    <li>能独立完成稳压管设计题：两个约束方向不混、验算标称值两端</li>
+    <li>知道稳压管正常工作两前提：反偏 + 限流电阻，且能验算"是否真在稳压区"</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课预告 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 跟随课内解锁</div>
+  <div class="title">第 2 课《三极管与放大电路基础》—— 课内讲到放大电路时上线，Q 点估算 + 微变等效 + 三种组态</div>
+</a>
+
+<div class="pager">
+  <a href="index.html">
+    <div class="dir">← 返回目录</div>
+    <div class="title">模电 · 跟课链</div>
+  </a>
+  <a href="../阶段1_刷题轮/index.html">
+    <div class="dir">并行主线</div>
+    <div class="title">阶段 1 · 刷题轮（每周一课）</div>
+  </a>
+</div>
+
+<footer>
+  模电 · 跟课链 · 第 1 课 半导体与二极管 ｜ <a href="index.html">返回模电目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">做完记得把限时训练成绩告诉我（如 9/10），我打卡更新进度</span>
+</footer>
+
+</div>
+</body>
+</html>
