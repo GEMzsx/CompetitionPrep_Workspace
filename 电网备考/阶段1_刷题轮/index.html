@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段 1 刷题轮 — 题型特训目录</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 30px 28px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 24px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.back { display: inline-block; margin-bottom: 14px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--blue); }
+
+.lesson {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+a.lesson { display: grid; grid-template-columns: 56px 1fr auto; gap: 18px; align-items: center; padding: 20px 24px; text-decoration: none; color: inherit; }
+a.lesson:hover { border-color: var(--blue-border); box-shadow: 0 8px 20px rgba(11,90,168,.10); }
+.lesson .no {
+  background: var(--blue); color: #fff; border-radius: 10px;
+  width: 56px; height: 56px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-weight: 700; flex: 0 0 auto;
+}
+.lesson .no small { font-size: 10px; font-weight: 600; opacity: .85; }
+.lesson .no b { font-size: 20px; line-height: 1.1; }
+.lesson h2 { margin: 0 0 4px; font-size: 17.5px; }
+.lesson p { margin: 0 0 8px; font-size: 13.5px; color: var(--ink-soft); }
+.lesson .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.lesson .tag { background: var(--blue-soft); color: var(--blue); border-radius: 999px; padding: 1px 11px; font-size: 12px; }
+.lesson .status {
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 3px 11px; white-space: nowrap;
+  align-self: center;
+}
+.lesson .status--done { background: #e8f6ec; color: #1f7a3d; border: 1px solid #bfe3cc; }
+.lesson .status--live { background: var(--gold-soft); color: var(--gold); border: 1px solid var(--gold-border); }
+.lesson .status--plan { background: #f0f1f4; color: var(--ink-faint); border: 1px dashed #d5d8e2; }
+div.lesson { opacity: .68; padding: 20px 24px; }
+
+.guide {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px 28px 20px;
+  margin-top: 26px;
+}
+.guide h2 { font-size: 17px; margin: 0 0 12px; color: var(--blue-deep); }
+.guide p { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 8px; }
+.guide p:last-child { margin-bottom: 0; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  a.lesson { padding: 16px 18px; grid-template-columns: 48px 1fr; }
+  .lesson .no { width: 48px; height: 48px; }
+  .lesson .no b { font-size: 17px; }
+  .lesson .status { grid-column: 1 / -1; justify-self: start; }
+  .guide { padding: 20px 18px; }
+}
+@media print { body { background: #fff; } .lesson { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="../index.html">← 返回电网备考首页</a>
+
+<div class="hero">
+  <p class="kicker">STAGE 1 · 刷题轮 · 2026.10 – 2027.01</p>
+  <h1>阶段 1 · 刷题轮</h1>
+  <p>在知识轮毕业之上的题型特训链：9 课专题、目标累计 300+ 道考研级原创题 —— 总纲原定 2027.03 启动，现提前拉起。每课一个题型主场：例题精讲 → 限时训练 → 错题回溯知识轮，把"学会"练成"拿分"。</p>
+  <div class="meta">
+    <span class="chip">2026-10-30 提前启动 · 原 2027.03</span>
+    <span class="chip">9 课 · 累计 300+ 题</span>
+    <span class="chip">每周一课 · 限时训练</span>
+  </div>
+</div>
+
+<!-- ================= 课程列表 ================= -->
+
+<a class="lesson" href="01_直流电阻网络特训.html">
+  <div class="no"><small>第</small><b>01</b><small>课</small></div>
+  <div>
+    <h2>直流电阻网络特训</h2>
+    <p>纯电阻世界的全题型火力侦察：节点法、网孔法、弥尔曼、戴维南、最大功率、含受控源、电桥平衡 —— 16 道考研级题，每题标注错题回溯坐标。</p>
+    <div class="tags"><span class="tag">16 题 · 6 精讲 + 10 限时</span><span class="tag">对应知识轮第 1–2 课</span><span class="tag">每周一课 · 本周</span></div>
+  </div>
+  <span class="status status--live">已上线 · 10.30</span>
+</a>
+
+<div class="lesson">
+  <div class="no"><small>第</small><b>02</b><small>课</small></div>
+  <div>
+    <h2>电路定理特训</h2>
+    <p>叠加、戴维南、诺顿、最大功率与含受控源等效的定理流水线题型化 —— 知识轮第 2 课的进阶弹药库。</p>
+    <div class="tags"><span class="tag">叠加置零</span><span class="tag">等效三板斧</span><span class="tag">下周上线</span></div>
+  </div>
+  <span class="status status--plan">每周一课 · 排程中</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第</small><b>03</b><small>课</small></div>
+  <div>
+    <h2>一阶动态特训</h2>
+    <p>换路定则、三要素法、RC / RL 全题型 —— 期末必出一道大题的"稳拿分"，练到条件反射。</p>
+    <div class="tags"><span class="tag">三要素</span><span class="tag">期末大题重镇</span></div>
+  </div>
+  <span class="status status--plan">每周一课 · 排程中</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第</small><b>04</b><small>课</small></div>
+  <div>
+    <h2>二阶动态特训</h2>
+    <p>判型（过阻尼 / 临界 / 欠阻尼）、响应表达式与初末条件 —— 30 秒判型 + 勾股自检的刷题化。</p>
+    <div class="tags"><span class="tag">判型速算</span><span class="tag">振荡直觉</span></div>
+  </div>
+  <span class="status status--plan">每周一课 · 排程中</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第</small><b>05</b><small>课</small></div>
+  <div>
+    <h2>正弦稳态与功率特训</h2>
+    <p>相量法解交流稳态、功率三件套（P / Q / S）与功率因数 —— 直流引擎在交流世界的全速运转。</p>
+    <div class="tags"><span class="tag">相量法</span><span class="tag">功率因数</span></div>
+  </div>
+  <span class="status status--plan">每周一课 · 排程中</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第</small><b>06</b><small>课</small></div>
+  <div>
+    <h2>谐振与互感特训</h2>
+    <p>串并联谐振、品质因数、互感去耦与理想变压器 —— 选频网络的计算火力全开。</p>
+    <div class="tags"><span class="tag">谐振特征</span><span class="tag">去耦规则</span></div>
+  </div>
+  <span class="status status--plan">每周一课 · 排程中</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第</small><b>07</b><small>课</small></div>
+  <div>
+    <h2>三相特训</h2>
+    <p>对称与不对称三相、二表法测功率、中性点位移 —— 南网笔试核心区的专项打靶。</p>
+    <div class="tags"><span class="tag">南网笔试核心</span><span class="tag">二表法</span></div>
+  </div>
+  <span class="status status--plan">每周一课 · 排程中</span>
+</div>
+
+<div class="lesson">
+  <div class="no"><small>第</small><b>08</b><small>课</small></div>
+  <div>
+    <h2>非正弦与二端口特训</h2>
+    <p>谐波分解合成、有效值功率计算、四种参数矩阵与等效电路 —— 收官两章的题型合并演习。</p>
+    <div class="tags"><span class="tag">谐波合成</span><span class="tag">参数矩阵</span></div>
+  </div>
+  <span class="status status--plan">每周一课 · 排程中</span>
+</div>
+
+<div class="lesson">
+  <div class="no" style="background:#083d75;"><small>期末</small></div>
+  <div>
+    <h2>综合模拟卷</h2>
+    <p>跨章混合全真模拟 2–3 套 —— 期末 85+ 与考研水平的双目标收官，与 2027.01 期末实战周并轨。</p>
+    <div class="tags"><span class="tag">全真模拟</span><span class="tag">期末 85+</span></div>
+  </div>
+  <span class="status status--plan">并入期末实战周</span>
+</div>
+
+<!-- ================= 使用说明 ================= -->
+<div class="guide">
+  <h2>怎么用这个目录</h2>
+  <p><b>当前位置</b>：刷题轮于 2026-10-30 提前启动（知识轮 10.27 毕业后随即拉起）。第 1 课《直流电阻网络特训》已上线，每周一课推进。</p>
+  <p><b>与知识轮的关系</b>：姊妹链 —— 知识轮（<a href="../阶段1_电路深化/index.html">阶段 1 · 电路深化</a>，已毕业）管"学会"，本链管"练快练稳"。两轮题目不重复：本链全部为原创考研级题目，每题答案可干净验算；错题按课内「回溯表」回到知识轮对应课重学。</p>
+  <p><b>刷题节奏</b>：每周一课 —— 周中限时刷完（限时训练 ≥ 9/10 才算过关）+ 每周日 30 分钟重做本周错题。第 1–5 课 11 月内完成，第 6–8 课 12 月中旬收官，第 9 课综合模拟卷并入 2027.01 期末实战周。</p>
+  <p><b>与总纲的关系</b>：本链即总纲"阶段 1 正式轮（考研题库 300–500 题）"的提前启动；2027.03 起按总纲转入分科目知识梳理与后续科目，本链转为每周保温维护。</p>
+</div>
+
+<footer>
+  阶段 1 · 刷题轮 ｜ <a href="index.html">本目录</a> ｜ <a href="../index.html">电网备考首页</a> ｜ <a href="../阶段1_电路深化/index.html">姊妹链 · 知识轮（已毕业）</a>
+</footer>
+
+</div>
+</body>
+</html>
