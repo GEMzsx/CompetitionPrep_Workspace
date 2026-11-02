@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模电跟课链 · 第2课 — 三极管与放大电路基础</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 36px 22px 60px; }
+
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 30px 28px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 24px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.back { display: inline-block; margin-bottom: 14px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--blue); }
+
+section.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 18px;
+}
+section.card > h2 {
+  font-size: 19px; margin: 0 0 4px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.card > h2 .secno {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  font-size: 13px; padding: 2px 10px; letter-spacing: 1px; flex: 0 0 auto;
+}
+section.card > .lead { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 16px; }
+
+h3.block { font-size: 15.5px; margin: 22px 0 8px; color: var(--ink); }
+p { font-size: 14px; margin: 0 0 10px; }
+
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+.know b { color: var(--blue-deep); }
+.know .kt { font-size: 12px; letter-spacing: 2px; color: var(--blue); font-weight: 700; display: block; margin-bottom: 4px; }
+
+table.cmp { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+table.cmp th { background: var(--blue-soft); color: var(--blue-deep); padding: 8px 10px; border: 1px solid var(--blue-border); text-align: left; }
+table.cmp td { padding: 8px 10px; border: 1px solid var(--line); vertical-align: top; }
+table.cmp td:first-child { font-weight: 600; white-space: nowrap; }
+
+.formula {
+  background: #f4f6ff;
+  border: 1px solid #d9defc;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-size: 14.5px;
+  font-family: "Cambria Math", "Times New Roman", serif;
+}
+.formula .cond { display: block; font-size: 12px; color: var(--ink-faint); font-family: inherit; margin-top: 4px; }
+
+.warn {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+.warn b { color: var(--gold); }
+
+/* ===== 题目卡片 ===== */
+.q {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 22px 14px;
+  margin: 14px 0;
+  background: #fff;
+}
+.q .qhead { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.q .qno {
+  background: var(--blue); color: #fff; border-radius: 7px;
+  font-size: 12.5px; font-weight: 700; padding: 2px 11px; letter-spacing: 1px; flex: 0 0 auto;
+}
+.q .stars { color: var(--gold); font-size: 12px; letter-spacing: 2px; }
+.q .qtype { font-size: 12px; color: var(--ink-faint); margin-left: auto; }
+.q .qbody { font-size: 14px; margin: 0 0 4px; }
+.q .qbody .circuit { font-family: "Cambria Math", "Times New Roman", serif; background: #f7f8fb; border: 1px dashed var(--line); border-radius: 8px; padding: 8px 14px; margin: 8px 0; font-size: 13.5px; }
+
+details.sol { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 10px; }
+details.sol summary {
+  cursor: pointer; font-size: 13px; font-weight: 700; color: var(--accent);
+  user-select: none; list-style: none;
+}
+details.sol summary::before { content: "▸ "; }
+details.sol[open] summary::before { content: "▾ "; }
+details.sol .step { font-size: 13.5px; margin: 8px 0; }
+details.sol .ans {
+  background: var(--green-soft); border: 1px solid var(--green-border); color: var(--green);
+  border-radius: 8px; padding: 6px 14px; font-size: 13.5px; font-weight: 700;
+  display: inline-block; margin: 8px 0 4px;
+}
+details.sol .note {
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 8px; padding: 8px 14px; font-size: 12.5px; margin-top: 8px;
+}
+details.sol .note b { color: var(--gold); }
+
+/* ===== 过关标准 / 自测 ===== */
+.check { list-style: none; padding: 0; margin: 10px 0 0; }
+.check li { padding: 6px 0 6px 30px; position: relative; font-size: 13.5px; border-bottom: 1px dashed var(--line); }
+.check li:last-child { border-bottom: none; }
+.check li::before { content: "☐"; position: absolute; left: 6px; color: var(--blue); font-size: 16px; }
+
+/* ===== 下一课卡片 ===== */
+a.next-card {
+  display: block; background: linear-gradient(135deg, #083d75 0%, #0b5aa8 60%, #1e90d6 100%);
+  color: #fff; border-radius: 14px; padding: 22px 26px;
+  text-decoration: none; margin: 22px 0 14px;
+}
+a.next-card .dir { font-size: 12px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+a.next-card .title { font-size: 16.5px; font-weight: 700; }
+a.next-card:hover { opacity: .94; }
+
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.pager a {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 18px; text-decoration: none; color: inherit;
+}
+.pager a:hover { border-color: var(--blue-border); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); margin-bottom: 2px; }
+.pager .title { font-size: 14px; font-weight: 600; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.card { padding: 20px 18px 16px; }
+  .pager { grid-template-columns: 1fr; }
+}
+@media print { body { background: #fff; } section.card { break-inside: avoid; } .q { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回模电跟课链目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">模电 · 跟课链 · 第 2 课 · 2026-11-02</p>
+  <h1>三极管与放大电路基础</h1>
+  <p>模电期末的题量担当：三极管电流分配与三种工作状态 → 静态工作点估算 → 微变等效电路求动态参数。第 1 课的 PN 结在这里两个一组组装成"电流控制电流"的放大器件——期末计算大题的主产区。</p>
+  <div class="meta">
+    <span class="chip">16 题 · 6 例题精讲 + 10 限时训练</span>
+    <span class="chip">限时训练建议 45 分钟</span>
+    <span class="chip">期末 85+ · 电力电子前置</span>
+  </div>
+</div>
+
+<!-- ================= 一、本课定位 ================= -->
+<section class="card">
+  <h2><span class="secno">壹</span>本课定位：从"造元件"到"搭电路"</h2>
+  <p class="lead">第 1 课学透 PN 结，这一课用两个 PN 结拼出三极管，并第一次搭出"能放大信号的电路"。</p>
+
+  <p>这一课在期末卷上的分量：模电计算大题的传统主产区基本就是本章——<b>Q 点估算 → 动态参数 → 失真判断</b>三连，一套流程吃掉 15~20 分。对电力电子的地基意义同样直接：三极管工作在截止 / 饱和两个极端就是"开关状态"，开关电源、驱动电路全是它。</p>
+
+  <p>学法上，本课固化模电第二套核心动作——<b>"先直流、后交流"</b>。任何放大电路都拆成两套通路：直流通路求 Q 点（电容全部开路），交流通路求动态参数（电容短路、直流源置零）。两套图分开画、分开算，<b>永远不混</b>——这是本章第一大失分源（电容画错一套，全盘皆错）。</p>
+</section>
+
+<!-- ================= 二、三极管基础 ================= -->
+<section class="card">
+  <h2><span class="secno">贰</span>三极管：电流分配与三种工作状态</h2>
+  <p class="lead">概念题（选择 / 填空）高频区，判断题的动作源头。</p>
+
+  <h3 class="block">结构与符号速记</h3>
+  <table class="cmp">
+    <tr><th>要点</th><th>内容</th></tr>
+    <tr><td>结构</td><td>NPN / PNP 两个背靠背的 PN 结：发射结（e–b）、集电结（c–b）。</td></tr>
+    <tr><td>箭头位置</td><td>永远在<b>发射极</b>，指向发射结正偏时的电流方向：NPN 朝外（e 流出），PNP 朝内（e 流入）。</td></tr>
+    <tr><td>三区工艺</td><td>发射区掺杂浓度<b>最高</b>；基区<b>最薄</b>且掺杂最低；集电区<b>面积最大</b>。所以 e、c 不能倒着用。</td></tr>
+    <tr><td>放大条件</td><td><b>发射结正偏 + 集电结反偏</b>。NPN 放大态电位关系：V<sub>C</sub> &gt; V<sub>B</sub> &gt; V<sub>E</sub>。</td></tr>
+  </table>
+
+  <h3 class="block">电流分配三式（必背）</h3>
+  <div class="formula">
+    I<sub>E</sub> = I<sub>B</sub> + I<sub>C</sub>　；　I<sub>C</sub> = β I<sub>B</sub>　；　I<sub>C</sub> = α I<sub>E</sub>，α = β/(1+β) ≈ 1
+    <span class="cond">β：几十到几百，β ≫ 1，所以 I<sub>C</sub> ≈ I<sub>E</sub> ≫ I<sub>B</sub>；基极小电流控制集电极大电流 = "放大"的本质</span>
+  </div>
+
+  <h3 class="block">三种工作状态（判断动作：先判结、再定态）</h3>
+  <table class="cmp">
+    <tr><th>状态</th><th>发射结</th><th>集电结</th><th>特征</th></tr>
+    <tr><td>截止</td><td>反偏 / 零偏</td><td>反偏</td><td>I<sub>B</sub> ≈ 0，I<sub>C</sub> ≈ 0，相当于<b>开关断开</b></td></tr>
+    <tr><td>放大</td><td>正偏（硅 ≈ 0.7 V）</td><td>反偏</td><td>I<sub>C</sub> = β I<sub>B</sub>，U<sub>CE</sub> 有较大摆动空间</td></tr>
+    <tr><td>饱和</td><td>正偏</td><td><b>正偏</b></td><td>U<sub>CE</sub> ≈ U<sub>CES</sub> ≈ 0.3 V，I<sub>C</sub> &lt; β I<sub>B</sub>（由外电路决定），相当于<b>开关闭合</b></td></tr>
+  </table>
+
+  <div class="warn"><b>判断动作固化</b>：拿到三个极的电位，第一步算两个结的偏置——V<sub>B</sub> − V<sub>E</sub> 定发射结、V<sub>B</sub> − V<sub>C</sub> 定集电结——状态直接读表。跳过判断直接套 I<sub>C</sub> = β I<sub>B</sub>，是本章第一大坑（饱和区该式不成立，见练 3）。</div>
+
+  <div class="warn"><b>温度链</b>：温度 ↑ → β ↑、U<sub>BE</sub> ↓（约 −2 mV/℃）、I<sub>CBO</sub> ↑ → 三者同向推 I<sub>C</sub> ↑ → Q 点上移。第 1 课"本征激发随温度加剧"的因果在这里落地——分压偏置就是为压制它而生（见 §叁）。</div>
+</section>
+
+<!-- ================= 三、放大电路两套引擎 ================= -->
+<section class="card">
+  <h2><span class="secno">叁</span>放大电路：Q 点估算与微变等效——两套引擎</h2>
+  <p class="lead">为什么要 Q 点：让信号整个周期都待在放大区，不失真。所有分析都是"先直流、后交流"。</p>
+
+  <h3 class="block">两套通路（画图规则必背）</h3>
+  <table class="cmp">
+    <tr><th>通路</th><th>电容处理</th><th>直流源</th><th>求什么</th></tr>
+    <tr><td>直流通路</td><td><b>全部开路</b></td><td>保留</td><td>Q 点：I<sub>BQ</sub>、I<sub>CQ</sub>、U<sub>CEQ</sub></td></tr>
+    <tr><td>交流通路</td><td><b>全部短路</b></td><td>置零（接地）</td><td>动态：A<sub>u</sub>、R<sub>i</sub>、R<sub>o</sub></td></tr>
+  </table>
+
+  <h3 class="block">Q 点估算：两种偏置电路</h3>
+  <div class="formula">
+    固定偏置：I<sub>BQ</sub> = (V<sub>CC</sub> − U<sub>BE</sub>) / R<sub>B</sub> → I<sub>CQ</sub> = β I<sub>BQ</sub> → U<sub>CEQ</sub> = V<sub>CC</sub> − I<sub>CQ</sub> R<sub>C</sub>
+    <span class="cond">结构最简，但 Q 点随 β 和温度漂——温度 ↑ → I<sub>C</sub> ↑ → Q 点上爬</span>
+  </div>
+  <div class="formula">
+    分压偏置：V<sub>B</sub> = V<sub>CC</sub>·R<sub>B2</sub>/(R<sub>B1</sub>+R<sub>B2</sub>) → V<sub>E</sub> = V<sub>B</sub> − 0.7 → I<sub>EQ</sub> = V<sub>E</sub>/R<sub>E</sub> ≈ I<sub>CQ</sub> → U<sub>CEQ</sub> = V<sub>CC</sub> − I<sub>CQ</sub>(R<sub>C</sub>+R<sub>E</sub>)
+    <span class="cond">工程默认电路：分压电流 ≫ I<sub>B</sub> 时 V<sub>B</sub> 被钳住，Q 点几乎与 β 无关；R<sub>E</sub> 的负反馈自动稳 Q（I<sub>C</sub>↑ → V<sub>E</sub>↑ → U<sub>BE</sub>↓ → I<sub>B</sub>↓ → 压回去）</span>
+  </div>
+
+  <div class="know">
+    <span class="kt">旁路电容 C<sub>E</sub>——一脚两用</span>
+    R<sub>E</sub> 稳 Q 点，但交流信号也会被它吃掉增益。并上大电容 C<sub>E</sub>：直流走 R<sub>E</sub>（稳 Q），交流被 C<sub>E</sub> 短路（保增益）。<b>期末默认分压偏置 = R<sub>E</sub> 带 C<sub>E</sub> 旁路</b>，微变等效里 R<sub>E</sub> 视为短路；若题目故意不并 C<sub>E</sub>，增益公式变为 A<sub>u</sub> = −βR<sub>L</sub>′/[r<sub>be</sub>+(1+β)R<sub>E</sub>]——负反馈压增益换稳定，识别这个变体是大题加分点。
+  </div>
+
+  <h3 class="block">微变等效电路：三极管的小信号模型</h3>
+  <p>把管子等效成两个元件：B–E 之间一个电阻 r<sub>be</sub>，C–E 之间一个受控电流源 β i<sub>b</sub>。剩下的就是普通电路分析。</p>
+  <div class="formula">
+    r<sub>be</sub> = r<sub>bb′</sub> + (1+β)·26 mV / I<sub>EQ</sub>　（r<sub>bb′</sub> 常取 300 Ω，题目不给就用）
+    <span class="cond">注意分子用的是发射极电流 I<sub>EQ</sub>，不是 I<sub>BQ</sub>；r<sub>be</sub> 由 Q 点决定——直流算错，交流跟着全错</span>
+  </div>
+  <div class="formula">
+    共射（R<sub>E</sub> 旁路）：A<sub>u</sub> = −β R<sub>L</sub>′ / r<sub>be</sub>，R<sub>L</sub>′ = R<sub>C</sub> // R<sub>L</sub>；R<sub>i</sub> = R<sub>B1</sub> // R<sub>B2</sub> // r<sub>be</sub>；R<sub>o</sub> ≈ R<sub>C</sub>
+    <span class="cond">负号 = 输出与输入反相，这个符号在失真判断里是关键一步（见例 6）</span>
+  </div>
+
+  <h3 class="block">三种组态对比（概念题必考表）</h3>
+  <table class="cmp">
+    <tr><th>组态</th><th>电压增益</th><th>电流增益</th><th>R<sub>i</sub></th><th>R<sub>o</sub></th><th>典型分工</th></tr>
+    <tr><td>共射（CE）</td><td>大、<b>反相</b></td><td>大（β）</td><td>中（r<sub>be</sub> 量级，kΩ）</td><td>中（≈ R<sub>C</sub>）</td><td>电压放大主力、中间级</td></tr>
+    <tr><td>共集（CC，射随）</td><td>≈ +1、同相</td><td>大（1+β）</td><td><b>大</b>（可到几百 kΩ）</td><td><b>小</b>（十几 Ω）</td><td>缓冲、输入级 / 输出级</td></tr>
+    <tr><td>共基（CB）</td><td>大、同相</td><td>≈ α &lt; 1</td><td><b>小</b>（几十 Ω）</td><td>大</td><td>高频 / 宽频带电路</td></tr>
+  </table>
+  <p>记忆锚点：<b>只有共射电压、电流增益同时大于 1</b>；射随"增益一、阻坑两头大反差"；共基"高频专用"。</p>
+
+  <h3 class="block">失真判断（期末概念题最爱）</h3>
+  <div class="warn"><b>NPN 共射口诀</b>：输出<b>顶部削平 = 截止失真</b>（Q 偏低）；输出<b>底部削平 = 饱和失真</b>（Q 偏高）。推理只有两步：v<sub>o</sub> 顶部 = i<sub>C</sub> 谷底（反相）→ 谷底触底 = 管子截止。修复方向：截止失真抬 Q（固定偏置 R<sub>B</sub>↓；分压偏置 R<sub>B1</sub>↓ 或 R<sub>B2</sub>↑），饱和失真压 Q（反向调）。</div>
+</section>
+
+<!-- ================= 四、例题精讲 ================= -->
+<section class="card">
+  <h2><span class="secno">肆</span>例题精讲 × 6</h2>
+  <p class="lead">每题先自己 3 分钟，再看解法。重点学"先判结再定态、先直流后交流"的顺序感。</p>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 1</span><span class="stars">★</span><span class="qtype">工作状态判断 · 电位法</span></div>
+    <p class="qbody">NPN 硅管电路中测得三个极电位：V<sub>B</sub> = 2.7 V，V<sub>E</sub> = 2 V，V<sub>C</sub> = 6 V。判断管子工作状态。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>判发射结</b>：V<sub>BE</sub> = 2.7 − 2 = 0.7 V &gt; 0 → 正偏导通。</div>
+      <div class="step"><b>判集电结</b>：V<sub>C</sub> − V<sub>B</sub> = 6 − 2.7 = 3.3 V &gt; 0 → 集电极电位高于基极 → 集电结反偏。</div>
+      <div class="step"><b>读表</b>：发射结正偏 + 集电结反偏 → 放大状态。</div>
+      <div class="ans">放大状态</div>
+      <div class="note"><b>点评</b>：两个结的偏置各算一次，状态直接读表——"先判结、再定态"六字诀。同时满足 V<sub>C</sub> &gt; V<sub>B</sub> &gt; V<sub>E</sub>（NPN 放大态电位阶梯），可作快速自检。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 2</span><span class="stars">★</span><span class="qtype">固定偏置 · Q 点估算</span></div>
+    <p class="qbody">固定偏置共射电路：V<sub>CC</sub> = 12 V，R<sub>B</sub> = 300 kΩ，R<sub>C</sub> = 3 kΩ，β = 50，U<sub>BE</sub> = 0.7 V。求 Q 点（I<sub>BQ</sub>、I<sub>CQ</sub>、U<sub>CEQ</sub>）。</p>
+    <div class="circuit">+12 V ──┬──[R<sub>B</sub> 300k]── b｜三极管 β=50｜c ──[R<sub>C</sub> 3k]── +12 V，e 接地</div>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>直流通路</b>：电容全开路，基极回路就是 V<sub>CC</sub> → R<sub>B</sub> → 发射结 → 地。</div>
+      <div class="step">I<sub>BQ</sub> = (12 − 0.7)/300 k = 11.3/300k ≈ 37.7 μA。</div>
+      <div class="step">I<sub>CQ</sub> = 50 × 37.7 μA ≈ 1.88 mA。</div>
+      <div class="step">U<sub>CEQ</sub> = 12 − 1.88 m × 3 k ≈ 6.35 V。</div>
+      <div class="step"><b>自检</b>：U<sub>CEQ</sub> = 6.35 V，处在 (0.3, 12) 中段偏上 → 放大状态成立，Q 点健康。</div>
+      <div class="ans">I<sub>BQ</sub> ≈ 37.7 μA，I<sub>CQ</sub> ≈ 1.88 mA，U<sub>CEQ</sub> ≈ 6.35 V</div>
+      <div class="note"><b>点评</b>：三步流程——基极回路求 I<sub>B</sub>、乘 β 得 I<sub>C</sub>、集电极回路求 U<sub>CE</sub>。算完必做一步"U<sub>CEQ</sub> 是否 &gt; U<sub>CES</sub>"的自检，防饱和陷阱（练 3 专考）。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 3</span><span class="stars">★★</span><span class="qtype">分压偏置 · Q 点估算</span></div>
+    <p class="qbody">分压偏置共射电路：V<sub>CC</sub> = 12 V，上偏 R<sub>B1</sub> = 30 kΩ，下偏 R<sub>B2</sub> = 10 kΩ，R<sub>C</sub> = 2 kΩ，R<sub>E</sub> = 1 kΩ（并 C<sub>E</sub>），β = 50，U<sub>BE</sub> = 0.7 V。求 Q 点。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>基极电位被钳住</b>（分压电流 ≫ I<sub>B</sub>）：V<sub>B</sub> = 12 × 10/(30+10) = 3 V。</div>
+      <div class="step">V<sub>E</sub> = 3 − 0.7 = 2.3 V → I<sub>EQ</sub> = 2.3/1k = 2.3 mA ≈ I<sub>CQ</sub>。</div>
+      <div class="step">U<sub>CEQ</sub> = 12 − 2.3 m × (2k + 1k) = 12 − 6.9 = 5.1 V。</div>
+      <div class="step"><b>自检</b>：5.1 V 位于中段 → 放大区健康；且 Q 点表达式里没有 β——换一只 β=100 的管子，Q 点几乎不动，这就是分压偏置的价值。</div>
+      <div class="ans">I<sub>CQ</sub> ≈ 2.3 mA，U<sub>CEQ</sub> = 5.1 V</div>
+      <div class="note"><b>点评</b>：分压偏置四步——分压、减 0.7、除 R<sub>E</sub>、集射回路。注意 U<sub>CEQ</sub> 回路里是 (R<sub>C</sub> + R<sub>E</sub>) 两个电阻。本例电路将在例 4、例 6 连用两次，把它的参数记熟。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 4</span><span class="stars">★★</span><span class="qtype">微变等效 · 动态参数</span></div>
+    <p class="qbody">承例 3 电路（空载 R<sub>L</sub> = ∞，R<sub>E</sub> 已被 C<sub>E</sub> 旁路，r<sub>bb′</sub> = 300 Ω）。求 r<sub>be</sub>、A<sub>u</sub>、R<sub>i</sub>、R<sub>o</sub>。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>r<sub>be</sub></b>（用例 3 的 I<sub>EQ</sub> = 2.3 mA）：r<sub>be</sub> = 300 + 51 × 26/2.3 ≈ 300 + 576 ≈ 876 Ω ≈ 0.88 kΩ。</div>
+      <div class="step"><b>A<sub>u</sub></b>（空载 R<sub>L</sub>′ = R<sub>C</sub> = 2 kΩ）：A<sub>u</sub> = −50 × 2/0.876 ≈ −114。</div>
+      <div class="step"><b>R<sub>i</sub></b>：R<sub>B1</sub> // R<sub>B2</sub> // r<sub>be</sub> = 30k // 10k // 0.88k = 7.5k // 0.88k ≈ 0.79 kΩ。</div>
+      <div class="step"><b>R<sub>o</sub></b>：≈ R<sub>C</sub> = 2 kΩ（管子 C–E 理想受控源，输出电阻由 R<sub>C</sub> 定）。</div>
+      <div class="ans">r<sub>be</sub> ≈ 876 Ω，A<sub>u</sub> ≈ −114，R<sub>i</sub> ≈ 0.79 kΩ，R<sub>o</sub> ≈ 2 kΩ</div>
+      <div class="note"><b>点评</b>：三个高频坑——① r<sub>be</sub> 公式分子是 (1+β)·26mV 除 I<sub>EQ</sub>；② 分压偏置的 R<sub>i</sub> 要并上两个偏置电阻，但最终由 r<sub>be</sub> 主导；③ 负号必须带——后面失真判断全靠它。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 5</span><span class="stars">★★</span><span class="qtype">射极跟随器 · 动态参数</span></div>
+    <p class="qbody">共集电路（射随）：V<sub>CC</sub> = 12 V，R<sub>B</sub> = 200 kΩ，R<sub>E</sub> = 3 kΩ，β = 60，U<sub>BE</sub> = 0.7 V，r<sub>bb′</sub> = 300 Ω，信号源内阻忽略。求 Q 点、A<sub>u</sub>、R<sub>i</sub>、R<sub>o</sub>。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>Q 点</b>：I<sub>BQ</sub> = (12 − 0.7)/200k ≈ 56.5 μA → I<sub>EQ</sub> = 61 × 56.5 μA ≈ 3.45 mA（U<sub>CEQ</sub> = 12 − 3.45×3 ≈ 1.7 V，放大区）。</div>
+      <div class="step"><b>r<sub>be</sub></b> = 300 + 61 × 26/3.45 ≈ 760 Ω。</div>
+      <div class="step"><b>A<sub>u</sub></b> = (1+β)R<sub>E</sub> / [r<sub>be</sub> + (1+β)R<sub>E</sub>] = 61×3k / (0.76k + 61×3k) ≈ 183/183.8 ≈ <b>+0.996</b>（略小于 1，同相）。</div>
+      <div class="step"><b>R<sub>i</sub></b> = R<sub>B</sub> // [r<sub>be</sub> + (1+β)R<sub>E</sub>] = 200k // 183.8k ≈ 96 kΩ。</div>
+      <div class="step"><b>R<sub>o</sub></b> = R<sub>E</sub> // (r<sub>be</sub> + R<sub>s</sub>)/(1+β) ≈ 3k // (760/61) ≈ <b>12.5 Ω</b>。</div>
+      <div class="ans">I<sub>EQ</sub> ≈ 3.45 mA；A<sub>u</sub> ≈ +1（同相），R<sub>i</sub> ≈ 96 kΩ，R<sub>o</sub> ≈ 13 Ω</div>
+      <div class="note"><b>点评</b>：射随的三张名片全在这——增益 1、输入百 kΩ、输出十几 Ω。"增益换阻抗"：电压增益牺牲到 ≈1，换来阻抗两头的大反差，这就是缓冲级的全部意义。R<sub>o</sub> 公式里除以 (1+β) 把 r<sub>be</sub> 缩小 61 倍，是"输出电阻小"的根源。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 6</span><span class="stars">★★★</span><span class="qtype">失真分析 · 期末大题</span></div>
+    <p class="qbody">承例 3 电路（空载，I<sub>CQ</sub> ≈ 2.3 mA，U<sub>CEQ</sub> = 5.1 V，R<sub>C</sub> = 2 kΩ）：① 输入信号逐渐增大，输出先出现顶部削平还是底部削平？② 判断为何种失真、Q 点偏高还是偏低？③ 给出调整方案。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>量化两个方向的不失真空间</b>（空载交流负载 R<sub>L</sub>′ = R<sub>C</sub> = 2 kΩ）：</div>
+      <div class="step">截止方向（输出向上摆）：I<sub>CQ</sub> × R<sub>L</sub>′ = 2.3 m × 2 k = <b>4.6 V</b>。</div>
+      <div class="step">饱和方向（输出向下摆）：U<sub>CEQ</sub> − U<sub>CES</sub> = 5.1 − 0.3 = <b>4.8 V</b>。</div>
+      <div class="step"><b>比较</b>：4.6 &lt; 4.8 → 输出向上摆动先触顶 → <b>顶部先削平 → 截止失真，Q 点偏低</b>。</div>
+      <div class="step"><b>调整</b>：抬 Q 点——R<sub>B1</sub> 减小（或 R<sub>B2</sub> 增大）→ V<sub>B</sub>↑ → I<sub>CQ</sub>↑，把向上空间撑大。理想目标是两个空间接近相等，输出摆幅才最大。</div>
+      <div class="ans">先顶部削平 = 截止失真（Q 偏低）；方案：R<sub>B1</sub>↓ 或 R<sub>B2</sub>↑ 抬高 Q 点</div>
+      <div class="note"><b>点评</b>：失真判断的高配版是"量化比较"而不是背口诀——两个空间 I<sub>CQ</sub>·R<sub>L</sub>′ 与 U<sub>CEQ</sub>−U<sub>CES</sub> 谁小谁先失真。若两值接近（本例 4.6 vs 4.8），说明 Q 点设计得当；差得越多越浪费摆幅。这是期末大题的压轴语言。</div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= 五、限时训练 ================= -->
+<section class="card">
+  <h2><span class="secno">伍</span>限时训练 × 10</h2>
+  <p class="lead">整段计时 45 分钟，不看书不翻笔记。做完再对答案，每题都有错因对照。</p>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 1</span><span class="stars">★</span><span class="qtype">电流分配</span></div>
+    <p class="qbody">放大状态的硅三极管 β = 100，测得 I<sub>B</sub> = 20 μA。求 I<sub>C</sub>、I<sub>E</sub> 与 α。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">I<sub>C</sub> = 100 × 20 μA = 2 mA；I<sub>E</sub> = I<sub>B</sub> + I<sub>C</sub> = 2.02 mA；α = β/(1+β) = 100/101 ≈ 0.99。</div>
+      <div class="ans">I<sub>C</sub> = 2 mA，I<sub>E</sub> = 2.02 mA，α ≈ 0.99</div>
+      <div class="note"><b>错因对照</b>：I<sub>E</sub> = I<sub>B</sub> + I<sub>C</sub> 是加法不是 I<sub>C</sub> = β I<sub>E</sub>（那是 α 的关系）。三式中 I<sub>E</sub> 最大、I<sub>B</sub> 最小，数量级自检一句。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 2</span><span class="stars">★★</span><span class="qtype">三管三态速判</span></div>
+    <p class="qbody">三只 NPN 硅管各测得一组电位，快速判断工作状态：<br>A：V<sub>B</sub> = 6.7 V，V<sub>E</sub> = 6 V，V<sub>C</sub> = 12 V；<br>B：V<sub>B</sub> = 6.7 V，V<sub>E</sub> = 6 V，V<sub>C</sub> = 6.5 V；<br>C：V<sub>B</sub> = 0.3 V，V<sub>E</sub> = 0 V，V<sub>C</sub> = 12 V。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">A：发射结 0.7 正偏；V<sub>C</sub> &gt; V<sub>B</sub> 集电结反偏 → <b>放大</b>。</div>
+      <div class="step">B：发射结 0.7 正偏；V<sub>C</sub> = 6.5 &lt; V<sub>B</sub> = 6.7 集电结正偏 → <b>饱和</b>（U<sub>CE</sub> = 0.5 V）。</div>
+      <div class="step">C：V<sub>BE</sub> = 0.3 V &lt; 死区 0.5 V，发射结未开启 → <b>截止</b>。</div>
+      <div class="ans">A 放大，B 饱和，C 截止</div>
+      <div class="note"><b>错因对照</b>：C 最容易误判——0.3 V 是"正偏方向"但不到开启电压，等于没导通。"正偏"要看是否跨过死区，这是 C 组的考点；B 组看集电结那一下不能省。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 3</span><span class="stars">★★</span><span class="qtype">固定偏置 · 饱和陷阱</span></div>
+    <p class="qbody">固定偏置共射：V<sub>CC</sub> = 12 V，R<sub>B</sub> = 400 kΩ，R<sub>C</sub> = 4 kΩ，β = 150，U<sub>BE</sub> = 0.7 V。求 I<sub>C</sub> 与 U<sub>CE</sub>，判断工作状态。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">I<sub>BQ</sub> = 11.3/400k ≈ 28.3 μA。若直接套放大：I<sub>C</sub> = 150 × 28.3 μ ≈ 4.24 mA → U<sub>CE</sub> = 12 − 4.24×4 = <b>−4.95 V &lt; 0，矛盾</b>！</div>
+      <div class="step">矛盾说明管子不可能在放大区 → <b>饱和</b>。饱和时 U<sub>CE</sub> ≈ U<sub>CES</sub> = 0.3 V，电流由外电路决定：</div>
+      <div class="step">I<sub>C(sat)</sub> = (12 − 0.3)/4k ≈ 2.93 mA（&lt; β I<sub>B</sub> = 4.24 mA，自洽）。</div>
+      <div class="ans">饱和状态：I<sub>C</sub> ≈ 2.93 mA，U<sub>CE</sub> ≈ 0.3 V</div>
+      <div class="note"><b>错因对照</b>：β 大 = I<sub>C</sub> 大 = Q 点被顶进饱和——"β 越大越好"是错觉，固定偏置电路 β 过大反而死机。防坑动作：算完 U<sub>CEQ</sub> 必查是否 &gt; 0.3 V；出现负值立即改按饱和求。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 4</span><span class="stars">★★</span><span class="qtype">分压偏置 · Q 点</span></div>
+    <p class="qbody">分压偏置：V<sub>CC</sub> = 12 V，R<sub>B1</sub> = 40 kΩ，R<sub>B2</sub> = 20 kΩ，R<sub>C</sub> = 2 kΩ，R<sub>E</sub> = 2 kΩ，β = 50，U<sub>BE</sub> = 0.7 V。求 I<sub>CQ</sub> 与 U<sub>CEQ</sub>。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">V<sub>B</sub> = 12 × 20/60 = 4 V → V<sub>E</sub> = 3.3 V → I<sub>EQ</sub> = 3.3/2k = 1.65 mA ≈ I<sub>CQ</sub>。</div>
+      <div class="step">U<sub>CEQ</sub> = 12 − 1.65 m × (2k + 2k) = 12 − 6.6 = 5.4 V。</div>
+      <div class="ans">I<sub>CQ</sub> ≈ 1.65 mA，U<sub>CEQ</sub> = 5.4 V</div>
+      <div class="note"><b>错因对照</b>：U<sub>CEQ</sub> 回路里是 (R<sub>C</sub> + R<sub>E</sub>) = 4 k 而不是只有 R<sub>C</sub>——漏加 R<sub>E</sub> 会得 8.7 V 的假答案。分压偏置四步流程走完顺手自检：Q 点里没有 β，这就是它抗温漂的证明。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 5</span><span class="stars">★★</span><span class="qtype">r<sub>be</sub> 计算</span></div>
+    <p class="qbody">三极管 β = 100，r<sub>bb′</sub> = 300 Ω，静态 I<sub>EQ</sub> = 2 mA。求 r<sub>be</sub>。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">r<sub>be</sub> = 300 + 101 × 26/2 = 300 + 1313 ≈ 1613 Ω ≈ 1.6 kΩ。</div>
+      <div class="ans">r<sub>be</sub> ≈ 1.6 kΩ</div>
+      <div class="note"><b>错因对照</b>：三个坑——漏乘 (1+β)（得 326 Ω）、用 I<sub>BQ</sub> 而非 I<sub>EQ</sub>（差百倍）、忘加 300 Ω 基区体电阻。r<sub>be</sub> 由 Q 点决定，Q 点错它必错，后面 A<sub>u</sub> 全错——这是"先直流后交流"的因果报应。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 6</span><span class="stars">★★</span><span class="qtype">固定偏置 · 全动态参数</span></div>
+    <p class="qbody">固定偏置共射（R<sub>E</sub> 无）：V<sub>CC</sub> = 12 V，R<sub>B</sub> = 300 kΩ，R<sub>C</sub> = 3 kΩ，β = 50，U<sub>BE</sub> = 0.7 V，r<sub>bb′</sub> = 300 Ω，空载。求 r<sub>be</sub>、A<sub>u</sub>、R<sub>i</sub>、R<sub>o</sub>。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">I<sub>BQ</sub> ≈ 37.7 μA → I<sub>EQ</sub> = 51 × 37.7 μ ≈ 1.92 mA。</div>
+      <div class="step">r<sub>be</sub> = 300 + 51 × 26/1.92 ≈ 990 Ω ≈ 1 kΩ。</div>
+      <div class="step">A<sub>u</sub> = −50 × 3k/0.99k ≈ <b>−151</b>；R<sub>i</sub> = 300k // 0.99k ≈ 0.99 kΩ；R<sub>o</sub> ≈ 3 kΩ。</div>
+      <div class="ans">r<sub>be</sub> ≈ 1 kΩ，A<sub>u</sub> ≈ −151，R<sub>i</sub> ≈ 1 kΩ，R<sub>o</sub> ≈ 3 kΩ</div>
+      <div class="note"><b>错因对照</b>：R<sub>i</sub> 要并 R<sub>B</sub>，但 300 k ≫ 1 k，并联后几乎不变——共射输入电阻小的根源在 r<sub>be</sub>，不在偏置电阻。此结论直接决定后级接入时增益的折损评估。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 7</span><span class="stars">★★★</span><span class="qtype">失真判断 · 概念陷阱</span></div>
+    <p class="qbody">NPN 共射放大电路（发射极旁路电容在），示波器观察到输出电压波形<b>顶部削平</b>。判断：何种失真？Q 点偏高还是偏低？给出两种电路各自的调整电阻方案。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">推理链：v<sub>o</sub> 顶部 = v<sub>CE</sub> 最大 = i<sub>C</sub> 最小（反相）→ i<sub>C</sub> 谷底削平 = 管子进入<b>截止</b>方向 → <b>截止失真，Q 点偏低</b>。</div>
+      <div class="step">固定偏置：R<sub>B</sub> ↓ → I<sub>BQ</sub> ↑ → 抬 Q。</div>
+      <div class="step">分压偏置：R<sub>B1</sub> ↓ 或 R<sub>B2</sub> ↑ → V<sub>B</sub> ↑ → I<sub>CQ</sub> ↑ → 抬 Q。</div>
+      <div class="ans">截止失真（Q 偏低）；固定偏置调 R<sub>B</sub>↓，分压偏置调 R<sub>B1</sub>↓ 或 R<sub>B2</sub>↑</div>
+      <div class="note"><b>错因对照</b>："顶部削平 = 饱和"是最高频错误答案——直觉跳过了"反相"这一步。必须先想输出顶部对应集电极电流的哪一头，再下结论。底部削平才是饱和失真（Q 偏高），方向正好相反。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 8</span><span class="stars">★★</span><span class="qtype">射极跟随器 · 动态</span></div>
+    <p class="qbody">射随电路：V<sub>CC</sub> = 12 V，R<sub>B</sub> = 200 kΩ，R<sub>E</sub> = 3 kΩ，β = 60，U<sub>BE</sub> = 0.7 V，r<sub>bb′</sub> = 300 Ω，信号源内阻忽略。求 A<sub>u</sub>、R<sub>i</sub>、R<sub>o</sub>。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">I<sub>BQ</sub> = 11.3/200k ≈ 56.5 μA → I<sub>EQ</sub> ≈ 3.45 mA → r<sub>be</sub> = 300 + 61×26/3.45 ≈ 760 Ω。</div>
+      <div class="step">A<sub>u</sub> = 61×3k/(0.76k + 61×3k) ≈ <b>+0.996</b>（同相、略小于 1）。</div>
+      <div class="step">R<sub>i</sub> = 200k // (0.76k + 183k) ≈ 96 kΩ；R<sub>o</sub> ≈ r<sub>be</sub>/(1+β) = 760/61 ≈ 12.5 Ω。</div>
+      <div class="ans">A<sub>u</sub> ≈ +1（同相），R<sub>i</sub> ≈ 96 kΩ，R<sub>o</sub> ≈ 13 Ω</div>
+      <div class="note"><b>错因对照</b>：A<sub>u</sub> 恒小于 1（分母多一个 r<sub>be</sub>），答"等于 1"扣步骤分；R<sub>o</sub> 别忘了也可并上 R<sub>E</sub>（3k ≫ 13 Ω，影响可忽略但要说明）。射随"增益≈1 但电流增益 61 倍"——功率放大靠的是后者。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 9</span><span class="stars">★★</span><span class="qtype">组态选型 · 概念</span></div>
+    <p class="qbody">三个工程场景，各选最合适的组态（共射 / 共集 / 共基）：<br>① 多级放大器的中间电压放大级；② 高内阻信号源（如麦克风）的输入级；③ 高频 / 宽频带放大电路。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① 要电压增益大且反相无所谓 → <b>共射</b>（电压、电流增益均 &gt; 1，唯一全能选手）。</div>
+      <div class="step">② 信号源内阻大 → 输入级必须"少取电流、大输入电阻" → <b>共集（射随）</b>。</div>
+      <div class="step">③ 频带要宽 → <b>共基</b>（没有密勒等效带来的高频劣化，高频特性三种组态中最好）。</div>
+      <div class="ans">① 共射　② 共集　③ 共基</div>
+      <div class="note"><b>错因对照</b>：② 容易选共射（以为"输入级=放大"）——但 R<sub>i</sub> 只有 1 k 量级，接 100 k 内阻的源时信号全掉在内阻上，增益形同虚设。选型先看接口（源内阻 vs R<sub>i</sub>、负载 vs R<sub>o</sub>），再看增益。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 10</span><span class="stars">★★★</span><span class="qtype">综合压轴 · 带负载</span></div>
+    <p class="qbody">承例 3 电路，现接负载 R<sub>L</sub> = 2 kΩ（r<sub>be</sub> ≈ 876 Ω 已由例 4 求得，Q 点不变）。求：① 带负载后的 A<sub>u</sub>；② 最大不失真输出电压峰值 U<sub>om</sub>。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① R<sub>L</sub>′ = R<sub>C</sub> // R<sub>L</sub> = 2k // 2k = 1 kΩ → A<sub>u</sub> = −50 × 1/0.876 ≈ <b>−57</b>。</div>
+      <div class="step">② 带负载后交流负载线变陡，两个空间：截止方向 I<sub>CQ</sub>·R<sub>L</sub>′ = 2.3 m × 1k = <b>2.3 V</b>；饱和方向 U<sub>CEQ</sub> − U<sub>CES</sub> = 5.1 − 0.3 = <b>4.8 V</b>。</div>
+      <div class="step">U<sub>om</sub> = min(2.3, 4.8) = 2.3 V（先触截止端）。</div>
+      <div class="ans">A<sub>u</sub> ≈ −57（较空载 −114 腰斩），U<sub>om</sub> ≈ 2.3 V</div>
+      <div class="note"><b>错因对照</b>：两件事分开算——带负载后<b>增益</b>按 R<sub>L</sub>′ 折半，但<b>最大摆幅</b>由两个方向空间的较小者决定（也随 R<sub>L</sub>′ 变小而收缩）。空载算出的 4.6 V 在这里不适用，直接搬用是本题埋的雷。</div>
+    </details>
+  </div>
+
+  <h3 class="block">对答案与过关标准</h3>
+  <table class="cmp">
+    <tr><th>得分</th><th>判定</th><th>动作</th></tr>
+    <tr><td>≥ 9 / 10</td><td>过关</td><td>等课内讲到第 3 章，跟课链解锁《场效应管与 FET 放大电路》</td></tr>
+    <tr><td>7 ~ 8</td><td>薄弱</td><td>重做错题 + 回本课对应小节（错因对照里已标注）</td></tr>
+    <tr><td>≤ 6</td><td>回炉</td><td>重学 §叁（两套通路与两套引擎），隔天重刷整套</td></tr>
+  </table>
+</section>
+
+<!-- ================= 六、自测清单 ================= -->
+<section class="card">
+  <h2><span class="secno">陆</span>过关自测清单</h2>
+  <ul class="check">
+    <li>能 30 秒说出放大条件：发射结正偏 + 集电结反偏（NPN 电位阶梯 V<sub>C</sub> &gt; V<sub>B</sub> &gt; V<sub>E</sub>）</li>
+    <li>给三个极电位，能"先判结、再定态"判出截止 / 放大 / 饱和</li>
+    <li>能默写电流分配三式，并知道 I<sub>E</sub> 最大、α ≈ 1 但恒小于 1</li>
+    <li>能背出两套通路规则：直流 = 电容开路，交流 = 电容短路 + 直流源置零</li>
+    <li>固定偏置与分压偏置的 Q 点估算都是四步内走完，算完必查 U<sub>CEQ</sub> &gt; 0.3 V</li>
+    <li>能背 r<sub>be</sub> = r<sub>bb′</sub> + (1+β)·26mV/I<sub>EQ</sub>，知道分子用发射极电流</li>
+    <li>共射 A<sub>u</sub> = −βR<sub>L</sub>′/r<sub>be</sub>：负号与 R<sub>L</sub>′ = R<sub>C</sub>//R<sub>L</sub> 两处落笔必查</li>
+    <li>能判断 NPN 共射"顶部削平 = 截止失真（Q 偏低）"，并说出两种偏置各自的调整电阻</li>
+    <li>能说出三种组态分工：共射放大主力、共集缓冲（R<sub>i</sub> 大 R<sub>o</sub> 小）、共基高频</li>
+    <li>知道射随增益恒小于 1 但电流增益大——"增益换阻抗"的缓冲逻辑</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课预告 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 跟随课内解锁</div>
+  <div class="title">第 3 课《场效应管与 FET 放大电路》—— 课内讲到场效应管时上线，MOSFET + 跨导 gm + 与 BJT 对照</div>
+</a>
+
+<div class="pager">
+  <a href="01_半导体与二极管.html">
+    <div class="dir">← 上一课 · 已过关</div>
+    <div class="title">第 1 课 半导体与二极管</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">返回目录</div>
+    <div class="title">模电 · 跟课链</div>
+  </a>
+</div>
+
+<footer>
+  模电 · 跟课链 · 第 2 课 三极管与放大电路基础 ｜ <a href="index.html">返回模电目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">做完记得把限时训练成绩告诉我（如 9/10），我打卡更新进度</span>
+</footer>
+
+</div>
+</body>
+</html>
