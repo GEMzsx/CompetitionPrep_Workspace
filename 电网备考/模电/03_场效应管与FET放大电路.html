@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模电跟课链 · 第3课 — 场效应管与FET放大电路</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 36px 22px 60px; }
+
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 30px 28px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 24px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.back { display: inline-block; margin-bottom: 14px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--blue); }
+
+section.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 18px;
+}
+section.card > h2 {
+  font-size: 19px; margin: 0 0 4px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.card > h2 .secno {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  font-size: 13px; padding: 2px 10px; letter-spacing: 1px; flex: 0 0 auto;
+}
+section.card > .lead { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 16px; }
+
+h3.block { font-size: 15.5px; margin: 22px 0 8px; color: var(--ink); }
+p { font-size: 14px; margin: 0 0 10px; }
+
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+.know b { color: var(--blue-deep); }
+.know .kt { font-size: 12px; letter-spacing: 2px; color: var(--blue); font-weight: 700; display: block; margin-bottom: 4px; }
+
+table.cmp { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+table.cmp th { background: var(--blue-soft); color: var(--blue-deep); padding: 8px 10px; border: 1px solid var(--blue-border); text-align: left; }
+table.cmp td { padding: 8px 10px; border: 1px solid var(--line); vertical-align: top; }
+table.cmp td:first-child { font-weight: 600; white-space: nowrap; }
+
+.formula {
+  background: #f4f6ff;
+  border: 1px solid #d9defc;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-size: 14.5px;
+  font-family: "Cambria Math", "Times New Roman", serif;
+}
+.formula .cond { display: block; font-size: 12px; color: var(--ink-faint); font-family: inherit; margin-top: 4px; }
+
+.warn {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+.warn b { color: var(--gold); }
+
+/* ===== 题目卡片 ===== */
+.q {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 22px 14px;
+  margin: 14px 0;
+  background: #fff;
+}
+.q .qhead { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.q .qno {
+  background: var(--blue); color: #fff; border-radius: 7px;
+  font-size: 12.5px; font-weight: 700; padding: 2px 11px; letter-spacing: 1px; flex: 0 0 auto;
+}
+.q .stars { color: var(--gold); font-size: 12px; letter-spacing: 2px; }
+.q .qtype { font-size: 12px; color: var(--ink-faint); margin-left: auto; }
+.q .qbody { font-size: 14px; margin: 0 0 4px; }
+.q .qbody .circuit { font-family: "Cambria Math", "Times New Roman", serif; background: #f7f8fb; border: 1px dashed var(--line); border-radius: 8px; padding: 8px 14px; margin: 8px 0; font-size: 13.5px; }
+
+details.sol { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 10px; }
+details.sol summary {
+  cursor: pointer; font-size: 13px; font-weight: 700; color: var(--accent);
+  user-select: none; list-style: none;
+}
+details.sol summary::before { content: "▸ "; }
+details.sol[open] summary::before { content: "▾ "; }
+details.sol .step { font-size: 13.5px; margin: 8px 0; }
+details.sol .ans {
+  background: var(--green-soft); border: 1px solid var(--green-border); color: var(--green);
+  border-radius: 8px; padding: 6px 14px; font-size: 13.5px; font-weight: 700;
+  display: inline-block; margin: 8px 0 4px;
+}
+details.sol .note {
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 8px; padding: 8px 14px; font-size: 12.5px; margin-top: 8px;
+}
+details.sol .note b { color: var(--gold); }
+
+/* ===== 过关标准 / 自测 ===== */
+.check { list-style: none; padding: 0; margin: 10px 0 0; }
+.check li { padding: 6px 0 6px 30px; position: relative; font-size: 13.5px; border-bottom: 1px dashed var(--line); }
+.check li:last-child { border-bottom: none; }
+.check li::before { content: "☐"; position: absolute; left: 6px; color: var(--blue); font-size: 16px; }
+
+/* ===== 下一课卡片 ===== */
+a.next-card {
+  display: block; background: linear-gradient(135deg, #083d75 0%, #0b5aa8 60%, #1e90d6 100%);
+  color: #fff; border-radius: 14px; padding: 22px 26px;
+  text-decoration: none; margin: 22px 0 14px;
+}
+a.next-card .dir { font-size: 12px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+a.next-card .title { font-size: 16.5px; font-weight: 700; }
+a.next-card:hover { opacity: .94; }
+
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.pager a {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 18px; text-decoration: none; color: inherit;
+}
+.pager a:hover { border-color: var(--blue-border); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); margin-bottom: 2px; }
+.pager .title { font-size: 14px; font-weight: 600; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.card { padding: 20px 18px 16px; }
+  .pager { grid-template-columns: 1fr; }
+}
+@media print { body { background: #fff; } section.card { break-inside: avoid; } .q { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回模电跟课链目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">模电 · 跟课链 · 第 3 课 · 2026-11-09</p>
+  <h1>场效应管与 FET 放大电路</h1>
+  <p>模电的第二只手——压控器件登场：FET 家族分类与平方律 → 自偏压 / 分压偏置 → 共源 / 共漏放大电路。全程与第 2 课的三极管对照着学：BJT 用基极小电流控制，FET 用栅极电压控制、栅极几乎不取电流——这个"压控"基因正是电力电子里 MOSFET / IGBT 成为功率开关第一主角的原因。</p>
+  <div class="meta">
+    <span class="chip">16 题 · 6 例题精讲 + 10 限时训练</span>
+    <span class="chip">限时训练建议 45 分钟</span>
+    <span class="chip">期末 85+ · 电力电子前置</span>
+  </div>
+</div>
+
+<!-- ================= 一、本课定位 ================= -->
+<section class="card">
+  <h2><span class="secno">壹</span>本课定位：从"流控"到"压控"</h2>
+  <p class="lead">第 2 课的三极管是"电流控制电流"，这一课换一套基因：电压控制电流，且控制端不取电流。</p>
+
+  <p>期末卷上的分量：本章<b>概念题密度全章第一</b>——分类、符号、特性曲线、工作区判断全是选择 / 填空的天然题源；计算题以<b>Q 点估算（解二次方程）+ gm + 共源动态参数</b>为主，计算量小于三极管章，但<b>符号陷阱更多</b>（U<sub>GS(th)</sub>、U<sub>GS(off)</sub> 一正一负、"饱和区"含义与 BJT 相反）。</p>
+
+  <p>学法上，本课的核心动作是<b>"对照"</b>：每学一个 FET 的点，就回头对一次三极管——偏置、微变模型、组态、失真全部一一对应。对照完你会发现两套知识共用同一个框架，只换了两个参数：受控源从 β i<sub>b</sub> 换成 g<sub>m</sub> u<sub>gs</sub>，输入电阻从 r<sub>be</sub>（kΩ 量级）换成"无穷大"。对电力电子的意义更直接：MOSFET 是电压驱动，<b>驱动功率几乎为零、开关速度极快</b>——第 8 课直流电源、后面电力电子的斩波 / 逆变，开关主角就是它。</p>
+</section>
+
+<!-- ================= 二、场效应管家族与特性 ================= -->
+<section class="card">
+  <h2><span class="secno">贰</span>场效应管：家族、特性曲线与工作区</h2>
+  <p class="lead">概念题主产区。先把"家族树"和"两条曲线"钉死，后面计算题全靠它们。</p>
+
+  <h3 class="block">家族树与符号两判</h3>
+  <table class="cmp">
+    <tr><th>类别</th><th>沟道</th><th>u<sub>GS</sub> = 0 时</th><th>符号特征</th></tr>
+    <tr><td>JFET（结型）</td><td>N / P</td><td><b>有沟道</b>，I<sub>D</sub> = I<sub>DSS</sub>（只能反着压：N 沟道 u<sub>GS</sub> ≤ 0）</td><td>沟道线<b>实线</b>；栅极箭头在栅极上</td></tr>
+    <tr><td>MOS 耗尽型</td><td>N / P</td><td><b>有沟道</b>，I<sub>D</sub> = I<sub>DSS</sub>（u<sub>GS</sub> 可正可负）</td><td>沟道线<b>实线</b>；衬底箭头在 B 上</td></tr>
+    <tr><td>MOS 增强型</td><td>N / P</td><td><b>无沟道</b>，I<sub>D</sub> = 0（必须 u<sub>GS</sub> &gt; U<sub>GS(th)</sub> 才建沟道）</td><td>沟道线<b>虚线</b>；衬底箭头在 B 上</td></tr>
+  </table>
+  <div class="warn"><b>符号两判口诀</b>：① 箭头永远从 P 指向 N——N 沟道箭头<b>指向沟道（向内）</b>，P 沟道向外（第 1 课 PN 结箭头的同一条规则）；② <b>虚线 = 增强（天生没沟道，要"造"），实线 = 耗尽（天生有沟道）</b>。增强型像"常开开关"（不加电压不导通），耗尽型 / JFET 像"常闭开关"（不加电压也导通）——第 1 课稳压管的"工种"感再次出现。</div>
+
+  <h3 class="block">转移特性：平方律两式（必背）</h3>
+  <div class="formula">
+    增强型：i<sub>D</sub> = I<sub>DO</sub>·( u<sub>GS</sub>/U<sub>GS(th)</sub> − 1 )²　（u<sub>GS</sub> &gt; U<sub>GS(th)</sub>）
+    <span class="cond">U<sub>GS(th)</sub>：开启电压，N 沟道为<b>正</b>；I<sub>DO</sub>：u<sub>GS</sub> = 2U<sub>GS(th)</sub> 时的漏极电流</span>
+  </div>
+  <div class="formula">
+    耗尽型 / JFET：i<sub>D</sub> = I<sub>DSS</sub>·( 1 − u<sub>GS</sub>/U<sub>GS(off)</sub> )²　（|u<sub>GS</sub>| &lt; |U<sub>GS(off)</sub>|）
+    <span class="cond">U<sub>GS(off)</sub>：夹断电压，N 沟道为<b>负</b>；I<sub>DSS</sub>：u<sub>GS</sub> = 0 时的饱和漏电流</span>
+  </div>
+
+  <h3 class="block">输出特性三个工作区（判断动作：拿 u<sub>DS</sub> 与预夹断电压比大小）</h3>
+  <table class="cmp">
+    <tr><th>工作区</th><th>条件（N 沟道增强型）</th><th>特征</th><th>对应 BJT</th></tr>
+    <tr><td>可变电阻区</td><td>u<sub>DS</sub> &lt; u<sub>GS</sub> − U<sub>GS(th)</sub></td><td>沟道未夹断，i<sub>D</sub> 随 u<sub>DS</sub> 近似线性增——<b>压控电阻</b>，可做模拟开关</td><td>饱和区（都"通到底"）</td></tr>
+    <tr><td>恒流区（<b>饱和区</b>）</td><td>u<sub>DS</sub> &gt; u<sub>GS</sub> − U<sub>GS(th)</sub></td><td>沟道预夹断，i<sub>D</sub> 只受 u<sub>GS</sub> 控制——<b>放大工作区</b></td><td>放大区</td></tr>
+    <tr><td>夹断区（截止）</td><td>u<sub>GS</sub> &lt; U<sub>GS(th)</sub></td><td>i<sub>D</sub> ≈ 0——开关断开</td><td>截止区</td></tr>
+  </table>
+  <div class="formula">
+    预夹断临界：u<sub>GD</sub> = U<sub>GS(th)</sub>　⟺　u<sub>DS</sub> = u<sub>GS</sub> − U<sub>GS(th)</sub>
+    <span class="cond">判断工作区只需一步：算出预夹断电压 u<sub>GS</sub> − U<sub>GS(th)</sub>，与 u<sub>DS</sub> 比大小即可</span>
+  </div>
+
+  <div class="warn"><b>命名冲突警告（期末判断题最爱）</b>：FET 的"饱和区"= 恒流区 = <b>放大工作区</b>，恰恰对应 BJT 的"放大区"；BJT 的"饱和区"（失真区）对应的反而是 FET 的"可变电阻区"。两个"饱和"意思<b>相反</b>——同一张卷上先后出现，全靠"谁的饱和"区分。见练 7。</div>
+
+  <div class="know">
+    <span class="kt">温度特性——与 BJT 正好相反</span>
+    BJT：温度 ↑ 三个参数同向推 I<sub>C</sub> ↑，Q 点上漂（第 2 课）。FET：<b>多数载流子导电</b>，温度 ↑ → 载流子迁移率 ↓ → I<sub>D</sub> 反而<b>下降</b>，Q 点有自稳倾向。这是场效应器件温漂小的根源，也是功率器件敢并联的原因之一（BJT 热失控不敢直接并联，MOS 可以）。
+  </div>
+</section>
+
+<!-- ================= 三、偏置与FET放大 ================= -->
+<section class="card">
+  <h2><span class="secno">叁</span>偏置电路与 FET 放大：同一套框架，换两个参数</h2>
+  <p class="lead">分析顺序与第 2 课完全相同：先直流（Q 点）、后交流（gm → 动态参数）。唯一的新动作：Q 点要解二次方程。</p>
+
+  <h3 class="block">两种偏置电路</h3>
+  <div class="formula">
+    自偏压（JFET / 耗尽型专用）：u<sub>GS</sub> = − I<sub>D</sub>·R<sub>S</sub>
+    <span class="cond">与平方律联立解二次方程，得两根——必检验：舍去 |u<sub>GS</sub>| &gt; |U<sub>GS(off)</sub>|（管子已夹断）的那一根</span>
+  </div>
+  <div class="warn"><b>增强型不能自偏压（自锁陷阱）</b>：增强型 u<sub>GS</sub> = 0 时无沟道 → I<sub>D</sub> = 0 → R<sub>S</sub> 上无压降 → u<sub>GS</sub> 恒为 0——自己锁死在截止，永远启动不了。所以<b>增强型必须用分压偏置</b>（外电路强制给出正的 u<sub>GS</sub>）。见练 3。</div>
+  <div class="formula">
+    分压（-自）偏置：V<sub>G</sub> = V<sub>DD</sub>·R<sub>G2</sub>/(R<sub>G1</sub>+R<sub>G2</sub>)　→　u<sub>GS</sub> = V<sub>G</sub> − I<sub>D</sub>·R<sub>S</sub>
+    <span class="cond">栅极不取电流 → 分压精确、分压电阻可取 MΩ 级；再串一个大电阻 R<sub>G</sub>（MΩ 级）到栅极，输入电阻抬到 10 MΩ 量级且<b>不影响 Q 点</b>——BJT 做不到（基极要取电流，串大电阻 Q 点就乱），FET 独有操作</span>
+  </div>
+
+  <h3 class="block">跨导 gm：FET 版的"β/r<sub>be</sub>"</h3>
+  <div class="formula">
+    增强型：g<sub>m</sub> = 2I<sub>DO</sub>·( u<sub>GSQ</sub> − U<sub>GS(th)</sub> ) / U<sub>GS(th)</sub>²　=　2I<sub>DQ</sub> / ( u<sub>GSQ</sub> − U<sub>GS(th)</sub> )
+    <span class="cond">由平方律在 Q 点求导而来；I<sub>DQ</sub> 越大 gm 越大——和 BJT 的 g<sub>m</sub> = I<sub>CQ</sub>/26mV 同一个逻辑</span>
+  </div>
+  <div class="formula">
+    耗尽型 / JFET：g<sub>m</sub> = g<sub>m0</sub>·( 1 − u<sub>GSQ</sub>/U<sub>GS(off)</sub> )，其中 g<sub>m0</sub> = 2I<sub>DSS</sub>/|U<sub>GS(off)</sub>|
+    <span class="cond">g<sub>m0</sub> 是 u<sub>GS</sub> = 0 时的跨导；Q 点越靠近夹断，gm 越小</span>
+  </div>
+  <p>量级感：FET 的 g<sub>m</sub> 通常只有 <b>1 ~ 几 mS</b>，而 BJT 的 g<sub>m</sub> = I<sub>CQ</sub>/26mV 在 mA 级静态电流下就有<b>几十 mS</b>——差一个数量级。这个差距决定了两者单级增益的差距（见练 10）。</p>
+
+  <h3 class="block">微变模型与两种组态</h3>
+  <p>微变等效比 BJT 更简单：G–S 之间<b>开路</b>（栅极绝缘 / 结反偏，输入电阻 ∞），D–S 之间一个<b>压控电流源 g<sub>m</sub>u<sub>gs</sub></b>（r<sub>ds</sub> 视为 ∞）。"先直流后交流"的流程原样照搬。</p>
+  <table class="cmp">
+    <tr><th>组态</th><th>电压增益</th><th>R<sub>i</sub></th><th>R<sub>o</sub></th><th>对应 BJT</th><th>典型分工</th></tr>
+    <tr><td>共源（CS）</td><td>−g<sub>m</sub>R<sub>L</sub>′，反相（数值只有几~几十）</td><td>R<sub>G</sub>（自偏压）或 R<sub>G</sub> + R<sub>G1</sub>//R<sub>G2</sub>（分压）→ MΩ 量级</td><td>≈ R<sub>D</sub></td><td>共射</td><td>高输入阻抗电压放大</td></tr>
+    <tr><td>共漏（CD，源随）</td><td>+g<sub>m</sub>R<sub>S</sub>/(1+g<sub>m</sub>R<sub>S</sub>)，同相、略小于 1</td><td>MΩ 量级</td><td>R<sub>S</sub>//(1/g<sub>m</sub>)，约几百 Ω</td><td>共集（射随）</td><td>缓冲、输出级</td></tr>
+    <tr><td>共栅（CG）</td><td>大、同相</td><td>小（≈ 1/g<sub>m</sub>）</td><td>大</td><td>共基</td><td>高频 / 宽带</td></tr>
+  </table>
+  <div class="formula">
+    最大不失真摆幅（共源，对照第 2 课例 6 的量化比较法）：U<sub>om</sub> = min( I<sub>DQ</sub>·R<sub>L</sub>′ ， U<sub>DSQ</sub> − (u<sub>GSQ</sub> − U<sub>GS(th)</sub>) )
+    <span class="cond">截止方向是 I<sub>DQ</sub>·R<sub>L</sub>′；"变阻区方向"的边界不是 0.3 V，而是 Q 点到预夹断电压的距离——BJT 的 U<sub>CES</sub> 在这里换成 u<sub>GSQ</sub> − U<sub>GS(th)</sub></span>
+  </div>
+
+  <h3 class="block">BJT vs FET 总对照（本课的"总账本"）</h3>
+  <table class="cmp">
+    <tr><th>维度</th><th>三极管 BJT</th><th>场效应管 FET</th></tr>
+    <tr><td>控制方式</td><td>流控：i<sub>b</sub> 控制，β i<sub>b</sub> 受控源</td><td>压控：u<sub>gs</sub> 控制，g<sub>m</sub>u<sub>gs</sub> 受控源</td></tr>
+    <tr><td>输入电阻</td><td>r<sub>be</sub>，kΩ 量级</td><td>栅极绝缘 / 反偏：10⁹ ~ 10¹² Ω</td></tr>
+    <tr><td>单级增益</td><td>大（g<sub>m</sub> 大：I<sub>CQ</sub>/26mV）</td><td>小（g<sub>m</sub> 只有几 mS）</td></tr>
+    <tr><td>温度</td><td>三个参数同向推 I<sub>C</sub> ↑，Q 点易漂</td><td>迁移率主导，I<sub>D</sub> 随温降，自稳</td></tr>
+    <tr><td>噪声 / 驱动</td><td>噪声略大，驱动要基极电流</td><td>噪声小，电压驱动几乎零功率</td></tr>
+    <tr><td>电力电子角色</td><td>驱动 / 小功率开关</td><td><b>功率开关主力</b>（MOSFET、IGBT 的栅极都是它）</td></tr>
+  </table>
+  <p>一句话收束：<b>BJT 管芯做增益、FET 管芯做接口</b>——集成运放输入级用 FET 差分（要高阻、低偏置），中间增益级用 BJT（要 g<sub>m</sub>）；IGBT 干脆是"MOS 栅极 + BJT 体内"的合体。这条分工逻辑期末、电力电子两头都要考。</p>
+</section>
+
+<!-- ================= 四、例题精讲 ================= -->
+<section class="card">
+  <h2><span class="secno">肆</span>例题精讲 × 6</h2>
+  <p class="lead">每题先自己 3 分钟，再看解法。本课例 3 的参数会在例 4、例 6 连用，JFET 一族（例 1、例 2）的参数会在练 1 复用——两套参数吃透两套流程。</p>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 1</span><span class="stars">★</span><span class="qtype">平方律 · 转移特性</span></div>
+    <p class="qbody">N 沟道 JFET：I<sub>DSS</sub> = 4 mA，U<sub>GS(off)</sub> = −2 V。求 u<sub>GS</sub> = −1 V、0 V、−2 V 时的 i<sub>D</sub>。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>u<sub>GS</sub> = −1 V</b>：i<sub>D</sub> = 4×(1 − (−1)/(−2))² = 4×(0.5)² = <b>1 mA</b>。</div>
+      <div class="step"><b>u<sub>GS</sub> = 0 V</b>：i<sub>D</sub> = 4×(1−0)² = <b>4 mA = I<sub>DSS</sub></b>——正是 I<sub>DSS</sub> 的定义。</div>
+      <div class="step"><b>u<sub>GS</sub> = −2 V</b>：i<sub>D</sub> = 4×(1−1)² = <b>0</b>——夹断电压的定义。</div>
+      <div class="ans">1 mA；4 mA（= I<sub>DSS</sub>）；0（夹断）</div>
+      <div class="note"><b>点评</b>：三点连起来就是转移特性曲线的形状——u<sub>GS</sub> = 0 处最高（I<sub>DSS</sub>），到夹断电压处归零，中间按平方律下坠。三个"定义点"就是三个速查锚点；代入公式时 U<sub>GS(off)</sub> 带<b>负号</b>运算，符号错一个，答案全错。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 2</span><span class="stars">★★</span><span class="qtype">自偏压 · Q 点估算</span></div>
+    <p class="qbody">N 沟道 JFET 自偏压共源电路：V<sub>DD</sub> = 12 V，R<sub>D</sub> = 2 kΩ，R<sub>S</sub> = 1 kΩ，栅极经 R<sub>G</sub> = 1 MΩ 接地。管子同例 1：I<sub>DSS</sub> = 4 mA，U<sub>GS(off)</sub> = −2 V。求 Q 点（I<sub>DQ</sub>、u<sub>GSQ</sub>、U<sub>DSQ</sub>）。</p>
+    <div class="circuit">+12 V ──[R<sub>D</sub> 2k]── D｜JFET｜S ──[R<sub>S</sub> 1k]── 地；G ──[R<sub>G</sub> 1M]── 地</div>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>栅极电位为 0</b>（栅极不取电流，R<sub>G</sub> 上无压降）→ u<sub>GS</sub> = 0 − I<sub>D</sub>·R<sub>S</sub> = −I<sub>D</sub>（I<sub>D</sub> 单位 mA、R<sub>S</sub> 为 1 kΩ，数值上 u<sub>GS</sub> = −I<sub>D</sub> V）。</div>
+      <div class="step"><b>与平方律联立</b>：I<sub>D</sub> = 4×(1 + u<sub>GS</sub>/2)² = 4×(1 − I<sub>D</sub>/2)²，展开：I<sub>D</sub> = 4 − 4I<sub>D</sub> + I<sub>D</sub>² → I<sub>D</sub>² − 5I<sub>D</sub> + 4 = 0。</div>
+      <div class="step"><b>两根</b>：I<sub>D</sub> = 1 或 4。检验：I<sub>D</sub> = 4 mA → u<sub>GS</sub> = −4 V，已越过夹断电压 −2 V，管子早夹断了，<b>舍去</b>；I<sub>D</sub> = 1 mA → u<sub>GS</sub> = −1 V，落在 (−2, 0) 内 ✓。</div>
+      <div class="step">U<sub>DSQ</sub> = 12 − 1 m × (2k + 1k) = 9 V。</div>
+      <div class="step"><b>自检（恒流区？）</b>：u<sub>DS</sub> = 9 V &gt; u<sub>GS</sub> − U<sub>GS(off)</sub> = −1 + 2 = 1 V → 恒流区成立，Q 点健康。</div>
+      <div class="ans">I<sub>DQ</sub> = 1 mA，u<sub>GSQ</sub> = −1 V，U<sub>DSQ</sub> = 9 V</div>
+      <div class="note"><b>点评</b>：自偏压三步——写 u<sub>GS</sub> = −I<sub>D</sub>R<sub>S</sub>、联立平方律解二次方程、<b>检验舍根</b>。舍根检验不是可选项：二次方程必然两根，"不检验"在期末按步骤扣分。本例电路参数将在练 1、练 6 继续使用。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 3</span><span class="stars">★★</span><span class="qtype">增强型 · 分压偏置 Q 点</span></div>
+    <p class="qbody">N 沟道增强型 MOS 分压偏置电路：V<sub>DD</sub> = 15 V，上分压 R<sub>G1</sub> = 1 MΩ，下分压 R<sub>G2</sub> = 500 kΩ，R<sub>D</sub> = 2 kΩ，R<sub>S</sub> = 0.5 kΩ。管子：U<sub>GS(th)</sub> = 1 V，I<sub>DO</sub> = 1 mA。求 Q 点。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>基极电位被分压钳住</b>（栅极不取电流）：V<sub>G</sub> = 15 × 0.5/(1+0.5) = 5 V。</div>
+      <div class="step"><b>联立</b>：u<sub>GS</sub> = 5 − 0.5·I<sub>D</sub>，代入平方律 I<sub>D</sub> = 1×(u<sub>GS</sub> − 1)²：</div>
+      <div class="step">I<sub>D</sub> = (5 − 0.5I<sub>D</sub> − 1)² = (4 − 0.5I<sub>D</sub>)²，展开：I<sub>D</sub> = 16 − 4I<sub>D</sub> + 0.25I<sub>D</sub>² → I<sub>D</sub>² − 20I<sub>D</sub> + 64 = 0。</div>
+      <div class="step"><b>两根</b>：I<sub>D</sub> = 4 或 16。检验：16 mA → u<sub>GS</sub> = 5 − 8 = −3 V &lt; U<sub>GS(th)</sub>，管子截止，自相矛盾，<b>舍去</b>；4 mA → u<sub>GS</sub> = 5 − 2 = 3 V ✓。</div>
+      <div class="step">U<sub>DSQ</sub> = 15 − 4 m × (2k + 0.5k) = 15 − 10 = 5 V。</div>
+      <div class="step"><b>自检（恒流区？）</b>：5 V &gt; u<sub>GSQ</sub> − U<sub>GS(th)</sub> = 3 − 1 = 2 V ✓。</div>
+      <div class="ans">I<sub>DQ</sub> = 4 mA，u<sub>GSQ</sub> = 3 V，U<sub>DSQ</sub> = 5 V</div>
+      <div class="note"><b>点评</b>：分压偏置四步——分压求 V<sub>G</sub>、写 u<sub>GS</sub> = V<sub>G</sub> − I<sub>D</sub>R<sub>S</sub>、联立平方律解二次方程、检验舍根。对照第 2 课分压偏置"四步走"，流程骨架完全一样，只是第三步从线性方程换成二次方程。本例参数是例 4、例 6 的底座。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 4</span><span class="stars">★★</span><span class="qtype">共源 · 动态参数</span></div>
+    <p class="qbody">承例 3 电路：分压点与栅极之间串 R<sub>G</sub> = 10 MΩ（分压-自偏压接法），空载 R<sub>L</sub> = ∞。求 g<sub>m</sub>、A<sub>u</sub>、R<sub>i</sub>、R<sub>o</sub>。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>g<sub>m</sub></b>（用例 3 的 Q 点）：g<sub>m</sub> = 2I<sub>DQ</sub>/(u<sub>GSQ</sub> − U<sub>GS(th)</sub>) = 2×4/(3−1) = <b>4 mS</b>。</div>
+      <div class="step"><b>A<sub>u</sub></b>（空载 R<sub>L</sub>′ = R<sub>D</sub> = 2 kΩ）：A<sub>u</sub> = −g<sub>m</sub>R<sub>L</sub>′ = −4 m × 2 k = <b>−8</b>。</div>
+      <div class="step"><b>R<sub>i</sub></b>：栅极不取电流 → R<sub>G</sub> 上无压降、V<sub>G</sub> 不变，Q 点不动；R<sub>i</sub> = R<sub>G</sub> + R<sub>G1</sub>//R<sub>G2</sub> = 10 M + (1M//0.5M = 0.33 M) ≈ <b>10.3 MΩ</b>。</div>
+      <div class="step"><b>R<sub>o</sub></b>：≈ R<sub>D</sub> = 2 kΩ（D–S 间理想受控源，输出电阻由 R<sub>D</sub> 定——与共射 R<sub>o</sub> ≈ R<sub>C</sub> 同一条逻辑）。</div>
+      <div class="ans">g<sub>m</sub> = 4 mS，A<sub>u</sub> = −8，R<sub>i</sub> ≈ 10.3 MΩ，R<sub>o</sub> ≈ 2 kΩ</div>
+      <div class="note"><b>点评</b>：对照第 2 课例 4（同一个位置）：BJT 版 A<sub>u</sub> = −114、R<sub>i</sub> ≈ 0.79 kΩ；FET 版 A<sub>u</sub> = −8、R<sub>i</sub> ≈ 10.3 MΩ——<b>增益差十几倍，输入电阻差一万倍</b>，负号（反相）倒是完全一样。串大 R<sub>G</sub> 是 FET 独有的"免费午餐"：BJT 基极取电流，这么串 Q 点立刻乱套。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 5</span><span class="stars">★★</span><span class="qtype">共漏（源随）· 动态参数</span></div>
+    <p class="qbody">N 沟道增强型 MOS 共漏电路：V<sub>DD</sub> = 12 V，R<sub>G1</sub> = 2 MΩ，R<sub>G2</sub> = 1 MΩ（分压），R<sub>S</sub> = 2 kΩ（无 R<sub>D</sub>，漏极直接接电源）。管子同例 3：U<sub>GS(th)</sub> = 1 V，I<sub>DO</sub> = 1 mA。求 Q 点、A<sub>u</sub>、R<sub>i</sub>、R<sub>o</sub>。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>Q 点</b>：V<sub>G</sub> = 12 × 1/3 = 4 V；u<sub>GS</sub> = 4 − 2I<sub>D</sub>，代入 I<sub>D</sub> = (u<sub>GS</sub> − 1)²：(4 − 2I<sub>D</sub> − 1)² = (3 − 2I<sub>D</sub>)² = I<sub>D</sub> → 4I<sub>D</sub>² − 13I<sub>D</sub> + 9 = 0 → I<sub>D</sub> = 2.25（u<sub>GS</sub> &lt; 0 舍）或 <b>1 mA</b> → u<sub>GSQ</sub> = 2 V。</div>
+      <div class="step"><b>g<sub>m</sub></b> = 2×1/(2−1) = 2 mS。</div>
+      <div class="step"><b>A<sub>u</sub></b> = g<sub>m</sub>R<sub>S</sub>/(1 + g<sub>m</sub>R<sub>S</sub>) = 2×2 / (1 + 4) = 4/5 = <b>+0.8</b>（同相、明显小于 1）。</div>
+      <div class="step"><b>R<sub>i</sub></b> = R<sub>G1</sub>//R<sub>G2</sub> = 2M//1M ≈ <b>667 kΩ</b>；<b>R<sub>o</sub></b> = R<sub>S</sub>//(1/g<sub>m</sub>) = 2k//0.5k = <b>400 Ω</b>。</div>
+      <div class="ans">I<sub>DQ</sub> = 1 mA，u<sub>GSQ</sub> = 2 V；A<sub>u</sub> ≈ +0.8，R<sub>i</sub> ≈ 667 kΩ，R<sub>o</sub> ≈ 400 Ω</div>
+      <div class="note"><b>点评</b>：源随 = FET 版射随，"增益换阻抗"的剧本一样，但成色不同：BJT 射随 A<sub>u</sub> ≈ 0.996（第 2 课例 5），源随只有 0.8——因为 g<sub>m</sub>R<sub>S</sub> = 4 远小于 BJT 的 (1+β)R<sub>E</sub> = 183。跟随精度取决于 g<sub>m</sub>R<sub>S</sub>，g<sub>m</sub> 小是 FET 的先天短板，但这不耽误它当缓冲器——R<sub>i</sub> 仍以 MΩ 计。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 6</span><span class="stars">★★★</span><span class="qtype">带载摆幅 · 期末大题</span></div>
+    <p class="qbody">承例 3 / 例 4 电路（I<sub>DQ</sub> = 4 mA，u<sub>GSQ</sub> = 3 V，U<sub>DSQ</sub> = 5 V，g<sub>m</sub> = 4 mS，R<sub>D</sub> = 2 kΩ），现接负载 R<sub>L</sub> = 2 kΩ。求：① 带载后的 A<sub>u</sub>；② 最大不失真输出电压峰值 U<sub>om</sub>。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step">① R<sub>L</sub>′ = R<sub>D</sub>//R<sub>L</sub> = 2k//2k = 1 kΩ → A<sub>u</sub> = −4 m × 1 k = <b>−4</b>（较空载 −8 腰斩，与第 2 课带载翻倍折损同一规律）。</div>
+      <div class="step">② <b>量化两个方向的不失真空间</b>（R<sub>L</sub>′ = 1 kΩ）：</div>
+      <div class="step">截止方向（i<sub>D</sub> 摆到 0）：I<sub>DQ</sub>·R<sub>L</sub>′ = 4 m × 1 k = <b>4 V</b>。</div>
+      <div class="step">变阻区方向（管子退出恒流区）：U<sub>DSQ</sub> − (u<sub>GSQ</sub> − U<sub>GS(th)</sub>) = 5 − 2 = <b>3 V</b>。</div>
+      <div class="step"><b>比较</b>：3 &lt; 4 → 先碰变阻区边界 → U<sub>om</sub> = <b>3 V</b>。</div>
+      <div class="ans">A<sub>u</sub> = −4；U<sub>om</sub> = 3 V（变阻区方向先失真）</div>
+      <div class="note"><b>点评</b>：与第 2 课例 6 唯一不同的公式：BJT 的"饱和方向空间"用 U<sub>CEQ</sub> − 0.3 V，FET 的"变阻区方向空间"用 U<sub>DSQ</sub> − (u<sub>GSQ</sub> − U<sub>GS(th)</sub>)——把 0.3 V 这个数背到这里用，是 FET 大题的第一大坑。量化比较法本身原样照搬。</div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= 五、限时训练 ================= -->
+<section class="card">
+  <h2><span class="secno">伍</span>限时训练 × 10</h2>
+  <p class="lead">整段计时 45 分钟，不看书不翻笔记。做完再对答案，每题都有错因对照。</p>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 1</span><span class="stars">★</span><span class="qtype">平方律速算</span></div>
+    <p class="qbody">N 沟道 JFET（同例 1 / 例 2 一族：I<sub>DSS</sub> = 4 mA，U<sub>GS(off)</sub> = −2 V）。求 u<sub>GS</sub> = −1.5 V 时的 i<sub>D</sub>，并说明：耗尽型管子 u<sub>GS</sub> = 0 时 i<sub>D</sub> 等于多少？这个特性对应哪种"开关"？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">i<sub>D</sub> = 4×(1 − (−1.5)/(−2))² = 4×(0.25)² = <b>0.25 mA</b>。</div>
+      <div class="step">u<sub>GS</sub> = 0 → i<sub>D</sub> = I<sub>DSS</sub> = 4 mA（不等于 0！）——不加控制电压就导通，相当于<b>"常闭开关"</b>；对照增强型是"常开开关"（u<sub>GS</sub> = 0 时 i<sub>D</sub> = 0）。</div>
+      <div class="ans">i<sub>D</sub> = 0.25 mA；u<sub>GS</sub> = 0 时 i<sub>D</sub> = I<sub>DSS</sub>，常闭开关</div>
+      <div class="note"><b>错因对照</b>：把 JFET / 耗尽型当增强型，答"u<sub>GS</sub> = 0 时截止"是最高频错误——增强 / 耗尽之分考的就是这一点。另注意 −1.5/−2 = 0.75，(1−0.75)² = 0.0625，平方算错会得 1 mA、0.5 mA 等假答案。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 2</span><span class="stars">★★</span><span class="qtype">工作区三判</span></div>
+    <p class="qbody">N 沟道增强型 MOS：U<sub>GS(th)</sub> = 2 V。判断以下三种偏置下管子所处的工作区：<br>① u<sub>GS</sub> = 3 V，u<sub>DS</sub> = 5 V；② u<sub>GS</sub> = 3 V，u<sub>DS</sub> = 0.5 V；③ u<sub>GS</sub> = 1 V，u<sub>DS</sub> = 10 V。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step"><b>统一动作</b>：先算预夹断电压 u<sub>GS</sub> − U<sub>GS(th)</sub>，再与 u<sub>DS</sub> 比大小。</div>
+      <div class="step">① 预夹断电压 = 3 − 2 = 1 V；u<sub>DS</sub> = 5 &gt; 1 → <b>恒流区（放大区）</b>。</div>
+      <div class="step">② u<sub>DS</sub> = 0.5 &lt; 1 → <b>可变电阻区</b>（压控电阻，i<sub>D</sub> 还在随 u<sub>DS</sub> 涨）。</div>
+      <div class="step">③ u<sub>GS</sub> = 1 &lt; U<sub>GS(th)</sub> = 2 → 沟道根本没建立 → <b>夹断区（截止）</b>，i<sub>D</sub> ≈ 0。</div>
+      <div class="ans">① 恒流区　② 可变电阻区　③ 夹断区（截止）</div>
+      <div class="note"><b>错因对照</b>：③ 的 u<sub>DS</sub> = 10 V 是干扰项——沟道都没建，比 u<sub>DS</sub> 没有意义，先查"u<sub>GS</sub> 过没过开启电压"再谈预夹断。①② 差别只看 u<sub>DS</sub> 与预夹断电压的大小，不需要任何曲线图。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 3</span><span class="stars">★★★</span><span class="qtype">自偏压适用性 · 概念陷阱</span></div>
+    <p class="qbody">增强型 NMOS 能否采用自偏压电路（栅极经 R<sub>G</sub> 接地、源极串 R<sub>S</sub>）？说明推理过程；哪两类管子可以？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step"><b>不能，且是"自锁"</b>：设电路已工作 → 栅极电位 0 → u<sub>GS</sub> = −I<sub>D</sub>R<sub>S</sub> ≤ 0 → 增强型要求 u<sub>GS</sub> &gt; U<sub>GS(th)</sub> &gt; 0 才有沟道 → 唯一解是 I<sub>D</sub> = 0 → R<sub>S</sub> 上无压降 → u<sub>GS</sub> = 0 → 自锁在截止，<b>永远启动不了</b>。</div>
+      <div class="step">可以自偏压的是：<b>JFET 与耗尽型 MOS</b>——它们 u<sub>GS</sub> = 0 时就有 I<sub>DSS</sub>，流过 R<sub>S</sub> 自动产生负偏压，负反馈稳 Q（I<sub>D</sub>↑ → |u<sub>GS</sub>|↑ → I<sub>D</sub>↓，压回去）。</div>
+      <div class="ans">不能（自锁在截止）；JFET 和耗尽型 MOS 可以</div>
+      <div class="note"><b>错因对照</b>：答"可以，只是 Q 点难算"就掉进陷阱——这不是计算问题，是<b>能不能导通</b>的存在性问题。增强型必须分压偏置（外电路强制供正 u<sub>GS</sub>）。期末判断题在这里挖坑的密度极高。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 4</span><span class="stars">★★</span><span class="qtype">自偏压 · Q 点估算</span></div>
+    <p class="qbody">N 沟道 JFET 自偏压：V<sub>DD</sub> = 15 V，R<sub>D</sub> = 2 kΩ，R<sub>S</sub> = 2 kΩ，I<sub>DSS</sub> = 9 mA，U<sub>GS(off)</sub> = −3 V。求 Q 点。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">u<sub>GS</sub> = −I<sub>D</sub>·R<sub>S</sub> = −2I<sub>D</sub>（mA·kΩ），代入 I<sub>D</sub> = 9×(1 + u<sub>GS</sub>/3)²：</div>
+      <div class="step">I<sub>D</sub> = 9×(1 − 2I<sub>D</sub>/3)²，展开：I<sub>D</sub> = 9 − 12I<sub>D</sub> + 4I<sub>D</sub>² → 4I<sub>D</sub>² − 13I<sub>D</sub> + 9 = 0 → I<sub>D</sub> = 1 或 2.25。</div>
+      <div class="step">检验：2.25 mA → u<sub>GS</sub> = −4.5 V，越过夹断电压 −3 V，<b>舍去</b>；1 mA → u<sub>GS</sub> = −2 V ✓。</div>
+      <div class="step">U<sub>DSQ</sub> = 15 − 1 m × (2k + 2k) = 11 V（&gt; u<sub>GS</sub> − U<sub>GS(off)</sub> = 1 V，恒流区 ✓）。</div>
+      <div class="ans">I<sub>DQ</sub> = 1 mA，u<sub>GSQ</sub> = −2 V，U<sub>DSQ</sub> = 11 V</div>
+      <div class="note"><b>错因对照</b>：两根都"看起来合理"（都不是负电流），必须用<b>夹断电压</b>检验——2.25 mA 那个根对应 u<sub>GS</sub> = −4.5 V，管子物理上早就夹断了。取大根是本题的埋雷方式，动作固化：解出两根，第二句就检验 |u<sub>GS</sub>| 是否超过 |U<sub>GS(off)</sub>|。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 5</span><span class="stars">★★</span><span class="qtype">gm 计算</span></div>
+    <p class="qbody">N 沟道增强型 MOS：U<sub>GS(th)</sub> = 2 V，静态 I<sub>DQ</sub> = 4 mA，u<sub>GSQ</sub> = 4 V。求 g<sub>m</sub>（用两条路：先求 I<sub>DO</sub> 再用定义式；以及直接用简化式）。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step"><b>路线一</b>：I<sub>DO</sub> = I<sub>DQ</sub>/(u<sub>GSQ</sub>/U<sub>th</sub> − 1)² = 4/(2−1)² = 4 mA → g<sub>m</sub> = 2I<sub>DO</sub>·(u<sub>GSQ</sub> − U<sub>th</sub>)/U<sub>th</sub>² = 2×4×2/4 = 4 mS。</div>
+      <div class="step"><b>路线二（快）</b>：g<sub>m</sub> = 2I<sub>DQ</sub>/(u<sub>GSQ</sub> − U<sub>th</sub>) = 2×4/(4−2) = <b>4 mS</b>。</div>
+      <div class="ans">g<sub>m</sub> = 4 mS</div>
+      <div class="note"><b>错因对照</b>：g<sub>m</sub> 两条公式都从平方律来，考的是单位感——I<sub>DQ</sub> 用 mA、电压用 V，得数直接就是 mS，不必再乘 10⁻³。常见错误：把 U<sub>GS(th)</sub> 当成夹断电压 U<sub>GS(off)</sub> 混进 JFET 公式，两族公式别串线（练 6 是 JFET 版，对照做）。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 6</span><span class="stars">★★</span><span class="qtype">承练 4 · 共源全动态</span></div>
+    <p class="qbody">承练 4 电路（Q 点已求得：I<sub>DQ</sub> = 1 mA，u<sub>GSQ</sub> = −2 V；R<sub>D</sub> = 2 kΩ，R<sub>G</sub> = 1 MΩ），空载。求 g<sub>m</sub>、A<sub>u</sub>、R<sub>i</sub>、R<sub>o</sub>。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step"><b>g<sub>m</sub></b>（JFET 公式）：g<sub>m0</sub> = 2I<sub>DSS</sub>/|U<sub>GS(off)</sub>| = 2×9/3 = 6 mS → g<sub>m</sub> = 6×(1 − (−2)/(−3)) = 6×(1/3) = <b>2 mS</b>。</div>
+      <div class="step"><b>A<sub>u</sub></b> = −g<sub>m</sub>R<sub>D</sub> = −2 m × 2 k = <b>−4</b>。</div>
+      <div class="step"><b>R<sub>i</sub></b> ≈ R<sub>G</sub> = 1 MΩ（栅源间近似开路）；<b>R<sub>o</sub></b> ≈ R<sub>D</sub> = 2 kΩ。</div>
+      <div class="ans">g<sub>m</sub> = 2 mS，A<sub>u</sub> = −4，R<sub>i</sub> ≈ 1 MΩ，R<sub>o</sub> ≈ 2 kΩ</div>
+      <div class="note"><b>错因对照</b>：JFET 的 g<sub>m</sub> 用 g<sub>m0</sub>·(1 − u<sub>GSQ</sub>/U<sub>GS(off)</sub>)，注意括号里 u<sub>GSQ</sub> 和 U<sub>GS(off)</sub> <b>都是负数</b>，1 − (−2)/(−3) = 1 − 2/3，符号错一个 g<sub>m</sub> 直接变 10 mS。对照检查：Q 点越靠近夹断，g<sub>m</sub> 越小（本例 g<sub>m</sub> = g<sub>m0</sub>/3），方向不对即错。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 7</span><span class="stars">★★★</span><span class="qtype">"饱和区"命名陷阱</span></div>
+    <p class="qbody">判断并说理：① "MOS 管工作在饱和区时，与三极管饱和一样失去放大能力。"② "MOS 管的饱和区和三极管的饱和区，两句话里的'饱和'是同一个物理机制。"③ N 沟道增强型 MOS 的饱和区，进入条件是什么？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① <b>错</b>。MOS 的"饱和区" = 恒流区 = <b>放大工作区</b>：i<sub>D</sub> 只受 u<sub>GS</sub> 控制、不随 u<sub>DS</sub> 变，恰恰是放大要用的工作区。</div>
+      <div class="step">② <b>错</b>，机制恰好相反。BJT 饱和 = 两结正偏（失真区），对应到 MOS 是<b>可变电阻区</b>；MOS 饱和（预夹断后恒流）对应的恰是 BJT 的<b>放大区</b>。两个"饱和"是命名撞车，不是同一机制。</div>
+      <div class="step">③ u<sub>DS</sub> &gt; u<sub>GS</sub> − U<sub>GS(th)</sub>（漏端沟道预夹断）。</div>
+      <div class="ans">① 错　② 错（命名相反）　③ u<sub>DS</sub> &gt; u<sub>GS</sub> − U<sub>GS(th)</sub></div>
+      <div class="note"><b>错因对照</b>：这是本章排名第一的概念陷阱——第 2 课刚把"饱和 = 失真"焊死在脑子里，本课立刻翻案。记法：FET 的饱和是"电流饱和"（恒流，不再随 u<sub>DS</sub> 涨），BJT 的饱和是"电流吃满"（βI<sub>B</sub> 供不上，受外电路钳制）——一个"饱和"两种吃法。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 8</span><span class="stars">★★</span><span class="qtype">源极跟随器 · 动态</span></div>
+    <p class="qbody">共漏电路：R<sub>S</sub> = 2 kΩ，已由 Q 点求得 g<sub>m</sub> = 5 mS，信号源内阻忽略、栅极网络总电阻 1 MΩ。求 A<sub>u</sub>、R<sub>o</sub>，并与 BJT 射随（A<sub>u</sub> ≈ 0.996、R<sub>o</sub> ≈ 13 Ω）对比说明差距根源。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">g<sub>m</sub>R<sub>S</sub> = 5 m × 2 k = 10 → A<sub>u</sub> = 10/(1+10) ≈ <b>+0.91</b>（同相、小于 1）。</div>
+      <div class="step">R<sub>o</sub> = R<sub>S</sub>//(1/g<sub>m</sub>) = 2k//200Ω ≈ <b>180 Ω</b>。</div>
+      <div class="step"><b>差距根源</b>：跟随精度与输出电阻都由"等效跨导 × R<sub>S</sub>"决定——BJT 射随的等效 g<sub>m</sub> = (1+β)/r<sub>be</sub> ≈ 61/0.76k ≈ 80 mS，FET 只有 5 mS，差 16 倍。所以射随"跟得死"（0.996）、源随"跟得松"（0.9 上下）。</div>
+      <div class="ans">A<sub>u</sub> ≈ +0.91，R<sub>o</sub> ≈ 180 Ω；根源是 g<sub>m</sub> 小一个数量级</div>
+      <div class="note"><b>错因对照</b>：两个高频坑——① R<sub>o</sub> 里 1/g<sub>m</sub> 是"电阻"，g<sub>m</sub> 越大 1/g<sub>m</sub> 越小，别把倒数关系记反；② 源随的 A<sub>u</sub> 不像射随那样"≈1 到可忽略"，期末答"≈1"而不给具体值会扣分。FET 缓冲器卖点是 R<sub>i</sub>（MΩ 级）和低偏置电流，不是跟随精度。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 9</span><span class="stars">★★</span><span class="qtype">组态与器件选型</span></div>
+    <p class="qbody">三个工程场景，各选最合适的方案：<br>① 高内阻信号源（压电传感器，MΩ 级）的第一级电压放大；② 多级放大器驱动低阻负载的输出缓冲级；③ 高频 / 宽频带小信号放大。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① 源内阻 MΩ 级 → 输入级输入电阻必须远大于它，只有 <b>FET 共源</b>（R<sub>i</sub> 以 MΩ~10 MΩ 计）扛得住；BJT 共射 R<sub>i</sub> ≈ 1 kΩ，信号全掉在源内阻上。</div>
+      <div class="step">② 缓冲级要"增益≈1、R<sub>o</sub> 小"，<b>源随（共漏）</b>——R<sub>o</sub> 几百 Ω 够用且驱动功率小；对跟随精度要求极高时才换射随。</div>
+      <div class="step">③ 高频宽带 → <b>共栅</b>（与共基同理：密勒效应小），器件上 FET 还多一层优势：多数载流子器件、无少子存储时间。</div>
+      <div class="ans">① FET 共源　② 源随（共漏）　③ 共栅</div>
+      <div class="note"><b>错因对照</b>：① 选 BJT 共射"因为增益大"是最典型错误——接口匹配优先于增益：增益再大，信号在内阻上就衰减 99%，白搭。这与第 2 课练 9 ② 的教训同一条："先看接口，再看增益"，只是本题的答案换成了 FET 家族。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 10</span><span class="stars">★★★</span><span class="qtype">跨导透镜 · 对照压轴</span></div>
+    <p class="qbody">用"跨导透镜"完成对照（跨导 = 受控源对控制量的斜率）：① 求 BJT 在 I<sub>CQ</sub> = 2.3 mA 时的 g<sub>m</sub>（g<sub>m</sub> = I<sub>CQ</sub>/26mV，由第 2 课 r<sub>be</sub> 公式反推而来），与 FET 的 4 mS（例 4）比倍数；② 估算两者接同样 R<sub>L</sub>′ = 2 kΩ 时的理想增益量级，并与第 2 课例 4 实际值（A<sub>u</sub> ≈ −114）、本课例 4（A<sub>u</sub> = −8）对照；③ 由此说明集成运放内部"输入级用 FET、增益级用 BJT"的分工逻辑。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① g<sub>m(BJT)</sub> = 2.3 m/26 mV ≈ <b>88 mS</b>，FET = 4 mS → 差约 <b>22 倍</b>。</div>
+      <div class="step">② 统一公式 A<sub>u</sub> ≈ −g<sub>m</sub>R<sub>L</sub>′：BJT 理想 −88×2 = −176（实际 −114，r<sub>bb′</sub> 与 (1+β) 系数吃掉一部分）；FET −4×2 = −8 ✓ 与实际一致。同一把尺子，两个量级。</div>
+      <div class="step">③ 分工逻辑：单级增益 ∝ g<sub>m</sub> → BJT 当增益引擎；输入电阻：FET 栅极绝缘（10⁹ Ω 起、零偏置电流）vs BJT r<sub>be</sub>（kΩ、要基极电流）→ FET 当接口。所以运放输入级 FET 差分（高阻、低噪、低偏流），中间增益级 BJT（高 g<sub>m</sub>）；IGBT 更是"MOS 栅极 + BJT 体内"的合体器件。</div>
+      <div class="ans">① g<sub>m</sub> 88 mS vs 4 mS，约 22 倍　② −176（实际−114）vs −8　③ BJT 做增益、FET 做接口</div>
+      <div class="note"><b>错因对照</b>：把"FET 增益小"记成"FET 性能差"是方向性错误——增益和阻抗是两只手，工程拼的是组合。g<sub>m</sub> = I<sub>CQ</sub>/26mV 这把"BJT 跨导尺"教材正文不重点讲，但它是把两章串成一张网的钥匙：A<sub>u</sub> = −g<sub>m</sub>R<sub>L</sub>′ 对两种管子通用（BJT 的 β/r<sub>be</sub> ≈ g<sub>m</sub>，差个 r<sub>bb′</sub>）。</div>
+    </details>
+  </div>
+
+  <h3 class="block">对答案与过关标准</h3>
+  <table class="cmp">
+    <tr><th>得分</th><th>判定</th><th>动作</th></tr>
+    <tr><td>≥ 9 / 10</td><td>过关</td><td>等课内讲到第 4 章，跟课链解锁《多级放大与差分电路》</td></tr>
+    <tr><td>7 ~ 8</td><td>薄弱</td><td>重做错题 + 回本课对应小节（错因对照里已标注）</td></tr>
+    <tr><td>≤ 6</td><td>回炉</td><td>重学 §贰（家族树与平方律）与 §叁（偏置与组态），隔天重刷整套</td></tr>
+  </table>
+</section>
+
+<!-- ================= 六、自测清单 ================= -->
+<section class="card">
+  <h2><span class="secno">陆</span>过关自测清单</h2>
+  <ul class="check">
+    <li>能画出 FET 家族树：JFET / MOS 增强 / MOS 耗尽 × N / P 沟道，并说出"u<sub>GS</sub> = 0 时谁有沟道"</li>
+    <li>符号两判张口就来：箭头从 P 指向 N（N 沟道向内）；虚线 = 增强、实线 = 耗尽</li>
+    <li>能默写平方律两式，说清 I<sub>DO</sub>（在 2U<sub>GS(th)</sub> 处）与 I<sub>DSS</sub>（在 u<sub>GS</sub> = 0 处）的定义点</li>
+    <li>工作区判断一步动作：u<sub>DS</sub> 与预夹断电压 u<sub>GS</sub> − U<sub>GS(th)</sub> 比大小</li>
+    <li>知道 FET"饱和区" = 恒流区 = 放大区，与 BJT 的"饱和"命名相反（判断题免疫）</li>
+    <li>知道增强型不能自偏压（自锁原理一句话），自偏压只属于 JFET / 耗尽型</li>
+    <li>分压偏置解二次方程后必检验舍根：|u<sub>GS</sub>| &gt; |U<sub>GS(off)</sub>| 或 u<sub>GS</sub> &lt; U<sub>GS(th)</sub> 的根舍去</li>
+    <li>能背 gm 三式：增强型两式、耗尽型 g<sub>m0</sub> 式，并知道 FET 的 g<sub>m</sub> 只有几 mS</li>
+    <li>共源 A<sub>u</sub> = −g<sub>m</sub>R<sub>L</sub>′、R<sub>o</sub> ≈ R<sub>D</sub>；共漏 A<sub>u</sub> ≈ 1、R<sub>o</sub> ≈ 1/g<sub>m</sub> 量级</li>
+    <li>能用"跨导透镜"说清：BJT 增益大（g<sub>m</sub> ≈ I<sub>CQ</sub>/26mV）、FET 阻抗大（栅极绝缘），运放分工由此而来</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课预告 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 跟随课内解锁</div>
+  <div class="title">第 4 课《多级放大与差分电路》—— 课内讲到多级放大时上线，级联计算 + 差分放大 + 共模抑制</div>
+</a>
+
+<div class="pager">
+  <a href="02_三极管与放大电路基础.html">
+    <div class="dir">← 上一课 · 已上线</div>
+    <div class="title">第 2 课 三极管与放大电路基础</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">返回目录</div>
+    <div class="title">模电 · 跟课链</div>
+  </a>
+</div>
+
+<footer>
+  模电 · 跟课链 · 第 3 课 场效应管与FET放大电路 ｜ <a href="index.html">返回模电目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">做完记得把限时训练成绩告诉我（如 9/10），我打卡更新进度</span>
+</footer>
+
+</div>
+</body>
+</html>
