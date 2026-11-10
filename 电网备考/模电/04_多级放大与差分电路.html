@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模电跟课链 · 第4课 — 多级放大与差分电路</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 36px 22px 60px; }
+
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 30px 28px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 24px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.back { display: inline-block; margin-bottom: 14px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--blue); }
+
+section.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 18px;
+}
+section.card > h2 {
+  font-size: 19px; margin: 0 0 4px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.card > h2 .secno {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  font-size: 13px; padding: 2px 10px; letter-spacing: 1px; flex: 0 0 auto;
+}
+section.card > .lead { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 16px; }
+
+h3.block { font-size: 15.5px; margin: 22px 0 8px; color: var(--ink); }
+p { font-size: 14px; margin: 0 0 10px; }
+
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+.know b { color: var(--blue-deep); }
+.know .kt { font-size: 12px; letter-spacing: 2px; color: var(--blue); font-weight: 700; display: block; margin-bottom: 4px; }
+
+table.cmp { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+table.cmp th { background: var(--blue-soft); color: var(--blue-deep); padding: 8px 10px; border: 1px solid var(--blue-border); text-align: left; }
+table.cmp td { padding: 8px 10px; border: 1px solid var(--line); vertical-align: top; }
+table.cmp td:first-child { font-weight: 600; white-space: nowrap; }
+
+.formula {
+  background: #f4f6ff;
+  border: 1px solid #d9defc;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-size: 14.5px;
+  font-family: "Cambria Math", "Times New Roman", serif;
+}
+.formula .cond { display: block; font-size: 12px; color: var(--ink-faint); font-family: inherit; margin-top: 4px; }
+
+.warn {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+.warn b { color: var(--gold); }
+
+/* ===== 题目卡片 ===== */
+.q {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 22px 14px;
+  margin: 14px 0;
+  background: #fff;
+}
+.q .qhead { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.q .qno {
+  background: var(--blue); color: #fff; border-radius: 7px;
+  font-size: 12.5px; font-weight: 700; padding: 2px 11px; letter-spacing: 1px; flex: 0 0 auto;
+}
+.q .stars { color: var(--gold); font-size: 12px; letter-spacing: 2px; }
+.q .qtype { font-size: 12px; color: var(--ink-faint); margin-left: auto; }
+.q .qbody { font-size: 14px; margin: 0 0 4px; }
+.q .qbody .circuit { font-family: "Cambria Math", "Times New Roman", serif; background: #f7f8fb; border: 1px dashed var(--line); border-radius: 8px; padding: 8px 14px; margin: 8px 0; font-size: 13.5px; }
+
+details.sol { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 10px; }
+details.sol summary {
+  cursor: pointer; font-size: 13px; font-weight: 700; color: var(--accent);
+  user-select: none; list-style: none;
+}
+details.sol summary::before { content: "▸ "; }
+details.sol[open] summary::before { content: "▾ "; }
+details.sol .step { font-size: 13.5px; margin: 8px 0; }
+details.sol .ans {
+  background: var(--green-soft); border: 1px solid var(--green-border); color: var(--green);
+  border-radius: 8px; padding: 6px 14px; font-size: 13.5px; font-weight: 700;
+  display: inline-block; margin: 8px 0 4px;
+}
+details.sol .note {
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 8px; padding: 8px 14px; font-size: 12.5px; margin-top: 8px;
+}
+details.sol .note b { color: var(--gold); }
+
+/* ===== 过关标准 / 自测 ===== */
+.check { list-style: none; padding: 0; margin: 10px 0 0; }
+.check li { padding: 6px 0 6px 30px; position: relative; font-size: 13.5px; border-bottom: 1px dashed var(--line); }
+.check li:last-child { border-bottom: none; }
+.check li::before { content: "☐"; position: absolute; left: 6px; color: var(--blue); font-size: 16px; }
+
+/* ===== 下一课卡片 ===== */
+a.next-card {
+  display: block; background: linear-gradient(135deg, #083d75 0%, #0b5aa8 60%, #1e90d6 100%);
+  color: #fff; border-radius: 14px; padding: 22px 26px;
+  text-decoration: none; margin: 22px 0 14px;
+}
+a.next-card .dir { font-size: 12px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+a.next-card .title { font-size: 16.5px; font-weight: 700; }
+a.next-card:hover { opacity: .94; }
+
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.pager a {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 18px; text-decoration: none; color: inherit;
+}
+.pager a:hover { border-color: var(--blue-border); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); margin-bottom: 2px; }
+.pager .title { font-size: 14px; font-weight: 600; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.card { padding: 20px 18px 16px; }
+  .pager { grid-template-columns: 1fr; }
+}
+@media print { body { background: #fff; } section.card { break-inside: avoid; } .q { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回模电跟课链目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">模电 · 跟课链 · 第 4 课 · 2026-11-10</p>
+  <h1>多级放大与差分电路</h1>
+  <p>从单级到系统的第一步：一级共射只有 −100 倍，电压表放大 1 μV 级信号要 10⁵ 倍——必须级联；级联引入耦合问题，直接耦合又带来零点漂移，差分电路用对称性给出漂亮答案。本课还是集成运放的"内部结构预演"：输入级差分 + 中间级共射 + 输出级跟随——第 5 课的"黑盒子"在这里拆开看。</p>
+  <div class="meta">
+    <span class="chip">16 题 · 6 例题精讲 + 10 限时训练</span>
+    <span class="chip">限时训练建议 45 分钟</span>
+    <span class="chip">期末 85+ · 运放内部结构</span>
+  </div>
+</div>
+
+<!-- ================= 一、本课定位 ================= -->
+<section class="card">
+  <h2><span class="secno">壹</span>本课定位：为什么要"多级"，为什么要"差分"</h2>
+  <p class="lead">两个工程问题引出全章：增益不够 → 级联；级联用直接耦合 → 温漂逐级放大 → 差分。</p>
+
+  <p>期末卷上的分量：差分放大是<b>高频大题</b>（差模增益 + 共模增益 + KCMR 三连问几乎每年一题），多级级联是<b>中频常规题</b>（总增益与 Ri/Ro），耦合方式与零漂是<b>概念选择 / 判断题</b>的常客。本章计算的"原料"全部来自第 2、3 课——Q 点估算、微变等效、r<sub>be</sub>、g<sub>m</sub>，没有新公式负担，只有<b>新组装规则</b>和<b>新概念（差模 / 共模、KCMR）</b>。</p>
+
+  <p>学法上，本课有一条主线贯穿：<b>"对称性是一种免费的精度"</b>——差分电路不加任何元件，靠两边对称就把共模干扰 / 温漂抵消掉；这条思路在数字电路（差分信号线）、电力系统（差动保护！继保科的原理同名远亲）里反复出现。对电力电子的接口意义：直接耦合 + 差分 + 恒流源，这三件套就是集成运放内部的"前三排"，第 5 课运放所有"虚短虚断"的魔法，都建立在本课的差分输入级上。</p>
+</section>
+
+<!-- ================= 二、多级放大 ================= -->
+<section class="card">
+  <h2><span class="secno">贰</span>多级放大：耦合方式与级联计算</h2>
+  <p class="lead">两个考点：① 三种耦合方式选谁（概念题）；② 级联计算三规则（计算题）。</p>
+
+  <h3 class="block">三种耦合方式对比</h3>
+  <table class="cmp">
+    <tr><th>方式</th><th>原理</th><th>能放大直流？</th><th>Q 点</th><th>主要缺点</th></tr>
+    <tr><td>阻容耦合</td><td>大电容隔直通交</td><td><b>不能</b>（电容隔断直流）</td><td><b>各级独立</b>，互不牵连</td><td>低频特性差；大电容难集成</td></tr>
+    <tr><td>直接耦合</td><td>前级输出直接接线到后级输入</td><td><b>能</b>（通直流，低频好）</td><td><b>各级牵连</b>，需电平配置</td><td><b>零点漂移</b>逐级放大</td></tr>
+    <tr><td>变压器耦合</td><td>磁耦合，可实现阻抗变换</td><td>不能</td><td>各级独立</td><td>笨重、频率特性差、难集成</td></tr>
+  </table>
+  <div class="warn"><b>零点漂移（零漂）——直接耦合的命门</b>：输入为零时输出电压缓慢随机变化的现象。根源是<b>温度变化 / 元件老化</b>导致静态工作点缓慢移动（第 2 课的温漂知识），直接耦合下这种缓慢变化会被后级<b>当成"信号"逐级放大</b>——第一级漂 1 mV，放大 10⁴ 倍后输出漂 10 V，真信号被淹没。阻容耦合不怕：电容把缓漂隔断在各级之内。<b>危害排序：第一级的零漂危害最大</b>（被放大次数最多）——这就是为什么抑制零漂要从严抓输入级，差分电路应运而生。</div>
+
+  <h3 class="block">级联计算三规则</h3>
+  <div class="formula">
+    规则一：A<sub>u总</sub> = A<sub>u1</sub> × A<sub>u2</sub> × … × A<sub>un</sub>（<b>注意：前级的增益必须按"带后级负载"算</b>）
+    <span class="cond">第 2 课例 6 的"带载折损"在每一级交界处发生：R<sub>L1</sub>′ = R<sub>C1</sub> // R<sub>i2</sub>，R<sub>i2</sub> 就是第一级的负载</span>
+  </div>
+  <div class="formula">
+    规则二：R<sub>i</sub> = 第一级的输入电阻　　规则三：R<sub>o</sub> = 最后一级的输出电阻
+    <span class="cond">"入口看第一级，出口看最后一级"——中间级只以"负载"和"放大器"两种身份出现</span>
+  </div>
+  <p>增益乘出来还要看<b>相位</b>：奇数个反相级（共射 / 共源）总增益为负（反相），偶数个为正（同相）——两级共射"负负得正"，这是级联题里最爱考的一步。多级增益常用分贝累加：20 lg|A<sub>u总</sub>| = Σ 20lg|A<sub>ui</sub>|，乘法变加法。</p>
+
+  <div class="know">
+    <span class="kt">组合套路——运放内部的"前三排"</span>
+    输入级用<b>差分</b>（抗共模、抗温漂、FET 版输入电阻 MΩ 级）→ 中间级用<b>共射</b>（高 g<sub>m</sub> 撑总增益，第 3 课"BJT 做增益"的分工）→ 输出级用<b>射随 / 源随</b>（低 R<sub>o</sub> 带负载）。第 5 课集成运放的"黑盒子"拆开就是这三排，本课先把它当多级放大器逐排理解。
+  </div>
+</section>
+
+<!-- ================= 三、差分放大 ================= -->
+<section class="card">
+  <h2><span class="secno">叁</span>差分放大：对称性抵消一切"两边相同"的干扰</h2>
+  <p class="lead">本章大题主角。三个新概念（差模 / 共模 / KCMR）+ 一张四种接法对照表，全部考点在内。</p>
+
+  <h3 class="block">差模与共模：任意输入的分解</h3>
+  <div class="formula">
+    差模分量：u<sub>d</sub> = u<sub>i1</sub> − u<sub>i2</sub>　　　共模分量：u<sub>c</sub> = ( u<sub>i1</sub> + u<sub>i2</sub> ) / 2
+    <span class="cond">u<sub>i1</sub> = u<sub>c</sub> + u<sub>d</sub>/2，u<sub>i2</sub> = u<sub>c</sub> − u<sub>d</sub>/2——任何一对输入都能唯一分解；输出 = A<sub>d</sub>·u<sub>d</sub> + A<sub>c</sub>·u<sub>c</sub></span>
+  </div>
+  <p>物理直觉：<b>差模 = 想要的信号</b>（两边一增一减，方向相反）；<b>共模 = 不想要的</b>（两边同涨同落）——温漂、电源纹波、工频干扰都是共模（它们同时、等量作用于两边）。差分的全部设计目标：<b>放大差模，绞杀共模</b>。</p>
+
+  <h3 class="block">长尾式差分电路（典型电路，大题原型）</h3>
+  <p>结构：两个对称的共射电路，发射极<b>连在一起</b>经长尾电阻 R<sub>E</sub> 接 −V<sub>EE</sub>，两个基极输入、两个集电极输出。Q 点由 −V<sub>EE</sub> + R<sub>E</sub> 钳定（对每管：I<sub>EQ</sub> ≈ V<sub>EE</sub>/2R<sub>E</sub>）。</p>
+  <div class="formula">
+    对差模：R<sub>E</sub> 上电流不变（一管增大多少另一管就减小多少）→ 发射极公共点<b>交流地</b> → R<sub>E</sub> 不出场
+    <span class="cond">差模增益走"纯共射"通道：双端输出 A<sub>d</sub> = −β·R<sub>C</sub> / ( r<sub>be</sub> + R<sub>b</sub> )，与单管共射同款公式（R<sub>E</sub> 消失）</span>
+  </div>
+  <div class="formula">
+    对共模：两边电流同涨同落，全部流过 R<sub>E</sub> → 每管等效"发射极串 2R<sub>E</sub> 的共射"（R<sub>E</sub> 上的压降翻倍计）
+    <span class="cond">双端输出：两边完全对称，u<sub>o1</sub> = u<sub>o2</sub> → <b>A<sub>c</sub> = 0</b>（理想对称时共模全抵消）；单端输出：A<sub>c</sub> = −β·R<sub>C</sub> / [ r<sub>be</sub> + 2(1+β)R<sub>E</sub> ]，靠 2(1+β)R<sub>E</sub> 这只大手把 A<sub>c</sub> 压到极小</span>
+  </div>
+
+  <h3 class="block">共模抑制比 KCMR 与四种接法</h3>
+  <div class="formula">
+    K<sub>CMR</sub> = | A<sub>d</sub> / A<sub>c</sub> |，常用分贝：K<sub>CMR</sub>(dB) = 20 lg K<sub>CMR</sub>
+    <span class="cond">衡量"放差模、杀共模"的综合本领，越大越好；集成运放 80–120 dB 起步</span>
+  </div>
+  <table class="cmp">
+    <tr><th>接法</th><th>差模增益 A<sub>d</sub></th><th>共模增益 A<sub>c</sub></th><th>K<sub>CMR</sub></th><th>特点 / 用途</th></tr>
+    <tr><td>双入双出</td><td>−βR<sub>C</sub>/(r<sub>be</sub>+R<sub>b</sub>)（= 单管共射）</td><td><b>= 0</b>（对称抵消）</td><td><b>→ ∞</b>（理想）</td><td>增益最大、抑制最强，集成运放输入级原型</td></tr>
+    <tr><td>双入单出</td><td>减半</td><td>≠ 0，靠 2(1+β)R<sub>E</sub> 压低</td><td>大（有限）</td><td>需一端接地时用；R<sub>E</sub> 越大越好 → 上恒流源</td></tr>
+    <tr><td>单入双出</td><td>同双入双出</td><td>= 0</td><td>→ ∞</td><td>单端信号也能差分放大（分解成差模+共模理解）</td></tr>
+    <tr><td>单入单出</td><td>减半</td><td>≠ 0</td><td>大</td><td>最"经济"，但牺牲一半增益与抑制</td></tr>
+  </table>
+  <div class="warn"><b>恒流源差分——KCMR 的终极形态</b>：单出时 K<sub>CMR</sub> ∝ R<sub>E</sub>，但 R<sub>E</sub> 调大受 Q 点限制（R<sub>E</sub> 太大 → I<sub>EQ</sub> 被压小 → 管 β 还没干活就饿死）。解法：用<b>恒流源替代 R<sub>E</sub></b>——恒流源直流压降不大（Q 点保住）、交流电阻极大（A<sub>c</sub> 压到近零），"直流当小电阻、交流当大电阻"两头通吃。镜像电流源是其中最常用的一种（两只匹配 BJT，I<sub>C2</sub> ≈ I<sub>REF</sub>，还顺带当有源负载把增益再抬一个量级）。期末考"如何提高 K<sub>CMR</sub>"，标准答案就是这句。</div>
+
+  <div class="know">
+    <span class="kt">概念一次看清——发射极公共点的三种身份</span>
+    ① 差模输入时是<b>虚地</b>（一增一减电流抵消，R<sub>E</sub> 上无变化）；② 共模输入时是"深负反馈点"（同涨同落全过 R<sub>E</sub>，反馈电阻等效 2R<sub>E</sub>）；③ 求静态工作点时是"分流基准"（总电流 V<sub>EE</sub>/R<sub>E</sub> 对半分）。同一个节点，三种身份对应三类题——先问自己在算什么，再决定 R<sub>E</sub> 怎么出场。
+  </div>
+</section>
+
+<!-- ================= 四、例题精讲 ================= -->
+<section class="card">
+  <h2><span class="secno">肆</span>例题精讲 × 6</h2>
+  <p class="lead">每题先自己 3 分钟，再看解法。例 2 的两级参数会在练 2、练 3 复用，例 4 的差分参数会在例 5、例 6 连用——两套电路吃透两套流程。</p>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 1</span><span class="stars">★</span><span class="qtype">耦合方式选择</span></div>
+    <p class="qbody">三个放大任务，各选最合适的耦合方式并说一句理由：① 放大热电偶输出的缓变直流（mV 级，频率近零）；② 音频功放前级（20 Hz – 20 kHz，各级 Q 点需独立调整）；③ 集成电路内部的级间耦合。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step">① <b>必须直接耦合</b>——直流 / 缓变信号过不了电容，阻容耦合直接把信号隔死；代价是必须处理零漂（信号本来就小，温漂淹没风险最高，所以热电偶仪表放大器输入级必是差分）。</div>
+      <div class="step">② <b>阻容耦合</b>——音频不含直流成分，电容隔直让各级 Q 点完全独立、设计互不干扰；低频端电容取大即可（下限频率 = 1/2πRC）。</div>
+      <div class="step">③ <b>直接耦合</b>——芯片里造不出 μF 级大电容（硅片面积），也造不出变压器；集成电路天然全直接耦合，所以<b>零漂问题必须由差分输入级解决</b>——这就是运放输入级的由来。</div>
+      <div class="ans">① 直接耦合　② 阻容耦合　③ 直接耦合</div>
+      <div class="note"><b>点评</b>：这道概念题背后是三条因果链——直流信号 → 必须直接耦合 → 必有零漂 → 必上差分。期末判断题常把它拆开来考（"阻容耦合能放大直流"“变压器耦合便于集成"都是×），把因果链背顺，怎么拆都不慌。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 2</span><span class="stars">★★</span><span class="qtype">两级级联 · 总增益与阻抗</span></div>
+    <p class="qbody">两级共射阻容耦合放大器：第一级 β₁ = 50，r<sub>be1</sub> = 1 kΩ，R<sub>C1</sub> = 3 kΩ，偏置网络 R<sub>B1</sub> = 20 kΩ；第二级 β₂ = 50，r<sub>be2</sub> = 1 kΩ，R<sub>C2</sub> = 2 kΩ，偏置网络 R<sub>B2</sub> = 20 kΩ。空载。求各级电压增益、总增益（含相位判断）、R<sub>i</sub>、R<sub>o</sub>。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>第二级先算（空载）</b>：A<sub>u2</sub> = −β₂R<sub>C2</sub>/r<sub>be2</sub> = −50×2 = <b>−100</b>。</div>
+      <div class="step"><b>第二级的输入电阻 = 第一级的负载</b>：R<sub>i2</sub> = R<sub>B2</sub>//r<sub>be2</sub> = 20k//1k ≈ 0.95 kΩ → R<sub>L1</sub>′ = R<sub>C1</sub>//R<sub>i2</sub> = 3k//0.95k ≈ 0.72 kΩ。</div>
+      <div class="step"><b>第一级带载增益</b>：A<sub>u1</sub> = −β₁R<sub>L1</sub>′/r<sub>be1</sub> = −50×0.72 = <b>−36</b>（空载本有 −150，被第二级吃掉一大半——"带载折损"在级间交界处发生）。</div>
+      <div class="step"><b>总增益</b>：A<sub>u</sub> = (−36)×(−100) = <b>+3600</b>——两级共射<b>负负得正，输出与输入同相</b>。</div>
+      <div class="step"><b>R<sub>i</sub> = 第一级输入电阻</b>：R<sub>B1</sub>//r<sub>be1</sub> = 20k//1k ≈ <b>0.95 kΩ</b>；<b>R<sub>o</sub> = 末级输出电阻</b>：R<sub>C2</sub> = <b>2 kΩ</b>。</div>
+      <div class="ans">A<sub>u1</sub> = −36（带载），A<sub>u2</sub> = −100，A<sub>u总</sub> = +3600（同相）；R<sub>i</sub> ≈ 0.95 kΩ，R<sub>o</sub> = 2 kΩ</div>
+      <div class="note"><b>点评</b>：级联计算的标准顺序是"<b>从后往前</b>"——先算末级（它没有后级负载，最自由），它的 R<sub>i</sub> 作为前级负载往前推。若第一级先按空载算成 −150 再乘，本题直接错一倍以上。本例参数在练 2、练 3 复用，把"从后往前"固化成动作。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 3</span><span class="stars">★★</span><span class="qtype">直接耦合 · Q 点牵连</span></div>
+    <p class="qbody">直接耦合两级放大器：第一级 NPN 共射（V<sub>CC</sub> = 12 V，R<sub>C1</sub> = 5.1 kΩ，I<sub>CQ1</sub> = 1 mA），集电极直接接第二级 NPN 管基极；第二级发射极串 R<sub>E2</sub> = 2 kΩ 后接地。求：① V<sub>B2</sub> = V<sub>C1</sub>；② I<sub>EQ2</sub>；③ 若第二级发射极直接接地（R<sub>E2</sub> = 0），会发生什么？</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step">① V<sub>C1</sub> = V<sub>CC</sub> − I<sub>CQ1</sub>·R<sub>C1</sub> = 12 − 1×5.1 = <b>6.9 V</b>。</div>
+      <div class="step">② V<sub>B2</sub> = 6.9 V → V<sub>E2</sub> = 6.9 − 0.7 = 6.2 V → I<sub>EQ2</sub> = 6.2/2k = <b>3.1 mA</b>（Q 点由两级共同确定——牵连）。</div>
+      <div class="step">③ R<sub>E2</sub> = 0 时 V<sub>E2</sub> = 0 → V<sub>B2</sub> 被钳在 0.7 V → <b>第一级的 U<sub>CEQ1</sub> 被压到 0.7 V</b>（临近饱和），同时第二级基极电流剧烈增大（6.2 V 全部砸在 be 结上）——两级都无法正常工作。</div>
+      <div class="ans">V<sub>B2</sub> = 6.9 V；I<sub>EQ2</sub> = 3.1 mA；R<sub>E2</sub> = 0 时第一级被拖入饱和，电路失效</div>
+      <div class="note"><b>点评</b>：直接耦合"各级 Q 点牵连"就考这一手——R<sub>E2</sub> 在这里的职能是<b>电平配置</b>（抬高第二级发射极电位，给第一级留出 U<sub>CE</sub> 空间）。对照阻容耦合各级 Q 完全独立：这是两种耦合在计算题里的分水岭。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 4</span><span class="stars">★★</span><span class="qtype">差分双入双出 · 差模参数</span></div>
+    <p class="qbody">长尾式差分放大电路：V<sub>CC</sub> = 12 V，−V<sub>EE</sub> = −12 V，R<sub>C</sub> = 10 kΩ，R<sub>E</sub> = 10 kΩ（长尾），两管 β = 100，r<sub>be</sub> = 2 kΩ（Q 点已求得：每管 I<sub>CQ</sub> ≈ 0.55 mA）。基极回路电阻忽略。求双端输出的差模增益 A<sub>d</sub>、差模输入电阻 R<sub>id</sub>、输出电阻 R<sub>o</sub>，并写出共模增益 A<sub>c</sub>。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>差模半电路</b>：发射极公共点对差模是虚地，R<sub>E</sub> 不出场 → 每边就是一个纯共射。</div>
+      <div class="step">A<sub>d</sub> = −β·R<sub>C</sub>/r<sub>be</sub> = −100×10k/2k = <b>−500</b>。</div>
+      <div class="step"><b>R<sub>id</sub></b>：从两输入端看进去是两个 r<sub>be</sub> 串联（中间虚地）→ R<sub>id</sub> = 2r<sub>be</sub> = <b>4 kΩ</b>。</div>
+      <div class="step"><b>R<sub>o</sub></b>：双端输出从两个集电极看 → R<sub>o</sub> = 2R<sub>C</sub> = <b>20 kΩ</b>。</div>
+      <div class="step"><b>A<sub>c</sub></b>：双端输出 + 理想对称 → 两边输出相等相减 → <b>A<sub>c</sub> = 0</b>，共模全抵消。</div>
+      <div class="ans">A<sub>d</sub> = −500，R<sub>id</sub> = 4 kΩ，R<sub>o</sub> = 20 kΩ，A<sub>c</sub> = 0</div>
+      <div class="note"><b>点评</b>：差分大题的"半电路分析法"——差模走虚地半电路（共射公式直接用），共模走 2R<sub>E</sub> 半电路。R<sub>id</sub> = 2r<sub>be</sub>、R<sub>o</sub> = 2R<sub>C</sub> 这两个"×2"是双端专属，单端输出时不乘 2——高频扣分点。本例参数在例 5、例 6 连用。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 5</span><span class="stars">★★★</span><span class="qtype">单端输出 · 共模增益与 KCMR</span></div>
+    <p class="qbody">承例 4 电路改为单端输出（从 T₁ 集电极取输出）。求：① 单端输出的差模增益 A<sub>d</sub>；② 共模增益 A<sub>c</sub>；③ K<sub>CMR</sub>（倍数与 dB）；④ 若把 R<sub>E</sub> 换成恒流源（动态电阻 500 kΩ），A<sub>c</sub> 与 K<sub>CMR</sub> 变成多少？</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step">① 单端只取一边输出，差模增益<b>减半</b>：A<sub>d</sub> = −β·R<sub>C</sub>/2r<sub>be</sub> = <b>−250</b>。</div>
+      <div class="step">② 共模半电路：每管等效发射极串 2R<sub>E</sub> = 20 kΩ → A<sub>c</sub> = −β·R<sub>C</sub>/[r<sub>be</sub> + 2(1+β)R<sub>E</sub>] = −100×10/(2 + 2×101×10) k = −1000/2022 ≈ <b>−0.49</b>（近似 −R<sub>C</sub>/2R<sub>E</sub> = −0.5）。</div>
+      <div class="step">③ K<sub>CMR</sub> = |A<sub>d</sub>/A<sub>c</sub>| = 250/0.49 ≈ <b>505</b> ≈ 20lg505 ≈ <b>54 dB</b>。</div>
+      <div class="step">④ 恒流源后：A<sub>c</sub> ≈ −1000/(2 + 2×101×500) ≈ <b>−0.0099</b>；K<sub>CMR</sub> = 250/0.0099 ≈ 25000 ≈ <b>88 dB</b>——K<sub>CMR</sub> 抬了 34 dB，差模增益一分没动。</div>
+      <div class="ans">① A<sub>d</sub> = −250　② A<sub>c</sub> ≈ −0.49　③ K<sub>CMR</sub> ≈ 505（54 dB）　④ A<sub>c</sub> ≈ −0.0099，K<sub>CMR</sub> ≈ 88 dB</div>
+      <div class="note"><b>点评</b>：③④ 两问就是"如何提高 K<sub>CMR</sub>"的定量版——增大 R<sub>E</sub>（换恒流源）只压 A<sub>c</sub>，不动 A<sub>d</sub>，K<sub>CMR</sub> 纯赚。近似式 A<sub>c</sub> ≈ −R<sub>C</sub>/2R<sub>E</sub>（β 大时）可当速算验算用。注意单端输出的 R<sub>o</sub> = R<sub>C</sub>（不乘 2），且从 T₁ 输出为反相、从 T₂ 输出为同相——选择题常设"单出相位"坑。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 6</span><span class="stars">★★★</span><span class="qtype">任意信号分解 · 输出合成</span></div>
+    <p class="qbody">承例 4 / 例 5 的差分电路（双出：A<sub>d</sub> = −500，A<sub>c</sub> = 0；单出：A<sub>d</sub> = −250，A<sub>c</sub> = −0.49）。输入 u<sub>i1</sub> = 10 mV，u<sub>i2</sub> = 6 mV。求：① 差模、共模分量；② 双端输出 u<sub>o</sub>；③ 单端输出 u<sub>o1</sub>，并算出其中共模贡献占比。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step">① u<sub>d</sub> = 10 − 6 = <b>4 mV</b>；u<sub>c</sub> = (10+6)/2 = <b>8 mV</b>（验算：u<sub>i1</sub> = 8+2 = 10 ✓，u<sub>i2</sub> = 8−2 = 6 ✓）。</div>
+      <div class="step">② 双出：u<sub>o</sub> = A<sub>d</sub>·u<sub>d</sub> + A<sub>c</sub>·u<sub>c</sub> = −500×4m + 0×8m = <b>−2 V</b>（共模分量被对称性完全抹掉）。</div>
+      <div class="step">③ 单出：u<sub>o1</sub> = −250×4m + (−0.49)×8m = −1000m − 3.9m ≈ <b>−1.004 V</b>。</div>
+      <div class="step"><b>共模贡献占比</b>：|−3.9 mV| / |−1003.9 mV| ≈ <b>0.39%</b>——差模贡献是共模的约 255 倍（= K<sub>CMR</sub> 的物理含义本身）。</div>
+      <div class="ans">① u<sub>d</sub> = 4 mV，u<sub>c</sub> = 8 mV　② u<sub>o</sub> = −2 V　③ u<sub>o1</sub> ≈ −1.004 V（共模贡献仅 0.39%）</div>
+      <div class="note"><b>点评</b>：任意输入分解是差分章的"万能入口"——单端输入、比较输入、干扰叠加全都先分解再各走各的通道。K<sub>CMR</sub> 的物理含义就在③里现形：它就是输出端"差模贡献与共模贡献的倍数比"。期末大题常按"分解 → 双出/单出分别求 → 算占比"三步给分。</div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= 五、限时训练 ================= -->
+<section class="card">
+  <h2><span class="secno">伍</span>限时训练 × 10</h2>
+  <p class="lead">整段计时 45 分钟，不看书不翻笔记。做完再对答案，每题都有错因对照。</p>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 1</span><span class="stars">★</span><span class="qtype">耦合概念速判</span></div>
+    <p class="qbody">判断并说理：① 阻容耦合放大器不能放大直流信号；② 直接耦合各级静态工作点相互独立；③ 变压器耦合便于集成；④ 阻容耦合放大器的零点漂移会被逐级放大。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① <b>对</b>——电容隔直，直流 / 缓变信号过不去（低频端增益按 1/ωC 衰减）。</div>
+      <div class="step">② <b>错</b>——恰恰相反，直接耦合各级 Q 点<b>相互牵连</b>（例 3），需要电平配置；相互独立是阻容耦合的性质。</div>
+      <div class="step">③ <b>错</b>——变压器体积大、无法集成，集成电路里只能直接耦合。</div>
+      <div class="step">④ <b>错</b>——零漂是缓变直流量，电容把它隔断在各级之内，<b>不会</b>被逐级传递放大；逐级放大零漂的是直接耦合。</div>
+      <div class="ans">① 对　② 错　③ 错　④ 错</div>
+      <div class="note"><b>错因对照</b>：④ 是最高频错误——把"直接耦合的命门"错记到阻容耦合头上。记忆锚点：<b>谁通直流，谁传零漂</b>。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 2</span><span class="stars">★★</span><span class="qtype">承例 2 · 三级级联</span></div>
+    <p class="qbody">承例 2 的两级（A<sub>u1</sub> = −36 带载，A<sub>u2</sub> = −100）末端再加一级射极跟随器（A<sub>u3</sub> ≈ 0.99，其输入电阻作为第二级负载后 A<sub>u2</sub> 变为 −80）。求总增益与输出相位；若用 dB 表示，前两级共多少 dB？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">A<sub>u总</sub> = (−36)×(−80)×0.99 ≈ <b>+2851</b>（两反相级负负得正，射随同相 → 输出与输入<b>同相</b>）。</div>
+      <div class="step">前两级：20lg|36×80| = 20lg2880 ≈ 69.2 dB；含射随总增益 ≈ 20lg2851 ≈ <b>69.1 dB</b>。</div>
+      <div class="ans">A<sub>u总</sub> ≈ +2851（同相）；约 69 dB</div>
+      <div class="note"><b>错因对照</b>：坑在"其输入电阻作为第二级负载后 A<sub>u2</sub> 变为 −80"——加射随后第二级增益<b>变了</b>，必须用新值相乘；直接拿 −100 去乘（得 3564）就掉坑。加任何一级，前一级都要按带载重算——规则一的完整含义。射随增益 ≈ 1 却"白拿"阻抗变换，这就是它当输出级的价值。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 3</span><span class="stars">★★</span><span class="qtype">承例 2 · 阻抗归属</span></div>
+    <p class="qbody">承例 2 电路（R<sub>i</sub> ≈ 0.95 kΩ，R<sub>o</sub> = 2 kΩ）。若把第一级换成 FET 共源（R<sub>i</sub> = 1 MΩ，A<sub>u</sub> = −8，其余不变）：① 新的 R<sub>i</sub>？② 总增益约多少（第二级作为其空载负载已算得增益 −100）？③ 这印证了第 3 课练 9 的哪条结论？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① R<sub>i</sub> = 第一级的输入电阻 = <b>1 MΩ</b>（末级不变，R<sub>o</sub> 仍为 2 kΩ）。</div>
+      <div class="step">② A<sub>u</sub> = (−8)×(−100) = <b>+800</b>——FET 级自身增益小，但它输入阻抗高、且几乎不消耗前级（这里无前级）/自身带载能力强弱由 R<sub>D</sub> 定；组合增益仍可观。</div>
+      <div class="step">③ 印证"<b>FET 做接口、BJT 做增益</b>"——第一级 FET 提供高输入阻抗扛高内阻信号源，第二级 BJT 共射提供大增益。这正是运放输入级 FET 差分 + 中间级 BJT 共射的微缩版。</div>
+      <div class="ans">① R<sub>i</sub> = 1 MΩ　② A<sub>u</sub> ≈ +800（同相）　③ FET 做接口、BJT 做增益</div>
+      <div class="note"><b>错因对照</b>：常见错误是把 R<sub>i</sub> 答成"两级输入电阻的乘积/并联"——多级 R<sub>i</sub> 只由<b>第一级</b>决定，后级输入电阻只以"负载"身份影响前级增益，不改变系统入口。同理 R<sub>o</sub> 只由末级决定。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 4</span><span class="stars">★★</span><span class="qtype">信号分解速算</span></div>
+    <p class="qbody">分解以下输入为差模 + 共模：① u<sub>i1</sub> = 15 mV，u<sub>i2</sub> = 5 mV；② u<sub>i1</sub> = 8 mV，u<sub>i2</sub> = 0（单端输入）；③ u<sub>i1</sub> = u<sub>i2</sub> = 10 mV（纯共模）。并说明 ② 证明了差分电路的什么能力。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① u<sub>d</sub> = 10 mV，u<sub>c</sub> = 10 mV。</div>
+      <div class="step">② u<sub>d</sub> = 8 mV，u<sub>c</sub> = 4 mV——单端输入 = 一半差模 + 一半共模，差分照常放大（单入双出增益与双入相同）。</div>
+      <div class="step">③ u<sub>d</sub> = 0，u<sub>c</sub> = 10 mV——纯共模，理想双出输出为零，单出只剩极小的 A<sub>c</sub>·u<sub>c</sub>。</div>
+      <div class="step">② 证明差分<b>不要求两路平衡输入</b>：任何单端信号自动分解出差模分量被放大——这就是"单入双出"接法能用的原因，也是差分接口灵活性的来源。</div>
+      <div class="ans">① u<sub>d</sub> = 10 mV，u<sub>c</sub> = 10 mV　② u<sub>d</sub> = 8 mV，u<sub>c</sub> = 4 mV　③ u<sub>d</sub> = 0，u<sub>c</sub> = 10 mV</div>
+      <div class="note"><b>错因对照</b>：② 最常见错误是认为"单端输入没有差模"——差模定义是 u<sub>i1</sub> − u<sub>i2</sub>，与是否双端驱动无关。验算习惯：分解后必须能还原（u<sub>c</sub> + u<sub>d</sub>/2 = u<sub>i1</sub>）。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 5</span><span class="stars">★★</span><span class="qtype">虚地概念 · 差模通道</span></div>
+    <p class="qbody">长尾式差分（R<sub>E</sub> = 10 kΩ）输入差模信号时，发射极公共点的电压变化量是多少？为什么？由此说明 R<sub>E</sub> 对差模增益的影响。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">公共点电压<b>不变（Δu<sub>E</sub> = 0，虚地）</b>：差模下一管 i<sub>E</sub> 增大 Δi、另一管减小 Δi，流过 R<sub>E</sub> 的总电流恒定 → R<sub>E</sub> 上压降不变。</div>
+      <div class="step">因此 R<sub>E</sub> 对差模信号<b>完全不产生反馈、不出现在差模增益公式里</b>——差模增益就是纯共射的 −βR<sub>C</sub>/r<sub>be</sub>。</div>
+      <div class="step">对照：共模时两管电流同向，R<sub>E</sub> 上变化 2Δi，等效每管串 2R<sub>E</sub>——同一个电阻对差模隐身、对共模翻倍，这就是差分"放差模杀共模"的机制核心。</div>
+      <div class="ans">Δu<sub>E</sub> = 0（虚地）；R<sub>E</sub> 不影响差模增益，只压制共模</div>
+      <div class="note"><b>错因对照</b>：把 R<sub>E</sub>（或 2R<sub>E</sub>）写进差模增益公式是本章计算第一大错——差模半电路里 R<sub>E</sub> 必须消失。反过来，共模公式忘乘 2 是第二大错。判定动作：先问"差模还是共模"，再画半电路。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 6</span><span class="stars">★★</span><span class="qtype">单出 vs 双出对比</span></div>
+    <p class="qbody">同一长尾差分（β = 100，r<sub>be</sub> = 2 kΩ，R<sub>C</sub> = 10 kΩ，R<sub>E</sub> = 10 kΩ）。分别求双出与单出（T₁ 侧）的 A<sub>d</sub>、A<sub>c</sub>、K<sub>CMR</sub>，并说明各自输出相位。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step"><b>双出</b>：A<sub>d</sub> = −100×10/2 = −500（u<sub>i1</sub> 正半周时 u<sub>o</sub> 反相）；A<sub>c</sub> = 0；K<sub>CMR</sub> → ∞。</div>
+      <div class="step"><b>单出</b>：A<sub>d</sub> = −250（差模增益减半，T₁ 侧反相）；A<sub>c</sub> ≈ −0.49；K<sub>CMR</sub> ≈ 505（54 dB）。</div>
+      <div class="step">相位：双出以 u<sub>i1</sub>−u<sub>i2</sub> 为参考反相；单出从 T₁ 取反相、从 T₂ 取同相（增益绝对值同 250）——"换个集电极取输出，相位翻 180°"，差分自带反相/同相两个输出端。</div>
+      <div class="ans">双出：−500 / 0 / ∞；单出：−250 / −0.49 / 505（T₁ 反相，T₂ 同相）</div>
+      <div class="note"><b>错因对照</b>：① 单出差模增益忘除 2；② 以为单出 K<sub>CMR</sub> 也是 ∞（只有理想对称双出才是）；③ 相位只记"反相"不问从哪边取。三个坑都在"双出→单出"的转换动作里，转换口诀：<b>增益减半、共模现身、相位看边</b>。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 7</span><span class="stars">★★★</span><span class="qtype">KCMR 物理含义</span></div>
+    <p class="qbody">某差分放大器 A<sub>d</sub> = 1000，K<sub>CMR</sub> = 80 dB。① 求 A<sub>c</sub>；② 输入含差模 1 mV + 共模 100 mV（强干扰环境），求输出中信号与干扰各占多少；③ 由此说明 K<sub>CMR</sub> 的工程意义。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① 80 dB → K<sub>CMR</sub> = 10^(80/20) = 10⁴ → A<sub>c</sub> = 1000/10⁴ = <b>0.1</b>。</div>
+      <div class="step">② 信号输出 = 1000×1m = <b>1 V</b>；干扰输出 = 0.1×100m = <b>10 mV</b>——干扰虽强 100 倍，输出端只占 1%。</div>
+      <div class="step">③ 工程意义：K<sub>CMR</sub> 就是"信噪比改善倍数"——它把"输入端干扰/信号比"压缩 10⁴ 倍再输出。工业现场共模干扰（工频耦合、地电位差）往往比信号大几个量级，没有高 K<sub>CMR</sub> 信号直接被淹没；这就是仪表放大器、运放输入级死磕 K<sub>CMR</sub> 的原因。</div>
+      <div class="ans">① A<sub>c</sub> = 0.1　② 信号 1 V，干扰仅 10 mV（1%）　③ K<sub>CMR</sub> = 信噪比改善倍数</div>
+      <div class="note"><b>错因对照</b>：dB 换算错（80 dB 误当 80 倍）会让全题崩盘——电压比 dB = 20lg，10⁴ 才是 80 dB。② 的算式顺序也常反：是先分别放大再比，不是先算输入端比值（100:1）——输出端比值 = 输入端比值 ÷ K<sub>CMR</sub>，方向别除反。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 8</span><span class="stars">★★</span><span class="qtype">恒流源差分 · 概念论证</span></div>
+    <p class="qbody">长尾差分把 R<sub>E</sub> 换成恒流源 I₀ = 1.1 mA（动态电阻 r<sub>o</sub> = 500 kΩ）。说明：① 为什么 Q 点不受影响甚至更稳？② 为什么差模增益不受影响？③ 为什么 K<sub>CMR</sub> 大幅提高？④ 镜像电流源"两只管子电流相等"靠什么实现？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① 恒流源给每管提供恒定 I<sub>EQ</sub> = I₀/2 = 0.55 mA，且恒流源的<b>直流压降可在合理范围设置</b>（不像大 R<sub>E</sub> 会吃掉全部负电源）；电流恒定 → Q 点"钉死"，温漂、电源波动都推不动。</div>
+      <div class="step">② 差模下公共点仍是虚地（两管电流一增一减、总和 = I₀ 恒定）→ 恒流源对差模隐身，A<sub>d</sub> = −βR<sub>C</sub>/r<sub>be</sub> 不变。</div>
+      <div class="step">③ 共模下等效发射极电阻 = 2r<sub>o</sub> = 1 MΩ ≫ 2R<sub>E</sub> = 20 kΩ → A<sub>c</sub> 被压低约 50 倍，K<sub>CMR</sub> 抬高同样倍数（例 5 ④ 已算：54 dB → 88 dB）。</div>
+      <div class="step">④ 镜像电流源靠<b>两只管子的制造对称性 + V<sub>BE</sub> 相等</b>：参考管把 V<sub>BE</sub> "复制"给输出管，同工艺同参数 → I<sub>C</sub> 相等——集成电路里相邻管子天然匹配，这正是"对称性是免费的精度"的又一次兑现。</div>
+      <div class="ans">① 电流恒定钉死 Q 点　② 差模下公共点虚地，恒流源隐身　③ 共模等效 2r<sub>o</sub> 巨大，压低 A<sub>c</sub>　④ V<sub>BE</sub> 复制 + 制造对称</div>
+      <div class="note"><b>错因对照</b>："提高 K<sub>CMR</sub> 为什么不直接加大 R<sub>E</sub>"——答"也可以"只对一半：R<sub>E</sub> 大到一定程度负电源电压不够维持 Q 点电流（−V<sub>EE</sub> ≈ 2I<sub>EQ</sub>R<sub>E</sub>）；恒流源才是"交流大电阻 + 直流小压降"的两全解。判断题在此设坑。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 9</span><span class="stars">★★</span><span class="qtype">差分 Q 点估算</span></div>
+    <p class="qbody">长尾差分：V<sub>CC</sub> = 12 V，−V<sub>EE</sub> = −12 V，R<sub>E</sub> = 11 kΩ，R<sub>C</sub> = 10 kΩ，两管对称。估算：① 每管 I<sub>CQ</sub>；② 每管 U<sub>CEQ</sub>（提示：U<sub>E</sub> ≈ −0.7 V）。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① 流过 R<sub>E</sub> 的总电流 I<sub>RE</sub> ≈ [V<sub>E</sub> − (−V<sub>EE</sub>)]/R<sub>E</sub> = (−0.7 + 12)/11k ≈ 1.03 mA → 每管 I<sub>EQ</sub> = I<sub>CQ</sub> ≈ <b>0.52 mA</b>。</div>
+      <div class="step">② V<sub>C</sub> = 12 − 0.52×10 = 6.8 V；U<sub>CEQ</sub> = V<sub>C</sub> − V<sub>E</sub> = 6.8 − (−0.7) = <b>7.5 V</b>（Q 点居中偏上，健康）。</div>
+      <div class="step"><b>速算锚点</b>：发射极电位被 be 结钳在 ≈ −0.7 V（两基极近似接地时），所以长尾电流基本只由 V<sub>EE</sub> 和 R<sub>E</sub> 决定，与管子参数几乎无关——这正是差分 Q 点稳的第一层原因。</div>
+      <div class="ans">I<sub>CQ</sub> ≈ 0.52 mA，U<sub>CEQ</sub> ≈ 7.5 V</div>
+      <div class="note"><b>错因对照</b>：① 忘除 2（把总电流当单管电流）是最常见错；② 求 U<sub>CEQ</sub> 时把 V<sub>E</sub> 当 0 V（漏 −0.7）或忘减负电源。注意这套估算法则与第 2 课"分压偏置四步"不同源：差分 Q 点走"V<sub>EE</sub>–R<sub>E</sub> 钳流"路线，别把发射极接地共射的套路硬搬过来。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 10</span><span class="stars">★★★</span><span class="qtype">运放内部结构 · 跨章压轴</span></div>
+    <p class="qbody">用本章知识"拼"出集成运放的内部结构并回答：① 输入级为什么用差分而不直接用单管共射？② 输入级为什么常用 FET 差分（连接第 3 课）？③ 中间级为什么用 BJT 共射（连接第 3 课练 10）？④ 输出级为什么用射随？⑤ 运放"两个输入端"对应差分的什么？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① 直接耦合的运放全电路无电容隔直，单管共射的零漂会被后级放大 10⁵ 倍级淹没信号；<b>差分靠对称性把共模（温漂）抵消</b>——双出 A<sub>c</sub> = 0，这是"能做直流放大"的前提。</div>
+      <div class="step">② FET 差分输入电阻 MΩ~GΩ 级、几乎零偏置电流——信号源内阻再高也不衰减；BJT 差分 r<sub>be</sub> 只有 kΩ 级且要基极电流（第 3 课 Ri 对照：10.3 MΩ vs 0.79 kΩ）。</div>
+      <div class="step">③ 中间级要总增益（运放开环增益 10⁵ 起步）：BJT 的 g<sub>m</sub> = I<sub>CQ</sub>/26mV 约 88 mS，FET 只有几 mS（第 3 课练 10 的 22 倍差距）——<b>BJT 做增益引擎</b>，再配镜像电流源当有源负载把增益再抬一个量级。</div>
+      <div class="step">④ 输出级要带负载：射随 R<sub>o</sub> 小（十几 Ω）、电流驱动能力强——"增益换阻抗"（第 2 课例 5）。</div>
+      <div class="step">⑤ 运放的同相 / 反相输入端对应差分的两个基极：u<sub>+</sub> − u<sub>−</sub> 就是差模输入 u<sub>d</sub>——第 5 课"虚短"成立的前提（A<sub>od</sub> → ∞ 时 u<sub>d</sub> → 0），黑盒子里装的就是本课的差分。</div>
+      <div class="ans">① 抗零漂/共模　② 高输入阻抗　③ 高 g<sub>m</sub> 高增益　④ 低输出阻抗带负载　⑤ 同相/反相端 = 差分两基极，u<sub>d</sub> = u<sub>+</sub> − u<sub>−</sub></div>
+      <div class="note"><b>错因对照</b>：各问的"标准答案关键词"——① 差分抵消温漂（不是"增益大"）；② 阻抗（不是"噪声小"为主）；③ g<sub>m</sub>/增益（不是"速度快"）；④ 带负载。第 5 课学运放时若对"虚短虚断"感到突兀，回来重做本题——运放的全部"魔法"都是本课 + 第 2、3 课的物理组合。</div>
+    </details>
+  </div>
+
+  <h3 class="block">对答案与过关标准</h3>
+  <table class="cmp">
+    <tr><th>得分</th><th>判定</th><th>动作</th></tr>
+    <tr><td>≥ 9 / 10</td><td>过关</td><td>等课内讲到集成运放，跟课链解锁《集成运放与运算电路》</td></tr>
+    <tr><td>7 ~ 8</td><td>薄弱</td><td>重做错题 + 回本课对应小节（错因对照里已标注）</td></tr>
+    <tr><td>≤ 6</td><td>回炉</td><td>重学 §贰（耦合与级联）与 §叁（差分三概念），隔天重刷整套</td></tr>
+  </table>
+</section>
+
+<!-- ================= 六、自测清单 ================= -->
+<section class="card">
+  <h2><span class="secno">陆</span>过关自测清单</h2>
+  <ul class="check">
+    <li>三种耦合方式一句话对比：阻容（隔直、Q 独立）、直接（通直、Q 牵连、零漂）、变压器（阻抗变换、难集成）</li>
+    <li>零点漂移定义 + 因果链：温漂 → 直接耦合逐级放大 → 第一级危害最大 → 差分输入级解决</li>
+    <li>级联三规则：总增益连乘（前级按带后级负载算）、R<sub>i</sub> 看第一级、R<sub>o</sub> 看末级；计算顺序"从后往前"</li>
+    <li>两级共射负负得正（同相）；dB 累加：总 dB = 各级 dB 之和</li>
+    <li>任意输入分解：u<sub>d</sub> = u<sub>i1</sub> − u<sub>i2</sub>，u<sub>c</sub> = (u<sub>i1</sub> + u<sub>i2</sub>)/2，输出 = A<sub>d</sub>u<sub>d</sub> + A<sub>c</sub>u<sub>c</sub></li>
+    <li>发射极公共点三身份：差模虚地（R<sub>E</sub> 隐身）、共模 2R<sub>E</sub>（深负反馈）、静态钳流（V<sub>EE</sub>/R<sub>E</sub> 对半分）</li>
+    <li>双出 A<sub>d</sub> = −βR<sub>C</sub>/r<sub>be</sub>、A<sub>c</sub> = 0；单出增益减半、A<sub>c</sub> ≈ −R<sub>C</sub>/2R<sub>E</sub>；R<sub>id</sub> = 2r<sub>be</sub>（双出专属 ×2）</li>
+    <li>K<sub>CMR</sub> = |A<sub>d</sub>/A<sub>c</sub>|，dB = 20lg；物理含义 = 输出端信噪比改善倍数</li>
+    <li>提高 K<sub>CMR</sub> 标准答案：恒流源替代 R<sub>E</sub>（交流大电阻 + 直流小压降，差模增益不损失）</li>
+    <li>能复述运放"前三排"：FET 差分输入（抗漂移 + 高阻）→ BJT 共射中间级（高 g<sub>m</sub>）→ 射随输出（低 R<sub>o</sub>），u<sub>d</sub> = u<sub>+</sub> − u<sub>−</sub> 是虚短伏笔</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课预告 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 跟随课内解锁</div>
+  <div class="title">第 5 课《集成运放与运算电路》—— 课内讲到集成运放时上线，虚短虚断 + 比例加减积分微分 + 比较器</div>
+</a>
+
+<div class="pager">
+  <a href="03_场效应管与FET放大电路.html">
+    <div class="dir">← 上一课 · 已过关</div>
+    <div class="title">第 3 课 场效应管与FET放大电路</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">返回目录</div>
+    <div class="title">模电 · 跟课链</div>
+  </a>
+</div>
+
+<footer>
+  模电 · 跟课链 · 第 4 课 多级放大与差分电路 ｜ <a href="index.html">返回模电目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">做完记得把限时训练成绩告诉我（如 9/10），我打卡更新进度</span>
+</footer>
+
+</div>
+</body>
+</html>
