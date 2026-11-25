@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模电跟课链 · 第5课 — 集成运放与运算电路</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 36px 22px 60px; }
+
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 30px 28px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 24px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+.back { display: inline-block; margin-bottom: 14px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--blue); }
+
+section.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 18px;
+}
+section.card > h2 {
+  font-size: 19px; margin: 0 0 4px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.card > h2 .secno {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  font-size: 13px; padding: 2px 10px; letter-spacing: 1px; flex: 0 0 auto;
+}
+section.card > .lead { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 16px; }
+
+h3.block { font-size: 15.5px; margin: 22px 0 8px; color: var(--ink); }
+p { font-size: 14px; margin: 0 0 10px; }
+
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+.know b { color: var(--blue-deep); }
+.know .kt { font-size: 12px; letter-spacing: 2px; color: var(--blue); font-weight: 700; display: block; margin-bottom: 4px; }
+
+table.cmp { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+table.cmp th { background: var(--blue-soft); color: var(--blue-deep); padding: 8px 10px; border: 1px solid var(--blue-border); text-align: left; }
+table.cmp td { padding: 8px 10px; border: 1px solid var(--line); vertical-align: top; }
+table.cmp td:first-child { font-weight: 600; white-space: nowrap; }
+
+.formula {
+  background: #f4f6ff;
+  border: 1px solid #d9defc;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-size: 14.5px;
+  font-family: "Cambria Math", "Times New Roman", serif;
+}
+.formula .cond { display: block; font-size: 12px; color: var(--ink-faint); font-family: inherit; margin-top: 4px; }
+
+.warn {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+.warn b { color: var(--gold); }
+
+/* ===== 题目卡片 ===== */
+.q {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 22px 14px;
+  margin: 14px 0;
+  background: #fff;
+}
+.q .qhead { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.q .qno {
+  background: var(--blue); color: #fff; border-radius: 7px;
+  font-size: 12.5px; font-weight: 700; padding: 2px 11px; letter-spacing: 1px; flex: 0 0 auto;
+}
+.q .stars { color: var(--gold); font-size: 12px; letter-spacing: 2px; }
+.q .qtype { font-size: 12px; color: var(--ink-faint); margin-left: auto; }
+.q .qbody { font-size: 14px; margin: 0 0 4px; }
+.q .qbody .circuit { font-family: "Cambria Math", "Times New Roman", serif; background: #f7f8fb; border: 1px dashed var(--line); border-radius: 8px; padding: 8px 14px; margin: 8px 0; font-size: 13.5px; }
+
+details.sol { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 10px; }
+details.sol summary {
+  cursor: pointer; font-size: 13px; font-weight: 700; color: var(--accent);
+  user-select: none; list-style: none;
+}
+details.sol summary::before { content: "▸ "; }
+details.sol[open] summary::before { content: "▾ "; }
+details.sol .step { font-size: 13.5px; margin: 8px 0; }
+details.sol .ans {
+  background: var(--green-soft); border: 1px solid var(--green-border); color: var(--green);
+  border-radius: 8px; padding: 6px 14px; font-size: 13.5px; font-weight: 700;
+  display: inline-block; margin: 8px 0 4px;
+}
+details.sol .note {
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 8px; padding: 8px 14px; font-size: 12.5px; margin-top: 8px;
+}
+details.sol .note b { color: var(--gold); }
+
+/* ===== 过关标准 / 自测 ===== */
+.check { list-style: none; padding: 0; margin: 10px 0 0; }
+.check li { padding: 6px 0 6px 30px; position: relative; font-size: 13.5px; border-bottom: 1px dashed var(--line); }
+.check li:last-child { border-bottom: none; }
+.check li::before { content: "☐"; position: absolute; left: 6px; color: var(--blue); font-size: 16px; }
+
+/* ===== 下一课卡片 ===== */
+a.next-card {
+  display: block; background: linear-gradient(135deg, #083d75 0%, #0b5aa8 60%, #1e90d6 100%);
+  color: #fff; border-radius: 14px; padding: 22px 26px;
+  text-decoration: none; margin: 22px 0 14px;
+}
+a.next-card .dir { font-size: 12px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+a.next-card .title { font-size: 16.5px; font-weight: 700; }
+a.next-card:hover { opacity: .94; }
+
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.pager a {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 18px; text-decoration: none; color: inherit;
+}
+.pager a:hover { border-color: var(--blue-border); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); margin-bottom: 2px; }
+.pager .title { font-size: 14px; font-weight: 600; }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.card { padding: 20px 18px 16px; }
+  .pager { grid-template-columns: 1fr; }
+}
+@media print { body { background: #fff; } section.card { break-inside: avoid; } .q { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回模电跟课链目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">模电 · 跟课链 · 第 5 课 · 2026-11-25</p>
+  <h1>集成运放与运算电路</h1>
+  <p>黑盒子合盖课：第 4 课拆开的"前三排"（FET 差分输入 → BJT 共射中间级 → 射随输出）在本课合上盖子，只剩同相端、反相端、输出端和两条黄金法则——虚短、虚断。比例、加减、积分微分电路全靠这两板斧撑起期末"必拿分"大题；电压比较器则是运放的非线性另一半，考研与期末双高频出题区。</p>
+  <div class="meta">
+    <span class="chip">16 题 · 6 例题精讲 + 10 限时训练</span>
+    <span class="chip">限时训练建议 45 分钟</span>
+    <span class="chip">期末 85+ · 运算电路必拿分</span>
+  </div>
+</div>
+
+<!-- ================= 一、本课定位 ================= -->
+<section class="card">
+  <h2><span class="secno">壹</span>本课定位：合上黑盒子，两板斧走天下</h2>
+  <p class="lead">第 4 课练 10 拼出了运放的内部结构——本课把盒子合上，只谈端口特性。</p>
+
+  <p>期末卷上的分量：运算电路是<b>"必拿分"计算大题</b>（反相 / 同相比例、加减法几乎年年出现在综合题里），积分微分是<b>波形变换压轴小题</b>，比较器（单限 / 滞回）是<b>选择与分析题高频</b>。本章公式量极小，但<b>每一分都靠"虚短虚断"两条法则挣来</b>——法则用错一步，整题全错。</p>
+
+  <p>与前课的连接一图流：差分输入级（第 4 课）给了运放<b>极高的差模增益 A<sub>od</sub></b>（10⁵ 起步）和<b>极高的输入电阻</b>——正因为增益大到离谱，线性工作时两个输入端的压差才能被压到≈0，"虚短"不是新知识，是 A<sub>od</sub> → ∞ 的算术推论。而"虚地"就是虚短在"同相端接地"时的特例（u<sub>−</sub> ≈ u<sub>+</sub> = 0）。本课学法主线：<b>先立两板斧的成立条件（负反馈 → 线性区），再用节点方程把六类电路一次打通</b>——不背模板，模板自己长出来。</p>
+</section>
+
+<!-- ================= 二、理想运放与虚短虚断 ================= -->
+<section class="card">
+  <h2><span class="secno">贰</span>理想运放：虚短虚断的来源与边界</h2>
+  <p class="lead">两个考点：① 理想参数的推论（概念题）；② 虚短的成立条件（判断题最爱挖的坑）。</p>
+
+  <h3 class="block">理想运放参数与三条推论</h3>
+  <table class="cmp">
+    <tr><th>理想化条件</th><th>典型实际值</th><th>直接推论</th></tr>
+    <tr><td>A<sub>od</sub> → ∞（差模增益）</td><td>10⁵ ~ 10⁷</td><td>线性区 u<sub>+</sub> − u<sub>−</sub> → 0 → <b>虚短</b></td></tr>
+    <tr><td>r<sub>id</sub> → ∞（差模输入电阻）</td><td>MΩ ~ GΩ（FET 输入级）</td><td>输入电流 → 0 → <b>虚断</b></td></tr>
+    <tr><td>r<sub>o</sub> → 0（输出电阻）</td><td>几十 ~ 几百 Ω</td><td>输出电压<b>与负载无关</b>，带载不衰减（对比第 2 课分立电路的"带载折损"）</td></tr>
+    <tr><td>K<sub>CMR</sub> → ∞</td><td>80 ~ 120 dB</td><td>共模输入不产生输出（第 4 课差分给的底子）</td></tr>
+  </table>
+
+  <div class="formula">
+    虚短：u<sub>+</sub> ≈ u<sub>−</sub>　（线性区：u<sub>o</sub> = A<sub>od</sub>(u<sub>+</sub> − u<sub>−</sub>) 有限，A<sub>od</sub> → ∞ ⟹ u<sub>+</sub> − u<sub>−</sub> → 0）
+    <span class="cond">成立前提：运放工作在<b>线性区</b>——只有引入深度负反馈（输出经反馈网络接回反相端）才可能；"短"是电位近似相等，不是物理短接</span>
+  </div>
+  <div class="formula">
+    虚断：i<sub>+</sub> ≈ i<sub>−</sub> ≈ 0　（r<sub>id</sub> → ∞）
+    <span class="cond">由输入电阻极大直接推出，<b>线性区、饱和区都成立</b>——比较器里虚短失效，虚断照用</span>
+  </div>
+
+  <div class="warn"><b>两个工作区——判断题的第一坑</b>：运放输出不可能超过电源摆幅。① <b>线性区</b>：负反馈闭环，输出未饱和，虚短虚断都成立，u<sub>o</sub> 由外电路决定；② <b>饱和区</b>：开环或正反馈，u<sub>o</sub> = ±U<sub>om</sub>（正负电源摆幅），u<sub>+</sub> ≠ u<sub>−</sub>，<b>虚短不成立</b>（只剩虚断）。考试给一个电路问"能否用虚短"，判断动作就一条：<b>找反馈——负反馈接回反相端 → 线性区；开环 / 反馈接回同相端 → 比较器，无虚短</b>。</div>
+
+  <div class="know">
+    <span class="kt">两板斧使用手册——四步节点方程法</span>
+    ① 确认负反馈 → 线性区，虚短虚断生效；② 用虚短写出 u<sub>−</sub>（反相比例电路里同相端接地 → u<sub>−</sub> = 0，这就是<b>虚地</b>）；③ 在反相端列 KCL：所有流入节点的电流 = 流出（i<sub>−</sub> = 0，输入端不吃电流）；④ 代入欧姆定律解出 u<sub>o</sub>。六类运算电路全部走完这四步——<b>不背模板，模板自己长出来</b>；就算电路长得再怪（多输入、梯形网络），四步照走。
+  </div>
+
+  <div class="warn"><b>平衡电阻——概念题常客</b>：为消除输入偏置电流在<u>两个输入端外接电阻不对称</u>时产生的附加误差，工程上取<b>同相端对地电阻 = 反相端外接全部电阻的并联</b>（如反相比例：R₂ = R₁∥R<sub>f</sub>）。理想运放模型下它不影响 u<sub>o</sub>，考试只在概念题里考"为什么"。</div>
+</section>
+
+<!-- ================= 三、运算电路与比较器 ================= -->
+<section class="card">
+  <h2><span class="secno">叁</span>六类运算电路 + 电压比较器速查</h2>
+  <p class="lead">全部公式都能用贰的四步法现场推出——先看懂，再默写，最后到"扫一眼电路就出公式"。</p>
+
+  <table class="cmp">
+    <tr><th>电路</th><th>输出表达式</th><th>关键特征</th></tr>
+    <tr><td>反相比例</td><td>u<sub>o</sub> = −(R<sub>f</sub>/R₁)·u<sub>i</sub></td><td>u<sub>−</sub> 为<b>虚地</b>；R<sub>i</sub> = R₁（虚地锁定输入电阻）</td></tr>
+    <tr><td>同相比例</td><td>u<sub>o</sub> = (1 + R<sub>f</sub>/R₁)·u<sub>i</sub></td><td>无虚地（u<sub>−</sub> = u<sub>i</sub>）；R<sub>i</sub> → ∞；<b>有共模输入</b></td></tr>
+    <tr><td>电压跟随器</td><td>u<sub>o</sub> = u<sub>i</sub></td><td>同相比例的 R<sub>f</sub> → 0、R₁ → ∞ 特例；阻抗变换之王</td></tr>
+    <tr><td>反相加法</td><td>u<sub>o</sub> = −R<sub>f</sub>·(u<sub>i1</sub>/R₁ + u<sub>i2</sub>/R₂ + …)</td><td>虚地下各路电流叠加（KCL），加权系数 = R<sub>f</sub>/R<sub>ik</sub></td></tr>
+    <tr><td>减法器</td><td>u<sub>o</sub> = (R<sub>f</sub>/R₁)·(u<sub>i2</sub> − u<sub>i1</sub>)</td><td>条件 R₁/R<sub>f</sub> = R₂/R₃（匹配）；"运放版差分"——放大差、压共模</td></tr>
+    <tr><td>积分</td><td>u<sub>o</sub> = −(1/RC)∫u<sub>i</sub> dt</td><td>方波 → 三角波；初值由电容起始电压定</td></tr>
+    <tr><td>微分</td><td>u<sub>o</sub> = −RC·du<sub>i</sub>/dt</td><td>积分的 RC 互换；三角波 → 方波；放大噪声，实用需加小电阻限幅</td></tr>
+  </table>
+
+  <div class="formula">
+    反相比例：u<sub>o</sub> = −(R<sub>f</sub>/R₁)·u<sub>i</sub>，R<sub>i</sub> = R₁　｜　同相比例：u<sub>o</sub> = (1 + R<sub>f</sub>/R₁)·u<sub>i</sub>
+    <span class="cond">同相的"1 +"来自反馈分压点 u<sub>−</sub> = u<sub>o</sub>·R₁/(R₁+R<sub>f</sub>)；两式的平衡电阻都取 R₁∥R<sub>f</sub></span>
+  </div>
+
+  <div class="warn"><b>同相输入为什么"有共模"——接第 4 课 KCMR</b>：反相电路 u<sub>−</sub> 虚地，两输入端电位≈0，无共模；同相电路 u<sub>+</sub> = u<sub>−</sub> = u<sub>i</sub>，<b>整个信号变成运放输入端的共模电压</b>——共模分量 = u<sub>i</sub>，差模分量才是驱动输出的（u<sub>d</sub> → 0 的极限过程）。所以同相电路要求运放 KCMR 高，这正是第 4 课差分输入级死磕 KCMR 的回报现场。选择"反相还是同相"，就是在"要不要虚地 / 怕不怕共模"之间做取舍。</div>
+
+  <div class="formula">
+    积分：u<sub>o</sub> = −(1/RC)∫u<sub>i</sub> dt（阶跃 u<sub>i</sub> = U 时，u<sub>o</sub> = −U·t/RC，斜直线）　｜　微分：u<sub>o</sub> = −RC·du<sub>i</sub>/dt
+    <span class="cond">波形变换对：积分把方波→三角波（削平顶）、把阶跃→斜坡；微分管反。记忆锚点：电容在反馈路 = 积分，电容在输入路 = 微分</span>
+  </div>
+
+  <h3 class="block">电压比较器——运放的非线性另一半</h3>
+  <p>运放<b>开环</b>（或输出经电阻接回<b>同相端</b>成正反馈）使用：A<sub>od</sub> 极大 → u<sub>+</sub> 与 u<sub>−</sub> 差毫伏级就使输出摆到饱和，于是 <b>u<sub>o</sub> 只取 ±U<sub>om</sub> 两态</b>，翻转发生在 u<sub>+</sub> = u<sub>−</sub> 的瞬间。虚短不成立、虚断照用（比较器分析的口诀）。</p>
+  <div class="formula">
+    单限比较器：门限 U<sub>T</sub> = U<sub>REF</sub>（参考电压）　｜　滞回（施密特）：U<sub>TH</sub> = +U<sub>om</sub>·R₁/(R₁+R<sub>f</sub>)，U<sub>TL</sub> = −U<sub>om</sub>·R₁/(R₁+R<sub>f</sub>)
+    <span class="cond">反相滞回原型：u<sub>i</sub> 接反相端，输出经 R<sub>f</sub> 正反馈到同相端、R₁ 接地；门限 = 反馈分压点电位。回差 ΔU = U<sub>TH</sub> − U<sub>TL</sub> = 2U<sub>om</sub>·R₁/(R₁+R<sub>f</sub>)</span>
+  </div>
+  <div class="know">
+    <span class="kt">为什么工程上偏爱滞回——抗噪</span>
+    单限比较器输入在门限附近抖动（噪声 ±几十 mV），输出跟着高频翻转（误触发）；滞回比较器有<b>两个分离的门限</b>，输出翻转后必须等输入"越过另一个门限"才会翻回——回差区间内输出<b>记忆</b>原状态。噪声幅度 &lt; 回差/2 就完全免疫。这就是 555 施密特触发、电机驱动、欠压保护都用滞回的原因。
+  </div>
+</section>
+
+<!-- ================= 四、例题精讲 ================= -->
+<section class="card">
+  <h2><span class="secno">肆</span>例题精讲 × 6</h2>
+  <p class="lead">每题先自己 3 分钟，再看解法。例 1、例 2 的比例电路会在练 1、练 2 变形复用；例 3、例 4 的多输入电路参数会在练 5、练 6 复用——吃透两条流程，六类电路全覆盖。</p>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 1</span><span class="stars">★</span><span class="qtype">反相比例 · 虚地三连问</span></div>
+    <p class="qbody">反相比例电路：R₁ = 10 kΩ，R<sub>f</sub> = 100 kΩ，同相端经平衡电阻 R₂ 接地，u<sub>i</sub> = 0.5 V。求：① 反相端电位与流过 R₁ 的电流；② u<sub>o</sub> 与输入电阻 R<sub>i</sub>；③ 平衡电阻取值。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>虚地</b>：负反馈闭环 → 线性区 → 虚短 + 同相端接地 → u<sub>−</sub> ≈ 0（虚地）。i₁ = (u<sub>i</sub> − 0)/R₁ = 0.5V/10k = <b>50 μA</b>。</div>
+      <div class="step"><b>虚断 + KCL</b>：i₁ 全部流入 R<sub>f</sub>（i<sub>−</sub> = 0）→ u<sub>o</sub> = u<sub>−</sub> − i<sub>f</sub>·R<sub>f</sub> = −50μA × 100k = <b>−5 V</b>（用公式验算：−(R<sub>f</sub>/R₁)·u<sub>i</sub> = −10×0.5 = −5 V ✓，两条路互检）。</div>
+      <div class="step"><b>R<sub>i</sub></b>：从输入端看进去是 R₁ 直通虚地点 → R<sub>i</sub> = <b>10 kΩ</b>（虚地把输入电阻"钉死"在 R₁——R<sub>f</sub> 再大也帮不上忙）。</div>
+      <div class="step">③ R₂ = R₁∥R<sub>f</sub> = 100/11 k ≈ <b>9.1 kΩ</b>（取标称值）。</div>
+      <div class="ans">u<sub>−</sub> = 0（虚地），i₁ = 50 μA；u<sub>o</sub> = −5 V，R<sub>i</sub> = 10 kΩ；R₂ ≈ 9.1 kΩ</div>
+      <div class="note"><b>点评</b>：反相比例的三件套"虚地、R<sub>i</sub> = R₁、增益 −R<sub>f</sub>/R₁"一次拿齐。最高频错误：把 R<sub>i</sub> 答成 R₁+R<sub>f</sub> 或"R₁∥R<sub>f</sub>"——虚地点电位为 0，从入口看只有 R₁，跟 R<sub>f</sub> 无关。i<sub>f</sub> = i₁ 这一步是后面加法器、积分器的共用骨架。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 2</span><span class="stars">★</span><span class="qtype">同相比例 + 跟随器</span></div>
+    <p class="qbody">同相比例电路：R₁ = 10 kΩ，R<sub>f</sub> = 90 kΩ，u<sub>i</sub> = 0.2 V 从同相端输入。求：① u<sub>o</sub> 与反相端电位；② 若把 R<sub>f</sub> 短路、R₁ 开路（跟随器），u<sub>o</sub> = ？；③ 本电路两输入端的共模电压多大，为什么反相电路没有？</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step">① 虚短：u<sub>−</sub> = u<sub>+</sub> = u<sub>i</sub> = <b>0.2 V</b>（无虚地！）；反馈分压 u<sub>−</sub> = u<sub>o</sub>·R₁/(R₁+R<sub>f</sub>) = u<sub>o</sub>/10 → u<sub>o</sub> = (1 + R<sub>f</sub>/R₁)·u<sub>i</sub> = <b>2 V</b>。</div>
+      <div class="step">② 跟随器是 (1 + R<sub>f</sub>/R₁) 的 R<sub>f</sub>→0、R₁→∞ 特例 → 增益 = 1，u<sub>o</sub> = <b>0.2 V</b>。</div>
+      <div class="step">③ 共模分量 u<sub>c</sub> = (u<sub>+</sub> + u<sub>−</sub>)/2 = <b>0.2 V</b>——同相电路把整个输入信号原样压在两输入端上；反相电路 u<sub>+</sub> = u<sub>−</sub> = 0，共模恒为 0。所以同相电路的精度吃 KCMR（第 4 课例 5 算过 88 dB 的那个指标），反相电路不吃。</div>
+      <div class="ans">u<sub>o</sub> = 2 V，u<sub>−</sub> = 0.2 V；跟随器 u<sub>o</sub> = 0.2 V；共模 = 0.2 V（反相电路共模恒 0）</div>
+      <div class="note"><b>点评</b>：同相与反相的"1 +"之差常被死记——用"反馈分压点 = u<sub>−</sub> = u<sub>i</sub>"现场推一遍就永远不忘。比较记忆：反相（虚地、R<sub>i</sub> = R₁、无共模、输出反相）vs 同相（无虚地、R<sub>i</sub>→∞、有共模、输出同相、增益 ≥ 1）——四个维度对齐记，选择题秒杀。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 3</span><span class="stars">★★</span><span class="qtype">反相加法器</span></div>
+    <p class="qbody">反相加法电路：u<sub>i1</sub> = 0.4 V 经 R₁ = 20 kΩ、u<sub>i2</sub> = 0.3 V 经 R₂ = 30 kΩ 接反相端，R<sub>f</sub> = 60 kΩ。求 u<sub>o</sub> 与平衡电阻；并问若要实现 u<sub>o</sub> = −(3u<sub>i1</sub> + 2u<sub>i2</sub>)，各电阻比例怎么配？</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>虚地 + KCL</b>：i₁ = 0.4/20k = 20 μA，i₂ = 0.3/30k = 10 μA，i<sub>f</sub> = i₁ + i₂ = 30 μA → u<sub>o</sub> = −30μA × 60k = <b>−1.8 V</b>（公式验算：−(60/20×0.4 + 60/30×0.3) = −(1.2+0.6) = −1.8 V ✓）。</div>
+      <div class="step"><b>平衡电阻</b>：R₃ = R₁∥R₂∥R<sub>f</sub>：1/20 + 1/30 + 1/60 = 3/60+2/60+1/60 = 6/60 → R₃ = <b>10 kΩ</b>（三电阻凑成漂亮整数）。</div>
+      <div class="step"><b>配比</b>：u<sub>o</sub> = −R<sub>f</sub>(u<sub>i1</sub>/R₁ + u<sub>i2</sub>/R₂)，系数 = R<sub>f</sub>/R<sub>ik</sub> → 要系数 3 和 2，取 R<sub>f</sub> = 60 kΩ、R₁ = 20 kΩ、R₂ = 30 kΩ 即可（正是本题——本题就是按这个"配方"设计的）。</div>
+      <div class="ans">u<sub>o</sub> = −1.8 V；平衡电阻 10 kΩ；系数 = R<sub>f</sub>/R<sub>ik</sub>（R<sub>f</sub>=60k，R₁=20k，R₂=30k）</div>
+      <div class="note"><b>点评</b>：加法器 = 虚地下多条支路电流在反相端"汇流"——KCL 一列就完，<b>加权系数由各支路电阻独立设定、互不干扰</b>，这是它比直接并联相加优越的工程理由。设计类题（"实现某某表达式"）全是 R<sub>f</sub>/R<sub>ik</sub> 的凑数游戏，先定 R<sub>f</sub> 再拆系数。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 4</span><span class="stars">★★</span><span class="qtype">减法器 · 叠加定理推导</span></div>
+    <p class="qbody">差分输入电路：u<sub>i1</sub> 经 R₁ = 10 kΩ 接反相端、R<sub>f</sub> = 40 kΩ 反馈；u<sub>i2</sub> 经 R₂ = 10 kΩ 接同相端、R₃ = 40 kΩ 接地。u<sub>i1</sub> = 0.2 V，u<sub>i2</sub> = 0.6 V。求 u<sub>o</sub>，并用叠加定理分解验证。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step"><b>匹配检查</b>：R₁/R<sub>f</sub> = 10/40 = R₂/R₃ → 匹配条件成立，可用简式 u<sub>o</sub> = (R<sub>f</sub>/R₁)(u<sub>i2</sub> − u<sub>i1</sub>) = 4×(0.6−0.2) = <b>1.6 V</b>。</div>
+      <div class="step"><b>叠加验证①（u<sub>i1</sub> 单独，u<sub>i2</sub> 置零接地）</b>：u<sub>+</sub> = 0 → 反相比例：u<sub>o</sub>′ = −(R<sub>f</sub>/R₁)·u<sub>i1</sub> = −4×0.2 = −0.8 V。</div>
+      <div class="step"><b>叠加验证②（u<sub>i2</sub> 单独，u<sub>i1</sub> 置零）</b>：u<sub>+</sub> = u<sub>i2</sub>·R₃/(R₂+R₃) = 0.6×40/50 = 0.48 V → u<sub>o</sub>″ = (1 + R<sub>f</sub>/R₁)·u<sub>+</sub> = 5×0.48 = 2.4 V。</div>
+      <div class="step"><b>合成</b>：u<sub>o</sub> = −0.8 + 2.4 = <b>1.6 V</b> ✓ 与简式一致——"反相减一份、同相放大一份"，匹配条件正是让两个系数咬合成 (u<sub>i2</sub> − u<sub>i1</sub>) 的倍数。</div>
+      <div class="ans">u<sub>o</sub> = 1.6 V（= 4 × (u<sub>i2</sub> − u<sub>i1</sub>)）</div>
+      <div class="note"><b>点评</b>：减法器是"运放版差分"——放大两输入之差、抑制共模（u<sub>i1</sub> = u<sub>i2</sub> 时输出为零，练习里会算），第 4 课的 u<sub>d</sub>/u<sub>c</sub> 语言在这里原样适用。叠加验证是处理"非匹配"变形题的万能路：不管电阻配不匹配，"反相路 + 同相路分别算再相加"永远正确；简式只有匹配时才准。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 5</span><span class="stars">★★</span><span class="qtype">积分电路 · 方波→三角波</span></div>
+    <p class="qbody">反相积分电路：R = 10 kΩ，C = 0.1 μF（反馈路），u<sub>i</sub> 为 ±2 V 方波，周期 2 ms（半周期 1 ms），t = 0 时 u<sub>o</sub>(0) = +1 V。求一个周期内 u<sub>o</sub> 的波形（各时刻电位与斜率）。</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step">τ = RC = 10k × 0.1μF = <b>1 ms</b>。u<sub>i</sub> = +2 V 期间：u<sub>o</sub> = u<sub>o</sub>(0) − (u<sub>i</sub>/RC)·t = 1 − 2t/ms → 斜率 <b>−2 V/ms</b>，从 +1 V 直线降到 −1 V（t = 1 ms）。</div>
+      <div class="step">u<sub>i</sub> = −2 V 期间：u<sub>o</sub> = −1 + 2t/ms → 斜率 <b>+2 V/ms</b>，从 −1 V 升回 +1 V（t = 2 ms）。稳态输出 = <b>±1 V 三角波</b>，与输入方波反相（积分自带负号）。</div>
+      <div class="step"><b>验算</b>：半周期幅度变化 = u<sub>i</sub>·(T/2)/RC = 2×1ms/1ms = 2 V = 峰峰值 ✓；三角波线性升降，正是电容恒流充电的形状（i = u<sub>i</sub>/R 恒定 → 积分器把"恒压"变"恒流再变三角"）。</div>
+      <div class="ans">τ = 1 ms；三角波 ±1 V：+2V 段斜率 −2 V/ms（+1→−1 V），−2V 段斜率 +2 V/ms（−1→+1 V）</div>
+      <div class="note"><b>点评</b>：积分题两步定形——<b>斜率 = −u<sub>i</sub>/RC</b>，<b>初值 = 电容起始电压</b>。最高频错误：忘带负号（反相积分），或用错 τ（kΩ×μF = ms 这个量纲速算要练到条件反射）。"方波→三角波"这组波形变换对在波形题里出镜率最高，配合第 2 课的失真判断，波形题全线打通。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">例 6</span><span class="stars">★★★</span><span class="qtype">滞回比较器 · 门限与传输特性</span></div>
+    <p class="qbody">反相滞回比较器：u<sub>i</sub> 接反相端；输出经 R<sub>f</sub> = 30 kΩ 正反馈接同相端，同相端经 R₁ = 10 kΩ 接地；输出限幅 ±U<sub>z</sub> = ±6 V。求：① 上门限 U<sub>TH</sub>、下门限 U<sub>TL</sub> 与回差；② 描述传输特性；③ 若 u<sub>i</sub> 为幅度远大于门限的正弦波，输出是什么波形？在哪些时刻翻转？</p>
+    <details class="sol"><summary>展开解法</summary>
+      <div class="step">① 翻转条件：u<sub>−</sub> = u<sub>+</sub>，而 u<sub>+</sub> = u<sub>o</sub>·R₁/(R₁+R<sub>f</sub>) = ±6×10/40 = ±1.5 V → <b>U<sub>TH</sub> = +1.5 V（uo = −6V 时）… 先别急</b>：输出为 −6 V 时 u<sub>+</sub> = −1.5 V，输出为 +6 V 时 u<sub>+</sub> = +1.5 V → <b>U<sub>TH</sub> = +1.5 V，U<sub>TL</sub> = −1.5 V，回差 ΔU = 3 V</b>。</div>
+      <div class="step">② 传输特性：u<sub>i</sub> 从负向正上升时，<b>必须越过 U<sub>TH</sub> = +1.5 V</b> 才从 +6 V 翻到 −6 V；从正向负下降时，<b>必须跌破 U<sub>TL</sub> = −1.5 V</b> 才翻回 +6 V——两条竖直跳变沿之间隔着 3 V 回差，输出在回差区间内"记忆"原状态。</div>
+      <div class="step">③ 正弦输入 → 输出<b>方波</b>：上升沿在 u<sub>i</sub> = +1.5 V 处翻转，下降沿在 u<sub>i</sub> = −1.5 V 处翻转；若输入叠加幅度 &lt; 1.5 V 的噪声，翻转点附近不再误抖（回差 3 V &gt; 2×噪声）。</div>
+      <div class="ans">U<sub>TH</sub> = +1.5 V，U<sub>TL</sub> = −1.5 V，回差 3 V；输入正弦 → 输出在 ±1.5 V 处翻转的方波</div>
+      <div class="note"><b>点评</b>：滞回题的骨架三问：门限（= 正反馈分压点电位）、回差（两门限之差 = 2U<sub>om</sub>·R₁/(R₁+R<sub>f</sub>)）、抗噪（噪声 &lt; 回差/2 免疫）。易错点：把门限写成固定值忘了它<b>随输出状态切换</b>（+6V 时门限 +1.5V、−6V 时门限 −1.5V）——"门限跟输出走"是滞回的灵魂，也是它和单限的全部区别。</div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= 五、限时训练 ================= -->
+<section class="card">
+  <h2><span class="secno">伍</span>限时训练 × 10</h2>
+  <p class="lead">整段计时 45 分钟，不看书不翻笔记。做完再对答案，每题都有错因对照。</p>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 1</span><span class="stars">★</span><span class="qtype">反相比例速算</span></div>
+    <p class="qbody">反相比例电路：R₁ = 20 kΩ，R<sub>f</sub> = 60 kΩ，u<sub>i</sub> = 0.4 V。求 u<sub>o</sub>、R<sub>i</sub>、反馈电流 i<sub>f</sub> 与平衡电阻。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">u<sub>o</sub> = −(60/20)×0.4 = <b>−1.2 V</b>；R<sub>i</sub> = R₁ = <b>20 kΩ</b>。</div>
+      <div class="step">i<sub>f</sub> = i₁ = u<sub>i</sub>/R₁ = 0.4/20k = <b>20 μA</b>（虚断把反馈电流锁等于输入电流）；平衡电阻 = R₁∥R<sub>f</sub> = 20×60/80 = <b>15 kΩ</b>。</div>
+      <div class="ans">u<sub>o</sub> = −1.2 V，R<sub>i</sub> = 20 kΩ，i<sub>f</sub> = 20 μA，R₂ = 15 kΩ</div>
+      <div class="note"><b>错因对照</b>：增益 3 却算出 −2.4 V 的人是把 R₁、R<sub>f</sub> 代反了——写公式前先标"谁是 R₁"（输入路）"谁是 R<sub>f</sub>"（反馈路），标完再代数。平衡电阻 R₁∥R<sub>f</sub> 若答成 20+60 也常见——是<b>并联</b>。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 2</span><span class="stars">★</span><span class="qtype">同相比例速算</span></div>
+    <p class="qbody">同相比例电路：R₁ = 10 kΩ，R<sub>f</sub> = 40 kΩ，u<sub>i</sub> = 0.3 V。求 u<sub>o</sub> 与反相端电位；若同一组电阻改接成反相比例，u<sub>o</sub> 又是多少？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">同相：u<sub>o</sub> = (1 + 40/10)×0.3 = <b>1.5 V</b>；u<sub>−</sub> = u<sub>i</sub> = <b>0.3 V</b>（虚短无虚地）。</div>
+      <div class="step">改反相：u<sub>o</sub> = −(40/10)×0.3 = <b>−1.2 V</b>——同一组电阻，"1 +"和"−"之差。</div>
+      <div class="ans">同相：1.5 V（u<sub>−</sub> = 0.3 V）；改反相：−1.2 V</div>
+      <div class="note"><b>错因对照</b>：同相增益误写 40/10 = 4（丢"1 +"）是本电路第一大错——用分压点验算：u<sub>−</sub> = 1.5×10/50 = 0.3 V = u<sub>i</sub> ✓。快速自检习惯：算完 u<sub>o</sub>，反代分压式看是否还原回 u<sub>i</sub>，半秒钟排除 80% 的代数错。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 3</span><span class="stars">★</span><span class="qtype">跟随器 · 阻抗变换应用</span></div>
+    <p class="qbody">高内阻信号源 U<sub>s</sub> = 0.75 V、R<sub>s</sub> = 100 kΩ，负载 R<sub>L</sub> = 20 kΩ。① 直接连接，负载上得到多少伏？② 中间加电压跟随器，负载上得到多少伏？③ 跟随器在这里的职能是什么（用第 2 课射随的语言）？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① 分压：0.75×20/(100+20) = <b>0.125 V</b>——内阻吃掉 5/6，信号几乎全军覆没。</div>
+      <div class="step">② 跟随器 R<sub>i</sub> → ∞（信号源不分压）、R<sub>o</sub> → 0（负载不分压）→ u<sub>o</sub> = u<sub>i</sub> = <b>0.75 V</b>。</div>
+      <div class="step">③ 与射随完全同款职能：<b>阻抗变换 / 缓冲隔离</b>——"增益换阻抗"（增益 1 分不要，R<sub>i</sub> 从 20k 换成 ∞、R<sub>o</sub> 换成 0）。射随是"晶体管版"，跟随器是"运放版"，公式骨架同源。</div>
+      <div class="ans">① 0.125 V　② 0.75 V　③ 阻抗变换缓冲（R<sub>i</sub>→∞ 进、R<sub>o</sub>→0 出）</div>
+      <div class="note"><b>错因对照</b>：② 误答"0.75×20/(0+20) = 0.75V 但仍要乘跟随器增益 0.99"——理想运放下跟随器增益精确为 1（不是射随的 ≈1），别把第 2 课的近似习惯带过来。① 的 0.125 V 是命题人给的"痛点铺垫"，看到它就条件反射"上缓冲"。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 4</span><span class="stars">★★</span><span class="qtype">虚短成立条件 · 概念判断</span></div>
+    <p class="qbody">判断对错并说理：① 运放引入深度负反馈工作在线性区时，虚短成立；② 开环电压比较器中，虚短成立；③ "虚短"指两个输入端被短接在一起；④ 虚断在线性区和饱和区都成立；⑤ 反相比例电路中"虚地"是虚短加同相端接地的直接结果。</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① <b>对</b>——负反馈把输出拉回未饱和区，u<sub>o</sub> = A<sub>od</sub>(u<sub>+</sub>−u<sub>−</sub>) 有限 ⟹ u<sub>+</sub> ≈ u<sub>−</sub>。</div>
+      <div class="step">② <b>错</b>——开环时 u<sub>o</sub> = ±U<sub>om</sub> 饱和，u<sub>+</sub> − u<sub>−</sub> = u<sub>o</sub>/A<sub>od</sub> ≈ mV 级<b>不为零</b>（只是小）；虚短按定义不成立（比较器正是利用这个差来翻转）。</div>
+      <div class="step">③ <b>错</b>——是"电位近似相等"，绝非物理短接（物理短接了运放就没法工作了）；"虚"字就是"近似、并非真"。</div>
+      <div class="step">④ <b>对</b>——虚断只依赖 r<sub>id</sub> → ∞，与输出是否饱和无关；比较器分析就靠它。</div>
+      <div class="step">⑤ <b>对</b>——虚短给出 u<sub>−</sub> = u<sub>+</sub>，同相端接地 → u<sub>+</sub> = 0 → u<sub>−</sub> = 0 = 虚地。</div>
+      <div class="ans">① 对　② 错　③ 错　④ 对　⑤ 对</div>
+      <div class="note"><b>错因对照</b>：②③ 是两大高频坑——②混淆"输入差很小"与"虚短成立"（成立条件是线性区，不是差小）；③把"虚"字丢掉。判断动作固定化：<b>先找反馈类型，再谈虚短；先看 r<sub>id</sub>，才谈虚断</b>。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 5</span><span class="stars">★★</span><span class="qtype">承例 3 · 加法器变输入</span></div>
+    <p class="qbody">承例 3 电路（R₁ = 20 k，R₂ = 30 k，R<sub>f</sub> = 60 k）。改输入 u<sub>i1</sub> = 0.5 V，u<sub>i2</sub> = −0.3 V。求 u<sub>o</sub>，并问该电路对 u<sub>i2</sub> 的增益是多少、什么符号？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">u<sub>o</sub> = −(60/20×0.5 + 60/30×(−0.3)) = −(1.5 − 0.6) = <b>−0.9 V</b>。</div>
+      <div class="step">节点法验算：i₁ = 0.5/20k = 25 μA，i₂ = −0.3/30k = −10 μA，i<sub>f</sub> = 15 μA → u<sub>o</sub> = −15μA×60k = −0.9 V ✓。</div>
+      <div class="step">对 u<sub>i2</sub> 的增益 = −R<sub>f</sub>/R₂ = <b>−2</b>（负号——反相端输入，各路都带负号；"加法"加的是带符号加权和）。</div>
+      <div class="ans">u<sub>o</sub> = −0.9 V；u<sub>i2</sub> 路增益 = −2</div>
+      <div class="note"><b>错因对照</b>：负输入进来时最常见的错是符号处理——加权和中 −R<sub>f</sub>/R<sub>k</sub> 这个"整体负号"要贯穿每一路，别只在第一路带。另一个坑：认为 u<sub>i2</sub> 路增益是 −R<sub>f</sub>/R₂ 与 u<sub>i1</sub> 路无关就"各路独立"，方向对——但前提是虚地把两路电流隔离在各支路里，<b>虚地是加法器互不串扰的机制根源</b>。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 6</span><span class="stars">★★</span><span class="qtype">减法器 · 共模视角</span></div>
+    <p class="qbody">四电阻全取 10 kΩ 的差分输入电路：u<sub>i1</sub> = 2.5 V 接反相路，u<sub>i2</sub> = 4.5 V 接同相路。① 求 u<sub>o</sub>；② 输入的共模分量多大？③ 为什么说减法器是"运放版差分"？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① 匹配（R₁/R<sub>f</sub> = R₂/R₃ = 1）→ u<sub>o</sub> = 1×(u<sub>i2</sub> − u<sub>i1</sub>) = 4.5 − 2.5 = <b>2 V</b>。叠加验算：u<sub>+</sub> = 4.5/2 = 2.25 V，u<sub>o</sub> = 2×2.25 − 2.5 = 2 V ✓。</div>
+      <div class="step">② u<sub>c</sub> = (2.5+4.5)/2 = <b>3.5 V</b>（第 4 课公式原样搬来）。</div>
+      <div class="step">③ 输出只认差模（u<sub>d</sub> = 2 V×1 倍），共模被电路结构抵消（u<sub>i1</sub> = u<sub>i2</sub> 时 u<sub>o</sub> = 0）——与差分放大"放大差、压共模"完全同构；差别是运放的 KCMR 靠内部差分输入级保证，电阻匹配靠外部精度保证（匹配破坏时共模泄漏，正好接第 4 课"对称性是免费的精度"）。</div>
+      <div class="ans">u<sub>o</sub> = 2 V；共模 3.5 V；输出 = 差模 ×1，共模理想为零</div>
+      <div class="note"><b>错因对照</b>：① 若用"增益 = R<sub>f</sub>/R₁ = 1"却写出 u<sub>o</sub> = u<sub>i1</sub> − u<sub>i2</sub>（方向反）——减法器输出永远是<b>同相端信号减反相端信号</b>的 R<sub>f</sub>/R₁ 倍；②忘记共模公式对运放电路同样适用。跨章提示：第 4 课的 u<sub>d</sub>/u<sub>c</sub> 分解语言在本课是"通用语"。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 7</span><span class="stars">★★</span><span class="qtype">两级运放级联</span></div>
+    <p class="qbody">两级运放级联：第一级反相比例 R₁ = 10 k、R<sub>f</sub> = 100 k；第二级反相比例 R₁ = 10 k、R<sub>f</sub> = 40 k。u<sub>i</sub> = 0.1 V。求总增益与 u<sub>o</sub>；并回答：级间需要像分立电路那样考虑"带载折损"吗？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">A<sub>u1</sub> = −100/10 = −10；A<sub>u2</sub> = −40/10 = −4 → A<sub>u</sub> = (−10)×(−4) = <b>+40</b>（负负得正，两级反相级联同相——第 4 课级联相位规则照用）。</div>
+      <div class="step">u<sub>o</sub> = 40×0.1 = <b>4 V</b>。</div>
+      <div class="step"><b>不需要</b>——理想运放 r<sub>o</sub> → 0（第一级输出是理想电压源，被接多少负载都不掉电压）+ r<sub>id</sub> → ∞（第二级输入不取电流）→ <b>级间零负载效应</b>。这正是运放电路级联总增益 = 各级增益直乘的原因，与第 4 课例 2 分立级联的"带载折损"形成鲜明对照——分立级联"1+1<2"，运放级联"1+1=2"。</div>
+      <div class="ans">A<sub>u</sub> = +40，u<sub>o</sub> = 4 V；级间无负载效应（r<sub>o</sub>→0 且 r<sub>id</sub>→∞）</div>
+      <div class="note"><b>错因对照</b>：把第 4 课的"从后往前、带载重算"硬搬过来是知识迁移过度——先判断"理想运放还是分立电路"，再选级联规则。但相位规则通用：奇数级反相 → 反相。考试挖坑方式：给分立级联问要不要重算带载（要），给运放级联也问（不要）——一句话判据"输出电阻为不为零"。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 8</span><span class="stars">★★</span><span class="qtype">积分器 · 三角波幅度</span></div>
+    <p class="qbody">反相积分电路：R = 10 kΩ，C = 0.05 μF，u<sub>i</sub> = ±3 V 方波，周期 1 ms（半周期 0.5 ms），稳态工作。求：① τ；② 输出三角波的峰峰值与幅度；③ 输出与输入的相位关系；④ 若把 R、C 位置互换，电路变成什么、输出表达式如何？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① τ = RC = 10k × 0.05μF = <b>0.5 ms</b>。</div>
+      <div class="step">② 半周期幅度摆动 = u<sub>i</sub>·(T/2)/τ = 3×0.5/0.5 = 3 V → 稳态三角波 <b>±1.5 V</b>（峰峰值 3 V）。</div>
+      <div class="step">③ u<sub>i</sub> = +3 V 期间 u<sub>o</sub> 下降、−3 V 期间上升 → 输出相对输入<b>反相</b>（积分自带负号，例 5 同款）。</div>
+      <div class="step">④ R、C 互换 → <b>微分电路</b>：u<sub>o</sub> = −RC·du<sub>i</sub>/dt——对三角波输入输出方波。记忆锚点：<b>电容在反馈路积分、在输入路微分</b>。</div>
+      <div class="ans">τ = 0.5 ms；三角波 ±1.5 V（峰峰 3 V）；反相；互换后为微分电路 u<sub>o</sub> = −RC·du<sub>i</sub>/dt</div>
+      <div class="note"><b>错因对照</b>：峰峰值算成 1.5 V 的人漏了"半周期摆动 = 3 V、半边才是 1.5 V"的换算——三角波幅度定义先问清楚（幅度 / 峰峰值差一倍）。④ 的互换判断常被记反，回到机制想：电容充放电"慢"的那一侧决定积分、串在输入"取变化率"的那一侧决定微分。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 9</span><span class="stars">★★</span><span class="qtype">单限比较器 · 传输特性</span></div>
+    <p class="qbody">单限比较器：u<sub>i</sub> 接反相端，同相端接参考电压 U<sub>REF</sub> = 2 V，运放输出 ±U<sub>om</sub> = ±12 V（开环）。① 画出 / 描述传输特性；② u<sub>i</sub> 从 0 V 缓慢升到 5 V，输出如何变化？③ 此电路里虚短、虚断各是什么状态？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① u<sub>i</sub> &lt; 2 V 时 u<sub>+</sub> &gt; u<sub>−</sub> → u<sub>o</sub> = <b>+12 V</b>；u<sub>i</sub> &gt; 2 V 时 → u<sub>o</sub> = <b>−12 V</b>；跳变沿在 u<sub>i</sub> = U<sub>T</sub> = <b>2 V</b> 处（门限 = 参考电压）。</div>
+      <div class="step">② 0 → 2 V 段保持 +12 V；越过 2 V 瞬间跳到 −12 V，此后保持——输出只与"u<sub>i</sub> 在门限哪一侧"有关，与幅度大小无关。</div>
+      <div class="step">③ 开环 → 饱和区 → <b>虚短不成立</b>（翻转瞬间 u<sub>+</sub> = u<sub>−</sub> 只是临界点，不是工作常态）；<b>虚断仍成立</b>（r<sub>id</sub> → ∞ 与接法无关）。比较器分析口诀："没有虚短，只有虚断，比较两端谁高"。</div>
+      <div class="ans">门限 2 V：低于 +12 V、高于 −12 V；u<sub>i</sub> 升过 2 V 时从 +12 V 跳 −12 V；虚短不成立、虚断成立</div>
+      <div class="note"><b>错因对照</b>：输出方向搞反（u<sub>i</sub> &gt; U<sub>REF</sub> 时答 +12 V）——反相端输入的规则是"输入高、输出低"，跳变方向由<b>输入接哪个端</b>决定，画传输特性前先标端。③ 是比较器与运算电路的分水岭判断题，练 4 的延续。</div>
+    </details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="qno">练 10</span><span class="stars">★★★</span><span class="qtype">滞回比较器 · 抗噪设计</span></div>
+    <p class="qbody">反相滞回比较器：输出限幅 ±U<sub>z</sub> = ±6 V，同相端经 R₁ = 20 kΩ 接地、经 R<sub>f</sub> = 20 kΩ 接输出。① 求 U<sub>TH</sub>、U<sub>TL</sub>、回差；② 若输入信号叠加幅度 1 V 的噪声，输出会误翻转吗？③ 要让回差变为 4 V，R₁ 或 R<sub>f</sub> 怎么调？</p>
+    <details class="sol"><summary>对答案</summary>
+      <div class="step">① u<sub>+</sub> = u<sub>o</sub>·R₁/(R₁+R<sub>f</sub>) = ±6×20/40 = ±3 V → <b>U<sub>TH</sub> = +3 V，U<sub>TL</sub> = −3 V，回差 6 V</b>。</div>
+      <div class="step">② 翻转要求输入越过<b>另一个</b>门限：输出为 −6 V 时门限 +3 V，噪声 1 V 只能把有效输入推到门限 ±1 V 之内，够不着另一侧门限（间距 6 V）→ <b>不误翻转</b>（判据：噪声 &lt; 回差/2 即免疫，1 &lt; 3 ✓）。</div>
+      <div class="step">③ 回差 = 2U<sub>z</sub>·R₁/(R₁+R<sub>f</sub>)：要 4 V → R₁/(R₁+R<sub>f</sub>) = 1/3 → R<sub>f</sub> = 2R₁（如 R₁ = 20 k、R<sub>f</sub> = 40 k，或保持 R<sub>f</sub> = 20 k 把 R₁ 减到 10 k）。</div>
+      <div class="ans">U<sub>TH</sub> = +3 V，U<sub>TL</sub> = −3 V，回差 6 V；噪声 1 V &lt; 3 V 不误翻转；调 R<sub>f</sub> = 2R₁（比值 1/3）回差变 4 V</div>
+      <div class="note"><b>错因对照</b>：③ 最常见的错是把回差公式写成 U<sub>om</sub>·R₁/(R₁+R<sub>f</sub>)（丢系数 2——回差是<b>两个</b>门限之差，门限各带一个 ±U<sub>om</sub>）。② 的判据"噪声 &lt; 回差/2"要理解成：门限附近抖动 ±噪声，只要抖动范围不出回差区间就不误翻——设计题常反向问"回差至少取多少"，答案 = 2×噪声幅度。</div>
+    </details>
+  </div>
+
+  <h3 class="block">对答案与过关标准</h3>
+  <table class="cmp">
+    <tr><th>得分</th><th>判定</th><th>动作</th></tr>
+    <tr><td>≥ 9 / 10</td><td>过关</td><td>等课内讲到负反馈，跟课链解锁《负反馈放大电路》</td></tr>
+    <tr><td>7 ~ 8</td><td>薄弱</td><td>重做错题 + 回本课对应小节（错因对照里已标注）</td></tr>
+    <tr><td>≤ 6</td><td>回炉</td><td>重学 §贰（虚短虚断与两个工作区）与 §叁（六类电路速查），隔天重刷整套</td></tr>
+  </table>
+</section>
+
+<!-- ================= 六、自测清单 ================= -->
+<section class="card">
+  <h2><span class="secno">陆</span>过关自测清单</h2>
+  <ul class="check">
+    <li>理想运放四参数与推论：A<sub>od</sub>→∞ 出虚短、r<sub>id</sub>→∞ 出虚断、r<sub>o</sub>→0 带载不衰减、K<sub>CMR</sub>→∞ 共模零输出</li>
+    <li>虚短 = 电位近似相等（非短接），<b>只在线性区（负反馈）成立</b>；虚断两区都成立——先找反馈再谈虚短</li>
+    <li>四步节点方程法：判反馈 → 写 u<sub>−</sub> → 反相端 KCL → 解 u<sub>o</sub>；虚地 = 虚短 + 同相端接地的特例</li>
+    <li>反相比例：−(R<sub>f</sub>/R₁)u<sub>i</sub>、虚地、R<sub>i</sub> = R₁、无共模；同相比例：(1+R<sub>f</sub>/R₁)u<sub>i</sub>、无虚地、R<sub>i</sub>→∞、<b>有共模</b>（吃 KCMR）</li>
+    <li>跟随器：增益 1、阻抗变换之王（R<sub>i</sub>→∞ 进、R<sub>o</sub>→0 出）——高内阻源必配缓冲</li>
+    <li>反相加法：−R<sub>f</sub>·Σ(u<sub>ik</sub>/R<sub>k</sub>)，虚地隔离各路、系数独立可配；平衡电阻 = 反相端外接电阻全并联</li>
+    <li>减法器：匹配时 u<sub>o</sub> = (R<sub>f</sub>/R₁)(u<sub>i2</sub>−u<sub>i1</sub>)；"运放版差分"，共模理想为零；非匹配用叠加拆两路</li>
+    <li>积分 −(1/RC)∫u<sub>i</sub>dt（方波→三角波，斜率 = −u<sub>i</sub>/τ）；微分 −RC·du<sub>i</sub>/dt（三角→方波）；τ = RC 量纲速算 kΩ·μF = ms</li>
+    <li>比较器：开环/正反馈 → 无虚短有虚断；单限门限 = U<sub>REF</sub>；滞回门限随输出切换，回差 = 2U<sub>om</sub>·R₁/(R₁+R<sub>f</sub>)</li>
+    <li>滞回抗噪判据：噪声 &lt; 回差/2 免疫；设计题反算回差 = 2×噪声；能说清跟随器与射随、减法器与差分的同构关系</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课预告 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课 · 跟随课内解锁</div>
+  <div class="title">第 6 课《负反馈放大电路》—— 课内讲到负反馈时上线，四组态判别 + 深度负反馈近似计算</div>
+</a>
+
+<div class="pager">
+  <a href="04_多级放大与差分电路.html">
+    <div class="dir">← 上一课 · 已过关</div>
+    <div class="title">第 4 课 多级放大与差分电路</div>
+  </a>
+  <a href="index.html">
+    <div class="dir">返回目录</div>
+    <div class="title">模电 · 跟课链</div>
+  </a>
+</div>
+
+<footer>
+  模电 · 跟课链 · 第 5 课 集成运放与运算电路 ｜ <a href="index.html">返回模电目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">做完记得把限时训练成绩告诉我（如 9/10），我打卡更新进度</span>
+</footer>
+
+</div>
+</body>
+</html>
