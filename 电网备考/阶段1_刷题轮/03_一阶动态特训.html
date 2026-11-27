@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段1刷题轮 · 第3课 — 一阶动态特训</title>
+<style>
+:root {
+  --ink: #1e2130;
+  --ink-soft: #4a5068;
+  --ink-faint: #8a90a6;
+  --accent: #4338d6;
+  --blue: #0b5aa8;
+  --blue-deep: #083d75;
+  --blue-soft: #e7f3fb;
+  --blue-border: #b9dcf2;
+  --gold: #b07800;
+  --gold-soft: #fff7e0;
+  --gold-border: #ecd9a8;
+  --green: #1f7a3d;
+  --green-soft: #e8f6ec;
+  --green-border: #bfe3cc;
+  --red: #c23a3a;
+  --line: #e3e5ee;
+  --bg: #f7f8fb;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 36px 22px 60px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+  color: var(--blue-deep);
+}
+
+/* ===== 头部 ===== */
+.hero {
+  background: linear-gradient(135deg, #083d75 0%, #0b5aa8 55%, #1e90d6 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 12px 32px rgba(11, 90, 168, 0.25);
+  margin-bottom: 26px;
+}
+.hero .kicker { font-size: 13px; letter-spacing: 3px; opacity: .85; margin: 0 0 6px; font-weight: 600; }
+.hero h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: 1px; }
+.hero p { margin: 0; opacity: .92; font-size: 14.5px; max-width: 640px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero .chip {
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 3px 14px; font-size: 12.5px;
+}
+
+/* ===== 通用块 ===== */
+.back { display: inline-block; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+section.block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px 22px;
+  margin-bottom: 20px;
+}
+section.block > h2 {
+  font-size: 20px; margin: 0 0 14px; color: var(--blue-deep);
+  display: flex; align-items: center; gap: 10px;
+}
+section.block > h2 .no {
+  background: var(--blue); color: #fff; border-radius: 8px;
+  min-width: 30px; height: 30px; display: inline-flex;
+  align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex: 0 0 auto;
+}
+h3.sub { font-size: 16.5px; margin: 20px 0 8px; color: var(--ink); }
+h3.sub:first-of-type { margin-top: 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.5em; }
+li { margin-bottom: 6px; }
+
+/* ===== 知识卡 ===== */
+.know {
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.know b { color: var(--blue-deep); }
+
+/* ===== 考点标注 ===== */
+.exam {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.exam .tag-exam {
+  display: inline-block; background: var(--gold); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  border-radius: 5px; padding: 1px 9px; margin-right: 8px; vertical-align: 1px;
+}
+
+/* ===== 公式展示 ===== */
+.formula {
+  background: #f4f8fc;
+  border: 1px solid var(--blue-border);
+  border-radius: 10px;
+  text-align: center;
+  padding: 14px 10px;
+  margin: 14px 0;
+  font-size: 17px;
+  font-family: Cambria, "Times New Roman", serif;
+  overflow-x: auto;
+}
+.formula .small { font-size: 13px; color: var(--ink-faint); font-family: inherit; margin-top: 6px; }
+.frac { display: inline-block; vertical-align: middle; text-align: center; }
+.frac .top { display: block; border-bottom: 1.4px solid var(--ink); padding: 0 4px; }
+.frac .bot { display: block; padding: 0 4px; }
+
+/* ===== 表格 ===== */
+.tbl { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.tbl th, .tbl td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+.tbl th { background: var(--blue-soft); color: var(--blue-deep); font-weight: 600; }
+.tbl td:first-child, .tbl th:first-child { text-align: left; }
+
+/* ===== 例题 ===== */
+.example {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.example .ex-head {
+  background: var(--blue-soft);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 10px 18px;
+  font-weight: 700; font-size: 15px; color: var(--blue-deep);
+}
+.example .ex-body { padding: 16px 18px; }
+.example .q { font-weight: 600; margin-bottom: 10px; }
+.example .steps { margin: 0; padding-left: 1.4em; }
+.example .steps li { margin-bottom: 8px; }
+.example .ans {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  font-weight: 600; color: var(--green);
+}
+.example .key {
+  color: var(--blue-deep);
+  font-size: 13.5px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* ===== 练习题 ===== */
+.exercise {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.exercise summary {
+  cursor: pointer;
+  padding: 12px 18px;
+  font-weight: 600;
+  list-style: none;
+  display: flex; align-items: baseline; gap: 10px;
+  background: #fcfcfe;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary .qn {
+  color: var(--blue); font-family: Consolas, monospace; font-weight: 700;
+  flex: 0 0 auto;
+}
+.exercise summary .uses {
+  font-size: 11.5px; font-weight: 600; color: var(--gold);
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 999px; padding: 0 9px; flex: 0 0 auto;
+}
+.exercise summary .hint-arrow { margin-left: auto; color: var(--ink-faint); font-size: 12px; }
+.exercise .ex-content { padding: 14px 18px 16px; border-top: 1px dashed var(--line); }
+.exercise .sol {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: var(--green);
+  font-weight: 600;
+}
+.exercise .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* ===== 自测清单 ===== */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  padding: 9px 0 9px 36px;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before {
+  content: "☐";
+  position: absolute; left: 6px; top: 8px;
+  color: var(--blue); font-size: 18px;
+}
+
+/* ===== 下一课卡 ===== */
+.next-card {
+  display: block;
+  background: linear-gradient(135deg, #0b5aa8, #1e90d6);
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px 26px;
+  text-decoration: none;
+  margin: 26px 0 10px;
+}
+.next-card .dir { font-size: 12.5px; letter-spacing: 2px; opacity: .85; margin-bottom: 4px; }
+.next-card .title { font-size: 18px; font-weight: 700; }
+.next-card:hover { opacity: .94; }
+
+/* ===== 上下课导航 ===== */
+.pager { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.pager a {
+  flex: 1; min-width: 200px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px;
+  text-decoration: none; color: inherit;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pager a:hover { border-color: var(--blue-border); box-shadow: 0 6px 18px rgba(11,90,168,.10); }
+.pager .dir { font-size: 12px; color: var(--ink-faint); letter-spacing: 1px; }
+.pager .title { font-weight: 700; font-size: 15px; color: var(--blue-deep); }
+
+footer { margin-top: 30px; text-align: center; font-size: 13px; color: var(--ink-faint); }
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dashed var(--ink-faint); }
+
+@media (max-width: 640px) {
+  .hero { padding: 24px 20px; }
+  section.block { padding: 20px 18px 16px; }
+  .exercise summary .uses { display: none; }
+  .tbl { font-size: 12.5px; }
+  .tbl th, .tbl td { padding: 6px 6px; }
+}
+@media print { body { background: #fff; } section.block, .example { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回阶段1刷题轮目录</a>
+
+<!-- ================= 头部 ================= -->
+<div class="hero">
+  <p class="kicker">阶段 1 · 刷题轮 · 第 3 课 · 2026-11-27</p>
+  <h1>一阶动态特训</h1>
+  <p>期末必出一道大题的"稳拿分"主场：换路定则、0+ 电路、三要素法、τ 的端口戴维南 —— 16 道考研级原创题，把 RC / RL 全题型练到条件反射。三要素模板一旦固化，这类大题就是整张卷子上性价比最高的 10 分钟：套路全同、数字干净、答案自带验算。</p>
+  <div class="meta">
+    <span class="chip">16 题 · 6 例题精讲 + 10 限时训练</span>
+    <span class="chip">限时训练建议 40 分钟</span>
+    <span class="chip">对应知识轮第 3 课《一阶动态电路与三要素法》</span>
+  </div>
+</div>
+
+<!-- ================= 1 本课定位与刷题法 ================= -->
+<section class="block">
+  <h2><span class="no">1</span>本课定位与刷题法</h2>
+  <p>知识轮（阶段 1 电路深化）解决"懂不懂"，本链解决"<b>快不快、稳不稳</b>"。一阶动态题的失分从来不在"不会三要素"，而在三个手生点：<b>τ 求错电阻</b>（没从储能元件端口做戴维南）、<b>0+ 电路画错</b>（电容 / 电感的"开关身份"记反）、<b>全响应分解写错符号</b>。本课要求每道动态大题 <b>8 分钟内做完且用第二条路互检</b>（电流关系式 ∩ 三要素直接算）——期末大题 12 分，模板化后就是保底 10 分的题。</p>
+  <h3 class="sub">每课统一的刷题四步（背下来）</h3>
+  <ol>
+    <li><b>先遮答案做例题</b>：6 道例题先独立做（每题 ≤ 8 分钟），卡壳才看步骤，看完合上再复演一遍</li>
+    <li><b>限时训练整段计时</b>：10 道题连续 40 分钟，不翻书、不查公式卡、不中途对答案</li>
+    <li><b>对答案评分</b>：≥ 9 过关；错题逐道标注错因（计算 / τ 错 / 0+ 电路错 / 概念不清）</li>
+    <li><b>按回溯表回炉</b>：错题按"对应知识轮坐标"回到姊妹链《一阶动态电路与三要素法》对应节，重看该节并重做该课练习</li>
+  </ol>
+  <div class="know"><b>本课两条新铁律</b>：① <b>换路定则只保两个量</b>——电容电压 u<sub>C</sub> 与电感电流 i<sub>L</sub> 不能跃变，其余一切量（i<sub>C</sub>、u<sub>L</sub>、电阻电压电流）都可跃变，0+ 电路全靠"uC 当电压源、iL 当电流源"这两张身份牌画出；② <b>τ 只认端口戴维南</b>——源全部置零后从 C / L 两端看进去的等效电阻，τ<sub>C</sub> = R<sub>eq</sub>C、τ<sub>L</sub> = L/R<sub>eq</sub>；用错电阻（如把串联总阻当 R<sub>eq</sub>）全题报废。题目全部原创、数字全部干净可验算；<b>看解不算练</b>——展开过的题，隔天必须遮住重做一次。</div>
+</section>
+
+<!-- ================= 2 考点速览与回溯表 ================= -->
+<section class="block">
+  <h2><span class="no">2</span>考点速览与错题回溯表</h2>
+  <p>先扫一眼战场：本课 16 题覆盖 8 个考点，右侧"知识轮坐标"即错题回炉地址（姊妹链《一阶动态电路与三要素法》一课）。</p>
+  <table class="tbl">
+    <tr><th>考点</th><th>核心方法（一句话）</th><th>知识轮坐标</th><th>热度</th></tr>
+    <tr><td><b>换路定则与 0+ 电路</b></td><td>u<sub>C</sub>(0+) = u<sub>C</sub>(0−)、i<sub>L</sub>(0+) = i<sub>L</sub>(0−)；0+ 时刻电容 = 电压源、电感 = 电流源</td><td>第 3 课 §2</td><td>★★★★★</td></tr>
+    <tr><td><b>三要素法模板</b></td><td>f(t) = f(∞) + [f(0+) − f(∞)]e<sup>−t/τ</sup>，对电路里任意电压电流都成立</td><td>第 3 课 §3</td><td>★★★★★</td></tr>
+    <tr><td><b>τ 的端口戴维南</b></td><td>独立源置零后从储能元件两端求 R<sub>eq</sub>；τ<sub>C</sub> = R<sub>eq</sub>C，τ<sub>L</sub> = L/R<sub>eq</sub></td><td>第 3 课 §3 + 第 2 课 §3</td><td>★★★★★</td></tr>
+    <tr><td><b>稳态电路（t → ∞）</b></td><td>电容开路（i<sub>C</sub> = 0）、电感短路（u<sub>L</sub> = 0），纯电阻分析</td><td>第 3 课 §3</td><td>★★★★</td></tr>
+    <tr><td><b>指数曲线锚点</b></td><td>过一个 τ 衰减到 36.8%（充电升到 63.2%）；3τ ≈ 95% 即"进入稳态"</td><td>第 3 课 §4</td><td>★★★★</td></tr>
+    <tr><td><b>全响应两种分解</b></td><td>全响应 = 稳态 + 暂态 = 零输入 + 零状态，两种加法都要会验算</td><td>第 3 课 §3 + §5</td><td>★★★★</td></tr>
+    <tr><td><b>L / C 的开关对偶</b></td><td>0+ 时电感开路、电容短路；∞ 时电感短路、电容开路——四张身份牌</td><td>第 3 课 §2–§3</td><td>★★★★</td></tr>
+    <tr><td><b>感性断路与续流</b></td><td>断开电感回路 u<sub>L</sub> → ∞（拉弧），续流二极管给电流留退路</td><td>第 3 课 §2（电力电子接口）</td><td>★★★</td></tr>
+  </table>
+</section>
+
+<!-- ================= 3 例题精讲 ================= -->
+<section class="block">
+  <h2><span class="no">3</span>例题精讲（6 道 · 先遮答案独立做）</h2>
+
+  <div class="example">
+    <div class="ex-head">例 1 · 换路定则与 0+ 电路 —— 一切动态题的第一分钟</div>
+    <div class="ex-body">
+      <p class="q">电路：12 V 电压源经开关 S 串 2 kΩ 接节点 a；a 经 4 kΩ 接地；a 经电容 C 接地（C 与 4 kΩ 并联）。t &lt; 0 时 S 断开已久，t = 0 时 S 闭合。求 u<sub>C</sub>(0+)、i<sub>C</sub>(0+)、i<sub>R2</sub>(0+)，以及稳态 u<sub>C</sub>(∞)。</p>
+      <ol class="steps">
+        <li><b>换路前（0−）</b>：无源、无电荷 → u<sub>C</sub>(0−) = 0 → 换路定则 <b>u<sub>C</sub>(0+) = 0</b>（电容电压不能跃变）</li>
+        <li><b>画 0+ 电路</b>：uC = 0 的电容 = <b>0 V 电压源（短路）</b>→ a 点被钳到 0 V → i<sub>R2</sub>(0+) = 0/4k = <b>0</b>；2 kΩ 上电流 = 12/2k = 6 mA，全部灌进电容 → <b>i<sub>C</sub>(0+) = 6 mA</b>（电容电流从 0 跳到 6 mA——完全合法，换路定则不管它）</li>
+        <li><b>稳态（∞）</b>：电容开路 → 纯电阻分压 → u<sub>C</sub>(∞) = 12 × 4/(2+4) = <b>8 V</b>；i<sub>C</sub>(∞) = 0</li>
+        <li><b>KCL 全程自检</b>：0+ 时 6 = 0 + 6 ✓；∞ 时 i<sub>R1</sub> = i<sub>R2</sub> = 12/6k = 2 mA、i<sub>C</sub> = 0 ✓</li>
+      </ol>
+      <div class="ans">答案：u<sub>C</sub>(0+) = 0，i<sub>C</sub>(0+) = 6 mA，i<sub>R2</sub>(0+) = 0；u<sub>C</sub>(∞) = 8 V</div>
+      <p class="key">卡壳回炉：0+ 电路把电容画成开路 →《知识轮第 3 课》§2"0+ 电路身份牌"：uC 已知 → 当电压源（0 V 即短路）；iL 已知 → 当电流源。本例电路是后续例 2 / 例 5 / 例 6 的母电路。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 2 · 三要素完整流程 —— RC 充电模板</div>
+    <div class="ex-body">
+      <p class="q">承例 1 电路：R<sub>1</sub> = 2 kΩ，R<sub>2</sub> = 4 kΩ，C = 3 μF，t = 0 闭合开关（u<sub>C</sub>(0−) = 0）。写出 u<sub>C</sub>(t) 与 i<sub>C</sub>(t) 的完整表达式，并求 t = τ 时刻的 u<sub>C</sub>。</p>
+      <ol class="steps">
+        <li><b>三要素</b>：u<sub>C</sub>(0+) = 0（例 1 已求）；u<sub>C</sub>(∞) = 8 V；τ = R<sub>eq</sub>C，其中 R<sub>eq</sub> 从 C 两端看（12 V 置零短路）：2k∥4k = 4/3 kΩ → <b>τ = 4 ms</b></li>
+        <li><b>uC(t)</b>：u<sub>C</sub>(t) = 8 + (0−8)e<sup>−t/4ms</sup> = <b>8(1 − e<sup>−t/4ms</sup>) V</b></li>
+        <li><b>iC(t) 三要素直接求</b>：i<sub>C</sub>(0+) = 6 mA、i<sub>C</sub>(∞) = 0、τ 同上 → <b>i<sub>C</sub>(t) = 6e<sup>−t/4ms</sup> mA</b>（三要素不只属于 u<sub>C</sub>，对任意支路量都成立）</li>
+        <li><b>互检（i<sub>C</sub> = C·du<sub>C</sub>/dt）</b>：du<sub>C</sub>/dt = 8/4ms·e<sup>−t/τ</sup> = 2000e<sup>−t/τ</sup> V/s → i<sub>C</sub> = 3μ×2000e = 6e mA ✓</li>
+        <li><b>t = τ</b>：u<sub>C</sub> = 8 × 63.2% ≈ <b>5.06 V</b>（充电过六成的锚点位置）</li>
+      </ol>
+      <div class="ans">答案：u<sub>C</sub>(t) = 8(1 − e<sup>−t/4ms</sup>) V；i<sub>C</sub>(t) = 6e<sup>−t/4ms</sup> mA；t = τ 时 u<sub>C</sub> ≈ 5.06 V</div>
+      <p class="key">卡壳回炉：τ 算成 (2k+4k)×C 或 2k×C →《知识轮第 3 课》§3：R<sub>eq</sub> 必须"从 C 的端口"做戴维南——源置零后 R<sub>1</sub>、R<sub>2</sub> 恰好并联在 C 两端。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 3 · RL 零输入放电 —— 电流不跃变，电压随便跳</div>
+    <div class="ex-body">
+      <p class="q">RL 串联支路（R = 5 Ω，L = 0.1 H）：t &lt; 0 时接在 10 V 电源上已达稳态，t = 0 时电源被断开、支路自行短接成闭合回路放电。求 i<sub>L</sub>(t)、u<sub>L</sub>(t)，并算出放电全程电阻总共耗散多少能量。</p>
+      <ol class="steps">
+        <li><b>0− 稳态</b>：电感短路（u<sub>L</sub> = 0）→ i<sub>L</sub>(0−) = 10/5 = 2 A → 换路定则 <b>i<sub>L</sub>(0+) = 2 A</b></li>
+        <li><b>τ</b>：τ = L/R = 0.1/5 = <b>20 ms</b>（零输入，无源回路，R<sub>eq</sub> = R 本身）</li>
+        <li><b>i<sub>L</sub>(t)</b>：从 2 A 衰减到 0 → <b>i<sub>L</sub>(t) = 2e<sup>−50t</sup> A</b></li>
+        <li><b>u<sub>L</sub>(t)</b>：u<sub>L</sub> = L·di<sub>L</sub>/dt = 0.1 × (−100e<sup>−50t</sup>) = <b>−10e<sup>−50t</sup> V</b> —— 换路瞬间 u<sub>L</sub> 从 0 跳到 <b>−10 V</b>（方向反转：放电时电感当"源"，驱动电流继续流）</li>
+        <li><b>能量账本</b>：初始储能 W = ½LI² = ½ × 0.1 × 4 = 0.2 J；放电终了电感清空 → 电阻总共耗散 <b>0.2 J</b>（能量守恒，一步到位，不用积分）</li>
+      </ol>
+      <div class="ans">答案：i<sub>L</sub>(t) = 2e<sup>−50t</sup> A；u<sub>L</sub>(t) = −10e<sup>−50t</sup> V；电阻共耗散 0.2 J</div>
+      <p class="key">卡壳回炉：以为电感电压也不能跃变 →《知识轮第 3 课》§2：换路定则只保 u<sub>C</sub> 和 i<sub>L</sub> 这一对"储能状态量"；u<sub>L</sub>、i<sub>C</sub> 是"功率量"，换路瞬间随便跳。0 → −10 V 这一跳就是证据。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 4 · 阶梯网络的 τ 与"电容开路无电流" —— 两课联动</div>
+    <div class="ex-body">
+      <p class="q">电路：18 V 电压源串 6 Ω 接节点 M；M 经 12 Ω 接地；M 经 4 Ω 接节点 N；N 经 C = 25 μF 接地。t = 0 闭合开关接入电源（u<sub>C</sub>(0−) = 0）。求 u<sub>C</sub>(t) 与 i<sub>C</sub>(0+)。</p>
+      <ol class="steps">
+        <li><b>稳态 u<sub>C</sub>(∞)</b>：电容开路 → 4 Ω 中无电流、无压降（第 2 课例 2 的老朋友）→ u<sub>C</sub>(∞) = V<sub>M</sub>(∞) = 18 × 12/18 = <b>12 V</b></li>
+        <li><b>R<sub>eq</sub> 从 C 端口看</b>：18 V 置零 → 从 N 看：4 Ω 串到 M，M 处 6∥12 = 4 Ω → R<sub>eq</sub> = 4 + 4 = <b>8 Ω</b> → τ = 8 × 25μ = <b>200 μs</b></li>
+        <li><b>u<sub>C</sub>(t)</b> = 12(1 − e<sup>−t/200μs</sup>) V</li>
+        <li><b>i<sub>C</sub>(0+)</b>：0+ 时 C 短路 → N 钳 0 → M 对地等效 12∥4 = 3 Ω → V<sub>M</sub>(0+) = 18×3/9 = 6 V → i<sub>C</sub>(0+) = 6/4 = <b>1.5 A</b>（稳态时 0）</li>
+        <li><b>彩蛋</b>：V<sub>M</sub> 自己也是动态量（6 V → 12 V）——"节点电位也能用三要素"，别死盯电容两端</li>
+      </ol>
+      <div class="ans">答案：u<sub>C</sub>(t) = 12(1 − e<sup>−t/200μs</sup>) V；i<sub>C</sub>(0+) = 1.5 A</div>
+      <p class="key">卡壳回炉：R<sub>eq</sub> 只算了 4 Ω（漏并 M 处网络）或算了 6+12+4 →《知识轮第 2 课》§3 戴维南 +《第 3 课》§3：阶梯网络从储能元件端口"往回折"——这正是第 2 课练 8 的动态版。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 5 · 非零初始 —— 全响应的两种分解</div>
+    <div class="ex-body">
+      <p class="q">承例 1 电路（R<sub>1</sub> = 2 kΩ，R<sub>2</sub> = 4 kΩ，C = 3 μF，τ = 4 ms，稳态 8 V），但换路前电容已充电 u<sub>C</sub>(0−) = 5 V。写出 u<sub>C</sub>(t)，并分解为零输入 + 零状态两分量验证。</p>
+      <ol class="steps">
+        <li><b>三要素</b>：u<sub>C</sub>(0+) = 5 V（不能跃变）；u<sub>C</sub>(∞) = 8 V；τ = 4 ms（τ 与初始值无关）→ <b>u<sub>C</sub>(t) = 8 + (5−8)e<sup>−t/4ms</sup> = 8 − 3e<sup>−t/4ms</sup> V</b></li>
+        <li><b>零输入分量</b>（源不算了、只靠初始储能）：5e<sup>−t/τ</sup></li>
+        <li><b>零状态分量</b>（初始储能清零、只靠源）：8(1 − e<sup>−t/τ</sup>)</li>
+        <li><b>验证两种分解</b>：零输入 + 零状态 = 5e + 8 − 8e = 8 − 3e ✓；另一种分解：稳态分量 8 + 暂态分量 −3e<sup>−t/τ</sup> ✓ —— 两套账本同酬</li>
+        <li><b>起点终点自查</b>：t = 0 → 5 V ✓；t → ∞ → 8 V ✓；5 < 8 → 单调上升，不回头</li>
+      </ol>
+      <div class="ans">答案：u<sub>C</sub>(t) = 8 − 3e<sup>−t/4ms</sup> V；零输入 5e<sup>−t/τ</sup> + 零状态 8(1 − e<sup>−t/τ</sup>) 之和与全响应一致</div>
+      <p class="key">卡壳回炉：暂态系数写成 (0−∞) 而非 (初−终) →《知识轮第 3 课》§3：三要素是"终值 + (初值 − 终值)e"；分解验算是防符号错的最好保险。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-head">例 6 · 压轴 —— 电阻电流的三要素 + 双路互检</div>
+    <div class="ex-body">
+      <p class="q">承例 1 / 例 2 电路（u<sub>C</sub>(0−) = 0，τ = 4 ms，u<sub>C</sub>(∞) = 8 V）：求 4 kΩ 电阻中电流 i<sub>R2</sub>(t) 的完整表达式，并用第二条路互检；顺带写出 i<sub>R1</sub>(t)。</p>
+      <ol class="steps">
+        <li><b>路一（三要素直接作用在 i<sub>R2</sub> 上）</b>：i<sub>R2</sub>(0+) = 0（例 1）；i<sub>R2</sub>(∞) = 8/4k = 2 mA；τ 统一 4 ms → i<sub>R2</sub>(t) = 2 + (0−2)e<sup>−t/τ</sup> = <b>2(1 − e<sup>−t/4ms</sup>) mA</b>（方向 a→地，单调上升）</li>
+        <li><b>路二（支路关系式）</b>：i<sub>R2</sub> = u<sub>C</sub>/4k = 8(1−e)/4k = 2(1−e) mA ✓ 两路一致</li>
+        <li><b>i<sub>R1</sub>(t)</b>：三要素：i<sub>R1</sub>(0+) = 6 mA、i<sub>R1</sub>(∞) = 2 mA → <b>i<sub>R1</sub>(t) = 2 + 4e<sup>−t/4ms</sup> mA</b>（从 6 衰减到 2，不归零——源一直在喂）</li>
+        <li><b>KCL 全程核账</b>：任意时刻 i<sub>R1</sub> = i<sub>R2</sub> + i<sub>C</sub>：左 = 2+4e；右 = 2−2e + 6e = 2+4e ✓ 每一个时刻都闭合</li>
+        <li><b>压轴结论</b>：同一电路所有动态量共用一个 τ（一阶电路只有一个储能"惯性"）；三个电流的 0+ 与 ∞ 各验一次 KCL，就是全套答案的免费检查器</li>
+      </ol>
+      <div class="ans">答案：i<sub>R2</sub>(t) = 2(1 − e<sup>−t/4ms</sup>) mA（双路一致）；i<sub>R1</sub>(t) = 2 + 4e<sup>−t/4ms</sup> mA</div>
+      <p class="key">卡壳回炉：以为三要素只能求 u<sub>C</sub>、i<sub>L</sub> →《知识轮第 3 课》§3：三要素对电路里<b>任何</b>电压电流都成立，τ 全电路共享——求电阻电流不必先解 u<sub>C</sub> 再代数，直接套模板更快。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4 限时训练 ================= -->
+<section class="block">
+  <h2><span class="no">4</span>限时训练（10 道 · 整段 40 分钟 · 做完再展开）</h2>
+  <p>评分标准见下一节。每题难度标注 ★（基础）/ ★★（考研标准）/ ★★★（区分度）。</p>
+
+  <details class="exercise">
+    <summary><span class="qn">练 1</span>换路定则判断题组<span class="uses">换路定则 · ★</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      判断对错并说一句理由：① 换路瞬间电容电压不能跃变；② 换路瞬间电感电流不能跃变；③ 换路瞬间电容电流可以跃变；④ 换路瞬间电感电压可以跃变；⑤ 换路瞬间电阻上电压不能跃变。
+      <div class="sol">① <b>对</b>（电荷不能瞬间生灭，q = Cu）｜ ② <b>对</b>（磁链不能瞬间生灭，Ψ = Li）｜ ③ <b>对</b>（i<sub>C</sub> 不是状态量，0+ 电路里它由外电路决定）｜ ④ <b>对</b>（同③，u<sub>L</sub> = L·di/dt，di 有限时 du 可以跳）｜ ⑤ <b>错</b>（电阻是即时的，u<sub>R</sub> 跟着电路跳）</div>
+      <p class="note">⑤ 是埋雷项——"不能跃变"只属于 u<sub>C</sub>、i<sub>L</sub> 这对储能状态量。把这条边界记牢，0+ 电路题的"身份牌"就不会戴错。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 2</span>RL 换路：0+ 电感当电流源<span class="uses">0+ 电路 · ★★</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电路：12 V 源串 4 Ω 接节点 a；a 经 8 Ω 接地；a 经电感 L = 0.24 H 接地（L 与 8 Ω 并联）。t &lt; 0 稳态（开关位置 1），t = 0 双掷开关切断电源支路、同时把电感两端经 8 Ω 闭合成独立回路（位置 2）。求 i<sub>L</sub>(0+)、u<sub>L</sub>(0+)、8 Ω 电流的 0+ 值，以及 i<sub>L</sub>(t)。
+      <div class="sol">0− 稳态：L 短路 → V<sub>a</sub> = 0 → i<sub>L</sub>(0−) = 12/4 = 3 A（8 Ω 被短路无电流）｜ 换路定则：<b>i<sub>L</sub>(0+) = 3 A</b> ｜ 0+ 电路：电感 = 3 A 电流源灌入 8 Ω 回路 → u<sub>L</sub>(0+) = −3×8 = <b>−24 V</b>（从换路前的 0 V 跳到 −24 V——电压随便跳的又一例）｜ τ = L/8 = 30 ms → <b>i<sub>L</sub>(t) = 3e<sup>−t/30ms</sup> A</b></div>
+      <p class="note">0− 稳态时 8 Ω 电流为 0（被短路电感旁路），0+ 时却全部扛下 3 A——0+ 与 0− 是两张不同的电路图，各算各的，别拿 0− 的图凑 0+ 的数。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 3</span>RC 放电经典锚点<span class="uses">零输入 · ★</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      已充电 u<sub>C</sub>(0) = 10 V 的电容 C = 2 μF 经 R = 1 kΩ 放电。求 t = τ、2τ、3τ 时的 u<sub>C</sub>；再算降到 1 V 需要多久；最后算放电全程电阻共耗散多少能量。
+      <div class="sol">τ = RC = 2 ms ｜ 10×0.368 = <b>3.68 V</b>；10×0.135 = <b>1.35 V</b>；10×0.05 = <b>0.5 V</b>（36.8% / 13.5% / 5% 三锚点）｜ 降到 1 V：10e<sup>−t/2ms</sup> = 1 → t = 2ms × ln10 ≈ <b>4.6 ms</b>（≈ 2.3τ）｜ 能量 = ½CU² = ½×2μ×100 = <b>100 μJ</b>（初始储能全数转热，免积分）</div>
+      <p class="note">"ln10 ≈ 2.3"值得背——"降到十分之一要 2.3τ"，与 63.2% / 36.8% / 5% 三个锚点合成一条指数时间轴的完整直觉。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 4</span>三要素完整模板（含 τ 坑）<span class="uses">三要素 · ★★</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电路：15 V 源串 3 kΩ 接节点 a；a 经 6 kΩ 接地；a 经 C = 5 μF 接地。t = 0 接入电源（u<sub>C</sub>(0−) = 0）。求 u<sub>C</sub>(t)、i<sub>C</sub>(t) 与 t = τ 时的电容电流。
+      <div class="sol">u<sub>C</sub>(∞) = 15×6/9 = <b>10 V</b> ｜ R<sub>eq</sub> = 3k∥6k = <b>2 kΩ</b>（从 C 端口！不是 3k 也不是 9k）→ τ = <b>10 ms</b> ｜ <b>u<sub>C</sub>(t) = 10(1 − e<sup>−t/10ms</sup>) V</b> ｜ i<sub>C</sub>(0+) = 15/3k = 5 mA、∞ = 0 → <b>i<sub>C</sub>(t) = 5e<sup>−t/10ms</sup> mA</b> ｜ t = τ：i<sub>C</sub> = 5×0.368 ≈ <b>1.84 mA</b></div>
+      <p class="note">本题的坑全在 τ：并联 2 kΩ ≠ 串联 3 kΩ ≠ 回路总阻 9 kΩ。0+ 电流 15/3k 用的才是"电源侧串联电阻"——求 0+ 量和求 τ 用的是两张不同的图，分清楚。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 5</span>RL 接通：电流爬坡与电压滑落<span class="uses">三要素 · ★★</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      24 V 源串 6 Ω 接电感 L = 0.3 H（无其他电阻）。t = 0 闭合开关。求 i<sub>L</sub>(t)、u<sub>L</sub>(t)；算 i<sub>L</sub> 到达 3 A 所需时间；并问 t = τ 时电流是终值的百分之多少。
+      <div class="sol">i<sub>L</sub>(∞) = 24/6 = 4 A；τ = 0.3/6 = 50 ms ｜ <b>i<sub>L</sub>(t) = 4(1 − e<sup>−20t</sup>) A</b> ｜ <b>u<sub>L</sub>(t) = 24e<sup>−20t</sup> V</b>（0+ 时全电压落电感、∞ 时归零——与 RC 充电的 i<sub>C</sub> 完全对偶）｜ 到 3 A：4(1−e<sup>−20t</sup>) = 3 → e<sup>−20t</sup> = 0.25 → t = ln4/20 ≈ <b>69.3 ms</b>（≈1.39τ）｜ t = τ：1−0.368 = 0.632 → <b>63.2%</b></div>
+      <p class="note">RC 与 RL 的对偶记法：电容充电"电压爬坡、电流滑落"，电感接通"电流爬坡、电压滑落"——爬坡量终值 63.2% @ τ，滑落量剩 36.8% @ τ，两句话一套锚点。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 6</span>并联结构的 τ 与计时点<span class="uses">τ 坑 · ★★</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电路：10 V 源串 2 Ω 接节点 a；a 经 3 Ω 接地；a 经 C = 5 μF 接地。t = 0 接入（u<sub>C</sub>(0−) = 0）。求 τ 与 u<sub>C</sub>(t)，并算 u<sub>C</sub> 升到 3 V 需要多久。
+      <div class="sol">R<sub>eq</sub> = 2∥3 = 1.2 Ω → τ = 1.2×5μ = <b>6 μs</b> ｜ u<sub>C</sub>(∞) = 10×3/5 = 6 V → <b>u<sub>C</sub>(t) = 6(1 − e<sup>−t/6μs</sup>) V</b> ｜ 升到 3 V：6(1−e<sup>−t/6μs</sup>) = 3 → e<sup>−t/6μs</sup> = 0.5 → t = 6μs × ln2 ≈ <b>4.16 μs</b></div>
+      <p class="note">两个易错点一次打包：① τ 用了 2 Ω 或 5 Ω（置零后源串阻与并联阻都在端口上，必须并联）；② ln2 ≈ 0.69 记不住就会在"到一半要 0.69τ"上卡壳——与练 3 的 ln10 ≈ 2.3 一并收进公式卡。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 7</span>L 与 C 同框：0+ 与 ∞ 的四张身份牌<span class="uses">开关对偶 · ★★★</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电路：12 V 源串 2 kΩ 接节点 a；a 经 6 kΩ 接地；a 经 L 接地；a 又经（3 kΩ 串 C）接地。t = 0 接入电源，初始全零。求 0+ 与 t → ∞ 两个时刻的 V<sub>a</sub>、i<sub>L</sub>、i<sub>C</sub>（C 支路电流）。
+      <div class="sol"><b>0+ 电路</b>（uC = 0 → C 支路 = 3 kΩ；i<sub>L</sub> = 0 → L 开路）：a 到地只剩 6k∥3k = 2 kΩ → V<sub>a</sub>(0+) = 12×2/(2+2) = <b>6 V</b>；i<sub>L</sub>(0+) = <b>0</b>；i<sub>C</sub>(0+) = 6/3k = <b>2 mA</b> ｜ <b>∞ 电路</b>（L 短路、C 开路）：V<sub>a</sub>(∞) = <b>0 V</b>（L 把 a 钳到地）；i<sub>L</sub>(∞) = 12/2k = <b>6 mA</b>；i<sub>C</sub>(∞) = <b>0</b>（3 kΩ 白串，无电流无压降）</div>
+      <p class="note">四张身份牌一题全齐：<b>0+ 时 L 开路、C 短路；∞ 时 L 短路、C 开路</b>。特别体会 V<sub>a</sub> 的落差（6 V → 0 V）：稳态图里电感把节点拖到地，0+ 图里电感把节点晾在半空——同一个元件，两张图两个性格。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 8</span>感性负载断路：续流二极管的价值<span class="uses">电力电子接口 · ★★★</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      RL 负载（R = 10 Ω，L = 0.2 H）由 20 V 源经开关供电，已达稳态 i<sub>L</sub> = 2 A。t = 0 断开开关。① 若无任何保护，u<sub>L</sub> 理论峰值多大？会看到什么现象？② 若在负载两端并联续流二极管（理想），写出 i<sub>L</sub>(t) 并说明二极管的作用。
+      <div class="sol">① 断路瞬间 di/dt → −∞ → u<sub>L</sub> = L·di/dt → <b>理论无穷大</b>（实际表现为开关触点间<b>拉弧 / 高压击穿</b>——储能 ½×0.2×4 = 0.4 J 要在瞬间泄放，能量不大电压极大）｜ ② 二极管为电流留退路：i<sub>L</sub> 经 D—R 回路续流，τ = L/R = 20 ms → <b>i<sub>L</sub>(t) = 2e<sup>−t/20ms</sup> A</b>，电压被钳在安全范围，电流体面退休</div>
+      <p class="note">这就是电力电子里"感性负载必配续流二极管"的原理级解释——斩波电路、继电器驱动、晶闸管两端，处处是它的身影；模电第 8 课直流电源、电力电子整流章都会再会面。概念题"为什么要续流二极管"的满分答案：给电感电流一条低阻泄放路径，避免 di/dt 尖峰。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 9</span>全响应分解验算<span class="uses">分解 · ★★</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      某一阶电路换路后 u<sub>C</sub>(0+) = 6 V、u<sub>C</sub>(∞) = 12 V、τ = 20 ms。写出全响应，并分别写出零输入分量与零状态分量加以验证；再求 t = τ 时的 u<sub>C</sub>。
+      <div class="sol">全响应：<b>u<sub>C</sub>(t) = 12 − 6e<sup>−t/20ms</sup> V</b> ｜ 零输入 = 6e<sup>−t/τ</sup>；零状态 = 12(1 − e<sup>−t/τ</sup>)；两者之和 = 6e + 12 − 12e = 12 − 6e ✓ ｜ t = τ：12 − 6×0.368 ≈ <b>9.79 V</b></div>
+      <p class="note">考试写全响应后花 20 秒做这步加法验算——两分量在 t = 0 时刻必须分别回到 6 V 与 0 V、t → ∞ 都落到 0 与 12，端点对不上立刻能抓出符号错。</p>
+    </div>
+  </details>
+
+  <details class="exercise">
+    <summary><span class="qn">练 10</span>双阶段压轴：先充后放、τ 中途易主<span class="uses">综合 · ★★★</span><span class="hint-arrow">展开对答案 ▾</span></summary>
+    <div class="ex-content">
+      电路：10 V 源串 2 kΩ 经开关 S1 接节点 a；a 经 C = 4 μF 接地；另有一条 R2 = 5 kΩ 支路从 a 到地、由开关 S2 控制。阶段一：t = 0 闭合 S1（S2 断开），u<sub>C</sub>(0−) = 0；充电充分后进入阶段二：t = T（T ≫ 阶段一时间常数）断开 S1 同时闭合 S2，电容经 R2 放电。求两阶段的 u<sub>C</sub>(t) 表达式与两阶段充电 / 放电电流的 0+ 值，并算放电全程 R2 耗散的能量。
+      <div class="sol"><b>阶段一</b>：只有 2 kΩ 回路，τ₁ = 2k×4μ = 8 ms；u<sub>C</sub>(∞) = 10 V → <b>u<sub>C</sub>(t) = 10(1 − e<sup>−t/8ms</sup>) V</b>；充电电流 i<sub>C</sub>(0+) = 10/2k = 5 mA（0+ 时电容短路、源压全落 2 kΩ）｜ T 时刻 u<sub>C</sub>(T) ≈ 10 V ｜ <b>阶段二</b>：回路只剩 R2，τ₂ = 5k×4μ = 20 ms，起点 10 V、终点 0 → <b>u<sub>C</sub>(t) = 10e<sup>−(t−T)/20ms</sup> V</b>（时间轴平移，从 T 重新起表）；放电 0+ 电流 = 10/5k = <b>2 mA</b> ｜ 能量 = ½×4μ×10² = <b>200 μJ</b> 全部由 R2 转热</div>
+      <p class="note">同一只电容，两个阶段两个 τ（8 ms / 20 ms）——τ 跟着"当时所在的回路"走，开关一动就要重做端口戴维南。分段计时（第二段从 T 起表）是双阶段题的标准写法，忘写 (t−T) 是最冤的丢分。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= 5 评分与过关标准 ================= -->
+<section class="block">
+  <h2><span class="no">5</span>对答案与过关标准</h2>
+  <table class="tbl">
+    <tr><th>限时训练得分</th><th>判定</th><th>下一步</th></tr>
+    <tr><td><b>9 – 10</b></td><td>过关 ✓</td><td>打卡本课，第 4 课《二阶动态特训》下周上线</td></tr>
+    <tr><td><b>7 – 8</b></td><td>擦线</td><td>隔天遮住重做错题，全对后再打卡</td></tr>
+    <tr><td><b>≤ 6</b></td><td>回炉</td><td>按第 2 节回溯表回到知识轮《一阶动态电路与三要素法》对应节重学，本周日重测</td></tr>
+  </table>
+  <div class="exam"><span class="tag-exam">全对也要做</span>把耗时最长或中途改过思路的 3 题记入错题本，标注错因与知识轮坐标 —— 刷题轮的分数只记录一次，错题本才是真正的资产。</div>
+</section>
+
+<!-- ================= 6 自测清单 ================= -->
+<section class="block">
+  <h2><span class="no">6</span>自测清单：全勾才算过关</h2>
+  <ul class="checklist">
+    <li>换路定则边界张口就来：只有 u<sub>C</sub>、i<sub>L</sub> 不能跃变，其余量都可跃变（练 1）</li>
+    <li>0+ 电路身份牌默写：uC → 电压源（0 V 即短路）、iL → 电流源；0+ 时 L 开路、C 短路（例 1、练 2、练 7）</li>
+    <li>稳态电路身份牌默写：∞ 时 C 开路、L 短路，纯电阻分析（例 1、练 7）</li>
+    <li>三要素模板零迟疑：f(t) = f(∞) + [f(0+) − f(∞)]e<sup>−t/τ</sup>，对任意支路量成立（例 2、例 6、练 4–5）</li>
+    <li>τ 只认端口戴维南：源置零后从储能元件两端求 R<sub>eq</sub>，并联 / 阶梯结构先"往回折"（例 2、例 4、练 4、练 6）</li>
+    <li>指数锚点成套背：63.2% / 36.8% / 13.5% / 5%，降到十分之一 2.3τ、到一半 0.69τ（练 3、练 6）</li>
+    <li>全响应两种分解会互验：稳态+暂态 = 零输入+零状态，端点对齐才收工（例 5、练 9）</li>
+    <li>同一电路所有动态量共用一个 τ；双阶段换路后 τ 要重算（例 6、练 10）</li>
+    <li>感性断路会拉弧，续流二极管给电流留退路——能说清原理与写表达式（练 8）</li>
+    <li>能量账本一步到位：½CU² / ½LI² 最终全数转热，不积分（例 3、练 3、练 10）</li>
+  </ul>
+</section>
+
+<!-- ================= 下一课预告 ================= -->
+<a href="index.html" class="next-card">
+  <div class="dir">下一课预告 · 每周一课</div>
+  <div class="title">第 4 课《二阶动态特训》—— 判型速算（过阻尼 / 临界 / 欠阻尼）+ 响应表达式 + 初末条件，下周上线</div>
+</a>
+
+<div class="pager">
+  <a href="index.html">
+    <div class="dir">← 返回目录</div>
+    <div class="title">阶段 1 · 刷题轮</div>
+  </a>
+  <a href="../阶段1_电路深化/03_一阶动态电路与三要素法.html">
+    <div class="dir">错题回溯 · 知识轮</div>
+    <div class="title">第 3 课 · 一阶动态电路与三要素法</div>
+  </a>
+</div>
+
+<footer>
+  阶段 1 · 刷题轮 · 第 3 课 一阶动态特训 ｜ <a href="index.html">返回刷题轮目录</a> ｜ <a href="../index.html">电网备考首页</a><br>
+  <span style="font-size:12px;">做完记得回目录打卡：把限时训练成绩告诉我（如 9/10），我更新进度并开下一课</span>
+</footer>
+
+</div>
+</body>
+</html>
